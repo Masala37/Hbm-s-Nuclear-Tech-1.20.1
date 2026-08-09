@@ -3,6 +3,7 @@ package com.hbm.registry;
 import com.hbm.blocks.HazardBlock;
 import com.hbm.blocks.OutgasOreBlock;
 import com.hbm.blocks.bomb.BombBlock;
+import com.hbm.blocks.bomb.NukeBoyBlock;
 import com.hbm.blocks.machine.CombustionGeneratorBlock;
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
@@ -60,6 +61,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> TNT = BLOCKS.register("tnt", () -> new BombBlock(10.0F));
     public static final RegistryObject<Block> SEMTEX = BLOCKS.register("semtex", () -> new BombBlock(12.0F));
     public static final RegistryObject<Block> C4 = BLOCKS.register("c4", () -> new BombBlock(15.0F, true));
+    public static final RegistryObject<Block> NUKE_BOY = BLOCKS.register("nuke_boy", NukeBoyBlock::new);
 
     public static final RegistryObject<Block> RBMK_BLANK = BLOCKS.register("rbmk_blank",
             () -> new RBMKPassiveBlock(RBMKColumnType.BLANK));

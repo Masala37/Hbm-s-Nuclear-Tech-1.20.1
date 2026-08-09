@@ -55,6 +55,14 @@ public final class ModItems {
     public static final RegistryObject<Item> TNT = registerBlockItem(ModBlocks.TNT);
     public static final RegistryObject<Item> SEMTEX = registerBlockItem(ModBlocks.SEMTEX);
     public static final RegistryObject<Item> C4 = registerBlockItem(ModBlocks.C4);
+    public static final RegistryObject<Item> NUKE_BOY = registerBlockItem(ModBlocks.NUKE_BOY);
+
+    public static final RegistryObject<Item> BOY_SHIELDING = registerComponent("boy_shielding");
+    public static final RegistryObject<Item> BOY_TARGET = registerComponent("boy_target");
+    public static final RegistryObject<Item> BOY_BULLET = registerComponent("boy_bullet");
+    public static final RegistryObject<Item> BOY_PROPELLANT = registerComponent("boy_propellant");
+    public static final RegistryObject<Item> BOY_IGNITER = registerComponent("boy_igniter");
+
     public static final RegistryObject<Item> RBMK_BLANK = registerBlockItem(ModBlocks.RBMK_BLANK);
     public static final RegistryObject<Item> RBMK_REFLECTOR = registerBlockItem(ModBlocks.RBMK_REFLECTOR);
     public static final RegistryObject<Item> RBMK_ABSORBER = registerBlockItem(ModBlocks.RBMK_ABSORBER);
@@ -65,6 +73,10 @@ public final class ModItems {
 
     private static RegistryObject<Item> registerIngot(String name) {
         return ITEMS.register(name, () -> new Item(new Item.Properties()));
+    }
+
+    private static RegistryObject<Item> registerComponent(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties().stacksTo(1)));
     }
 
     private static RegistryObject<Item> registerBlockItem(RegistryObject<Block> block) {

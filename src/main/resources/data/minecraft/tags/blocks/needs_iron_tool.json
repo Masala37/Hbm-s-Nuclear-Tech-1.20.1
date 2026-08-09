@@ -29,6 +29,7 @@
     "hbm:machine_battery",
     "hbm:combustion_generator",
     "hbm:red_cable",
-    "hbm:electric_furnace"
+    "hbm:electric_furnace",
+    "hbm:nuke_boy"
   ]
 }

@@ -14,6 +14,7 @@ public final class ModConfig {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         GeneralConfig.build(builder);
         RBMKConfig.build(builder);
+        BombConfig.build(builder);
         COMMON_SPEC = builder.build();
     }
 
