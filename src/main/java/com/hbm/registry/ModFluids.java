@@ -91,8 +91,8 @@ public final class ModFluids {
             int temperature,
             boolean gaseous,
             boolean placeable) {
-        ResourceLocation stillTex = new ResourceLocation(RefStrings.MODID, "fluid/" + name + "_still");
-        ResourceLocation flowingTex = new ResourceLocation(RefStrings.MODID, "fluid/" + name + "_flowing");
+        ResourceLocation stillTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_still");
+        ResourceLocation flowingTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_flowing");
 
         RegistryObject<FluidType> type = FLUID_TYPES.register(name, () -> new FluidType(
                 FluidType.Properties.create()
