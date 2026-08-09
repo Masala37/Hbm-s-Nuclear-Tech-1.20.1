@@ -1,10 +1,10 @@
-﻿{
+{
   "loader": "forge:obj",
   "flip_v": true,
   "automatic_culling": false,
   "shade_quads": true,
   "model": "hbm:models/obj/nuke_gadget.obj",
   "textures": {
-    "particle": "hbm:entity/bombs/gadget"
+    "particle": "hbm:block/bombs/gadget"
   }
 }
