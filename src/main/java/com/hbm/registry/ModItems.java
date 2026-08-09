@@ -45,6 +45,8 @@ public final class ModItems {
     public static final RegistryObject<Item> BLOCK_RED_COPPER = registerBlockItem(ModBlocks.BLOCK_RED_COPPER);
     public static final RegistryObject<Item> BLOCK_THORIUM = registerBlockItem(ModBlocks.BLOCK_THORIUM);
 
+    public static final RegistryObject<Item> WASTE_EARTH = registerBlockItem(ModBlocks.WASTE_EARTH);
+
     public static final RegistryObject<Item> DECO_RBMK = registerBlockItem(ModBlocks.DECO_RBMK);
     public static final RegistryObject<Item> DECO_RBMK_SMOOTH = registerBlockItem(ModBlocks.DECO_RBMK_SMOOTH);
     public static final RegistryObject<Item> FLUID_BARREL = registerBlockItem(ModBlocks.FLUID_BARREL);

@@ -6,6 +6,7 @@ import com.hbm.blocks.bomb.BombBlock;
 import com.hbm.blocks.bomb.NukeBoyBlock;
 import com.hbm.blocks.bomb.NukeGadgetBlock;
 import com.hbm.blocks.bomb.NukeManBlock;
+import com.hbm.blocks.generic.WasteEarthBlock;
 import com.hbm.blocks.machine.CombustionGeneratorBlock;
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
@@ -66,6 +67,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> NUKE_BOY = BLOCKS.register("nuke_boy", NukeBoyBlock::new);
     public static final RegistryObject<Block> NUKE_MAN = BLOCKS.register("nuke_man", NukeManBlock::new);
     public static final RegistryObject<Block> NUKE_GADGET = BLOCKS.register("nuke_gadget", NukeGadgetBlock::new);
+    public static final RegistryObject<Block> WASTE_EARTH = BLOCKS.register("waste_earth", WasteEarthBlock::new);
 
     public static final RegistryObject<Block> RBMK_BLANK = BLOCKS.register("rbmk_blank",
             () -> new RBMKPassiveBlock(RBMKColumnType.BLANK));

@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.api.bomb.IBomb;
 import com.hbm.blockentity.bomb.AssembledNuke;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -179,5 +180,6 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
                 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
 
         level.addFreshEntity(EntityNukeExplosionMK5.statFac(level, radius, x, y, z));
+        EntityNukeTorex.statFacStandard(level, x, y + 0.5D, z, radius);
     }
 }

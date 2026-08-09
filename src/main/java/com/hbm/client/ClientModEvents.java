@@ -18,5 +18,7 @@ public final class ClientModEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.PRIMED_BOMB.get(), PrimedBombRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_EXPLOSION_MK5.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), NoopRenderer::new);
     }
 }

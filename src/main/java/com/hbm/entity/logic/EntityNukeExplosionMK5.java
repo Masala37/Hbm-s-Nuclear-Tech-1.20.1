@@ -2,6 +2,7 @@ package com.hbm.entity.logic;
 
 import com.hbm.api.explosion.IExplosionRay;
 import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.registry.ModEntities;
@@ -19,12 +20,13 @@ import net.minecraftforge.network.NetworkHooks;
 
 /**
  * Multi-tick nuclear dig entity (legacy EntityNukeExplosionMK5).
- * Fallout / radiation / chunkloading intentionally omitted for this slice.
+ * Spawns fallout rain when the dig finishes. Radiation deferred.
  */
 public class EntityNukeExplosionMK5 extends Entity {
     public int strength;
     public int speed;
     public int length;
+    public boolean fallout = true;
 
     private IExplosionRay explosion;
     private boolean flashed;
@@ -83,6 +85,13 @@ public class EntityNukeExplosionMK5 extends Entity {
             explosion.cacheChunksTick(BombConfig.mk5.get());
             explosion.destructionTick(BombConfig.mk5.get());
         } else {
+            if (fallout) {
+                EntityFalloutRain rain = new EntityFalloutRain(level());
+                rain.setPos(getX(), getY(), getZ());
+                int scale = (int) (this.length * 2.5D) * BombConfig.falloutRange.get() / 100;
+                rain.setScale(Math.max(16, scale));
+                level().addFreshEntity(rain);
+            }
             discard();
         }
     }
@@ -101,6 +110,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         this.speed = tag.getInt("speed");
         this.length = tag.getInt("length");
         this.flashed = tag.getBoolean("flashed");
+        this.fallout = !tag.contains("fallout") || tag.getBoolean("fallout");
     }
 
     @Override
@@ -109,6 +119,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         tag.putInt("speed", speed);
         tag.putInt("length", length);
         tag.putBoolean("flashed", flashed);
+        tag.putBoolean("fallout", fallout);
     }
 
     @Override
@@ -127,6 +138,12 @@ public class EntityNukeExplosionMK5 extends Entity {
         mk5.speed = (int) Math.ceil(100_000.0D / mk5.strength);
         mk5.length = mk5.strength / 2;
         mk5.setPos(x, y, z);
+        return mk5;
+    }
+
+    public static EntityNukeExplosionMK5 statFacNoRad(Level level, int r, double x, double y, double z) {
+        EntityNukeExplosionMK5 mk5 = statFac(level, r, x, y, z);
+        mk5.fallout = false;
         return mk5;
     }
 }

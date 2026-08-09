@@ -35,6 +35,8 @@
   "item.hbm.ingot_beryllium": "Beryllium Ingot",
   "item.hbm.ingot_steel": "Steel Ingot",
 
+  "block.hbm.waste_earth": "Contaminated Earth",
+
   "block.hbm.deco_rbmk": "RBMK Casing",
   "block.hbm.deco_rbmk_smooth": "RBMK Casing (Smooth)",
   "block.hbm.rbmk_blank": "RBMK Blank Column",
@@ -94,6 +96,8 @@
 
   "entity.hbm.primed_bomb": "Primed Explosive",
   "entity.hbm.nuke_explosion_mk5": "Nuclear Explosion",
+  "entity.hbm.nuke_torex": "Mushroom Cloud",
+  "entity.hbm.fallout_rain": "Fallout",
 
   "block.hbm.coolant": "Coolant",
   "block.hbm.coolant_hot": "Hot Coolant",

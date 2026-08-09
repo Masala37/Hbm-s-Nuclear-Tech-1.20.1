@@ -58,7 +58,8 @@ public final class ModCreativeTabs {
                                 ModBlocks.BLOCK_RED_COPPER,
                                 ModBlocks.BLOCK_LEAD,
                                 ModBlocks.BLOCK_BERYLLIUM,
-                                ModBlocks.BLOCK_STEEL);
+                                ModBlocks.BLOCK_STEEL,
+                                ModBlocks.WASTE_EARTH);
                     })
                     .build());
 

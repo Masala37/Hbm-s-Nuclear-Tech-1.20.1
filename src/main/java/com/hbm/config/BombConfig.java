@@ -10,6 +10,8 @@ public final class BombConfig {
     public static ForgeConfigSpec.IntValue boyRadius;
     public static ForgeConfigSpec.IntValue manRadius;
     public static ForgeConfigSpec.IntValue mk5;
+    public static ForgeConfigSpec.IntValue falloutRange;
+    public static ForgeConfigSpec.IntValue fDelay;
 
     private BombConfig() {
     }
@@ -32,6 +34,14 @@ public final class BombConfig {
         mk5 = builder
                 .comment("Milliseconds of dig work per tick for MK5 / Batched nuke rays")
                 .defineInRange("mk5BlastTime", 50, 1, 1000);
+
+        falloutRange = builder
+                .comment("Fallout radius as a percent of (blast length * 2.5)")
+                .defineInRange("falloutRange", 100, 0, 200);
+
+        fDelay = builder
+                .comment("Ticks between fallout processing bursts")
+                .defineInRange("fDelay", 4, 0, 40);
 
         builder.pop();
     }

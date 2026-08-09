@@ -1,6 +1,8 @@
 package com.hbm.registry;
 
 import com.hbm.entity.bomb.PrimedBombEntity;
+import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.lib.RefStrings;
 import net.minecraft.world.entity.EntityType;
@@ -30,6 +32,24 @@ public final class ModEntities {
                     .clientTrackingRange(200)
                     .updateInterval(1)
                     .build("nuke_explosion_mk5"));
+
+    public static final RegistryObject<EntityType<EntityNukeTorex>> NUKE_TOREX = ENTITIES.register(
+            "nuke_torex",
+            () -> EntityType.Builder.<EntityNukeTorex>of(EntityNukeTorex::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.0F, 50.0F)
+                    .clientTrackingRange(250)
+                    .updateInterval(1)
+                    .build("nuke_torex"));
+
+    public static final RegistryObject<EntityType<EntityFalloutRain>> FALLOUT_RAIN = ENTITIES.register(
+            "fallout_rain",
+            () -> EntityType.Builder.<EntityFalloutRain>of(EntityFalloutRain::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(4.0F, 20.0F)
+                    .clientTrackingRange(200)
+                    .updateInterval(5)
+                    .build("fallout_rain"));
 
     private ModEntities() {
     }

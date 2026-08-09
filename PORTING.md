@@ -24,7 +24,8 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Little Boy + MK5 batched nuke dig (no fallout/radiation/mushroom yet)
 - [x] Fat Man (manRadius 175) with igniter / lenses / core
 - [x] The Gadget + remote detonator; shared nuke assembly base; MK5 flash polish
-- [ ] Mines, charges, more nukes, fallout/radiation from blasts
+- [x] Mushroom cloud (Torex particles) + fallout rain (waste earth)
+- [ ] Mines, charges, more nukes; full Torex cloudlets / sellafield / radiation
 - [ ] Diesel generator and more cable tiers
 - [ ] Broader fluid roster and machine fluid I/O / pipes
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
