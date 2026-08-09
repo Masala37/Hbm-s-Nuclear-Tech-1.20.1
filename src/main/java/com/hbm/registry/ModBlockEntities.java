@@ -1,5 +1,6 @@
 package com.hbm.registry;
 
+import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
 import com.hbm.blockentity.rbmk.RBMKPassiveBlockEntity;
 import com.hbm.lib.RefStrings;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -19,6 +20,12 @@ public final class ModBlockEntities {
                     ModBlocks.RBMK_REFLECTOR.get(),
                     ModBlocks.RBMK_ABSORBER.get(),
                     ModBlocks.RBMK_MODERATOR.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<FluidBarrelBlockEntity>> FLUID_BARREL =
+            BLOCK_ENTITIES.register("fluid_barrel", () -> BlockEntityType.Builder.of(
+                    FluidBarrelBlockEntity::new,
+                    ModBlocks.FLUID_BARREL.get()
             ).build(null));
 
     private ModBlockEntities() {

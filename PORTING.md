@@ -16,8 +16,9 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Networking scaffold (`SimpleChannel` + ping packet)
 - [x] Block/item tags (`ModTags` + datapack JSON, including forge ore/ingot tags)
 - [x] Loot tables + mineable/pickaxe tags for registered blocks
-- [x] Fluids: coolant, hot coolant, NTM water, steam ladder + buckets; placeable liquid blocks for liquids
-- [ ] Broader fluid roster (oils, gases, corrosives) and machine fluid I/O
+- [x] Fluids: coolant/steam ladder, oil products, acids/solvent, petroleum + buckets; placeable liquid blocks for liquids
+- [x] First machine: steel fluid barrel (16 buckets, Forge fluid capability, bucket interact)
+- [ ] Broader fluid roster and machine fluid I/O / pipes
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
 
 ## Why this is a rewrite, not a version bump

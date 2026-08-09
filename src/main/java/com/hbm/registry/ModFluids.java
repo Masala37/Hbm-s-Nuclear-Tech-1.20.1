@@ -51,6 +51,27 @@ public final class ModFluids {
     public static final FluidEntry ULTRAHOTSTEAM = registerGas(
             "ultrahotsteam", 0xFFFFB0B0, 1000);
 
+    public static final FluidEntry OIL = registerLiquid(
+            "oil", 0xFF020202, 900, 3000, 300, true);
+    public static final FluidEntry HEAVYOIL = registerLiquid(
+            "heavyoil", 0xFF141312, 950, 4000, 300, true);
+    public static final FluidEntry LIGHTOIL = registerLiquid(
+            "lightoil", 0xFF8C7451, 800, 1200, 300, true);
+    public static final FluidEntry DIESEL = registerLiquid(
+            "diesel", 0xFFF2EED5, 850, 1000, 300, true);
+    public static final FluidEntry GASOLINE = registerLiquid(
+            "gasoline", 0xFF445772, 750, 800, 300, true);
+    public static final FluidEntry LUBRICANT = registerLiquid(
+            "lubricant", 0xFF606060, 900, 2000, 300, true);
+    public static final FluidEntry SULFURIC_ACID = registerLiquid(
+            "sulfuric_acid", 0xFFB0AA64, 1800, 1500, 300, true);
+    public static final FluidEntry NITRIC_ACID = registerLiquid(
+            "nitric_acid", 0xFFBB7A1E, 1400, 1200, 300, true);
+    public static final FluidEntry SOLVENT = registerLiquid(
+            "solvent", 0xFFE4E3EF, 800, 900, 300, true);
+    public static final FluidEntry PETROLEUM = registerGas(
+            "petroleum", 0xFF7CB7C9, 300);
+
     private ModFluids() {
     }
 

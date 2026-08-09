@@ -46,6 +46,7 @@ public final class ModItems {
 
     public static final RegistryObject<Item> DECO_RBMK = registerBlockItem(ModBlocks.DECO_RBMK);
     public static final RegistryObject<Item> DECO_RBMK_SMOOTH = registerBlockItem(ModBlocks.DECO_RBMK_SMOOTH);
+    public static final RegistryObject<Item> FLUID_BARREL = registerBlockItem(ModBlocks.FLUID_BARREL);
     public static final RegistryObject<Item> RBMK_BLANK = registerBlockItem(ModBlocks.RBMK_BLANK);
     public static final RegistryObject<Item> RBMK_REFLECTOR = registerBlockItem(ModBlocks.RBMK_REFLECTOR);
     public static final RegistryObject<Item> RBMK_ABSORBER = registerBlockItem(ModBlocks.RBMK_ABSORBER);
