@@ -105,7 +105,12 @@ public final class ModCreativeTabs {
                             ModItems.BOY_IGNITER,
                             ModItems.NUKE_MAN,
                             ModItems.MAN_IGNITER,
-                            ModItems.MAN_CORE))
+                            ModItems.MAN_CORE,
+                            ModItems.EXPLOSIVE_LENSES,
+                            ModItems.NUKE_MIKE,
+                            ModItems.MIKE_CORE,
+                            ModItems.MIKE_DEUT,
+                            ModItems.MIKE_COOLING_UNIT))
                     .build());
 
     private ModCreativeTabs() {

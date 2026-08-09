@@ -22,4 +22,12 @@ public interface AssembledNuke {
     ItemStackHandler getItems();
 
     ItemStack[] copyStacks();
+
+    /**
+     * Yield radius for this assembly. Default uses the block's configured radius.
+     * Ivy Mike uses a smaller primary yield until the secondary is fully loaded.
+     */
+    default int resolveBlastRadius(int configuredRadius) {
+        return configuredRadius;
+    }
 }

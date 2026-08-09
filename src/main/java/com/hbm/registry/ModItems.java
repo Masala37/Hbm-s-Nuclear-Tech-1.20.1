@@ -61,6 +61,7 @@ public final class ModItems {
     public static final RegistryObject<Item> NUKE_BOY = registerBlockItem(ModBlocks.NUKE_BOY);
     public static final RegistryObject<Item> NUKE_MAN = registerBlockItem(ModBlocks.NUKE_MAN);
     public static final RegistryObject<Item> NUKE_GADGET = registerBlockItem(ModBlocks.NUKE_GADGET);
+    public static final RegistryObject<Item> NUKE_MIKE = registerBlockItem(ModBlocks.NUKE_MIKE);
 
     public static final RegistryObject<Item> BOY_SHIELDING = registerComponent("boy_shielding");
     public static final RegistryObject<Item> BOY_TARGET = registerComponent("boy_target");
@@ -72,9 +73,15 @@ public final class ModItems {
     public static final RegistryObject<Item> MAN_CORE = registerComponent("man_core");
     public static final RegistryObject<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register("early_explosive_lenses",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> EXPLOSIVE_LENSES = ITEMS.register("explosive_lenses",
+            () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> GADGET_WIRING = registerComponent("gadget_wiring");
     public static final RegistryObject<Item> GADGET_CORE = registerComponent("gadget_core");
+
+    public static final RegistryObject<Item> MIKE_CORE = registerComponent("mike_core");
+    public static final RegistryObject<Item> MIKE_DEUT = registerComponent("mike_deut");
+    public static final RegistryObject<Item> MIKE_COOLING_UNIT = registerComponent("mike_cooling_unit");
     public static final RegistryObject<Item> DETONATOR = ITEMS.register("detonator", DetonatorItem::new);
 
     public static final RegistryObject<Item> RBMK_BLANK = registerBlockItem(ModBlocks.RBMK_BLANK);

@@ -167,9 +167,10 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
             return BombReturnCode.ERROR_MISSING_COMPONENT;
         }
 
+        int radius = nuke.resolveBlastRadius(blastRadius());
         nuke.clearSlots();
         level.removeBlock(pos, false);
-        ignite(level, pos, blastRadius());
+        ignite(level, pos, radius);
         return BombReturnCode.DETONATED;
     }
 

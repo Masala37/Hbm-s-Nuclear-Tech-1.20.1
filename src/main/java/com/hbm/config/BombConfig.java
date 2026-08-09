@@ -9,6 +9,7 @@ public final class BombConfig {
     public static ForgeConfigSpec.IntValue gadgetRadius;
     public static ForgeConfigSpec.IntValue boyRadius;
     public static ForgeConfigSpec.IntValue manRadius;
+    public static ForgeConfigSpec.IntValue mikeRadius;
     public static ForgeConfigSpec.IntValue mk5;
     public static ForgeConfigSpec.IntValue falloutRange;
     public static ForgeConfigSpec.IntValue fDelay;
@@ -30,6 +31,10 @@ public final class BombConfig {
         manRadius = builder
                 .comment("Radius of Fat Man (crater length after MK5 scaling)")
                 .defineInRange("manRadius", 175, 1, 500);
+
+        mikeRadius = builder
+                .comment("Radius of Ivy Mike when fully assembled (crater length after MK5 scaling)")
+                .defineInRange("mikeRadius", 250, 1, 500);
 
         mk5 = builder
                 .comment("Milliseconds of dig work per tick for MK5 / Batched nuke rays")

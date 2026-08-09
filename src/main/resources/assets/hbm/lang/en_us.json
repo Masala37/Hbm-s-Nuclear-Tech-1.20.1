@@ -68,6 +68,12 @@
   "block.hbm.nuke_gadget.missing": "Missing: %s",
   "block.hbm.nuke_gadget.ejected": "Components ejected",
 
+  "block.hbm.nuke_mike": "Ivy Mike",
+  "block.hbm.nuke_mike.ready_primary": "Ivy Mike primary armed (Fat Man yield)",
+  "block.hbm.nuke_mike.ready_full": "Ivy Mike fully armed",
+  "block.hbm.nuke_mike.missing": "Missing: %s",
+  "block.hbm.nuke_mike.ejected": "Components ejected",
+
   "item.hbm.boy_shielding": "Little Boy Neutron Shielding",
   "item.hbm.boy_target": "Little Boy Target",
   "item.hbm.boy_bullet": "Little Boy Bullet",
@@ -77,9 +83,13 @@
   "item.hbm.man_igniter": "Fat Man Igniter",
   "item.hbm.man_core": "Fat Man Core",
   "item.hbm.early_explosive_lenses": "Early Explosive Lenses",
+  "item.hbm.explosive_lenses": "Explosive Lenses",
 
   "item.hbm.gadget_wiring": "Gadget Wiring",
   "item.hbm.gadget_core": "Gadget Core",
+  "item.hbm.mike_core": "Ivy Mike Core",
+  "item.hbm.mike_deut": "Ivy Mike Deuterium Tank",
+  "item.hbm.mike_cooling_unit": "Ivy Mike Cooling Unit",
   "item.hbm.detonator": "Detonator",
   "item.hbm.detonator.desc": "Shift right-click a bomb to link, right-click air to detonate",
   "item.hbm.detonator.unset": "No position set",

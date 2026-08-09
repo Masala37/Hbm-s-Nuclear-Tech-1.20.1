@@ -25,6 +25,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Fat Man (manRadius 175) with igniter / lenses / core
 - [x] The Gadget + remote detonator; shared nuke assembly base; MK5 flash polish
 - [x] Mushroom cloud (Torex particles) + fallout rain (waste earth)
+- [x] Ivy Mike (dual yield: primary manRadius / full mikeRadius 250)
 - [ ] Mines, charges, more nukes; full Torex cloudlets / sellafield / radiation
 - [ ] Diesel generator and more cable tiers
 - [ ] Broader fluid roster and machine fluid I/O / pipes

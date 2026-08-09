@@ -32,6 +32,7 @@
     "hbm:electric_furnace",
     "hbm:nuke_boy",
     "hbm:nuke_man",
-    "hbm:nuke_gadget"
+    "hbm:nuke_gadget",
+    "hbm:nuke_mike"
   ]
 }
