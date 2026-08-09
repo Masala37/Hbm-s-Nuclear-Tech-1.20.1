@@ -22,6 +22,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Red power cable (pull/push FE relay) + electric furnace (20 FE/t smelting)
 - [x] Bombs/explosions: ExplosionNT lite + primed bomb entity; dynamite/TNT/semtex/C4
 - [x] Little Boy + MK5 batched nuke dig (no fallout/radiation/mushroom yet)
+- [x] Fat Man (manRadius 175) with igniter / lenses / core
 - [ ] Mines, charges, more nukes, fallout/radiation from blasts
 - [ ] Diesel generator and more cable tiers
 - [ ] Broader fluid roster and machine fluid I/O / pipes

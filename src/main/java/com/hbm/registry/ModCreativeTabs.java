@@ -96,7 +96,11 @@ public final class ModCreativeTabs {
                             ModItems.BOY_TARGET,
                             ModItems.BOY_BULLET,
                             ModItems.BOY_PROPELLANT,
-                            ModItems.BOY_IGNITER))
+                            ModItems.BOY_IGNITER,
+                            ModItems.NUKE_MAN,
+                            ModItems.MAN_IGNITER,
+                            ModItems.EARLY_EXPLOSIVE_LENSES,
+                            ModItems.MAN_CORE))
                     .build());
 
     private ModCreativeTabs() {
