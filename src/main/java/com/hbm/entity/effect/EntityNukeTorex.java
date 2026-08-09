@@ -109,7 +109,8 @@ public class EntityNukeTorex extends Entity {
 
             // spawn shock clouds
             if (tickCount < 150) {
-                int cloudCount = tickCount * 5;
+                // Cap shock density — legacy can request 700+/tick which tanks the renderer.
+                int cloudCount = Math.min(tickCount * 5, 120);
                 int shockLife = Math.max(300 - tickCount * 20, 50);
 
                 for (int i = 0; i < cloudCount; i++) {

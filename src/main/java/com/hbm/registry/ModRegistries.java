@@ -16,5 +16,6 @@ public final class ModRegistries {
         ModBlockEntities.register(modBus);
         ModEntities.register(modBus);
         ModFluids.register(modBus);
+        ModMenus.register(modBus);
     }
 }

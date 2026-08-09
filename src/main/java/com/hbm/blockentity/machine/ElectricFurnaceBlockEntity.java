@@ -2,13 +2,19 @@ package com.hbm.blockentity.machine;
 
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.energy.ModEnergyStorage;
+import com.hbm.inventory.menu.ElectricFurnaceMenu;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Container;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -30,7 +36,7 @@ import java.util.Optional;
 /**
  * FE-powered furnace. Slot 0 = input, slot 1 = output.
  */
-public class ElectricFurnaceBlockEntity extends BlockEntity {
+public class ElectricFurnaceBlockEntity extends BlockEntity implements MenuProvider {
     public static final int CAPACITY = 50_000;
     public static final int MAX_RECEIVE = 200;
     public static final int ENERGY_PER_TICK = 20;
@@ -47,18 +53,49 @@ public class ElectricFurnaceBlockEntity extends BlockEntity {
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return slot == 0;
         }
+    };
+
+    /** Automation-facing handler: insert input only, extract output only. */
+    private final IItemHandler automationItems = new IItemHandler() {
+        @Override
+        public int getSlots() {
+            return items.getSlots();
+        }
+
+        @Override
+        public @NotNull ItemStack getStackInSlot(int slot) {
+            return items.getStackInSlot(slot);
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            if (slot != 0) {
+                return stack;
+            }
+            return items.insertItem(slot, stack, simulate);
+        }
 
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (slot == 0) {
+            if (slot != 1) {
                 return ItemStack.EMPTY;
             }
-            return super.extractItem(slot, amount, simulate);
+            return items.extractItem(slot, amount, simulate);
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return items.getSlotLimit(slot);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return items.isItemValid(slot, stack);
         }
     };
 
     private final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energy);
-    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> items);
+    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> automationItems);
 
     private int cookProgress;
     private int cookTimeTotal = DEFAULT_COOK_TIME;
@@ -81,6 +118,17 @@ public class ElectricFurnaceBlockEntity extends BlockEntity {
 
     public int getCookTimeTotal() {
         return cookTimeTotal;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.electric_furnace");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new ElectricFurnaceMenu(id, inv, this);
     }
 
     private void onChanged() {

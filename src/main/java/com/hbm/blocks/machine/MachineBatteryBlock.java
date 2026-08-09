@@ -3,9 +3,10 @@ package com.hbm.blocks.machine;
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineBatteryBlock extends BaseEntityBlock {
@@ -73,10 +75,8 @@ public class MachineBatteryBlock extends BaseEntityBlock {
         }
 
         BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof MachineBatteryBlockEntity battery) {
-            player.displayClientMessage(Component.literal(String.format("Battery: %d / %d FE",
-                    battery.getEnergy().getEnergyStored(),
-                    battery.getEnergy().getMaxEnergyStored())), true);
+        if (!level.isClientSide && player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
+            NetworkHooks.openScreen(sp, provider, pos);
             return InteractionResult.CONSUME;
         }
         return InteractionResult.PASS;

@@ -3,12 +3,18 @@ package com.hbm.blockentity.machine;
 import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.energy.EnergyNetworkHelper;
 import com.hbm.energy.ModEnergyStorage;
+import com.hbm.inventory.menu.DieselGeneratorMenu;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
  * Fluid-fueled generator (legacy TileEntityMachineDiesel).
  * Burns diesel / gasoline / light oil at 1 mB/t into FE; redstone disables output.
  */
-public class DieselGeneratorBlockEntity extends BlockEntity {
+public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvider {
     public static final int ENERGY_CAPACITY = 50_000;
     public static final int MAX_EXTRACT = 1_000;
     public static final int TANK_CAPACITY = 16_000;
@@ -69,6 +75,17 @@ public class DieselGeneratorBlockEntity extends BlockEntity {
 
     public boolean isRunning() {
         return running;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.diesel_generator");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new DieselGeneratorMenu(id, inv, this);
     }
 
     /**

@@ -1,10 +1,16 @@
 package com.hbm.blockentity.machine;
 
+import com.hbm.inventory.menu.FluidBarrelMenu;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Simple 16-bucket steel barrel. First machine proving Forge fluid capabilities.
  */
-public class FluidBarrelBlockEntity extends BlockEntity {
+public class FluidBarrelBlockEntity extends BlockEntity implements MenuProvider {
     public static final int CAPACITY = 16_000;
 
     private final FluidTank tank = new FluidTank(CAPACITY) {
@@ -44,6 +50,17 @@ public class FluidBarrelBlockEntity extends BlockEntity {
 
     public IFluidHandler getFluidHandler() {
         return tank;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.fluid_barrel");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new FluidBarrelMenu(id, inv, this);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, FluidBarrelBlockEntity be) {

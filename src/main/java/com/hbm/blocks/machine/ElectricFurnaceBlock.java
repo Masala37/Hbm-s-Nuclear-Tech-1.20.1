@@ -4,13 +4,13 @@ import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class ElectricFurnaceBlock extends BaseEntityBlock {
@@ -82,58 +83,11 @@ public class ElectricFurnaceBlock extends BaseEntityBlock {
         }
 
         BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof ElectricFurnaceBlockEntity furnace)) {
-            return InteractionResult.PASS;
+        if (!level.isClientSide && player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
+            NetworkHooks.openScreen(sp, provider, pos);
+            return InteractionResult.CONSUME;
         }
-
-        ItemStack held = player.getItemInHand(hand);
-
-        // Shift-empty-hand: take output, then input
-        if (held.isEmpty() && player.isShiftKeyDown()) {
-            ItemStack out = furnace.getItems().getStackInSlot(1);
-            if (!out.isEmpty()) {
-                ItemStack taken = furnace.getItems().extractItem(1, 64, false);
-                if (!player.addItem(taken)) {
-                    player.drop(taken, false);
-                }
-                return InteractionResult.CONSUME;
-            }
-            ItemStack in = furnace.getItems().getStackInSlot(0);
-            if (!in.isEmpty()) {
-                furnace.getItems().setStackInSlot(0, ItemStack.EMPTY);
-                if (!player.addItem(in)) {
-                    player.drop(in, false);
-                }
-                return InteractionResult.CONSUME;
-            }
-        }
-
-        // Insert into input
-        if (!held.isEmpty()) {
-            ItemStack slot = furnace.getItems().getStackInSlot(0);
-            if (slot.isEmpty()) {
-                furnace.getItems().setStackInSlot(0, held.split(1));
-                return InteractionResult.CONSUME;
-            }
-            if (ItemStack.isSameItemSameTags(slot, held) && slot.getCount() < slot.getMaxStackSize()) {
-                slot.grow(1);
-                held.shrink(1);
-                furnace.getItems().setStackInSlot(0, slot);
-                return InteractionResult.CONSUME;
-            }
-        }
-
-        ItemStack in = furnace.getItems().getStackInSlot(0);
-        ItemStack out = furnace.getItems().getStackInSlot(1);
-        player.displayClientMessage(Component.literal(String.format(
-                "E-Furnace: %d/%d FE | cook %d/%d | in: %s | out: %s",
-                furnace.getEnergy().getEnergyStored(),
-                furnace.getEnergy().getMaxEnergyStored(),
-                furnace.getCookProgress(),
-                furnace.getCookTimeTotal(),
-                in.isEmpty() ? "-" : in.getHoverName().getString(),
-                out.isEmpty() ? "-" : out.getHoverName().getString())), true);
-        return InteractionResult.CONSUME;
+        return InteractionResult.PASS;
     }
 
     @Override

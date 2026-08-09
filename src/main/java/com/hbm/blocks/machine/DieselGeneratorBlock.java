@@ -4,9 +4,10 @@ import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -25,8 +26,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class DieselGeneratorBlock extends BaseEntityBlock {
@@ -85,22 +87,17 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        if (FluidUtil.interactWithFluidHandler(player, hand, generator.getFluidHandler())) {
+        boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+        if (holdingFluidItem && FluidUtil.interactWithFluidHandler(player, hand, generator.getFluidHandler())) {
             generator.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
             return InteractionResult.CONSUME;
         }
 
-        FluidStack fuel = generator.getTank().getFluid();
-        String fuelText = fuel.isEmpty()
-                ? "empty"
-                : String.format("%s %d/%d mB", fuel.getDisplayName().getString(), fuel.getAmount(), generator.getTank().getCapacity());
-        player.displayClientMessage(Component.literal(String.format(
-                "Diesel Gen: %d/%d FE | %s | %s",
-                generator.getEnergy().getEnergyStored(),
-                generator.getEnergy().getMaxEnergyStored(),
-                fuelText,
-                generator.isRunning() ? "running" : (level.hasNeighborSignal(pos) ? "redstone-off" : "idle"))), true);
-        return InteractionResult.CONSUME;
+        if (player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
+            NetworkHooks.openScreen(sp, provider, pos);
+            return InteractionResult.CONSUME;
+        }
+        return InteractionResult.PASS;
     }
 }

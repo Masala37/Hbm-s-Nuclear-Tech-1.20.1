@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -20,7 +19,6 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 
@@ -72,11 +70,9 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
 
     private void cloudletWrapper(EntityNukeTorex cloud, float interp, PoseStack poseStack, MultiBufferSource buffer) {
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            cloudlets.sort(Comparator.comparingDouble((Cloudlet c) ->
-                    player.distanceToSqr(c.posX, c.posY, c.posZ)).reversed());
-        }
+        Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        cloudlets.sort(Comparator.comparingDouble((Cloudlet c) ->
+                cam.distanceToSqr(c.posX, c.posY, c.posZ)).reversed());
 
         VertexConsumer consumer = buffer.getBuffer(HbmRenderTypes.torexCloud(CLOUDLET));
         PoseStack.Pose pose = poseStack.last();
@@ -132,7 +128,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     private static void writeBillboard(VertexConsumer consumer, PoseStack.Pose pose, Quaternionf orientation,
                                        float posX, float posY, float posZ, float scale,
                                        float r, float g, float b, float a, int light) {
-        // Match legacy ActiveRenderInfo corner order / UVs
+        // Camera-facing quad in the XY plane after applying camera orientation (legacy ActiveRenderInfo).
         Vector3f[] corners = new Vector3f[] {
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
@@ -143,7 +139,8 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         float[] v = {1F, 0F, 0F, 1F};
 
         Matrix4f matrix = pose.pose();
-        Matrix3f normal = pose.normal();
+        int lightU = light & 0xFFFF;
+        int lightV = (light >> 16) & 0xFFFF;
 
         for (int i = 0; i < 4; i++) {
             Vector3f corner = corners[i];
@@ -153,9 +150,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
             consumer.vertex(matrix, corner.x(), corner.y(), corner.z())
                     .color(r, g, b, a)
                     .uv(u[i], v[i])
-                    .overlayCoords(OverlayTexture.NO_OVERLAY)
-                    .uv2(light)
-                    .normal(normal, 0.0F, 1.0F, 0.0F)
+                    .uv2(lightU, lightV)
                     .endVertex();
         }
     }

@@ -3,9 +3,10 @@ package com.hbm.blocks.machine;
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -18,8 +19,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidBarrelBlock extends BaseEntityBlock {
@@ -59,22 +61,18 @@ public class FluidBarrelBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
 
-        if (FluidUtil.interactWithFluidHandler(player, hand, barrel.getFluidHandler())) {
+        boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+        if (holdingFluidItem && FluidUtil.interactWithFluidHandler(player, hand, barrel.getFluidHandler())) {
             barrel.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
             return InteractionResult.CONSUME;
         }
 
-        FluidStack stored = barrel.getTank().getFluid();
-        if (stored.isEmpty()) {
-            player.displayClientMessage(Component.literal("Barrel empty (0/" + barrel.getTank().getCapacity() + " mB)"), true);
-        } else {
-            player.displayClientMessage(Component.literal(String.format("%s: %d/%d mB",
-                    stored.getDisplayName().getString(),
-                    stored.getAmount(),
-                    barrel.getTank().getCapacity())), true);
+        if (player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
+            NetworkHooks.openScreen(sp, provider, pos);
+            return InteractionResult.CONSUME;
         }
-        return InteractionResult.CONSUME;
+        return InteractionResult.PASS;
     }
 
     @Override
