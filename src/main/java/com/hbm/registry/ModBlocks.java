@@ -2,7 +2,9 @@ package com.hbm.registry;
 
 import com.hbm.blocks.HazardBlock;
 import com.hbm.blocks.OutgasOreBlock;
+import com.hbm.blocks.machine.CombustionGeneratorBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
+import com.hbm.blocks.machine.MachineBatteryBlock;
 import com.hbm.blocks.rbmk.RBMKDecoBlock;
 import com.hbm.blocks.rbmk.RBMKPassiveBlock;
 import com.hbm.lib.RefStrings;
@@ -46,6 +48,8 @@ public final class ModBlocks {
     public static final RegistryObject<Block> DECO_RBMK_SMOOTH = BLOCKS.register("deco_rbmk_smooth", RBMKDecoBlock::new);
 
     public static final RegistryObject<Block> FLUID_BARREL = BLOCKS.register("fluid_barrel", FluidBarrelBlock::new);
+    public static final RegistryObject<Block> MACHINE_BATTERY = BLOCKS.register("machine_battery", MachineBatteryBlock::new);
+    public static final RegistryObject<Block> COMBUSTION_GENERATOR = BLOCKS.register("combustion_generator", CombustionGeneratorBlock::new);
 
     public static final RegistryObject<Block> RBMK_BLANK = BLOCKS.register("rbmk_blank",
             () -> new RBMKPassiveBlock(RBMKColumnType.BLANK));

@@ -41,6 +41,8 @@
   "block.hbm.rbmk_absorber": "RBMK Absorber Column",
   "block.hbm.rbmk_moderator": "RBMK Moderator Column",
   "block.hbm.fluid_barrel": "Steel Fluid Barrel",
+  "block.hbm.machine_battery": "Energy Battery",
+  "block.hbm.combustion_generator": "Combustion Generator",
 
   "block.hbm.coolant": "Coolant",
   "block.hbm.coolant_hot": "Hot Coolant",

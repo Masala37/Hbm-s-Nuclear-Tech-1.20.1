@@ -25,6 +25,8 @@
     "hbm:rbmk_reflector",
     "hbm:rbmk_absorber",
     "hbm:rbmk_moderator",
-    "hbm:fluid_barrel"
+    "hbm:fluid_barrel",
+    "hbm:machine_battery",
+    "hbm:combustion_generator"
   ]
 }

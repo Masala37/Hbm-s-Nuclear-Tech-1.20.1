@@ -68,6 +68,8 @@ public final class ModCreativeTabs {
                     .icon(() -> ModItems.RBMK_BLANK.get().getDefaultInstance())
                     .displayItems((params, output) -> {
                         accept(output,
+                                ModItems.COMBUSTION_GENERATOR,
+                                ModItems.MACHINE_BATTERY,
                                 ModItems.FLUID_BARREL,
                                 ModItems.DECO_RBMK,
                                 ModItems.DECO_RBMK_SMOOTH,
