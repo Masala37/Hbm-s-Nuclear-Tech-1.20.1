@@ -74,7 +74,7 @@ Port systems in dependency order so each layer can compile and run:
 
 ## Build & run
 
-Requires **Java 17+** to run (toolchain set to **Java 21** for local builds; Java 17 also works if installed).
+Requires **Java 17** to run and build (Forge 1.20.1). The Gradle toolchain targets Java 17 class files.
 
 ```bat
 gradlew.bat build

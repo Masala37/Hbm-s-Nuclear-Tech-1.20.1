@@ -12,7 +12,8 @@ base {
     archivesName = 'HBM-NTM'
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+// Forge 1.20.1 clients run on Java 17 (class file 61); do not compile with 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
