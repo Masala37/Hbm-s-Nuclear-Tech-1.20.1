@@ -110,7 +110,7 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
             return;
         }
 
-        int height = RBMKConfig.columnHeight;
+        int height = RBMKConfig.columnHeight.get();
         for (int i = 1; i <= height; i++) {
             BlockPos target = pos.above(i);
             if (!level.getBlockState(target).canBeReplaced()) {
@@ -150,7 +150,7 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
     protected void destroyColumn(Level level, BlockPos core) {
         DESTROYING_COLUMN.set(true);
         try {
-            int height = RBMKConfig.columnHeight;
+            int height = RBMKConfig.columnHeight.get();
             for (int segment = 0; segment <= height; segment++) {
                 BlockPos part = core.above(segment);
                 BlockState partState = level.getBlockState(part);

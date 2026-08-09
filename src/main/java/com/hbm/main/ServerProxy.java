@@ -1,7 +1,7 @@
 package com.hbm.main;
 
+import com.hbm.network.ModMessages;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class ServerProxy {
@@ -10,8 +10,6 @@ public class ServerProxy {
     }
 
     protected void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            // Server-side setup hooks go here.
-        });
+        event.enqueueWork(ModMessages::register);
     }
 }

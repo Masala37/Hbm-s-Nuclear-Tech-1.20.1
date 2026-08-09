@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:rbmk_blank",
+    "hbm:rbmk_reflector",
+    "hbm:rbmk_absorber",
+    "hbm:rbmk_moderator"
+  ]
+}

@@ -11,6 +11,10 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] `DeferredRegister` infrastructure for blocks, items, tabs, entities, block entities
 - [x] Proof-of-concept content: uranium ore, uranium block, uranium ingot
 - [x] RBMK skeleton: vertical column multiblock, passive columns (blank/reflector/absorber/moderator), deco casing
+- [x] Core config (`ForgeConfigSpec` GeneralConfig + RBMKConfig)
+- [x] Networking scaffold (`SimpleChannel` + ping packet)
+- [x] Block/item tags (`ModTags` + datapack JSON, including forge ore/ingot tags)
+- [ ] Fluids & fluid types (DeferredRegisters ready; no entries yet)
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
 
 ## Why this is a rewrite, not a version bump
@@ -32,7 +36,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 
 Port systems in dependency order so each layer can compile and run:
 
-1. **Core** — config, networking scaffold, creative tabs, materials/tags
+1. **Core** — config, networking scaffold, creative tabs, materials/tags *(done for early subset)*
 2. **Fluids & items** — `Fluids.java`, containers, hazard metadata
 3. **Blocks** — ores, machines (start with simple pass-through blocks)
 4. **Block entities** — machines, storage, reactors
@@ -55,7 +59,7 @@ Port systems in dependency order so each layer can compile and run:
 
 ## Build & run
 
-Requires **Java 17+** (Java 21 works).
+Requires **Java 17+** to run (toolchain set to **Java 21** for local builds; Java 17 also works if installed).
 
 ```bat
 gradlew.bat build

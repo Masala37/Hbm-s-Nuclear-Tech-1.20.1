@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:deco_rbmk",
+    "hbm:deco_rbmk_smooth"
+  ]
+}

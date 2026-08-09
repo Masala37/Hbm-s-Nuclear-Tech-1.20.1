@@ -18,7 +18,6 @@ public final class ModCreativeTabs {
                     .icon(() -> ModItems.URANIUM_INGOT.get().getDefaultInstance())
                     .displayItems((params, output) -> {
                         output.accept(ModItems.URANIUM_INGOT.get());
-                        output.accept(ModBlocks.ORE_URANIUM.get());
                     })
                     .build());
 
@@ -26,7 +25,10 @@ public final class ModCreativeTabs {
             () -> CreativeModeTab.builder()
                     .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.blocks"))
                     .icon(() -> ModBlocks.ORE_URANIUM.get().asItem().getDefaultInstance())
-                    .displayItems((params, output) -> output.accept(ModBlocks.ORE_URANIUM.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModBlocks.ORE_URANIUM.get());
+                        output.accept(ModBlocks.BLOCK_URANIUM.get());
+                    })
                     .build());
 
     public static final RegistryObject<CreativeModeTab> MACHINE_TAB = CREATIVE_TABS.register("machines",

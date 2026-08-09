@@ -49,7 +49,7 @@ public class RBMKBaseBlockEntity extends BlockEntity {
     }
 
     public double maxHeat() {
-        return RBMKConfig.maxHeat;
+        return RBMKConfig.maxHeat.get();
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RBMKBaseBlockEntity be) {

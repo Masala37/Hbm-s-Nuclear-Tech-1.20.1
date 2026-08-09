@@ -1,5 +1,6 @@
 package com.hbm;
 
+import com.hbm.config.ModConfig;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ClientProxy;
 import com.hbm.main.ServerProxy;
@@ -17,6 +18,7 @@ public class HbmNuclearTechMod {
     public static ServerProxy proxy;
 
     public HbmNuclearTechMod(IEventBus modBus) {
+        ModConfig.register();
         ModRegistries.register(modBus);
 
         proxy = switch (net.minecraftforge.fml.loading.FMLEnvironment.dist) {
