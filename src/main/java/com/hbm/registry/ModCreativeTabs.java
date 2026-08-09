@@ -20,12 +20,18 @@ public final class ModCreativeTabs {
                     .displayItems((params, output) -> {
                         accept(output,
                                 ModItems.URANIUM_INGOT,
+                                ModItems.THORIUM_INGOT,
                                 ModItems.TITANIUM_INGOT,
                                 ModItems.TUNGSTEN_INGOT,
                                 ModItems.ALUMINIUM_INGOT,
+                                ModItems.COPPER_INGOT,
+                                ModItems.RED_COPPER_INGOT,
                                 ModItems.LEAD_INGOT,
                                 ModItems.BERYLLIUM_INGOT,
                                 ModItems.STEEL_INGOT);
+                        for (ModFluids.FluidEntry fluid : ModFluids.entries()) {
+                            output.accept(fluid.bucket.get());
+                        }
                     })
                     .build());
 
@@ -36,15 +42,20 @@ public final class ModCreativeTabs {
                     .displayItems((params, output) -> {
                         accept(output,
                                 ModBlocks.ORE_URANIUM,
+                                ModBlocks.ORE_THORIUM,
                                 ModBlocks.ORE_TITANIUM,
                                 ModBlocks.ORE_TUNGSTEN,
                                 ModBlocks.ORE_ALUMINIUM,
+                                ModBlocks.ORE_COPPER,
                                 ModBlocks.ORE_LEAD,
                                 ModBlocks.ORE_BERYLLIUM,
                                 ModBlocks.BLOCK_URANIUM,
+                                ModBlocks.BLOCK_THORIUM,
                                 ModBlocks.BLOCK_TITANIUM,
                                 ModBlocks.BLOCK_TUNGSTEN,
                                 ModBlocks.BLOCK_ALUMINIUM,
+                                ModBlocks.BLOCK_COPPER,
+                                ModBlocks.BLOCK_RED_COPPER,
                                 ModBlocks.BLOCK_LEAD,
                                 ModBlocks.BLOCK_BERYLLIUM,
                                 ModBlocks.BLOCK_STEEL);

@@ -4,24 +4,32 @@
   "itemGroup.hbm.machines": "HBM Machines",
 
   "block.hbm.ore_uranium": "Uranium Ore",
+  "block.hbm.ore_thorium": "Thorium Ore",
   "block.hbm.ore_titanium": "Titanium Ore",
   "block.hbm.ore_tungsten": "Tungsten Ore",
   "block.hbm.ore_aluminium": "Aluminium Ore",
+  "block.hbm.ore_copper": "Copper Ore",
   "block.hbm.ore_lead": "Lead Ore",
   "block.hbm.ore_beryllium": "Beryllium Ore",
 
   "block.hbm.block_uranium": "Uranium Block",
+  "block.hbm.block_thorium": "Thorium Block",
   "block.hbm.block_titanium": "Titanium Block",
   "block.hbm.block_tungsten": "Tungsten Block",
   "block.hbm.block_aluminium": "Aluminium Block",
+  "block.hbm.block_copper": "Copper Block",
+  "block.hbm.block_red_copper": "Red Copper Block",
   "block.hbm.block_lead": "Lead Block",
   "block.hbm.block_beryllium": "Beryllium Block",
   "block.hbm.block_steel": "Steel Block",
 
   "item.hbm.ingot_uranium": "Uranium Ingot",
+  "item.hbm.ingot_thorium": "Thorium Ingot",
   "item.hbm.ingot_titanium": "Titanium Ingot",
   "item.hbm.ingot_tungsten": "Tungsten Ingot",
   "item.hbm.ingot_aluminium": "Aluminium Ingot",
+  "item.hbm.ingot_copper": "Copper Ingot",
+  "item.hbm.ingot_red_copper": "Red Copper Ingot",
   "item.hbm.ingot_lead": "Lead Ingot",
   "item.hbm.ingot_beryllium": "Beryllium Ingot",
   "item.hbm.ingot_steel": "Steel Ingot",
@@ -33,5 +41,21 @@
   "block.hbm.rbmk_absorber": "RBMK Absorber Column",
   "block.hbm.rbmk_moderator": "RBMK Moderator Column",
 
-  "fluid.hbm.coolant": "Coolant"
+  "block.hbm.coolant": "Coolant",
+  "block.hbm.coolant_hot": "Hot Coolant",
+  "block.hbm.water": "NTM Water",
+
+  "fluid.hbm.coolant": "Coolant",
+  "fluid.hbm.coolant_hot": "Hot Coolant",
+  "fluid.hbm.water": "NTM Water",
+  "fluid.hbm.steam": "Steam",
+  "fluid.hbm.hotsteam": "Dense Steam",
+  "fluid.hbm.ultrahotsteam": "Super Dense Steam",
+
+  "item.hbm.coolant_bucket": "Coolant Bucket",
+  "item.hbm.coolant_hot_bucket": "Hot Coolant Bucket",
+  "item.hbm.water_bucket": "NTM Water Bucket",
+  "item.hbm.steam_bucket": "Steam Bucket",
+  "item.hbm.hotsteam_bucket": "Dense Steam Bucket",
+  "item.hbm.ultrahotsteam_bucket": "Super Dense Steam Bucket"
 }

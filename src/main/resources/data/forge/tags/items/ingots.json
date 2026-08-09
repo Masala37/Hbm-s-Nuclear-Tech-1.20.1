@@ -2,9 +2,12 @@
   "replace": false,
   "values": [
     "#forge:ingots/uranium",
+    "#forge:ingots/thorium",
     "#forge:ingots/titanium",
     "#forge:ingots/tungsten",
     "#forge:ingots/aluminium",
+    "#forge:ingots/copper",
+    "#forge:ingots/red_copper",
     "#forge:ingots/lead",
     "#forge:ingots/beryllium",
     "#forge:ingots/steel"

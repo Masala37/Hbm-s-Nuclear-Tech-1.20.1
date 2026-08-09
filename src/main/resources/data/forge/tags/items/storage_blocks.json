@@ -2,9 +2,12 @@
   "replace": false,
   "values": [
     "#forge:storage_blocks/uranium",
+    "#forge:storage_blocks/thorium",
     "#forge:storage_blocks/titanium",
     "#forge:storage_blocks/tungsten",
     "#forge:storage_blocks/aluminium",
+    "#forge:storage_blocks/copper",
+    "#forge:storage_blocks/red_copper",
     "#forge:storage_blocks/lead",
     "#forge:storage_blocks/beryllium",
     "#forge:storage_blocks/steel"

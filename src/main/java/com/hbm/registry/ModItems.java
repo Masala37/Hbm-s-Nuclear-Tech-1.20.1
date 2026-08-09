@@ -20,6 +20,9 @@ public final class ModItems {
     public static final RegistryObject<Item> LEAD_INGOT = registerIngot("ingot_lead");
     public static final RegistryObject<Item> BERYLLIUM_INGOT = registerIngot("ingot_beryllium");
     public static final RegistryObject<Item> STEEL_INGOT = registerIngot("ingot_steel");
+    public static final RegistryObject<Item> COPPER_INGOT = registerIngot("ingot_copper");
+    public static final RegistryObject<Item> RED_COPPER_INGOT = registerIngot("ingot_red_copper");
+    public static final RegistryObject<Item> THORIUM_INGOT = registerIngot("ingot_thorium");
 
     public static final RegistryObject<Item> ORE_URANIUM = registerBlockItem(ModBlocks.ORE_URANIUM);
     public static final RegistryObject<Item> ORE_TITANIUM = registerBlockItem(ModBlocks.ORE_TITANIUM);
@@ -27,6 +30,8 @@ public final class ModItems {
     public static final RegistryObject<Item> ORE_ALUMINIUM = registerBlockItem(ModBlocks.ORE_ALUMINIUM);
     public static final RegistryObject<Item> ORE_LEAD = registerBlockItem(ModBlocks.ORE_LEAD);
     public static final RegistryObject<Item> ORE_BERYLLIUM = registerBlockItem(ModBlocks.ORE_BERYLLIUM);
+    public static final RegistryObject<Item> ORE_COPPER = registerBlockItem(ModBlocks.ORE_COPPER);
+    public static final RegistryObject<Item> ORE_THORIUM = registerBlockItem(ModBlocks.ORE_THORIUM);
 
     public static final RegistryObject<Item> BLOCK_URANIUM = registerBlockItem(ModBlocks.BLOCK_URANIUM);
     public static final RegistryObject<Item> BLOCK_TITANIUM = registerBlockItem(ModBlocks.BLOCK_TITANIUM);
@@ -35,6 +40,9 @@ public final class ModItems {
     public static final RegistryObject<Item> BLOCK_LEAD = registerBlockItem(ModBlocks.BLOCK_LEAD);
     public static final RegistryObject<Item> BLOCK_BERYLLIUM = registerBlockItem(ModBlocks.BLOCK_BERYLLIUM);
     public static final RegistryObject<Item> BLOCK_STEEL = registerBlockItem(ModBlocks.BLOCK_STEEL);
+    public static final RegistryObject<Item> BLOCK_COPPER = registerBlockItem(ModBlocks.BLOCK_COPPER);
+    public static final RegistryObject<Item> BLOCK_RED_COPPER = registerBlockItem(ModBlocks.BLOCK_RED_COPPER);
+    public static final RegistryObject<Item> BLOCK_THORIUM = registerBlockItem(ModBlocks.BLOCK_THORIUM);
 
     public static final RegistryObject<Item> DECO_RBMK = registerBlockItem(ModBlocks.DECO_RBMK);
     public static final RegistryObject<Item> DECO_RBMK_SMOOTH = registerBlockItem(ModBlocks.DECO_RBMK_SMOOTH);

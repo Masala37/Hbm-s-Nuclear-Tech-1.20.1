@@ -27,6 +27,8 @@ public final class ModBlocks {
     public static final RegistryObject<Block> ORE_ALUMINIUM = registerOre("ore_aluminium");
     public static final RegistryObject<Block> ORE_LEAD = registerOre("ore_lead");
     public static final RegistryObject<Block> ORE_BERYLLIUM = registerOre("ore_beryllium");
+    public static final RegistryObject<Block> ORE_COPPER = registerOre("ore_copper");
+    public static final RegistryObject<Block> ORE_THORIUM = registerOre("ore_thorium");
 
     public static final RegistryObject<Block> BLOCK_URANIUM = registerMetalBlock("block_uranium", true);
     public static final RegistryObject<Block> BLOCK_TITANIUM = registerMetalBlock("block_titanium", false);
@@ -35,6 +37,9 @@ public final class ModBlocks {
     public static final RegistryObject<Block> BLOCK_LEAD = registerMetalBlock("block_lead", false);
     public static final RegistryObject<Block> BLOCK_BERYLLIUM = registerMetalBlock("block_beryllium", false);
     public static final RegistryObject<Block> BLOCK_STEEL = registerMetalBlock("block_steel", false);
+    public static final RegistryObject<Block> BLOCK_COPPER = registerMetalBlock("block_copper", false);
+    public static final RegistryObject<Block> BLOCK_RED_COPPER = registerMetalBlock("block_red_copper", false);
+    public static final RegistryObject<Block> BLOCK_THORIUM = registerMetalBlock("block_thorium", false);
 
     public static final RegistryObject<Block> DECO_RBMK = BLOCKS.register("deco_rbmk", RBMKDecoBlock::new);
     public static final RegistryObject<Block> DECO_RBMK_SMOOTH = BLOCKS.register("deco_rbmk_smooth", RBMKDecoBlock::new);
