@@ -82,6 +82,17 @@ public final class ModCreativeTabs {
                     })
                     .build());
 
+    public static final RegistryObject<CreativeModeTab> BOMB_TAB = CREATIVE_TABS.register("bombs",
+            () -> CreativeModeTab.builder()
+                    .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.bombs"))
+                    .icon(() -> ModItems.DYNAMITE.get().getDefaultInstance())
+                    .displayItems((params, output) -> accept(output,
+                            ModItems.DYNAMITE,
+                            ModItems.TNT,
+                            ModItems.SEMTEX,
+                            ModItems.C4))
+                    .build());
+
     private ModCreativeTabs() {
     }
 

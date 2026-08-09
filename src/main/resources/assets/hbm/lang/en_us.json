@@ -2,6 +2,7 @@
   "itemGroup.hbm.parts": "HBM Parts",
   "itemGroup.hbm.blocks": "HBM Blocks",
   "itemGroup.hbm.machines": "HBM Machines",
+  "itemGroup.hbm.bombs": "HBM Explosives",
 
   "block.hbm.ore_uranium": "Uranium Ore",
   "block.hbm.ore_thorium": "Thorium Ore",
@@ -45,6 +46,13 @@
   "block.hbm.combustion_generator": "Combustion Generator",
   "block.hbm.electric_furnace": "Electric Furnace",
   "block.hbm.red_cable": "Red Cable",
+
+  "block.hbm.dynamite": "Dynamite",
+  "block.hbm.tnt": "NTM TNT",
+  "block.hbm.semtex": "Semtex",
+  "block.hbm.c4": "C4",
+
+  "entity.hbm.primed_bomb": "Primed Explosive",
 
   "block.hbm.coolant": "Coolant",
   "block.hbm.coolant_hot": "Hot Coolant",

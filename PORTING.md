@@ -20,6 +20,8 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] First machine: steel fluid barrel (16 buckets, Forge fluid capability, bucket interact)
 - [x] Energy scaffold: machine battery (1M FE) + combustion generator (100 FE/t, solid fuels, hopper-capable)
 - [x] Red power cable (pull/push FE relay) + electric furnace (20 FE/t smelting)
+- [x] Bombs/explosions: ExplosionNT lite + primed bomb entity; dynamite/TNT/semtex/C4
+- [ ] Mines, charges, nukes, fallout/radiation from blasts
 - [ ] Diesel generator and more cable tiers
 - [ ] Broader fluid roster and machine fluid I/O / pipes
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
