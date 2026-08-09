@@ -1,6 +1,10 @@
 package com.hbm.explosion;
 
+import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -21,7 +25,7 @@ public final class ExplosionNukeGeneric {
     }
 
     public static void dealDamage(Level level, double x, double y, double z, double radius, float maxDamage) {
-        if (level.isClientSide) {
+        if (level.isClientSide || radius <= 0.0D) {
             return;
         }
 
@@ -41,14 +45,24 @@ public final class ExplosionNukeGeneric {
 
             double distance = Math.sqrt(dist);
             double damage = maxDamage * (radius - distance) / radius;
-            entity.hurt(level.damageSources().explosion(null), (float) damage);
-            entity.setSecondsOnFire(5);
 
-            Vec3 knock = new Vec3(entity.getX() - x, entity.getEyeY() - y, entity.getZ() - z);
+            // Only living targets get fire/knockback; applying motion to MK5/Torex drifted the blast.
+            if (!(entity instanceof LivingEntity living)) {
+                continue;
+            }
+
+            boolean hit = living.hurt(level.damageSources().explosion(null), (float) damage);
+            if (!hit) {
+                continue;
+            }
+
+            living.setSecondsOnFire(5);
+
+            Vec3 knock = new Vec3(living.getX() - x, living.getEyeY() - y, living.getZ() - z);
             double len = knock.length();
             if (len > 1.0E-4D) {
                 knock = knock.normalize().scale(0.2D);
-                entity.setDeltaMovement(entity.getDeltaMovement().add(knock));
+                living.setDeltaMovement(living.getDeltaMovement().add(knock));
             }
         }
     }
@@ -57,7 +71,12 @@ public final class ExplosionNukeGeneric {
         if (entity instanceof ItemEntity) {
             return true;
         }
-        if (entity instanceof Player player && player.isCreative()) {
+        if (entity instanceof EntityNukeExplosionMK5
+                || entity instanceof EntityFalloutRain
+                || entity instanceof EntityNukeTorex) {
+            return true;
+        }
+        if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
             return true;
         }
         return false;

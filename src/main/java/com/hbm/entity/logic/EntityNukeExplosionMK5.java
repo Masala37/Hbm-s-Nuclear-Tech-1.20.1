@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
 /**
@@ -27,6 +28,11 @@ public class EntityNukeExplosionMK5 extends Entity {
     public int speed;
     public int length;
     public boolean fallout = true;
+
+    private double blastX;
+    private double blastY;
+    private double blastZ;
+    private boolean originSet;
 
     private IExplosionRay explosion;
     private boolean flashed;
@@ -58,6 +64,15 @@ public class EntityNukeExplosionMK5 extends Entity {
             return;
         }
 
+        if (!originSet) {
+            blastX = getX();
+            blastY = getY();
+            blastZ = getZ();
+            originSet = true;
+        }
+        setDeltaMovement(Vec3.ZERO);
+        setPos(blastX, blastY, blastZ);
+
         if (!flashed && level() instanceof ServerLevel server) {
             flashed = true;
             float scale = Math.max(2.0F, length / 8.0F);
@@ -85,11 +100,11 @@ public class EntityNukeExplosionMK5 extends Entity {
             explosion.cacheChunksTick(BombConfig.mk5.get());
             explosion.destructionTick(BombConfig.mk5.get());
         } else {
-            if (fallout) {
+            if (fallout && BombConfig.falloutRange.get() > 0) {
                 EntityFalloutRain rain = new EntityFalloutRain(level());
                 rain.setPos(getX(), getY(), getZ());
                 int scale = (int) (this.length * 2.5D) * BombConfig.falloutRange.get() / 100;
-                rain.setScale(Math.max(16, scale));
+                rain.setScale(Math.max(1, scale));
                 level().addFreshEntity(rain);
             }
             discard();
@@ -111,6 +126,12 @@ public class EntityNukeExplosionMK5 extends Entity {
         this.length = tag.getInt("length");
         this.flashed = tag.getBoolean("flashed");
         this.fallout = !tag.contains("fallout") || tag.getBoolean("fallout");
+        if (tag.contains("blastX")) {
+            this.blastX = tag.getDouble("blastX");
+            this.blastY = tag.getDouble("blastY");
+            this.blastZ = tag.getDouble("blastZ");
+            this.originSet = true;
+        }
     }
 
     @Override
@@ -120,6 +141,11 @@ public class EntityNukeExplosionMK5 extends Entity {
         tag.putInt("length", length);
         tag.putBoolean("flashed", flashed);
         tag.putBoolean("fallout", fallout);
+        if (originSet) {
+            tag.putDouble("blastX", blastX);
+            tag.putDouble("blastY", blastY);
+            tag.putDouble("blastZ", blastZ);
+        }
     }
 
     @Override

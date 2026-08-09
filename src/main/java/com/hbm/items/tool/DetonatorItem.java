@@ -4,6 +4,8 @@ import com.hbm.api.bomb.IBomb;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -27,6 +29,7 @@ public class DetonatorItem extends Item {
     private static final String TAG_X = "LinkX";
     private static final String TAG_Y = "LinkY";
     private static final String TAG_Z = "LinkZ";
+    private static final String TAG_DIM = "LinkDim";
 
     public DetonatorItem() {
         super(new Item.Properties().stacksTo(1));
@@ -54,7 +57,7 @@ public class DetonatorItem extends Item {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         ItemStack stack = context.getItemInHand();
-        setLinkedPos(stack, pos);
+        setLinkedPos(stack, pos, level.dimension());
 
         if (!level.isClientSide) {
             player.displayClientMessage(Component.translatable("item.hbm.detonator.position_set"), true);
@@ -80,6 +83,11 @@ public class DetonatorItem extends Item {
             return InteractionResultHolder.success(stack);
         }
 
+        if (!isLinkedDimension(stack, level.dimension())) {
+            player.displayClientMessage(Component.translatable("item.hbm.detonator.wrong_dimension"), true);
+            return InteractionResultHolder.fail(stack);
+        }
+
         BlockState state = level.getBlockState(linked);
         if (state.getBlock() instanceof IBomb bomb) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
@@ -102,10 +110,21 @@ public class DetonatorItem extends Item {
         return new BlockPos(tag.getInt(TAG_X), tag.getInt(TAG_Y), tag.getInt(TAG_Z));
     }
 
-    private static void setLinkedPos(ItemStack stack, BlockPos pos) {
+    private static boolean isLinkedDimension(ItemStack stack, ResourceKey<Level> dimension) {
+        CompoundTag tag = stack.getTag();
+        if (tag == null || !tag.contains(TAG_DIM)) {
+            // Legacy links without dim: allow same-world use only if tag missing after upgrade.
+            return true;
+        }
+        ResourceLocation linked = ResourceLocation.tryParse(tag.getString(TAG_DIM));
+        return linked != null && linked.equals(dimension.location());
+    }
+
+    private static void setLinkedPos(ItemStack stack, BlockPos pos, ResourceKey<Level> dimension) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putInt(TAG_X, pos.getX());
         tag.putInt(TAG_Y, pos.getY());
         tag.putInt(TAG_Z, pos.getZ());
+        tag.putString(TAG_DIM, dimension.location().toString());
     }
 }

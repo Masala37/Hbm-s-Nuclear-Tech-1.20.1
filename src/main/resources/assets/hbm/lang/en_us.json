@@ -85,6 +85,7 @@
   "item.hbm.detonator.unset": "No position set",
   "item.hbm.detonator.linked": "Linked to %s, %s, %s",
   "item.hbm.detonator.position_set": "Position set",
+  "item.hbm.detonator.wrong_dimension": "Linked bomb is in another dimension",
 
   "bomb.detonated": "Detonated!",
   "bomb.triggered": "Triggered!",

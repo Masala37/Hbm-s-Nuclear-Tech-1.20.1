@@ -54,13 +54,15 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
     }
 
     private void generateGspUp() {
-        if (this.gspNum < this.gspNumMax) {
+        if (this.gspNum < this.gspNumMax && this.gspNumMax > 1) {
             int k = this.gspNum + 1;
             double hk = -1.0 + 2.0 * (k - 1.0) / (this.gspNumMax - 1.0);
+            hk = Math.max(-1.0, Math.min(1.0, hk));
             this.gspX = Math.acos(hk);
 
+            double denom = Math.sqrt(Math.max(1.0E-12, 1.0 - hk * hk));
             double prevLon = this.gspY;
-            double lon = prevLon + 3.6 / Math.sqrt(this.gspNumMax) / Math.sqrt(1.0 - hk * hk);
+            double lon = prevLon + 3.6 / Math.sqrt(this.gspNumMax) / denom;
             this.gspY = lon % (Math.PI * 2);
         } else {
             this.gspX = 0.0;

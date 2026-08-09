@@ -116,9 +116,7 @@ public class EntityFalloutRain extends Entity {
 
     private void processChunk(int chunkX, int chunkZ) {
         Level level = level();
-        if (!level.hasChunk(chunkX, chunkZ)) {
-            return;
-        }
+        // Force-load so outer fallout rings are not silently skipped.
         LevelChunk chunk = level.getChunk(chunkX, chunkZ);
         int scale = getScale();
 

@@ -21,6 +21,8 @@ public class EntityNukeTorex extends Entity {
     private static final EntityDataAccessor<Float> DATA_SCALE =
             SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.FLOAT);
 
+    private boolean killOnLoad;
+
     public EntityNukeTorex(EntityType<? extends EntityNukeTorex> type, Level level) {
         super(type, level);
         this.noCulling = true;
@@ -46,12 +48,17 @@ public class EntityNukeTorex extends Entity {
     }
 
     public int getMaxAge() {
-        return (int) (45 * 20 * getCloudScale());
+        return (int) (45 * 20 * Math.max(0.5F, getCloudScale()));
     }
 
     @Override
     public void tick() {
         super.tick();
+
+        if (killOnLoad) {
+            discard();
+            return;
+        }
 
         if (!level().isClientSide) {
             if (tickCount > getMaxAge()) {
@@ -129,8 +136,8 @@ public class EntityNukeTorex extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        // Ephemeral visual — discard on load like legacy.
-        discard();
+        // Ephemeral visual — die next tick instead of discarding mid-load.
+        killOnLoad = true;
     }
 
     @Override

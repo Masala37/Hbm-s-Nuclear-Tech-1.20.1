@@ -94,8 +94,11 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        if (level.hasNeighborSignal(pos)) {
-            tryDetonate(level, pos);
+        if (!level.isClientSide && level.hasNeighborSignal(pos)) {
+            AssembledNuke nuke = asAssembly(level.getBlockEntity(pos));
+            if (nuke != null && nuke.isReady()) {
+                explode(level, pos);
+            }
         }
     }
 
@@ -146,7 +149,10 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
 
     private void tryDetonate(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            explode(level, pos);
+            AssembledNuke nuke = asAssembly(level.getBlockEntity(pos));
+            if (nuke != null && nuke.isReady()) {
+                explode(level, pos);
+            }
         }
     }
 
