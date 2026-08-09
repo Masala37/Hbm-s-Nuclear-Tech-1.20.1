@@ -1,6 +1,10 @@
 ﻿{
-  "parent": "minecraft:block/cube_all",
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/nuke_man.obj",
   "textures": {
-    "all": "hbm:block/nuke_man"
+    "particle": "hbm:entity/bombs/fatman"
   }
 }

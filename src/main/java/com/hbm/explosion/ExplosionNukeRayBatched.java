@@ -246,8 +246,15 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
     @Override
     public void cacheChunksTick(int time) {
-        if (!isAusf3Complete) {
-            collectTip(speed * 10);
+        if (isAusf3Complete) {
+            return;
+        }
+        // Time-budget the ray cache like destruction so cratering starts within seconds,
+        // not after a long pure-cache wait while the mushroom is already up.
+        long start = System.currentTimeMillis();
+        int budgetMs = Math.max(time, 50);
+        while (!isAusf3Complete && System.currentTimeMillis() < start + budgetMs) {
+            collectTip(Math.max(speed * 25, 8_000));
         }
     }
 

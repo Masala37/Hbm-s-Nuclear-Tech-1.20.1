@@ -1,6 +1,7 @@
 package com.hbm.client;
 
 import com.hbm.client.render.entity.PrimedBombRenderer;
+import com.hbm.client.render.entity.RenderTorex;
 import com.hbm.lib.RefStrings;
 import com.hbm.registry.ModEntities;
 import net.minecraft.client.renderer.entity.NoopRenderer;
@@ -18,7 +19,7 @@ public final class ClientModEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.PRIMED_BOMB.get(), PrimedBombRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_EXPLOSION_MK5.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), NoopRenderer::new);
     }
 }

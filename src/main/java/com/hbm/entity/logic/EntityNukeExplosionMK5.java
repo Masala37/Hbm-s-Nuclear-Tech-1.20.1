@@ -97,8 +97,10 @@ public class EntityNukeExplosionMK5 extends Entity {
         }
 
         if (!explosion.isComplete()) {
-            explosion.cacheChunksTick(BombConfig.mk5.get());
-            explosion.destructionTick(BombConfig.mk5.get());
+            // Floor the budget so older configs with mk5BlastTime=50 still dig promptly.
+            int budget = Math.max(BombConfig.mk5.get(), 150);
+            explosion.cacheChunksTick(budget);
+            explosion.destructionTick(budget);
         } else {
             if (fallout && BombConfig.falloutRange.get() > 0) {
                 EntityFalloutRain rain = new EntityFalloutRain(level());

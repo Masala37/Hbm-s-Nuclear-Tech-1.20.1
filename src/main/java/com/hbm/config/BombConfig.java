@@ -37,8 +37,8 @@ public final class BombConfig {
                 .defineInRange("mikeRadius", 250, 1, 500);
 
         mk5 = builder
-                .comment("Milliseconds of dig work per tick for MK5 / Batched nuke rays")
-                .defineInRange("mk5BlastTime", 50, 1, 1000);
+                .comment("Milliseconds of dig/cache work per tick for MK5 / Batched nuke rays")
+                .defineInRange("mk5BlastTime", 200, 1, 1000);
 
         falloutRange = builder
                 .comment("Fallout radius as a percent of (blast length * 2.5)")
