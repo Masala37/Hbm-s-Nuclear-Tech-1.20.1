@@ -36,6 +36,16 @@ public class ModEnergyStorage extends EnergyStorage {
         onChanged.run();
     }
 
+    /** Consume stored energy for machine work, ignoring maxExtract limits. */
+    public int consume(int amount) {
+        int used = Math.min(this.energy, Math.max(0, amount));
+        if (used > 0) {
+            this.energy -= used;
+            onChanged.run();
+        }
+        return used;
+    }
+
     public void write(net.minecraft.nbt.CompoundTag tag) {
         tag.putInt("Energy", this.energy);
     }

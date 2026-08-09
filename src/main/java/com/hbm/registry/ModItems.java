@@ -49,6 +49,8 @@ public final class ModItems {
     public static final RegistryObject<Item> FLUID_BARREL = registerBlockItem(ModBlocks.FLUID_BARREL);
     public static final RegistryObject<Item> MACHINE_BATTERY = registerBlockItem(ModBlocks.MACHINE_BATTERY);
     public static final RegistryObject<Item> COMBUSTION_GENERATOR = registerBlockItem(ModBlocks.COMBUSTION_GENERATOR);
+    public static final RegistryObject<Item> ELECTRIC_FURNACE = registerBlockItem(ModBlocks.ELECTRIC_FURNACE);
+    public static final RegistryObject<Item> RED_CABLE = registerBlockItem(ModBlocks.RED_CABLE);
     public static final RegistryObject<Item> RBMK_BLANK = registerBlockItem(ModBlocks.RBMK_BLANK);
     public static final RegistryObject<Item> RBMK_REFLECTOR = registerBlockItem(ModBlocks.RBMK_REFLECTOR);
     public static final RegistryObject<Item> RBMK_ABSORBER = registerBlockItem(ModBlocks.RBMK_ABSORBER);

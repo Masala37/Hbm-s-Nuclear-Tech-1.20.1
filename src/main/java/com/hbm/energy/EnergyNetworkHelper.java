@@ -8,7 +8,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.energy.IEnergyStorage;
 
 /**
- * Shared helpers for pushing FE to neighboring energy handlers.
+ * Shared helpers for moving FE between neighboring energy handlers.
  */
 public final class EnergyNetworkHelper {
     private EnergyNetworkHelper() {
@@ -38,6 +38,39 @@ public final class EnergyNetworkHelper {
                     return;
                 }
                 int accepted = target.receiveEnergy(offer, false);
+                if (accepted > 0) {
+                    source.extractEnergy(accepted, false);
+                }
+            });
+        }
+    }
+
+    public static void pullFromNeighbors(Level level, BlockPos pos, IEnergyStorage sink, int maxTransfer) {
+        if (sink.getEnergyStored() >= sink.getMaxEnergyStored() || maxTransfer <= 0) {
+            return;
+        }
+
+        for (Direction direction : Direction.values()) {
+            int room = sink.getMaxEnergyStored() - sink.getEnergyStored();
+            if (room <= 0) {
+                return;
+            }
+
+            BlockEntity neighbor = level.getBlockEntity(pos.relative(direction));
+            if (neighbor == null) {
+                continue;
+            }
+
+            neighbor.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(source -> {
+                if (!source.canExtract()) {
+                    return;
+                }
+                int want = Math.min(maxTransfer, sink.getMaxEnergyStored() - sink.getEnergyStored());
+                int available = source.extractEnergy(want, true);
+                if (available <= 0) {
+                    return;
+                }
+                int accepted = sink.receiveEnergy(available, false);
                 if (accepted > 0) {
                     source.extractEnergy(accepted, false);
                 }

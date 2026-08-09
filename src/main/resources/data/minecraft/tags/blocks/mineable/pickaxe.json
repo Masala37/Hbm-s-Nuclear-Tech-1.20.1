@@ -27,6 +27,8 @@
     "hbm:rbmk_moderator",
     "hbm:fluid_barrel",
     "hbm:machine_battery",
-    "hbm:combustion_generator"
+    "hbm:combustion_generator",
+    "hbm:red_cable",
+    "hbm:electric_furnace"
   ]
 }

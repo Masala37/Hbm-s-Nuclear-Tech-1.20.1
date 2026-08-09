@@ -43,6 +43,8 @@
   "block.hbm.fluid_barrel": "Steel Fluid Barrel",
   "block.hbm.machine_battery": "Energy Battery",
   "block.hbm.combustion_generator": "Combustion Generator",
+  "block.hbm.electric_furnace": "Electric Furnace",
+  "block.hbm.red_cable": "Red Cable",
 
   "block.hbm.coolant": "Coolant",
   "block.hbm.coolant_hot": "Hot Coolant",

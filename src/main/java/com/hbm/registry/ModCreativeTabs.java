@@ -70,6 +70,8 @@ public final class ModCreativeTabs {
                         accept(output,
                                 ModItems.COMBUSTION_GENERATOR,
                                 ModItems.MACHINE_BATTERY,
+                                ModItems.ELECTRIC_FURNACE,
+                                ModItems.RED_CABLE,
                                 ModItems.FLUID_BARREL,
                                 ModItems.DECO_RBMK,
                                 ModItems.DECO_RBMK_SMOOTH,

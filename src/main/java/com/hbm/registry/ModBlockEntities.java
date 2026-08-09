@@ -1,8 +1,10 @@
 package com.hbm.registry;
 
 import com.hbm.blockentity.machine.CombustionGeneratorBlockEntity;
+import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
+import com.hbm.blockentity.machine.RedCableBlockEntity;
 import com.hbm.blockentity.rbmk.RBMKPassiveBlockEntity;
 import com.hbm.lib.RefStrings;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -40,6 +42,18 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("combustion_generator", () -> BlockEntityType.Builder.of(
                     CombustionGeneratorBlockEntity::new,
                     ModBlocks.COMBUSTION_GENERATOR.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<ElectricFurnaceBlockEntity>> ELECTRIC_FURNACE =
+            BLOCK_ENTITIES.register("electric_furnace", () -> BlockEntityType.Builder.of(
+                    ElectricFurnaceBlockEntity::new,
+                    ModBlocks.ELECTRIC_FURNACE.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<RedCableBlockEntity>> RED_CABLE =
+            BLOCK_ENTITIES.register("red_cable", () -> BlockEntityType.Builder.of(
+                    RedCableBlockEntity::new,
+                    ModBlocks.RED_CABLE.get()
             ).build(null));
 
     private ModBlockEntities() {
