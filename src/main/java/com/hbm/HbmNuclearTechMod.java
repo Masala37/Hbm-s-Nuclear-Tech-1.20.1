@@ -8,6 +8,7 @@ import com.hbm.registry.ModRegistries;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,9 @@ public class HbmNuclearTechMod {
 
     public static ServerProxy proxy;
 
-    public HbmNuclearTechMod(IEventBus modBus) {
+    public HbmNuclearTechMod() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         ModConfig.register();
         ModRegistries.register(modBus);
 
