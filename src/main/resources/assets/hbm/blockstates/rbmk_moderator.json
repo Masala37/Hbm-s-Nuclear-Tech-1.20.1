@@ -1,15 +1,5 @@
 {
-  "variants": {
-    "part=core,lid=none,segment=0": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=core,lid=concrete,segment=0": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=core,lid=glass,segment=0": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=1": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=2": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=3": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=4": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=5": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=6": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=7": { "model": "hbm:block/rbmk/rbmk_moderator" },
-    "part=dummy,lid=none,segment=8": { "model": "hbm:block/rbmk/rbmk_moderator" }
-  }
+  "multipart": [
+    { "apply": { "model": "hbm:block/rbmk/rbmk_moderator" } }
+  ]
 }

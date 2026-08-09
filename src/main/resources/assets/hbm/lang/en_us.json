@@ -2,13 +2,36 @@
   "itemGroup.hbm.parts": "HBM Parts",
   "itemGroup.hbm.blocks": "HBM Blocks",
   "itemGroup.hbm.machines": "HBM Machines",
+
   "block.hbm.ore_uranium": "Uranium Ore",
+  "block.hbm.ore_titanium": "Titanium Ore",
+  "block.hbm.ore_tungsten": "Tungsten Ore",
+  "block.hbm.ore_aluminium": "Aluminium Ore",
+  "block.hbm.ore_lead": "Lead Ore",
+  "block.hbm.ore_beryllium": "Beryllium Ore",
+
   "block.hbm.block_uranium": "Uranium Block",
+  "block.hbm.block_titanium": "Titanium Block",
+  "block.hbm.block_tungsten": "Tungsten Block",
+  "block.hbm.block_aluminium": "Aluminium Block",
+  "block.hbm.block_lead": "Lead Block",
+  "block.hbm.block_beryllium": "Beryllium Block",
+  "block.hbm.block_steel": "Steel Block",
+
   "item.hbm.ingot_uranium": "Uranium Ingot",
+  "item.hbm.ingot_titanium": "Titanium Ingot",
+  "item.hbm.ingot_tungsten": "Tungsten Ingot",
+  "item.hbm.ingot_aluminium": "Aluminium Ingot",
+  "item.hbm.ingot_lead": "Lead Ingot",
+  "item.hbm.ingot_beryllium": "Beryllium Ingot",
+  "item.hbm.ingot_steel": "Steel Ingot",
+
   "block.hbm.deco_rbmk": "RBMK Casing",
   "block.hbm.deco_rbmk_smooth": "RBMK Casing (Smooth)",
   "block.hbm.rbmk_blank": "RBMK Blank Column",
   "block.hbm.rbmk_reflector": "RBMK Reflector Column",
   "block.hbm.rbmk_absorber": "RBMK Absorber Column",
-  "block.hbm.rbmk_moderator": "RBMK Moderator Column"
+  "block.hbm.rbmk_moderator": "RBMK Moderator Column",
+
+  "fluid.hbm.coolant": "Coolant"
 }

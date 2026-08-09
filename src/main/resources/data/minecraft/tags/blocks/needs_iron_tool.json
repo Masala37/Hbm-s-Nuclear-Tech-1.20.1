@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:ore_uranium",
+    "hbm:ore_titanium",
+    "hbm:ore_tungsten",
+    "hbm:ore_aluminium",
+    "hbm:ore_lead",
+    "hbm:ore_beryllium",
+    "hbm:block_uranium",
+    "hbm:block_titanium",
+    "hbm:block_tungsten",
+    "hbm:block_aluminium",
+    "hbm:block_lead",
+    "hbm:block_beryllium",
+    "hbm:block_steel",
+    "hbm:deco_rbmk",
+    "hbm:deco_rbmk_smooth",
+    "hbm:rbmk_blank",
+    "hbm:rbmk_reflector",
+    "hbm:rbmk_absorber",
+    "hbm:rbmk_moderator"
+  ]
+}

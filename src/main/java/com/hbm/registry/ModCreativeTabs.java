@@ -4,6 +4,7 @@ import com.hbm.HbmNuclearTechMod;
 import com.hbm.lib.RefStrings;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -15,19 +16,38 @@ public final class ModCreativeTabs {
     public static final RegistryObject<CreativeModeTab> PARTS_TAB = CREATIVE_TABS.register("parts",
             () -> CreativeModeTab.builder()
                     .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.parts"))
-                    .icon(() -> ModItems.URANIUM_INGOT.get().getDefaultInstance())
+                    .icon(() -> ModItems.STEEL_INGOT.get().getDefaultInstance())
                     .displayItems((params, output) -> {
-                        output.accept(ModItems.URANIUM_INGOT.get());
+                        accept(output,
+                                ModItems.URANIUM_INGOT,
+                                ModItems.TITANIUM_INGOT,
+                                ModItems.TUNGSTEN_INGOT,
+                                ModItems.ALUMINIUM_INGOT,
+                                ModItems.LEAD_INGOT,
+                                ModItems.BERYLLIUM_INGOT,
+                                ModItems.STEEL_INGOT);
                     })
                     .build());
 
     public static final RegistryObject<CreativeModeTab> BLOCK_TAB = CREATIVE_TABS.register("blocks",
             () -> CreativeModeTab.builder()
                     .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.blocks"))
-                    .icon(() -> ModBlocks.ORE_URANIUM.get().asItem().getDefaultInstance())
+                    .icon(() -> ModBlocks.ORE_TITANIUM.get().asItem().getDefaultInstance())
                     .displayItems((params, output) -> {
-                        output.accept(ModBlocks.ORE_URANIUM.get());
-                        output.accept(ModBlocks.BLOCK_URANIUM.get());
+                        accept(output,
+                                ModBlocks.ORE_URANIUM,
+                                ModBlocks.ORE_TITANIUM,
+                                ModBlocks.ORE_TUNGSTEN,
+                                ModBlocks.ORE_ALUMINIUM,
+                                ModBlocks.ORE_LEAD,
+                                ModBlocks.ORE_BERYLLIUM,
+                                ModBlocks.BLOCK_URANIUM,
+                                ModBlocks.BLOCK_TITANIUM,
+                                ModBlocks.BLOCK_TUNGSTEN,
+                                ModBlocks.BLOCK_ALUMINIUM,
+                                ModBlocks.BLOCK_LEAD,
+                                ModBlocks.BLOCK_BERYLLIUM,
+                                ModBlocks.BLOCK_STEEL);
                     })
                     .build());
 
@@ -36,16 +56,24 @@ public final class ModCreativeTabs {
                     .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.machines"))
                     .icon(() -> ModItems.RBMK_BLANK.get().getDefaultInstance())
                     .displayItems((params, output) -> {
-                        output.accept(ModItems.DECO_RBMK.get());
-                        output.accept(ModItems.DECO_RBMK_SMOOTH.get());
-                        output.accept(ModItems.RBMK_BLANK.get());
-                        output.accept(ModItems.RBMK_REFLECTOR.get());
-                        output.accept(ModItems.RBMK_ABSORBER.get());
-                        output.accept(ModItems.RBMK_MODERATOR.get());
+                        accept(output,
+                                ModItems.DECO_RBMK,
+                                ModItems.DECO_RBMK_SMOOTH,
+                                ModItems.RBMK_BLANK,
+                                ModItems.RBMK_REFLECTOR,
+                                ModItems.RBMK_ABSORBER,
+                                ModItems.RBMK_MODERATOR);
                     })
                     .build());
 
     private ModCreativeTabs() {
+    }
+
+    @SafeVarargs
+    private static void accept(CreativeModeTab.Output output, RegistryObject<? extends ItemLike>... items) {
+        for (RegistryObject<? extends ItemLike> item : items) {
+            output.accept(item.get());
+        }
     }
 
     public static void register(IEventBus modBus) {

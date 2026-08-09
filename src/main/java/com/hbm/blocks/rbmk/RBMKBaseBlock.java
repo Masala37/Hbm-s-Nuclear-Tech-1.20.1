@@ -5,17 +5,18 @@ import com.hbm.config.RBMKConfig;
 import com.hbm.rbmk.RBMKBlockStateProperties;
 import com.hbm.rbmk.RBMKColumnPart;
 import com.hbm.rbmk.RBMKLidType;
+import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RBMKBaseBlock extends Block implements EntityBlock {
+public abstract class RBMKBaseBlock extends BaseEntityBlock {
     private static final ThreadLocal<Boolean> DESTROYING_COLUMN = ThreadLocal.withInitial(() -> false);
 
     private static final VoxelShape CORE_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
@@ -69,9 +70,20 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
         return state.getValue(RBMKBlockStateProperties.COLUMN_PART) == RBMKColumnPart.CORE;
     }
 
+    /**
+     * Resolve the column core from a still-present block in the world.
+     */
     @Nullable
     public static BlockPos findCore(BlockGetter level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
+        return findCoreFromState(level.getBlockState(pos), pos, level);
+    }
+
+    /**
+     * Resolve the column core from a known state. Prefer this in {@link #onRemove}
+     * because the world at {@code pos} may already be air.
+     */
+    @Nullable
+    public static BlockPos findCoreFromState(BlockState state, BlockPos pos, @Nullable BlockGetter level) {
         if (!(state.getBlock() instanceof RBMKBaseBlock rbmk)) {
             return null;
         }
@@ -82,6 +94,10 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
 
         int segment = state.getValue(RBMKBlockStateProperties.SEGMENT);
         BlockPos corePos = pos.below(segment);
+        if (level == null) {
+            return corePos;
+        }
+
         BlockState coreState = level.getBlockState(corePos);
         if (coreState.getBlock() instanceof RBMKBaseBlock coreBlock
                 && coreBlock.isCore(coreState)
@@ -89,6 +105,20 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
             return corePos;
         }
         return null;
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        int height = RBMKConfig.columnHeight.get();
+        for (int i = 1; i <= height; i++) {
+            if (!level.getBlockState(pos.above(i)).canBeReplaced(context)) {
+                return null;
+            }
+        }
+        return defaultBlockState();
     }
 
     @Override
@@ -106,26 +136,24 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (level.isClientSide) {
+        if (level.isClientSide || !isCore(state)) {
             return;
         }
 
         int height = RBMKConfig.columnHeight.get();
-        for (int i = 1; i <= height; i++) {
-            BlockPos target = pos.above(i);
-            if (!level.getBlockState(target).canBeReplaced()) {
-                level.removeBlock(pos, false);
-                if (placer instanceof Player player && !player.getAbilities().instabuild) {
-                    if (!player.addItem(stack.copy())) {
-                        Block.popResource(level, pos, stack.copy());
-                    }
+        for (int segment = 1; segment <= height; segment++) {
+            BlockPos dummyPos = pos.above(segment);
+            if (!level.getBlockState(dummyPos).canBeReplaced()) {
+                // Placement should have been rejected by getStateForPlacement; tear down as a safety net.
+                DESTROYING_COLUMN.set(true);
+                try {
+                    level.removeBlock(pos, false);
+                } finally {
+                    DESTROYING_COLUMN.set(false);
                 }
                 return;
             }
-        }
 
-        for (int segment = 1; segment <= height; segment++) {
-            BlockPos dummyPos = pos.above(segment);
             BlockState dummyState = defaultBlockState()
                     .setValue(RBMKBlockStateProperties.COLUMN_PART, RBMKColumnPart.DUMMY)
                     .setValue(RBMKBlockStateProperties.SEGMENT, segment)
@@ -136,20 +164,27 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock()) && !DESTROYING_COLUMN.get()) {
-            if (!level.isClientSide) {
-                BlockPos core = findCore(level, pos);
+        if (!state.is(newState.getBlock())) {
+            if (!DESTROYING_COLUMN.get() && !level.isClientSide) {
+                BlockPos core = findCoreFromState(state, pos, null);
                 if (core != null) {
-                    destroyColumn(level, core);
+                    // Core breaks use loot/getDrops; dummy breaks must drop the column item once.
+                    boolean dropItem = !isCore(state);
+                    destroyColumn(level, core, dropItem);
                 }
             }
+            // Always clear block entities, including when DESTROYING_COLUMN is set.
             super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 
-    protected void destroyColumn(Level level, BlockPos core) {
+    protected void destroyColumn(Level level, BlockPos core, boolean dropItem) {
         DESTROYING_COLUMN.set(true);
         try {
+            if (dropItem) {
+                Block.popResource(level, core, new ItemStack(this));
+            }
+
             int height = RBMKConfig.columnHeight.get();
             for (int segment = 0; segment <= height; segment++) {
                 BlockPos part = core.above(segment);
@@ -227,10 +262,6 @@ public abstract class RBMKBaseBlock extends Block implements EntityBlock {
         if (level.isClientSide || !isCore(state)) {
             return null;
         }
-        return (lvl, pos, st, be) -> {
-            if (be instanceof RBMKBaseBlockEntity rbmk) {
-                RBMKBaseBlockEntity.serverTick(lvl, pos, st, rbmk);
-            }
-        };
+        return createTickerHelper(type, ModBlockEntities.RBMK_PASSIVE.get(), RBMKBaseBlockEntity::serverTick);
     }
 }

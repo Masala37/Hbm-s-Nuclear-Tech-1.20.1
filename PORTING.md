@@ -10,11 +10,14 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Mod bootstrap (`HbmNuclearTechMod`, client/server proxies)
 - [x] `DeferredRegister` infrastructure for blocks, items, tabs, entities, block entities
 - [x] Proof-of-concept content: uranium ore, uranium block, uranium ingot
+- [x] Early materials: titanium, tungsten, aluminium, lead, beryllium ores/ingots/blocks + steel ingot/block
 - [x] RBMK skeleton: vertical column multiblock, passive columns (blank/reflector/absorber/moderator), deco casing
 - [x] Core config (`ForgeConfigSpec` GeneralConfig + RBMKConfig)
 - [x] Networking scaffold (`SimpleChannel` + ping packet)
 - [x] Block/item tags (`ModTags` + datapack JSON, including forge ore/ingot tags)
-- [ ] Fluids & fluid types (DeferredRegisters ready; no entries yet)
+- [x] Loot tables + mineable/pickaxe tags for registered blocks
+- [x] Coolant fluid type + still/flowing fluids (no bucket/liquid block yet)
+- [ ] More fluids (steam ladder, water wrappers) and fluid buckets/blocks
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
 
 ## Why this is a rewrite, not a version bump

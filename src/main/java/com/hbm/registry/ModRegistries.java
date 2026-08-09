@@ -2,9 +2,7 @@ package com.hbm.registry;
 
 import com.hbm.lib.RefStrings;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,22 +30,6 @@ public final class ModRegistries {
 
         public static void register(IEventBus modBus) {
             ENTITIES.register(modBus);
-        }
-    }
-
-    public static final class ModFluids {
-        public static final DeferredRegister<FluidType> FLUID_TYPES =
-                DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, RefStrings.MODID);
-
-        public static final DeferredRegister<Fluid> FLUIDS =
-                DeferredRegister.create(ForgeRegistries.FLUIDS, RefStrings.MODID);
-
-        private ModFluids() {
-        }
-
-        public static void register(IEventBus modBus) {
-            FLUID_TYPES.register(modBus);
-            FLUIDS.register(modBus);
         }
     }
 }
