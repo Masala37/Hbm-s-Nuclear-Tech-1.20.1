@@ -87,10 +87,15 @@ public final class ModCreativeTabs {
                     .title(net.minecraft.network.chat.Component.translatable("itemGroup.hbm.bombs"))
                     .icon(() -> ModItems.NUKE_BOY.get().getDefaultInstance())
                     .displayItems((params, output) -> accept(output,
+                            ModItems.DETONATOR,
                             ModItems.DYNAMITE,
                             ModItems.TNT,
                             ModItems.SEMTEX,
                             ModItems.C4,
+                            ModItems.NUKE_GADGET,
+                            ModItems.GADGET_WIRING,
+                            ModItems.EARLY_EXPLOSIVE_LENSES,
+                            ModItems.GADGET_CORE,
                             ModItems.NUKE_BOY,
                             ModItems.BOY_SHIELDING,
                             ModItems.BOY_TARGET,
@@ -99,7 +104,6 @@ public final class ModCreativeTabs {
                             ModItems.BOY_IGNITER,
                             ModItems.NUKE_MAN,
                             ModItems.MAN_IGNITER,
-                            ModItems.EARLY_EXPLOSIVE_LENSES,
                             ModItems.MAN_CORE))
                     .build());
 

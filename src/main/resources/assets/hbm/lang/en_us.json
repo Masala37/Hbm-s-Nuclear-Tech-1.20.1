@@ -61,6 +61,11 @@
   "block.hbm.nuke_man.missing": "Missing: %s",
   "block.hbm.nuke_man.ejected": "Components ejected",
 
+  "block.hbm.nuke_gadget": "The Gadget",
+  "block.hbm.nuke_gadget.ready": "The Gadget armed",
+  "block.hbm.nuke_gadget.missing": "Missing: %s",
+  "block.hbm.nuke_gadget.ejected": "Components ejected",
+
   "item.hbm.boy_shielding": "Little Boy Neutron Shielding",
   "item.hbm.boy_target": "Little Boy Target",
   "item.hbm.boy_bullet": "Little Boy Bullet",
@@ -70,6 +75,22 @@
   "item.hbm.man_igniter": "Fat Man Igniter",
   "item.hbm.man_core": "Fat Man Core",
   "item.hbm.early_explosive_lenses": "Early Explosive Lenses",
+
+  "item.hbm.gadget_wiring": "Gadget Wiring",
+  "item.hbm.gadget_core": "Gadget Core",
+  "item.hbm.detonator": "Detonator",
+  "item.hbm.detonator.desc": "Shift right-click a bomb to link, right-click air to detonate",
+  "item.hbm.detonator.unset": "No position set",
+  "item.hbm.detonator.linked": "Linked to %s, %s, %s",
+  "item.hbm.detonator.position_set": "Position set",
+
+  "bomb.detonated": "Detonated!",
+  "bomb.triggered": "Triggered!",
+  "bomb.launched": "Launched!",
+  "bomb.missingComponent": "Missing components",
+  "bomb.incompatible": "Incompatible target",
+  "bomb.nobomb": "No bomb at linked position",
+  "bomb.undefined": "Nothing happened",
 
   "entity.hbm.primed_bomb": "Primed Explosive",
   "entity.hbm.nuke_explosion_mk5": "Nuclear Explosion",

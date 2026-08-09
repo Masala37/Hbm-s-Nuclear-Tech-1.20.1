@@ -6,6 +6,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
  * Nuke / bomb radii and dig budgets (legacy BombConfig subset).
  */
 public final class BombConfig {
+    public static ForgeConfigSpec.IntValue gadgetRadius;
     public static ForgeConfigSpec.IntValue boyRadius;
     public static ForgeConfigSpec.IntValue manRadius;
     public static ForgeConfigSpec.IntValue mk5;
@@ -15,6 +16,10 @@ public final class BombConfig {
 
     static void build(ForgeConfigSpec.Builder builder) {
         builder.comment("Nuclear and conventional blast settings").push("bombs");
+
+        gadgetRadius = builder
+                .comment("Radius of The Gadget (crater length after MK5 scaling)")
+                .defineInRange("gadgetRadius", 150, 1, 500);
 
         boyRadius = builder
                 .comment("Radius of Little Boy (crater length after MK5 scaling)")

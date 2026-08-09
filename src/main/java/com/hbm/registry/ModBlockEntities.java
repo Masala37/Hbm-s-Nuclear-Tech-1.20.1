@@ -1,6 +1,7 @@
 package com.hbm.registry;
 
 import com.hbm.blockentity.bomb.NukeBoyBlockEntity;
+import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.blockentity.bomb.NukeManBlockEntity;
 import com.hbm.blockentity.machine.CombustionGeneratorBlockEntity;
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
@@ -68,6 +69,12 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("nuke_man", () -> BlockEntityType.Builder.of(
                     NukeManBlockEntity::new,
                     ModBlocks.NUKE_MAN.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<NukeGadgetBlockEntity>> NUKE_GADGET =
+            BLOCK_ENTITIES.register("nuke_gadget", () -> BlockEntityType.Builder.of(
+                    NukeGadgetBlockEntity::new,
+                    ModBlocks.NUKE_GADGET.get()
             ).build(null));
 
     private ModBlockEntities() {

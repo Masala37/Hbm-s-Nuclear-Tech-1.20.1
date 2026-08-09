@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Fat Man assembly: igniter, four early explosive lenses, plutonium core.
  */
-public class NukeManBlockEntity extends BlockEntity {
+public class NukeManBlockEntity extends BlockEntity implements AssembledNuke {
     public static final int SLOT_IGNITER = 0;
     public static final int SLOT_LENS_1 = 1;
     public static final int SLOT_LENS_2 = 2;
@@ -54,6 +54,7 @@ public class NukeManBlockEntity extends BlockEntity {
         super(ModBlockEntities.NUKE_MAN.get(), pos, state);
     }
 
+    @Override
     public ItemStackHandler getItems() {
         return items;
     }
@@ -70,6 +71,7 @@ public class NukeManBlockEntity extends BlockEntity {
     /**
      * First empty slot that accepts this item, or -1.
      */
+    @Override
     public int findInsertSlot(Item item) {
         if (item == ModItems.MAN_IGNITER.get() && items.getStackInSlot(SLOT_IGNITER).isEmpty()) {
             return SLOT_IGNITER;
@@ -87,6 +89,7 @@ public class NukeManBlockEntity extends BlockEntity {
         return -1;
     }
 
+    @Override
     public boolean isReady() {
         for (int i = 0; i < SLOT_COUNT; i++) {
             ItemStack stack = items.getStackInSlot(i);
@@ -97,12 +100,14 @@ public class NukeManBlockEntity extends BlockEntity {
         return true;
     }
 
+    @Override
     public void clearSlots() {
         for (int i = 0; i < SLOT_COUNT; i++) {
             items.setStackInSlot(i, ItemStack.EMPTY);
         }
     }
 
+    @Override
     public Component statusMessage() {
         if (isReady()) {
             return Component.translatable("block.hbm.nuke_man.ready");
@@ -138,6 +143,7 @@ public class NukeManBlockEntity extends BlockEntity {
         missing.append(Component.translatable(item.getDescriptionId()).getString());
     }
 
+    @Override
     public void dropContents() {
         if (level == null) {
             return;
@@ -146,6 +152,7 @@ public class NukeManBlockEntity extends BlockEntity {
         clearSlots();
     }
 
+    @Override
     public ItemStack[] copyStacks() {
         ItemStack[] stacks = new ItemStack[SLOT_COUNT];
         for (int i = 0; i < SLOT_COUNT; i++) {

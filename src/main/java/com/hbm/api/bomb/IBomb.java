@@ -9,22 +9,28 @@ import net.minecraft.world.level.Level;
  */
 public interface IBomb {
     enum BombReturnCode {
-        UNDEFINED(false),
-        DETONATED(true),
-        TRIGGERED(true),
-        LAUNCHED(true),
-        ERROR_MISSING_COMPONENT(false),
-        ERROR_INCOMPATIBLE(false),
-        ERROR_NO_BOMB(false);
+        UNDEFINED(false, "bomb.undefined"),
+        DETONATED(true, "bomb.detonated"),
+        TRIGGERED(true, "bomb.triggered"),
+        LAUNCHED(true, "bomb.launched"),
+        ERROR_MISSING_COMPONENT(false, "bomb.missingComponent"),
+        ERROR_INCOMPATIBLE(false, "bomb.incompatible"),
+        ERROR_NO_BOMB(false, "bomb.nobomb");
 
         private final boolean success;
+        private final String messageKey;
 
-        BombReturnCode(boolean success) {
+        BombReturnCode(boolean success, String messageKey) {
             this.success = success;
+            this.messageKey = messageKey;
         }
 
         public boolean wasSuccessful() {
             return success;
+        }
+
+        public String getMessageKey() {
+            return messageKey;
         }
     }
 

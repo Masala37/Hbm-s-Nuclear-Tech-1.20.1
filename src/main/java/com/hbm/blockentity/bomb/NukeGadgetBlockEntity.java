@@ -20,15 +20,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Little Boy assembly inventory: shielding, target, bullet, propellant, igniter.
+ * The Gadget assembly: wiring, four early explosive lenses, core.
  */
-public class NukeBoyBlockEntity extends BlockEntity implements AssembledNuke {
-    public static final int SLOT_SHIELDING = 0;
-    public static final int SLOT_TARGET = 1;
-    public static final int SLOT_BULLET = 2;
-    public static final int SLOT_PROPELLANT = 3;
-    public static final int SLOT_IGNITER = 4;
-    public static final int SLOT_COUNT = 5;
+public class NukeGadgetBlockEntity extends BlockEntity implements AssembledNuke {
+    public static final int SLOT_WIRING = 0;
+    public static final int SLOT_LENS_1 = 1;
+    public static final int SLOT_LENS_2 = 2;
+    public static final int SLOT_LENS_3 = 3;
+    public static final int SLOT_LENS_4 = 4;
+    public static final int SLOT_CORE = 5;
+    public static final int SLOT_COUNT = 6;
 
     private final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override
@@ -49,8 +50,8 @@ public class NukeBoyBlockEntity extends BlockEntity implements AssembledNuke {
 
     private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> items);
 
-    public NukeBoyBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.NUKE_BOY.get(), pos, state);
+    public NukeGadgetBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.NUKE_GADGET.get(), pos, state);
     }
 
     @Override
@@ -60,39 +61,27 @@ public class NukeBoyBlockEntity extends BlockEntity implements AssembledNuke {
 
     public static Item requiredItem(int slot) {
         return switch (slot) {
-            case SLOT_SHIELDING -> ModItems.BOY_SHIELDING.get();
-            case SLOT_TARGET -> ModItems.BOY_TARGET.get();
-            case SLOT_BULLET -> ModItems.BOY_BULLET.get();
-            case SLOT_PROPELLANT -> ModItems.BOY_PROPELLANT.get();
-            case SLOT_IGNITER -> ModItems.BOY_IGNITER.get();
-            default -> throw new IllegalArgumentException("Invalid Little Boy slot: " + slot);
+            case SLOT_WIRING -> ModItems.GADGET_WIRING.get();
+            case SLOT_LENS_1, SLOT_LENS_2, SLOT_LENS_3, SLOT_LENS_4 -> ModItems.EARLY_EXPLOSIVE_LENSES.get();
+            case SLOT_CORE -> ModItems.GADGET_CORE.get();
+            default -> throw new IllegalArgumentException("Invalid Gadget slot: " + slot);
         };
     }
 
     @Override
     public int findInsertSlot(Item item) {
-        int slot = slotForItem(item);
-        if (slot >= 0 && items.getStackInSlot(slot).isEmpty()) {
-            return slot;
+        if (item == ModItems.GADGET_WIRING.get() && items.getStackInSlot(SLOT_WIRING).isEmpty()) {
+            return SLOT_WIRING;
         }
-        return -1;
-    }
-
-    public static int slotForItem(Item item) {
-        if (item == ModItems.BOY_SHIELDING.get()) {
-            return SLOT_SHIELDING;
+        if (item == ModItems.GADGET_CORE.get() && items.getStackInSlot(SLOT_CORE).isEmpty()) {
+            return SLOT_CORE;
         }
-        if (item == ModItems.BOY_TARGET.get()) {
-            return SLOT_TARGET;
-        }
-        if (item == ModItems.BOY_BULLET.get()) {
-            return SLOT_BULLET;
-        }
-        if (item == ModItems.BOY_PROPELLANT.get()) {
-            return SLOT_PROPELLANT;
-        }
-        if (item == ModItems.BOY_IGNITER.get()) {
-            return SLOT_IGNITER;
+        if (item == ModItems.EARLY_EXPLOSIVE_LENSES.get()) {
+            for (int slot = SLOT_LENS_1; slot <= SLOT_LENS_4; slot++) {
+                if (items.getStackInSlot(slot).isEmpty()) {
+                    return slot;
+                }
+            }
         }
         return -1;
     }
@@ -118,21 +107,39 @@ public class NukeBoyBlockEntity extends BlockEntity implements AssembledNuke {
     @Override
     public Component statusMessage() {
         if (isReady()) {
-            return Component.translatable("block.hbm.nuke_boy.ready");
+            return Component.translatable("block.hbm.nuke_gadget.ready");
         }
         StringBuilder missing = new StringBuilder();
-        for (int i = 0; i < SLOT_COUNT; i++) {
-            ItemStack stack = items.getStackInSlot(i);
-            if (stack.isEmpty() || !stack.is(requiredItem(i))) {
-                if (!missing.isEmpty()) {
-                    missing.append(", ");
-                }
-                missing.append(Component.translatable(requiredItem(i).getDescriptionId()).getString());
+        int missingLenses = 0;
+        for (int i = SLOT_LENS_1; i <= SLOT_LENS_4; i++) {
+            if (items.getStackInSlot(i).isEmpty()) {
+                missingLenses++;
             }
         }
-        return Component.translatable("block.hbm.nuke_boy.missing", missing.toString());
+        if (items.getStackInSlot(SLOT_WIRING).isEmpty()) {
+            append(missing, ModItems.GADGET_WIRING.get());
+        }
+        if (missingLenses > 0) {
+            if (!missing.isEmpty()) {
+                missing.append(", ");
+            }
+            missing.append(missingLenses).append("x ")
+                    .append(Component.translatable(ModItems.EARLY_EXPLOSIVE_LENSES.get().getDescriptionId()).getString());
+        }
+        if (items.getStackInSlot(SLOT_CORE).isEmpty()) {
+            append(missing, ModItems.GADGET_CORE.get());
+        }
+        return Component.translatable("block.hbm.nuke_gadget.missing", missing.toString());
     }
 
+    private static void append(StringBuilder missing, Item item) {
+        if (!missing.isEmpty()) {
+            missing.append(", ");
+        }
+        missing.append(Component.translatable(item.getDescriptionId()).getString());
+    }
+
+    @Override
     public void dropContents() {
         if (level == null) {
             return;

@@ -5,9 +5,13 @@ import com.hbm.config.BombConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.registry.ModEntities;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -23,6 +27,7 @@ public class EntityNukeExplosionMK5 extends Entity {
     public int length;
 
     private IExplosionRay explosion;
+    private boolean flashed;
 
     public EntityNukeExplosionMK5(EntityType<? extends EntityNukeExplosionMK5> type, Level level) {
         super(type, level);
@@ -49,6 +54,16 @@ public class EntityNukeExplosionMK5 extends Entity {
         if (strength == 0) {
             discard();
             return;
+        }
+
+        if (!flashed && level() instanceof ServerLevel server) {
+            flashed = true;
+            float scale = Math.max(2.0F, length / 8.0F);
+            server.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY(), getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            server.sendParticles(ParticleTypes.FLASH, getX(), getY() + 1.0D, getZ(), 8, scale * 0.25D, scale * 0.25D, scale * 0.25D, 0.0D);
+            server.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY() + 2.0D, getZ(), 40, scale, scale * 0.5D, scale, 0.05D);
+            server.playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
+                    16.0F, 0.5F + random.nextFloat() * 0.2F);
         }
 
         ExplosionNukeGeneric.dealDamage(level(), getX(), getY(), getZ(), this.length * 2.0D);
@@ -85,6 +100,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         this.strength = tag.getInt("strength");
         this.speed = tag.getInt("speed");
         this.length = tag.getInt("length");
+        this.flashed = tag.getBoolean("flashed");
     }
 
     @Override
@@ -92,6 +108,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         tag.putInt("strength", strength);
         tag.putInt("speed", speed);
         tag.putInt("length", length);
+        tag.putBoolean("flashed", flashed);
     }
 
     @Override

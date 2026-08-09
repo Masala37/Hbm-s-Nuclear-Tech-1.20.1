@@ -113,6 +113,15 @@ public class BombBlock extends Block implements IBomb {
     }
 
     @Override
+    public BombReturnCode explode(Level level, BlockPos pos) {
+        if (level.isClientSide) {
+            return BombReturnCode.UNDEFINED;
+        }
+        prime(level, pos, null);
+        return BombReturnCode.DETONATED;
+    }
+
+    @Override
     public void explodeEntity(Level level, double x, double y, double z, PrimedBombEntity entity) {
         ExplosionNT explosion = new ExplosionNT(level, entity, x, y, z, power);
         if (causesFire) {
