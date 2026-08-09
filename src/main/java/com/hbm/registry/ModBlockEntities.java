@@ -5,6 +5,7 @@ import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.blockentity.bomb.NukeManBlockEntity;
 import com.hbm.blockentity.bomb.NukeMikeBlockEntity;
 import com.hbm.blockentity.machine.CombustionGeneratorBlockEntity;
+import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
@@ -46,6 +47,12 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("combustion_generator", () -> BlockEntityType.Builder.of(
                     CombustionGeneratorBlockEntity::new,
                     ModBlocks.COMBUSTION_GENERATOR.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<DieselGeneratorBlockEntity>> DIESEL_GENERATOR =
+            BLOCK_ENTITIES.register("diesel_generator", () -> BlockEntityType.Builder.of(
+                    DieselGeneratorBlockEntity::new,
+                    ModBlocks.DIESEL_GENERATOR.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<ElectricFurnaceBlockEntity>> ELECTRIC_FURNACE =

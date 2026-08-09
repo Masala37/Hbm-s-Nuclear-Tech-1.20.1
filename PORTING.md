@@ -19,6 +19,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Fluids: coolant/steam ladder, oil products, acids/solvent, petroleum + buckets; placeable liquid blocks for liquids
 - [x] First machine: steel fluid barrel (16 buckets, Forge fluid capability, bucket interact)
 - [x] Energy scaffold: machine battery (1M FE) + combustion generator (100 FE/t, solid fuels, hopper-capable)
+- [x] Diesel generator (16k mB tank, diesel/gasoline/light oil → FE, redstone-off)
 - [x] Red power cable (pull/push FE relay) + electric furnace (20 FE/t smelting)
 - [x] Bombs/explosions: ExplosionNT lite + primed bomb entity; dynamite/TNT/semtex/C4
 - [x] Little Boy + MK5 batched nuke dig (no fallout/radiation/mushroom yet)
@@ -27,7 +28,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Mushroom cloud (Torex particles) + fallout rain (waste earth)
 - [x] Ivy Mike (dual yield: primary manRadius / full mikeRadius 250)
 - [ ] Mines, charges, more nukes; full Torex cloudlets / sellafield / radiation
-- [ ] Diesel generator and more cable tiers
+- [ ] More cable tiers (and GUI for diesel / fluid machines)
 - [ ] Broader fluid roster and machine fluid I/O / pipes
 - [ ] RBMK simulation: fuel rods, control rods, neutron flux, heat, meltdown
 

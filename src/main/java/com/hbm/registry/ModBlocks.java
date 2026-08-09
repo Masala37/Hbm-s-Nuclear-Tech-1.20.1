@@ -9,6 +9,7 @@ import com.hbm.blocks.bomb.NukeManBlock;
 import com.hbm.blocks.bomb.NukeMikeBlock;
 import com.hbm.blocks.generic.WasteEarthBlock;
 import com.hbm.blocks.machine.CombustionGeneratorBlock;
+import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
 import com.hbm.blocks.machine.MachineBatteryBlock;
@@ -58,6 +59,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> FLUID_BARREL = BLOCKS.register("fluid_barrel", FluidBarrelBlock::new);
     public static final RegistryObject<Block> MACHINE_BATTERY = BLOCKS.register("machine_battery", MachineBatteryBlock::new);
     public static final RegistryObject<Block> COMBUSTION_GENERATOR = BLOCKS.register("combustion_generator", CombustionGeneratorBlock::new);
+    public static final RegistryObject<Block> DIESEL_GENERATOR = BLOCKS.register("diesel_generator", DieselGeneratorBlock::new);
     public static final RegistryObject<Block> ELECTRIC_FURNACE = BLOCKS.register("electric_furnace", ElectricFurnaceBlock::new);
     public static final RegistryObject<Block> RED_CABLE = BLOCKS.register("red_cable", RedCableBlock::new);
 

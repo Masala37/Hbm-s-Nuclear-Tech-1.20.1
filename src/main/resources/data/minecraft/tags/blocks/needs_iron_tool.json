@@ -28,6 +28,7 @@
     "hbm:fluid_barrel",
     "hbm:machine_battery",
     "hbm:combustion_generator",
+    "hbm:diesel_generator",
     "hbm:red_cable",
     "hbm:electric_furnace",
     "hbm:nuke_boy",

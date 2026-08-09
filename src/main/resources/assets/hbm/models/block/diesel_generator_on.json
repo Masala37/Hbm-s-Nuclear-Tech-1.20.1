@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "hbm:block/diesel_generator_top",
+    "front": "hbm:block/diesel_generator_front_on",
+    "side": "hbm:block/diesel_generator_side"
+  }
+}

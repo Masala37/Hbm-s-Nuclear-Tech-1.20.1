@@ -69,6 +69,7 @@ public final class ModCreativeTabs {
                     .icon(() -> ModItems.RBMK_BLANK.get().getDefaultInstance())
                     .displayItems((params, output) -> {
                         accept(output,
+                                ModItems.DIESEL_GENERATOR,
                                 ModItems.COMBUSTION_GENERATOR,
                                 ModItems.MACHINE_BATTERY,
                                 ModItems.ELECTRIC_FURNACE,
