@@ -1,5 +1,20 @@
 {
   "variants": {
-    "": { "model": "hbm:block/solvent" }
+    "level=0": { "model": "hbm:block/solvent" },
+    "level=1": { "model": "hbm:block/solvent" },
+    "level=2": { "model": "hbm:block/solvent" },
+    "level=3": { "model": "hbm:block/solvent" },
+    "level=4": { "model": "hbm:block/solvent" },
+    "level=5": { "model": "hbm:block/solvent" },
+    "level=6": { "model": "hbm:block/solvent" },
+    "level=7": { "model": "hbm:block/solvent" },
+    "level=8": { "model": "hbm:block/solvent" },
+    "level=9": { "model": "hbm:block/solvent" },
+    "level=10": { "model": "hbm:block/solvent" },
+    "level=11": { "model": "hbm:block/solvent" },
+    "level=12": { "model": "hbm:block/solvent" },
+    "level=13": { "model": "hbm:block/solvent" },
+    "level=14": { "model": "hbm:block/solvent" },
+    "level=15": { "model": "hbm:block/solvent" }
   }
 }

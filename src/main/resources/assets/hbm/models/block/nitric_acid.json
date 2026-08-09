@@ -1,5 +1,7 @@
 {
+  "parent": "minecraft:block/cube_all",
   "textures": {
+    "all": "hbm:fluid/nitric_acid_still",
     "particle": "hbm:fluid/nitric_acid_still"
   }
 }

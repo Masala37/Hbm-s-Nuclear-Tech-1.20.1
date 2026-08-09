@@ -1,5 +1,20 @@
 {
   "variants": {
-    "": { "model": "hbm:block/heavyoil" }
+    "level=0": { "model": "hbm:block/heavyoil" },
+    "level=1": { "model": "hbm:block/heavyoil" },
+    "level=2": { "model": "hbm:block/heavyoil" },
+    "level=3": { "model": "hbm:block/heavyoil" },
+    "level=4": { "model": "hbm:block/heavyoil" },
+    "level=5": { "model": "hbm:block/heavyoil" },
+    "level=6": { "model": "hbm:block/heavyoil" },
+    "level=7": { "model": "hbm:block/heavyoil" },
+    "level=8": { "model": "hbm:block/heavyoil" },
+    "level=9": { "model": "hbm:block/heavyoil" },
+    "level=10": { "model": "hbm:block/heavyoil" },
+    "level=11": { "model": "hbm:block/heavyoil" },
+    "level=12": { "model": "hbm:block/heavyoil" },
+    "level=13": { "model": "hbm:block/heavyoil" },
+    "level=14": { "model": "hbm:block/heavyoil" },
+    "level=15": { "model": "hbm:block/heavyoil" }
   }
 }

@@ -1,5 +1,7 @@
 {
+  "parent": "minecraft:block/cube_all",
   "textures": {
+    "all": "hbm:fluid/lightoil_still",
     "particle": "hbm:fluid/lightoil_still"
   }
 }

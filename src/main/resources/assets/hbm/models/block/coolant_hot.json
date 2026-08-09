@@ -1,5 +1,7 @@
 {
+  "parent": "minecraft:block/cube_all",
   "textures": {
+    "all": "hbm:fluid/coolant_hot_still",
     "particle": "hbm:fluid/coolant_hot_still"
   }
 }

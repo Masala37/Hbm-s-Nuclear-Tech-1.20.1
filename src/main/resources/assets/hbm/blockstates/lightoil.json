@@ -1,5 +1,20 @@
 {
   "variants": {
-    "": { "model": "hbm:block/lightoil" }
+    "level=0": { "model": "hbm:block/lightoil" },
+    "level=1": { "model": "hbm:block/lightoil" },
+    "level=2": { "model": "hbm:block/lightoil" },
+    "level=3": { "model": "hbm:block/lightoil" },
+    "level=4": { "model": "hbm:block/lightoil" },
+    "level=5": { "model": "hbm:block/lightoil" },
+    "level=6": { "model": "hbm:block/lightoil" },
+    "level=7": { "model": "hbm:block/lightoil" },
+    "level=8": { "model": "hbm:block/lightoil" },
+    "level=9": { "model": "hbm:block/lightoil" },
+    "level=10": { "model": "hbm:block/lightoil" },
+    "level=11": { "model": "hbm:block/lightoil" },
+    "level=12": { "model": "hbm:block/lightoil" },
+    "level=13": { "model": "hbm:block/lightoil" },
+    "level=14": { "model": "hbm:block/lightoil" },
+    "level=15": { "model": "hbm:block/lightoil" }
   }
 }
