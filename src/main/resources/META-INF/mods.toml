@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
-issueTrackerURL="https://github.com/Masala37/Hbm-s-Nuclear-Tech-GIT/issues"
+issueTrackerURL="https://github.com/Masala37/Hbm-s-Nuclear-Tech-1.20.1/issues"
 
 [[mods]]
 modId="${mod_id}"
