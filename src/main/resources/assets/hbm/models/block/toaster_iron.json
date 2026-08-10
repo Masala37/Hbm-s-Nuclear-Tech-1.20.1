@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/toaster_iron.obj",
+  "textures": { "particle": "hbm:block/toaster_iron" }
+}

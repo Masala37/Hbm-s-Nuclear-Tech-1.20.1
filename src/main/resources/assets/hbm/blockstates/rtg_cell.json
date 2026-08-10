@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/rtg_cell" },
+    "facing=south": { "model": "hbm:block/rtg_cell", "y": 180 },
+    "facing=west":  { "model": "hbm:block/rtg_cell", "y": 270 },
+    "facing=east":  { "model": "hbm:block/rtg_cell", "y": 90 }
+  }
+}

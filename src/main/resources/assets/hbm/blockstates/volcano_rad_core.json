@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "mode=static_active": { "model": "hbm:block/volcano_rad_core" },
+    "mode=static_extinguishing": { "model": "hbm:block/volcano_rad_core" },
+    "mode=growing_active": { "model": "hbm:block/volcano_rad_core" },
+    "mode=growing_extinguishing": { "model": "hbm:block/volcano_rad_core" },
+    "mode=smoldering": { "model": "hbm:block/volcano_rad_core" }
+  }
+}

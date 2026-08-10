@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "waterlogged=false,facing=north": { "model": "hbm:block/ladder_copper" },
+    "waterlogged=false,facing=east":  { "model": "hbm:block/ladder_copper", "y": 90 },
+    "waterlogged=false,facing=south": { "model": "hbm:block/ladder_copper", "y": 180 },
+    "waterlogged=false,facing=west":  { "model": "hbm:block/ladder_copper", "y": 270 },
+    "waterlogged=true,facing=north": { "model": "hbm:block/ladder_copper" },
+    "waterlogged=true,facing=east":  { "model": "hbm:block/ladder_copper", "y": 90 },
+    "waterlogged=true,facing=south": { "model": "hbm:block/ladder_copper", "y": 180 },
+    "waterlogged=true,facing=west":  { "model": "hbm:block/ladder_copper", "y": 270 }
+  }
+}

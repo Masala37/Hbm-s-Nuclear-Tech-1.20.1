@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
  * Thin networking scaffold. Legacy threaded custom codecs are not ported yet.
  */
 public final class ModMessages {
-    private static final String PROTOCOL = "1";
+    private static final String PROTOCOL = "3";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(RefStrings.MODID, "main"),
@@ -34,6 +34,30 @@ public final class ModMessages {
                 .encoder(PingPacket::encode)
                 .decoder(PingPacket::decode)
                 .consumerMainThread(PingPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(OpenBlockMenuPacket.class, nextId++)
+                .encoder(OpenBlockMenuPacket::encode)
+                .decoder(OpenBlockMenuPacket::decode)
+                .consumerMainThread(OpenBlockMenuPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(OpenMenuS2CPacket.class, nextId++)
+                .encoder(OpenMenuS2CPacket::encode)
+                .decoder(OpenMenuS2CPacket::decode)
+                .consumerMainThread(OpenMenuS2CPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(FstbmbButtonPacket.class, nextId++)
+                .encoder(FstbmbButtonPacket::encode)
+                .decoder(FstbmbButtonPacket::decode)
+                .consumerMainThread(FstbmbButtonPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(LivingPropsSyncPacket.class, nextId++)
+                .encoder(LivingPropsSyncPacket::encode)
+                .decoder(LivingPropsSyncPacket::decode)
+                .consumerMainThread(LivingPropsSyncPacket::handle)
                 .add();
 
         HbmNuclearTechMod.LOGGER.info("Registered HBM network channel hbm:main (protocol {})", PROTOCOL);

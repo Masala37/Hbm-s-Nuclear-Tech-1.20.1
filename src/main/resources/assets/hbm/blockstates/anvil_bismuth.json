@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/anvil_bismuth" },
+    "facing=south": { "model": "hbm:block/anvil_bismuth", "y": 180 },
+    "facing=west":  { "model": "hbm:block/anvil_bismuth", "y": 270 },
+    "facing=east":  { "model": "hbm:block/anvil_bismuth", "y": 90 }
+  }
+}

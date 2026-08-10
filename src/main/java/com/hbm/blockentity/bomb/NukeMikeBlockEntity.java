@@ -1,6 +1,7 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.config.BombConfig;
+import com.hbm.inventory.menu.NukeMikeMenu;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Ivy Mike: primary (4 lenses + man core) or full secondary (mike core/deut/cooling).
  */
-public class NukeMikeBlockEntity extends BlockEntity implements AssembledNuke {
+public class NukeMikeBlockEntity extends BlockEntity implements AssembledNuke, MenuProvider {
     public static final int SLOT_LENS_1 = 0;
     public static final int SLOT_LENS_2 = 1;
     public static final int SLOT_LENS_3 = 2;
@@ -55,6 +60,17 @@ public class NukeMikeBlockEntity extends BlockEntity implements AssembledNuke {
 
     public NukeMikeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.NUKE_MIKE.get(), pos, state);
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.nuke_mike");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new NukeMikeMenu(id, inv, this);
     }
 
     @Override

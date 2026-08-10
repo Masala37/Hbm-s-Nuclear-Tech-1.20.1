@@ -18,6 +18,7 @@ public final class ModTags {
         public static final TagKey<Block> ORES_ALUMINIUM = mod("ores/aluminium");
         public static final TagKey<Block> ORES_LEAD = mod("ores/lead");
         public static final TagKey<Block> ORES_BERYLLIUM = mod("ores/beryllium");
+        public static final TagKey<Block> ORES_COBALT = mod("ores/cobalt");
 
         public static final TagKey<Block> STORAGE_BLOCKS_URANIUM = mod("storage_blocks/uranium");
         public static final TagKey<Block> STORAGE_BLOCKS_TITANIUM = mod("storage_blocks/titanium");
@@ -26,6 +27,10 @@ public final class ModTags {
         public static final TagKey<Block> STORAGE_BLOCKS_LEAD = mod("storage_blocks/lead");
         public static final TagKey<Block> STORAGE_BLOCKS_BERYLLIUM = mod("storage_blocks/beryllium");
         public static final TagKey<Block> STORAGE_BLOCKS_STEEL = mod("storage_blocks/steel");
+        public static final TagKey<Block> STORAGE_BLOCKS_COBALT = mod("storage_blocks/cobalt");
+        public static final TagKey<Block> STORAGE_BLOCKS_LITHIUM = mod("storage_blocks/lithium");
+        public static final TagKey<Block> STORAGE_BLOCKS_GRAPHITE = mod("storage_blocks/graphite");
+        public static final TagKey<Block> STORAGE_BLOCKS_DESH = mod("storage_blocks/desh");
 
         public static final TagKey<Block> RBMK_COLUMNS = mod("rbmk_columns");
         public static final TagKey<Block> RBMK_CASING = mod("rbmk_casing");
@@ -52,6 +57,7 @@ public final class ModTags {
         public static final TagKey<Item> ORES_ALUMINIUM = mod("ores/aluminium");
         public static final TagKey<Item> ORES_LEAD = mod("ores/lead");
         public static final TagKey<Item> ORES_BERYLLIUM = mod("ores/beryllium");
+        public static final TagKey<Item> ORES_COBALT = mod("ores/cobalt");
 
         public static final TagKey<Item> STORAGE_BLOCKS_URANIUM = mod("storage_blocks/uranium");
         public static final TagKey<Item> STORAGE_BLOCKS_TITANIUM = mod("storage_blocks/titanium");
@@ -60,6 +66,10 @@ public final class ModTags {
         public static final TagKey<Item> STORAGE_BLOCKS_LEAD = mod("storage_blocks/lead");
         public static final TagKey<Item> STORAGE_BLOCKS_BERYLLIUM = mod("storage_blocks/beryllium");
         public static final TagKey<Item> STORAGE_BLOCKS_STEEL = mod("storage_blocks/steel");
+        public static final TagKey<Item> STORAGE_BLOCKS_COBALT = mod("storage_blocks/cobalt");
+        public static final TagKey<Item> STORAGE_BLOCKS_LITHIUM = mod("storage_blocks/lithium");
+        public static final TagKey<Item> STORAGE_BLOCKS_GRAPHITE = mod("storage_blocks/graphite");
+        public static final TagKey<Item> STORAGE_BLOCKS_DESH = mod("storage_blocks/desh");
 
         public static final TagKey<Item> INGOTS_URANIUM = mod("ingots/uranium");
         public static final TagKey<Item> INGOTS_TITANIUM = mod("ingots/titanium");
@@ -68,6 +78,10 @@ public final class ModTags {
         public static final TagKey<Item> INGOTS_LEAD = mod("ingots/lead");
         public static final TagKey<Item> INGOTS_BERYLLIUM = mod("ingots/beryllium");
         public static final TagKey<Item> INGOTS_STEEL = mod("ingots/steel");
+        public static final TagKey<Item> INGOTS_COBALT = mod("ingots/cobalt");
+        public static final TagKey<Item> INGOTS_GRAPHITE = mod("ingots/graphite");
+        public static final TagKey<Item> INGOTS_DESH = mod("ingots/desh");
+        public static final TagKey<Item> INGOTS_LITHIUM = mod("ingots/lithium");
 
         public static final TagKey<Item> RBMK_COLUMNS = mod("rbmk_columns");
         public static final TagKey<Item> RBMK_CASING = mod("rbmk_casing");

@@ -1,0 +1,11 @@
+{
+  "multipart": [
+    { "apply": { "model": "hbm:block/det_cord_core" } },
+    { "when": { "east": true },  "apply": { "model": "hbm:block/det_cord_posx" } },
+    { "when": { "west": true },  "apply": { "model": "hbm:block/det_cord_negx" } },
+    { "when": { "up": true },    "apply": { "model": "hbm:block/det_cord_posy" } },
+    { "when": { "down": true },  "apply": { "model": "hbm:block/det_cord_negy" } },
+    { "when": { "north": true }, "apply": { "model": "hbm:block/det_cord_posz" } },
+    { "when": { "south": true }, "apply": { "model": "hbm:block/det_cord_negz" } }
+  ]
+}

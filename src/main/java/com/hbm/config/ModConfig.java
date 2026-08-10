@@ -15,6 +15,8 @@ public final class ModConfig {
         GeneralConfig.build(builder);
         RBMKConfig.build(builder);
         BombConfig.build(builder);
+        WorldConfig.build(builder);
+        RadiationConfig.build(builder);
         COMMON_SPEC = builder.build();
     }
 

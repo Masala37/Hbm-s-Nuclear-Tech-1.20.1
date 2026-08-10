@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.energy.IEnergyStorage;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Shared helpers for moving FE between neighboring energy handlers.
@@ -46,11 +47,20 @@ public final class EnergyNetworkHelper {
     }
 
     public static void pullFromNeighbors(Level level, BlockPos pos, IEnergyStorage sink, int maxTransfer) {
+        pullFromNeighborsExcept(level, pos, sink, maxTransfer, null);
+    }
+
+    /** Pull FE from all neighbors except {@code exclude} (nullable = no exclusion). */
+    public static void pullFromNeighborsExcept(Level level, BlockPos pos, IEnergyStorage sink, int maxTransfer,
+                                               @Nullable Direction exclude) {
         if (sink.getEnergyStored() >= sink.getMaxEnergyStored() || maxTransfer <= 0) {
             return;
         }
 
         for (Direction direction : Direction.values()) {
+            if (direction == exclude) {
+                continue;
+            }
             int room = sink.getMaxEnergyStored() - sink.getEnergyStored();
             if (room <= 0) {
                 return;
@@ -76,5 +86,30 @@ public final class EnergyNetworkHelper {
                 }
             });
         }
+    }
+
+    /** Push FE toward a single neighbor. */
+    public static void pushToNeighbor(Level level, BlockPos pos, IEnergyStorage source, int maxTransfer,
+                                      Direction direction) {
+        if (source.getEnergyStored() <= 0 || maxTransfer <= 0) {
+            return;
+        }
+        BlockEntity neighbor = level.getBlockEntity(pos.relative(direction));
+        if (neighbor == null) {
+            return;
+        }
+        neighbor.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(target -> {
+            if (!target.canReceive()) {
+                return;
+            }
+            int offer = source.extractEnergy(maxTransfer, true);
+            if (offer <= 0) {
+                return;
+            }
+            int accepted = target.receiveEnergy(offer, false);
+            if (accepted > 0) {
+                source.extractEnergy(accepted, false);
+            }
+        });
     }
 }

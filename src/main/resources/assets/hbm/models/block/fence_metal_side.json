@@ -1,0 +1,17 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "hbm:block/fence_metal",
+    "pane": "hbm:block/fence_metal"
+  },
+  "elements": [
+    {
+      "from": [7.99, 0, 0],
+      "to": [8.01, 16, 8],
+      "faces": {
+        "east": { "uv": [0, 0, 16, 16], "texture": "#pane" },
+        "west": { "uv": [16, 0, 0, 16], "texture": "#pane" }
+      }
+    }
+  ]
+}

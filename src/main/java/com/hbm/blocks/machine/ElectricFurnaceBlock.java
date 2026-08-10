@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -28,7 +28,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class ElectricFurnaceBlock extends BaseEntityBlock {
@@ -81,13 +80,18 @@ public class ElectricFurnaceBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
+        if (!(player instanceof ServerPlayer sp)) {
+            return InteractionResult.PASS;
+        }
 
         BlockEntity be = level.getBlockEntity(pos);
-        if (!level.isClientSide && player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
-            NetworkHooks.openScreen(sp, provider, pos);
-            return InteractionResult.CONSUME;
+        if (!(be instanceof ElectricFurnaceBlockEntity)) {
+            be = new ElectricFurnaceBlockEntity(pos, state);
+            level.setBlockEntity(be);
         }
-        return InteractionResult.PASS;
+
+        HbmMenuHelper.open(sp, be);
+        return InteractionResult.CONSUME;
     }
 
     @Override

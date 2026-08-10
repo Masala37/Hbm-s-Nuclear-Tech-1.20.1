@@ -1,13 +1,13 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -28,7 +28,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class DieselGeneratorBlock extends BaseEntityBlock {
@@ -81,12 +80,21 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-
-        BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof DieselGeneratorBlockEntity generator)) {
+        if (!(player instanceof ServerPlayer sp)) {
             return InteractionResult.PASS;
         }
 
+        BlockEntity be = level.getBlockEntity(pos);
+        DieselGeneratorBlockEntity generator;
+        if (be instanceof DieselGeneratorBlockEntity existing) {
+            generator = existing;
+        } else {
+            generator = new DieselGeneratorBlockEntity(pos, state);
+            level.setBlockEntity(generator);
+            be = generator;
+        }
+
+        // Bucket fill/empty first; otherwise open GUI (same as battery path).
         boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
         if (holdingFluidItem && FluidUtil.interactWithFluidHandler(player, hand, generator.getFluidHandler())) {
             generator.setChanged();
@@ -94,10 +102,7 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if (player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
-            NetworkHooks.openScreen(sp, provider, pos);
-            return InteractionResult.CONSUME;
-        }
-        return InteractionResult.PASS;
+        HbmMenuHelper.open(sp, be);
+        return InteractionResult.CONSUME;
     }
 }

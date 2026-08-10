@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "all": "#all", "particle": "#all" },
+  "elements": [
+    { "from": [3, 0, 3], "to": [13, 16, 13], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [2, 1, 4], "to": [3, 15, 12], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [13, 1, 4], "to": [14, 15, 12], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [4, 1, 2], "to": [12, 15, 3], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [4, 1, 13], "to": [12, 15, 14], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } }
+  ]
+}

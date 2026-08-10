@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGeneratorMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(RefStrings.MODID, "textures/gui/GUIDiesel.png");
+            new ResourceLocation(RefStrings.MODID, "textures/gui/gui_diesel.png");
 
     public DieselGeneratorScreen(DieselGeneratorMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);

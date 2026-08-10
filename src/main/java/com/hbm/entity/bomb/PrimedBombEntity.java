@@ -32,6 +32,7 @@ public class PrimedBombEntity extends Entity {
 
     @Nullable
     private LivingEntity owner;
+    private boolean detonateOnCollision;
 
     public PrimedBombEntity(EntityType<? extends PrimedBombEntity> type, Level level) {
         super(type, level);
@@ -49,6 +50,14 @@ public class PrimedBombEntity extends Entity {
         this.xo = x;
         this.yo = y;
         this.zo = z;
+    }
+
+    public void setDetonateOnCollision(boolean detonateOnCollision) {
+        this.detonateOnCollision = detonateOnCollision;
+    }
+
+    public boolean detonateOnCollision() {
+        return detonateOnCollision;
     }
 
     @Override
@@ -92,7 +101,8 @@ public class PrimedBombEntity extends Entity {
 
         int fuse = getFuse() - 1;
         setFuse(fuse);
-        if (fuse <= 0) {
+        boolean collideDetonate = detonateOnCollision && (horizontalCollision || verticalCollision);
+        if (fuse <= 0 || collideDetonate) {
             discard();
             if (!level().isClientSide) {
                 explode();
@@ -118,12 +128,14 @@ public class PrimedBombEntity extends Entity {
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putShort("Fuse", (short) getFuse());
         tag.putInt("BombBlock", entityData.get(DATA_BLOCK_ID));
+        tag.putBoolean("DetonateOnCollision", detonateOnCollision);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         setFuse(tag.getShort("Fuse"));
         entityData.set(DATA_BLOCK_ID, tag.getInt("BombBlock"));
+        detonateOnCollision = tag.getBoolean("DetonateOnCollision");
     }
 
     @Override

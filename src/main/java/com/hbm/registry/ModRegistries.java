@@ -10,6 +10,7 @@ public final class ModRegistries {
     }
 
     public static void register(IEventBus modBus) {
+        ModBulkContent.bootstrap();
         ModBlocks.register(modBus);
         ModItems.register(modBus);
         ModCreativeTabs.register(modBus);
@@ -17,5 +18,7 @@ public final class ModRegistries {
         ModEntities.register(modBus);
         ModFluids.register(modBus);
         ModMenus.register(modBus);
+        ModSounds.register(modBus);
+        ModFeatures.register(modBus);
     }
 }

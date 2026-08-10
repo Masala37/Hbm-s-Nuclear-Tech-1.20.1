@@ -1,5 +1,6 @@
 package com.hbm.blockentity.bomb;
 
+import com.hbm.inventory.menu.NukeGadgetMenu;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -7,6 +8,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The Gadget assembly: wiring, four early explosive lenses, core.
  */
-public class NukeGadgetBlockEntity extends BlockEntity implements AssembledNuke {
+public class NukeGadgetBlockEntity extends BlockEntity implements AssembledNuke, MenuProvider {
     public static final int SLOT_WIRING = 0;
     public static final int SLOT_LENS_1 = 1;
     public static final int SLOT_LENS_2 = 2;
@@ -52,6 +57,17 @@ public class NukeGadgetBlockEntity extends BlockEntity implements AssembledNuke 
 
     public NukeGadgetBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.NUKE_GADGET.get(), pos, state);
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.nuke_gadget");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new NukeGadgetMenu(id, inv, this);
     }
 
     @Override

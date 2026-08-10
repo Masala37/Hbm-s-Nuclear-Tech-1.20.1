@@ -1,0 +1,38 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "hbm:block/fence_metal",
+    "pane": "hbm:block/fence_metal",
+    "post": "hbm:block/fence_metal_post"
+  },
+  "elements": [
+    {
+      "from": [6, 0, 6],
+      "to": [10, 16, 10],
+      "faces": {
+        "north": { "uv": [6, 0, 10, 16], "texture": "#post" },
+        "east":  { "uv": [6, 0, 10, 16], "texture": "#post" },
+        "south": { "uv": [6, 0, 10, 16], "texture": "#post" },
+        "west":  { "uv": [6, 0, 10, 16], "texture": "#post" },
+        "up":    { "uv": [6, 6, 10, 10], "texture": "#post" },
+        "down":  { "uv": [6, 6, 10, 10], "texture": "#post" }
+      }
+    },
+    {
+      "from": [7.99, 0, 0],
+      "to": [8.01, 16, 6],
+      "faces": {
+        "east": { "uv": [0, 0, 16, 16], "texture": "#pane" },
+        "west": { "uv": [16, 0, 0, 16], "texture": "#pane" }
+      }
+    },
+    {
+      "from": [7.99, 0, 10],
+      "to": [8.01, 16, 16],
+      "faces": {
+        "east": { "uv": [0, 0, 16, 16], "texture": "#pane" },
+        "west": { "uv": [16, 0, 0, 16], "texture": "#pane" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "weapon.fstbmb_start": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/fstbmb_start", "stream": false }]
+  },
+  "weapon.fstbmb_ping": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/fstbmb_ping", "stream": false }]
+  },
+  "item.tech_boop": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:item/tech_boop", "stream": false }]
+  },
+  "tool.tech_bleep": {
+    "category": "player",
+    "sounds": [{ "name": "hbm:tool/techBleep", "stream": false }]
+  },
+  "weapon.spark_shoot": {
+    "category": "block",
+    "sounds": [
+      { "name": "hbm:weapon/spark_shoot1", "stream": false },
+      { "name": "hbm:weapon/spark_shoot2", "stream": false },
+      { "name": "hbm:weapon/spark_shoot3", "stream": false }
+    ]
+  },
+  "weapon.rocket_flame": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/rocket_flame", "stream": false }]
+  },
+  "weapon.muke_explosion": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/muke_explosion", "stream": false }]
+  },
+  "weapon.nuclear_explosion": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/nuclear_explosion", "stream": true }]
+  },
+  "entity.bomb_whistle": {
+    "category": "hostile",
+    "sounds": [{ "name": "hbm:entity/bombWhistle", "stream": false }]
+  },
+  "entity.bomber_loop": {
+    "category": "hostile",
+    "sounds": [{ "name": "hbm:entity/bomber1", "stream": true }]
+  },
+  "entity.bomber_small_loop": {
+    "category": "hostile",
+    "sounds": [{ "name": "hbm:entity/bomber2", "stream": true }]
+  }
+}

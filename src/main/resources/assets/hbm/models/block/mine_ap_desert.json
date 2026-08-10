@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/mine_ap_desert.obj",
+  "textures": { "particle": "hbm:block/bombs/mine_ap_desert" }
+}

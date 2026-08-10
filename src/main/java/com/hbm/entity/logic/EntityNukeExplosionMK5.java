@@ -28,6 +28,7 @@ public class EntityNukeExplosionMK5 extends Entity {
     public int speed;
     public int length;
     public boolean fallout = true;
+    private int falloutAdd;
 
     private double blastX;
     private double blastY;
@@ -97,17 +98,19 @@ public class EntityNukeExplosionMK5 extends Entity {
         }
 
         if (!explosion.isComplete()) {
-            // Floor the budget so older configs with mk5BlastTime=50 still dig promptly.
-            int budget = Math.max(BombConfig.mk5.get(), 150);
+            // Match config budget directly (legacy mk5BlastTime default 50).
+            int budget = Math.max(1, BombConfig.mk5.get());
             explosion.cacheChunksTick(budget);
             explosion.destructionTick(budget);
         } else {
             if (fallout && BombConfig.falloutRange.get() > 0) {
                 EntityFalloutRain rain = new EntityFalloutRain(level());
                 rain.setPos(getX(), getY(), getZ());
-                int scale = (int) (this.length * 2.5D) * BombConfig.falloutRange.get() / 100;
+                int scale = (int) (this.length * 2.5D + falloutAdd) * BombConfig.falloutRange.get() / 100;
                 rain.setScale(Math.max(1, scale));
                 level().addFreshEntity(rain);
+                com.hbm.handler.radiation.ChunkRadiationManager.INSTANCE.incrementRad(
+                        level(), (int) getX(), (int) getY(), (int) getZ(), Math.max(10.0F, scale * 0.5F));
             }
             discard();
         }
@@ -128,6 +131,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         this.length = tag.getInt("length");
         this.flashed = tag.getBoolean("flashed");
         this.fallout = !tag.contains("fallout") || tag.getBoolean("fallout");
+        this.falloutAdd = tag.getInt("falloutAdd");
         if (tag.contains("blastX")) {
             this.blastX = tag.getDouble("blastX");
             this.blastY = tag.getDouble("blastY");
@@ -143,6 +147,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         tag.putInt("length", length);
         tag.putBoolean("flashed", flashed);
         tag.putBoolean("fallout", fallout);
+        tag.putInt("falloutAdd", falloutAdd);
         if (originSet) {
             tag.putDouble("blastX", blastX);
             tag.putDouble("blastY", blastY);
@@ -173,5 +178,10 @@ public class EntityNukeExplosionMK5 extends Entity {
         EntityNukeExplosionMK5 mk5 = statFac(level, r, x, y, z);
         mk5.fallout = false;
         return mk5;
+    }
+
+    public EntityNukeExplosionMK5 moreFallout(int fallout) {
+        this.falloutAdd = fallout;
+        return this;
     }
 }

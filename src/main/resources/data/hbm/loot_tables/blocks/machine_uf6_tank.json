@@ -1,0 +1,4 @@
+{
+  "type": "minecraft:block",
+  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:machine_uf6_tank" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+}

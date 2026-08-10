@@ -10,10 +10,11 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class ElectricFurnaceScreen extends AbstractContainerScreen<ElectricFurnaceMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(RefStrings.MODID, "textures/gui/GUIElectricFurnace.png");
+            new ResourceLocation(RefStrings.MODID, "textures/gui/gui_electric_furnace.png");
 
     public ElectricFurnaceScreen(ElectricFurnaceMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
+        this.imageWidth = 176;
         this.imageHeight = 186;
         this.inventoryLabelY = this.imageHeight - 94;
     }

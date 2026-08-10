@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/nuke_fleija" },
+    "facing=south": { "model": "hbm:block/nuke_fleija" },
+    "facing=west":  { "model": "hbm:block/nuke_fleija" },
+    "facing=east":  { "model": "hbm:block/nuke_fleija" }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=z": { "model": "hbm:block/scaffold_white" },
+    "axis=x": { "model": "hbm:block/scaffold_white", "y": 90 }
+  }
+}

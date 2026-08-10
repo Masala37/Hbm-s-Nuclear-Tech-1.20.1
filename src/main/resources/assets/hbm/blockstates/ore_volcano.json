@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "crater=false": { "model": "hbm:block/ore_volcano" },
+    "crater=true": { "model": "hbm:block/ore_volcano" }
+  }
+}

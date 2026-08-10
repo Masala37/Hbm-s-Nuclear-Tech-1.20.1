@@ -3,11 +3,17 @@ package com.hbm.blockentity.machine;
 import com.hbm.blocks.machine.CombustionGeneratorBlock;
 import com.hbm.energy.EnergyNetworkHelper;
 import com.hbm.energy.ModEnergyStorage;
+import com.hbm.inventory.menu.CombustionGeneratorMenu;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Single-block solid-fuel generator. Burns vanilla furnace fuels at 100 FE/t.
  */
-public class CombustionGeneratorBlockEntity extends BlockEntity {
+public class CombustionGeneratorBlockEntity extends BlockEntity implements MenuProvider {
     public static final int CAPACITY = 100_000;
     public static final int MAX_EXTRACT = 500;
     public static final int GENERATION_RATE = 100;
@@ -72,6 +78,17 @@ public class CombustionGeneratorBlockEntity extends BlockEntity {
 
     public boolean isBurning() {
         return burnTime > 0;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.hbm.combustion_generator");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+        return new CombustionGeneratorMenu(id, inv, this);
     }
 
     private void onChanged() {

@@ -1,7 +1,6 @@
 package com.hbm.inventory.menu;
 
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
-import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,7 +24,7 @@ public class ElectricFurnaceMenu extends AbstractContainerMenu {
     }
 
     public ElectricFurnaceMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, inv, (ElectricFurnaceBlockEntity) inv.player.level().getBlockEntity(buf.readBlockPos()),
+        this(id, inv, NukeMenuHelper.readBlockEntity(inv, buf, ElectricFurnaceBlockEntity.class, ElectricFurnaceBlockEntity::new),
                 new SimpleContainerData(4));
     }
 
@@ -33,7 +32,7 @@ public class ElectricFurnaceMenu extends AbstractContainerMenu {
         super(ModMenus.ELECTRIC_FURNACE.get(), id);
         this.be = be;
         this.data = data;
-        this.access = ContainerLevelAccess.create(be.getLevel(), be.getBlockPos());
+        this.access = ContainerLevelAccess.create(inv.player.level(), be.getBlockPos());
 
         this.addSlot(new SlotItemHandler(be.getItems(), 0, 56, 35));
         this.addSlot(new SlotItemHandler(be.getItems(), 1, 116, 35) {
@@ -104,7 +103,7 @@ public class ElectricFurnaceMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return stillValid(access, player, ModBlocks.ELECTRIC_FURNACE.get());
+        return MenuValidity.closeEnough(player, be);
     }
 
     @Override

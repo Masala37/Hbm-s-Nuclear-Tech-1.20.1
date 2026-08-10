@@ -72,6 +72,16 @@ public final class ModFluids {
     public static final FluidEntry PETROLEUM = registerGas(
             "petroleum", 0xFF7CB7C9, 300);
 
+    /** Volcano magma — block registered in {@link ModBlocks} as {@code volcanic_lava_block}. */
+    public static final FluidEntry VOLCANIC_LAVA = registerLinkedLava(
+            "volcanic_lava", 0xFFFF6A00, false);
+    /** Radioactive volcano magma — block registered as {@code rad_lava_block}. */
+    public static final FluidEntry RAD_LAVA = registerLinkedLava(
+            "rad_lava", 0xFF88FF44, true);
+    /** Hot toxic sludge — block registered as {@code toxic_block}. */
+    public static final FluidEntry TOXIC = registerLinkedToxic(
+            "toxic", 0xFF66FF33);
+
     private ModFluids() {
     }
 
@@ -81,6 +91,150 @@ public final class ModFluids {
 
     private static FluidEntry registerGas(String name, int tint, int temperature) {
         return register(name, tint, -1000, 200, temperature, true, false);
+    }
+
+    /**
+     * Lava fluids whose LiquidBlock lives under legacy block ids on {@link ModBlocks}.
+     */
+    private static FluidEntry registerLinkedLava(String name, int tint, boolean radioactive) {
+        ResourceLocation stillTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_still");
+        ResourceLocation flowingTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_flowing");
+
+        RegistryObject<FluidType> type = FLUID_TYPES.register(name, () -> new FluidType(
+                FluidType.Properties.create()
+                        .density(3000)
+                        .viscosity(6000)
+                        .temperature(1300)
+                        .canExtinguish(false)
+                        .supportsBoating(false)
+                        .motionScale(0.002333D)
+                        .fallDistanceModifier(0.0F)
+                        .sound(SoundActions.BUCKET_FILL, net.minecraft.sounds.SoundEvents.BUCKET_FILL_LAVA)
+                        .sound(SoundActions.BUCKET_EMPTY, net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_LAVA)
+                        .descriptionId("fluid.hbm." + name)) {
+            @Override
+            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                consumer.accept(new IClientFluidTypeExtensions() {
+                    @Override
+                    public ResourceLocation getStillTexture() {
+                        return stillTex;
+                    }
+
+                    @Override
+                    public ResourceLocation getFlowingTexture() {
+                        return flowingTex;
+                    }
+
+                    @Override
+                    public int getTintColor() {
+                        return tint;
+                    }
+                });
+            }
+        });
+
+        RegistryObject<FlowingFluid>[] sourceHolder = new RegistryObject[1];
+        RegistryObject<FlowingFluid>[] flowingHolder = new RegistryObject[1];
+        RegistryObject<Item>[] bucketHolder = new RegistryObject[1];
+
+        Supplier<ForgeFlowingFluid.Properties> props = () -> {
+            ForgeFlowingFluid.Properties properties = new ForgeFlowingFluid.Properties(
+                    type, sourceHolder[0], flowingHolder[0])
+                    .slopeFindDistance(2)
+                    .levelDecreasePerBlock(2)
+                    .tickRate(30)
+                    .block(() -> (LiquidBlock) (radioactive ? ModBlocks.RAD_LAVA.get() : ModBlocks.VOLCANIC_LAVA.get()));
+            if (bucketHolder[0] != null) {
+                properties.bucket(bucketHolder[0]);
+            }
+            return properties;
+        };
+
+        sourceHolder[0] = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(props.get()));
+        flowingHolder[0] = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(props.get()));
+        bucketHolder[0] = ModItems.ITEMS.register(name + "_bucket",
+                () -> new BucketItem(sourceHolder[0], new Item.Properties()
+                        .craftRemainder(Items.BUCKET)
+                        .stacksTo(1)));
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        RegistryObject<LiquidBlock> blockRef = (RegistryObject) (radioactive ? ModBlocks.RAD_LAVA : ModBlocks.VOLCANIC_LAVA);
+        FluidEntry entry = new FluidEntry(name, type, sourceHolder[0], flowingHolder[0], blockRef, bucketHolder[0]);
+        ENTRIES.add(entry);
+        return entry;
+    }
+
+    /**
+     * Toxic fluid whose LiquidBlock lives under legacy id {@code toxic_block} on {@link ModBlocks}.
+     * Bucket id is {@code bucket_toxic} (legacy).
+     */
+    private static FluidEntry registerLinkedToxic(String name, int tint) {
+        ResourceLocation stillTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_still");
+        ResourceLocation flowingTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_flowing");
+
+        RegistryObject<FluidType> type = FLUID_TYPES.register(name, () -> new FluidType(
+                FluidType.Properties.create()
+                        .density(2500)
+                        .viscosity(2000)
+                        .temperature(2773)
+                        .lightLevel(15)
+                        .canExtinguish(false)
+                        .supportsBoating(false)
+                        .motionScale(0.002333D)
+                        .fallDistanceModifier(0.0F)
+                        .sound(SoundActions.BUCKET_FILL, net.minecraft.sounds.SoundEvents.BUCKET_FILL_LAVA)
+                        .sound(SoundActions.BUCKET_EMPTY, net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_LAVA)
+                        .descriptionId("fluid.hbm." + name)) {
+            @Override
+            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                consumer.accept(new IClientFluidTypeExtensions() {
+                    @Override
+                    public ResourceLocation getStillTexture() {
+                        return stillTex;
+                    }
+
+                    @Override
+                    public ResourceLocation getFlowingTexture() {
+                        return flowingTex;
+                    }
+
+                    @Override
+                    public int getTintColor() {
+                        return tint;
+                    }
+                });
+            }
+        });
+
+        RegistryObject<FlowingFluid>[] sourceHolder = new RegistryObject[1];
+        RegistryObject<FlowingFluid>[] flowingHolder = new RegistryObject[1];
+        RegistryObject<Item>[] bucketHolder = new RegistryObject[1];
+
+        Supplier<ForgeFlowingFluid.Properties> props = () -> {
+            ForgeFlowingFluid.Properties properties = new ForgeFlowingFluid.Properties(
+                    type, sourceHolder[0], flowingHolder[0])
+                    .slopeFindDistance(2)
+                    .levelDecreasePerBlock(2)
+                    .tickRate(15)
+                    .block(() -> (LiquidBlock) ModBlocks.TOXIC_BLOCK.get());
+            if (bucketHolder[0] != null) {
+                properties.bucket(bucketHolder[0]);
+            }
+            return properties;
+        };
+
+        sourceHolder[0] = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(props.get()));
+        flowingHolder[0] = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(props.get()));
+        bucketHolder[0] = ModItems.ITEMS.register("bucket_toxic",
+                () -> new BucketItem(sourceHolder[0], new Item.Properties()
+                        .craftRemainder(Items.BUCKET)
+                        .stacksTo(1)));
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        RegistryObject<LiquidBlock> blockRef = (RegistryObject) ModBlocks.TOXIC_BLOCK;
+        FluidEntry entry = new FluidEntry(name, type, sourceHolder[0], flowingHolder[0], blockRef, bucketHolder[0]);
+        ENTRIES.add(entry);
+        return entry;
     }
 
     private static FluidEntry register(

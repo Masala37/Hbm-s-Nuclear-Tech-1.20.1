@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:block/block",
+  "hbm:block/cable_detector_ons": {
+    "all": "hbm:block/cable_detector_on",
+    "particle": "hbm:block/cable_detector_on"
+  },
+  "elements": [
+    {
+      "from": [5, 5, 0],
+      "to": [11, 11, 16],
+      "faces": {
+        "north": { "hbm:block/cable_detector_on": "#all" }, "south": { "hbm:block/cable_detector_on": "#all" },
+        "west": { "hbm:block/cable_detector_on": "#all" }, "east": { "hbm:block/cable_detector_on": "#all" },
+        "up": { "hbm:block/cable_detector_on": "#all" }, "down": { "hbm:block/cable_detector_on": "#all" }
+      }
+    },
+    {
+      "from": [0, 5, 5],
+      "to": [16, 11, 11],
+      "faces": {
+        "north": { "hbm:block/cable_detector_on": "#all" }, "south": { "hbm:block/cable_detector_on": "#all" },
+        "west": { "hbm:block/cable_detector_on": "#all" }, "east": { "hbm:block/cable_detector_on": "#all" },
+        "up": { "hbm:block/cable_detector_on": "#all" }, "down": { "hbm:block/cable_detector_on": "#all" }
+      }
+    },
+    {
+      "from": [5, 0, 5],
+      "to": [11, 16, 11],
+      "faces": {
+        "north": { "hbm:block/cable_detector_on": "#all" }, "south": { "hbm:block/cable_detector_on": "#all" },
+        "west": { "hbm:block/cable_detector_on": "#all" }, "east": { "hbm:block/cable_detector_on": "#all" },
+        "up": { "hbm:block/cable_detector_on": "#all" }, "down": { "hbm:block/cable_detector_on": "#all" }
+      }
+    }
+  ]
+}

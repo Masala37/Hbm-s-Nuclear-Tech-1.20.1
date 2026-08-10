@@ -10,6 +10,10 @@
     "#forge:ingots/red_copper",
     "#forge:ingots/lead",
     "#forge:ingots/beryllium",
-    "#forge:ingots/steel"
+    "#forge:ingots/steel",
+    "#forge:ingots/cobalt",
+    "#forge:ingots/graphite",
+    "#forge:ingots/desh",
+    "#forge:ingots/lithium"
   ]
 }

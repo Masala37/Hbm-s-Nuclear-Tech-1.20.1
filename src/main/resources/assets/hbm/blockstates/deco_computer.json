@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/deco_computer" },
+    "facing=south": { "model": "hbm:block/deco_computer", "y": 180 },
+    "facing=west":  { "model": "hbm:block/deco_computer", "y": 270 },
+    "facing=east":  { "model": "hbm:block/deco_computer", "y": 90 }
+  }
+}

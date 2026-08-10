@@ -1,7 +1,6 @@
 package com.hbm.inventory.menu;
 
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
-import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,7 +23,7 @@ public class MachineBatteryMenu extends AbstractContainerMenu {
     }
 
     public MachineBatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, inv, (MachineBatteryBlockEntity) inv.player.level().getBlockEntity(buf.readBlockPos()),
+        this(id, inv, NukeMenuHelper.readBlockEntity(inv, buf, MachineBatteryBlockEntity.class, MachineBatteryBlockEntity::new),
                 new SimpleContainerData(2));
     }
 
@@ -32,7 +31,7 @@ public class MachineBatteryMenu extends AbstractContainerMenu {
         super(ModMenus.MACHINE_BATTERY.get(), id);
         this.be = be;
         this.data = data;
-        this.access = ContainerLevelAccess.create(be.getLevel(), be.getBlockPos());
+        this.access = ContainerLevelAccess.create(inv.player.level(), be.getBlockPos());
 
         addPlayerInventory(inv, 84, 142);
         addDataSlots(this.data);
@@ -85,7 +84,7 @@ public class MachineBatteryMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return stillValid(access, player, ModBlocks.MACHINE_BATTERY.get());
+        return MenuValidity.closeEnough(player, be);
     }
 
     @Override

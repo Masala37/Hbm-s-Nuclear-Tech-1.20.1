@@ -1,22 +1,31 @@
 package com.hbm.entity.effect;
 
 import com.hbm.config.BombConfig;
+import com.hbm.config.FalloutConfigJSON;
+import com.hbm.config.FalloutConfigJSON.FalloutEntry;
+import com.hbm.HbmNuclearTechMod;
 import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModEntities;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.network.NetworkHooks;
@@ -25,8 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Spreading fallout after an MK5 dig (legacy EntityFalloutRain, simplified).
- * Converts surface soil to waste earth and strips foliage — no biomes / sellafield yet.
+ * Spreading fallout after an MK5 dig (legacy {@code EntityFalloutRain}).
+ * Uses {@link FalloutConfigJSON}, thin ash layer, crater biomes.
  */
 public class EntityFalloutRain extends Entity {
     private static final EntityDataAccessor<Integer> DATA_SCALE =
@@ -116,9 +125,13 @@ public class EntityFalloutRain extends Entity {
 
     private void processChunk(int chunkX, int chunkZ) {
         Level level = level();
-        // Force-load so outer fallout rings are not silently skipped.
+        if (!(level instanceof ServerLevel server)) {
+            return;
+        }
+
         LevelChunk chunk = level.getChunk(chunkX, chunkZ);
         int scale = getScale();
+        boolean biomeModified = false;
 
         for (int lx = 0; lx < 16; lx++) {
             for (int lz = 0; lz < 16; lz++) {
@@ -130,6 +143,26 @@ public class EntityFalloutRain extends Entity {
                 }
                 double percent = distance * 100.0D / scale;
                 stomp(chunk, x, z, percent);
+
+                Holder<Biome> original = level.getBiome(new BlockPos(x, level.getSeaLevel(), z));
+                ResourceKey<Biome> next = ModBiomes.getBiomeChange(percent, scale, original);
+                if (next != null) {
+                    try {
+                        WorldUtil.setBiome(server, x, z, next);
+                        biomeModified = true;
+                    } catch (Exception e) {
+                        // Never let biome overwrite kill fallout stomping
+                        HbmNuclearTechMod.LOGGER.error("Failed to set crater biome at {},{}", x, z, e);
+                    }
+                }
+            }
+        }
+
+        if (biomeModified) {
+            try {
+                WorldUtil.syncBiomeChange(server, chunkX << 4, chunkZ << 4);
+            } catch (Exception e) {
+                HbmNuclearTechMod.LOGGER.error("Failed to sync crater biomes for chunk {},{}", chunkX, chunkZ, e);
             }
         }
     }
@@ -138,58 +171,82 @@ public class EntityFalloutRain extends Entity {
         Level level = level();
         int minY = level.getMinBuildHeight();
         int maxY = level.getMaxBuildHeight() - 1;
-        int converted = 0;
+        int depth = 0;
 
-        for (int y = maxY; y >= minY && converted < 3; y--) {
+        for (int y = maxY; y >= minY && depth < 3; y--) {
             BlockPos pos = new BlockPos(x, y, z);
             BlockState state = chunk.getBlockState(pos);
-            if (state.isAir()) {
+            Block block = state.getBlock();
+
+            if (state.isAir() || block == ModBlocks.FALLOUT.get()) {
                 continue;
             }
 
-            // Strip plants / leaves out to ~full radius with falloff
-            if (state.is(BlockTags.LEAVES) || state.is(BlockTags.FLOWERS) || state.getBlock() instanceof BushBlock
-                    || state.is(Blocks.GRASS) || state.is(Blocks.TALL_GRASS) || state.is(Blocks.FERN)
-                    || state.is(Blocks.LARGE_FERN) || state.is(Blocks.DEAD_BUSH) || state.is(Blocks.VINE)
-                    || state.is(Blocks.SNOW)) {
-                if (level.random.nextFloat() < chanceFor(percent, 0.95F, 0.25F)) {
-                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+            if (block == ModBlocks.VOLCANO_CORE.get()) {
+                level.setBlock(pos, ModBlocks.VOLCANO_RAD_CORE.get().defaultBlockState(), 3);
+                continue;
+            }
+
+            BlockPos abovePos = pos.above();
+            BlockState above = y < maxY ? chunk.getBlockState(abovePos) : Blocks.AIR.defaultBlockState();
+
+            // Thin ash layer on first solid surface (legacy fallout placement).
+            if (depth == 0 && block != ModBlocks.FALLOUT.get()
+                    && (above.isAir() || (above.canBeReplaced() && above.getFluidState().isEmpty()))) {
+                double d = percent / 100.0D;
+                double chance = 0.1D - Math.pow((d - 0.7D) * 1.0D, 2);
+                if (chance >= level.random.nextDouble()
+                        && ModBlocks.FALLOUT.get().defaultBlockState().canSurvive(level, abovePos)) {
+                    level.setBlock(abovePos, ModBlocks.FALLOUT.get().defaultBlockState(), 3);
                 }
-                continue;
             }
 
-            if (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT) || state.is(Blocks.COARSE_DIRT)
-                    || state.is(Blocks.PODZOL) || state.is(Blocks.MYCELIUM) || state.is(Blocks.ROOTED_DIRT)
-                    || state.is(Blocks.FARMLAND) || state.is(Blocks.DIRT_PATH)) {
-                if (level.random.nextFloat() < chanceFor(percent, 1.0F, 0.15F)) {
-                    level.setBlock(pos, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
-                    converted++;
+            // Fire on flammable under ~65% radius.
+            if (percent < 65.0D && state.isFlammable(level, pos, Direction.UP)) {
+                if (level.random.nextInt(5) == 0 && above.isAir()) {
+                    level.setBlock(abovePos, Blocks.FIRE.defaultBlockState(), 3);
                 }
-                break;
             }
 
-            if (state.is(BlockTags.LOGS) && percent < 65.0D) {
-                if (level.random.nextFloat() < 0.7F) {
-                    // Char / strip leaves already handled; leave logs but scorched chance → coal-ish dirt look
-                    level.setBlock(pos, Blocks.STRIPPED_OAK_LOG.defaultBlockState(), 2);
+            // Column undercut: unsupported stone-hardness stacks within ~65% radius.
+            if (percent < 65.0D && y > minY) {
+                float hardness = state.getDestroySpeed(level, pos);
+                float stoneLimit = Blocks.STONE_BRICKS.defaultBlockState().getDestroySpeed(level, pos);
+                if (hardness >= 0.0F && hardness <= stoneLimit
+                        && chunk.getBlockState(pos.below()).isAir()) {
+                    for (int i = 0; i <= depth; i++) {
+                        BlockPos fallPos = pos.above(i);
+                        if (fallPos.getY() > maxY) {
+                            break;
+                        }
+                        BlockState fallState = chunk.getBlockState(fallPos);
+                        float fallHard = fallState.getDestroySpeed(level, fallPos);
+                        if (fallState.isAir() || fallHard < 0.0F || fallHard > stoneLimit) {
+                            continue;
+                        }
+                        net.minecraft.world.entity.item.FallingBlockEntity falling =
+                                net.minecraft.world.entity.item.FallingBlockEntity.fall(level, fallPos, fallState);
+                        falling.dropItem = false;
+                        falling.setHurtsEntities(2.0F, 40);
+                    }
                 }
-                converted++;
-                continue;
             }
 
-            if (!state.getFluidState().isEmpty()) {
-                continue;
+            boolean eval = false;
+            for (FalloutEntry entry : FalloutConfigJSON.entries) {
+                if (entry.eval(level, pos, state, percent)) {
+                    if (entry.isSolid()) {
+                        depth++;
+                    }
+                    eval = true;
+                    break;
+                }
             }
 
-            if (state.canOcclude()) {
-                converted++;
+            if (!eval && state.canOcclude()) {
+                depth++;
             }
         }
-    }
-
-    private static float chanceFor(double percent, float near, float far) {
-        double t = Math.min(1.0D, Math.max(0.0D, percent / 100.0D));
-        return (float) (near + (far - near) * t);
     }
 
     @Override

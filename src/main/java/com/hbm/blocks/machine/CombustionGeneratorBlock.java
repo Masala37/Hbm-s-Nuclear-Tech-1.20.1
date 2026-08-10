@@ -1,15 +1,15 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.CombustionGeneratorBlockEntity;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class CombustionGeneratorBlock extends BaseEntityBlock {
@@ -80,42 +79,17 @@ public class CombustionGeneratorBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-
-        BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof CombustionGeneratorBlockEntity generator)) {
+        if (!(player instanceof ServerPlayer sp)) {
             return InteractionResult.PASS;
         }
 
-        ItemStack held = player.getItemInHand(hand);
-        if (!held.isEmpty() && ForgeHooks.getBurnTime(held, null) > 0) {
-            ItemStack slot = generator.getItems().getStackInSlot(0);
-            if (slot.isEmpty()) {
-                generator.getItems().setStackInSlot(0, held.split(1));
-                return InteractionResult.CONSUME;
-            }
-            if (ItemStack.isSameItemSameTags(slot, held) && slot.getCount() < slot.getMaxStackSize()) {
-                slot.grow(1);
-                held.shrink(1);
-                generator.getItems().setStackInSlot(0, slot);
-                return InteractionResult.CONSUME;
-            }
+        BlockEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof CombustionGeneratorBlockEntity)) {
+            be = new CombustionGeneratorBlockEntity(pos, state);
+            level.setBlockEntity(be);
         }
 
-        if (held.isEmpty() && player.isShiftKeyDown() && !generator.getItems().getStackInSlot(0).isEmpty()) {
-            ItemStack extracted = generator.getItems().extractItem(0, 64, false);
-            if (!player.addItem(extracted)) {
-                player.drop(extracted, false);
-            }
-            return InteractionResult.CONSUME;
-        }
-
-        ItemStack fuel = generator.getItems().getStackInSlot(0);
-        player.displayClientMessage(Component.literal(String.format(
-                "Generator: %d/%d FE | fuel: %s | burn: %d",
-                generator.getEnergy().getEnergyStored(),
-                generator.getEnergy().getMaxEnergyStored(),
-                fuel.isEmpty() ? "empty" : fuel.getHoverName().getString() + " x" + fuel.getCount(),
-                generator.getBurnTime())), true);
+        HbmMenuHelper.open(sp, be);
         return InteractionResult.CONSUME;
     }
 

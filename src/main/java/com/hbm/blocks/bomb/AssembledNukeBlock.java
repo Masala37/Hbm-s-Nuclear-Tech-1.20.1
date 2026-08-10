@@ -4,16 +4,18 @@ import com.hbm.api.bomb.IBomb;
 import com.hbm.blockentity.bomb.AssembledNuke;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -30,6 +32,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -53,6 +58,15 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
 
     /** Lang key prefix, e.g. {@code block.hbm.nuke_boy}. */
     protected abstract String langKey();
+
+    /**
+     * Outline / click volume. Must stay near the origin cell — vanilla rejects UseItemOn
+     * packets whose hit location is too far from the block position (breaks oversized OBJs).
+     * Visual casing is still the OBJ; use {@link com.hbm.client.ClientMenuClickHandler} for look-opens.
+     */
+    protected VoxelShape interactionShape() {
+        return Shapes.block();
+    }
 
     @Nullable
     protected AssembledNuke asAssembly(@Nullable BlockEntity be) {
@@ -82,7 +96,30 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        // Legacy TESR-only (getRenderType == -1). Mesh drawn by AssembledNukeRenderer.
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.block();
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.block();
+    }
+
+    @Override
+    public VoxelShape getInteractionShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
+        return Shapes.block();
+    }
+
+    @Nullable
+    @Override
+    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        BlockEntity be = level.getBlockEntity(pos);
+        return be instanceof MenuProvider provider ? provider : null;
     }
 
     @Override
@@ -113,27 +150,27 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
             return InteractionResult.SUCCESS;
         }
 
-        ItemStack held = player.getItemInHand(hand);
         if (player.isShiftKeyDown()) {
             nuke.dropContents();
             player.displayClientMessage(Component.translatable(langKey() + ".ejected"), true);
             return InteractionResult.CONSUME;
         }
 
-        int slot = nuke.findInsertSlot(held.getItem());
-        if (slot >= 0) {
-            ItemStack insert = held.copy();
-            insert.setCount(1);
-            nuke.getItems().setStackInSlot(slot, insert);
-            if (!player.getAbilities().instabuild) {
-                held.shrink(1);
+        // Always open schematic GUI (legacy behavior). Components are placed via the menu.
+        if (player instanceof ServerPlayer sp) {
+            MenuProvider provider = state.getMenuProvider(level, pos);
+            if (provider != null) {
+                try {
+                    HbmMenuHelper.open(sp, provider, pos);
+                } catch (Throwable t) {
+                    // Fallback if custom open path fails to resolve (classloading / packet issues).
+                    net.minecraftforge.network.NetworkHooks.openScreen(sp, provider, pos);
+                }
+                return InteractionResult.CONSUME;
             }
-            player.displayClientMessage(nuke.statusMessage(), true);
-            return InteractionResult.CONSUME;
         }
 
-        player.displayClientMessage(nuke.statusMessage(), true);
-        return InteractionResult.CONSUME;
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -170,8 +207,13 @@ public abstract class AssembledNukeBlock extends BaseEntityBlock implements IBom
         int radius = nuke.resolveBlastRadius(blastRadius());
         nuke.clearSlots();
         level.removeBlock(pos, false);
-        ignite(level, pos, radius);
+        detonateBlast(level, pos, radius);
         return BombReturnCode.DETONATED;
+    }
+
+    /** Default: MK5 dig + Torex. Override for FLEIJA / Solinium MK3 paths. */
+    protected void detonateBlast(Level level, BlockPos pos, int radius) {
+        ignite(level, pos, radius);
     }
 
     public static void ignite(Level level, BlockPos pos, int radius) {

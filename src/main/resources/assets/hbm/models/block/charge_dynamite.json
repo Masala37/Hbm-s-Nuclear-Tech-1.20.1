@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/charge_dynamite.obj",
+  "textures": { "particle": "hbm:block/charge_dynamite" }
+}

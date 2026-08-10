@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/iron_bars_cap",
+  "textures": { "bars": "hbm:block/reinforced_laminate_pane", "edge": "hbm:block/reinforced_laminate_pane", "particle": "hbm:block/reinforced_laminate_pane" }
+}

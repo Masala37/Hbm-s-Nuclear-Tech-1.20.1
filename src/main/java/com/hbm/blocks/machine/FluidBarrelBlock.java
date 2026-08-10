@@ -1,12 +1,12 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -21,7 +21,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidBarrelBlock extends BaseEntityBlock {
@@ -47,7 +46,8 @@ public class FluidBarrelBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, ModBlockEntities.FLUID_BARREL.get(), FluidBarrelBlockEntity::serverTick);
+        return level.isClientSide ? null
+                : createTickerHelper(type, ModBlockEntities.FLUID_BARREL.get(), FluidBarrelBlockEntity::serverTick);
     }
 
     @Override
@@ -55,10 +55,18 @@ public class FluidBarrelBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
+        if (!(player instanceof ServerPlayer sp)) {
+            return InteractionResult.PASS;
+        }
 
         BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof FluidBarrelBlockEntity barrel)) {
-            return InteractionResult.PASS;
+        FluidBarrelBlockEntity barrel;
+        if (be instanceof FluidBarrelBlockEntity existing) {
+            barrel = existing;
+        } else {
+            barrel = new FluidBarrelBlockEntity(pos, state);
+            level.setBlockEntity(barrel);
+            be = barrel;
         }
 
         boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
@@ -68,17 +76,7 @@ public class FluidBarrelBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if (player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
-            NetworkHooks.openScreen(sp, provider, pos);
-            return InteractionResult.CONSUME;
-        }
-        return InteractionResult.PASS;
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            super.onRemove(state, level, pos, newState, isMoving);
-        }
+        HbmMenuHelper.open(sp, be);
+        return InteractionResult.CONSUME;
     }
 }

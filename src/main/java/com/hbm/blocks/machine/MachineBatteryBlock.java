@@ -1,12 +1,12 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineBatteryBlock extends BaseEntityBlock {
@@ -74,11 +73,15 @@ public class MachineBatteryBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        BlockEntity be = level.getBlockEntity(pos);
-        if (!level.isClientSide && player instanceof ServerPlayer sp && be instanceof MenuProvider provider) {
-            NetworkHooks.openScreen(sp, provider, pos);
-            return InteractionResult.CONSUME;
+        if (!(player instanceof ServerPlayer sp)) {
+            return InteractionResult.PASS;
         }
-        return InteractionResult.PASS;
+        BlockEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof MachineBatteryBlockEntity)) {
+            be = new MachineBatteryBlockEntity(pos, state);
+            level.setBlockEntity(be);
+        }
+        HbmMenuHelper.open(sp, be);
+        return InteractionResult.CONSUME;
     }
 }

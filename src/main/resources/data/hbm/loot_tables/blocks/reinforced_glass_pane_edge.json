@@ -1,0 +1,4 @@
+{
+  "type": "minecraft:block",
+  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:reinforced_glass_pane_edge" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+}

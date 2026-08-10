@@ -1,0 +1,14 @@
+{
+  "ambientocclusion": false,
+  "textures": { "particle": "hbm:block/chain", "all": "hbm:block/chain" },
+  "elements": [
+    { "from": [6.5, 0, 0], "to": [9.5, 16, 16], "faces": {
+      "east": { "uv": [0,0,16,16], "texture": "#all" },
+      "west": { "uv": [0,0,16,16], "texture": "#all" }
+    }},
+    { "from": [0, 0, 6.5], "to": [16, 16, 9.5], "faces": {
+      "north": { "uv": [0,0,16,16], "texture": "#all" },
+      "south": { "uv": [0,0,16,16], "texture": "#all" }
+    }}
+  ]
+}

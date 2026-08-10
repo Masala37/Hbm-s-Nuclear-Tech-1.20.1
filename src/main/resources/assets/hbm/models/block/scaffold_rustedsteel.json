@@ -1,0 +1,4 @@
+{
+  "parent": "hbm:block/template_steel_scaffold",
+  "textures": { "all": "hbm:block/scaffold_rustedsteel" }
+}

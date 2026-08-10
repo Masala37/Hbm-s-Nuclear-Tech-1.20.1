@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/fluorescent_lamp_off.obj",
+  "textures": { "particle": "hbm:block/fluorescent_lamp_off" }
+}

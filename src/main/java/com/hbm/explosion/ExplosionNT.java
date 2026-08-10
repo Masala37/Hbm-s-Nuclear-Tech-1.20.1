@@ -34,10 +34,26 @@ import java.util.Set;
 public class ExplosionNT {
     public enum ExAttrib {
         FIRE,
+        /** Never drop resources (overrides ALLDROP). */
         NODROP,
+        /** Always drop resources (ignores the size-scaled drop chance). */
+        ALLDROP,
+        /** Skip block destruction (entity damage / FX only). */
+        NOBLOCK,
         NOHURT,
         NOSOUND,
-        NOPARTICLE
+        NOPARTICLE,
+        /** Replace destroyed blocks with lava (volcanic stand-in). */
+        LAVA_V,
+        /** Replace destroyed blocks with lava (rad lava stand-in until rad fluid lands). */
+        LAVA_R,
+        /** Apply placer attributes (fire/lava fill) to every destroyed cell, not 1/3. */
+        ALLMOD,
+        /**
+         * Naval / underwater dig: liquids do not soak blast power and are not destroyed
+         * (legacy {@code BlockAllocatorWater}).
+         */
+        WATER_DIG
     }
 
     private final Level level;
@@ -65,6 +81,13 @@ public class ExplosionNT {
         return this;
     }
 
+    public ExplosionNT addAllAttrib(Iterable<ExAttrib> attribs) {
+        for (ExAttrib attrib : attribs) {
+            attributes.add(attrib);
+        }
+        return this;
+    }
+
     public ExplosionNT overrideResolution(int resolution) {
         this.resolution = Math.max(4, resolution);
         return this;
@@ -78,7 +101,9 @@ public class ExplosionNT {
         if (!attributes.contains(ExAttrib.NOHURT)) {
             hurtEntities();
         }
-        destroyBlocks();
+        if (!attributes.contains(ExAttrib.NOBLOCK)) {
+            destroyBlocks();
+        }
         playEffects();
     }
 
@@ -113,10 +138,20 @@ public class ExplosionNT {
                         }
 
                         BlockState state = level.getBlockState(pos);
-                        if (!state.isAir()) {
-                            float resistance = Math.max(0.0F, state.getExplosionResistance(level, pos, null));
+                        boolean waterDig = attributes.contains(ExAttrib.WATER_DIG);
+                        boolean liquid = !state.getFluidState().isEmpty() || state.liquid();
+
+                        if (!state.isAir() || liquid) {
+                            // Legacy BlockAllocatorWater: liquids neither resist nor get allocated.
+                            if (waterDig && liquid) {
+                                cx += dx * step;
+                                cy += dy * step;
+                                cz += dz * step;
+                                continue;
+                            }
+                            float resistance = ExplosionFluidHelper.blastResistance(level, pos, state);
                             power -= (resistance + 0.3F) * step;
-                            if (power > 0.0F) {
+                            if (power > 0.0F && !(waterDig && liquid)) {
                                 affectedBlocks.add(pos.immutable());
                             }
                         }
@@ -197,28 +232,59 @@ public class ExplosionNT {
 
     private void destroyBlocks() {
         boolean nodrop = attributes.contains(ExAttrib.NODROP);
+        boolean alldrop = attributes.contains(ExAttrib.ALLDROP);
         boolean fire = attributes.contains(ExAttrib.FIRE);
+        boolean lavaV = attributes.contains(ExAttrib.LAVA_V);
+        boolean lavaR = attributes.contains(ExAttrib.LAVA_R);
+        boolean allMod = attributes.contains(ExAttrib.ALLMOD);
+        boolean volcanoLava = lavaV || lavaR;
         Explosion vanilla = new Explosion(level, source, null, null, x, y, z, size, false, Explosion.BlockInteraction.DESTROY);
+        BlockState lavaFill = lavaV
+                ? com.hbm.registry.ModBlocks.VOLCANIC_LAVA.get().defaultBlockState()
+                : lavaR ? com.hbm.registry.ModBlocks.RAD_LAVA.get().defaultBlockState() : null;
 
         for (BlockPos pos : affectedBlocks) {
             BlockState state = level.getBlockState(pos);
-            if (state.isAir()) {
+            if (state.isAir() && state.getFluidState().isEmpty()) {
                 continue;
             }
 
-            if (!nodrop && state.canDropFromExplosion(level, pos, vanilla)
-                    && level.random.nextFloat() <= (1.0F / Math.max(1.0F, size))) {
+            if (ExplosionFluidHelper.isFluidish(state)) {
+                if (volcanoLava && lavaFill != null) {
+                    // Refresh magma channels; do not leave empty holes in the lava shell.
+                    if (!state.is(lavaFill.getBlock())) {
+                        level.setBlock(pos, lavaFill, 3);
+                    }
+                } else {
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                }
+                continue;
+            }
+
+            // Legacy only replaced normal cubes with volcanic/rad lava.
+            boolean wasSolid = state.isCollisionShapeFullBlock(level, pos) || state.isSolidRender(level, pos);
+
+            boolean shouldDrop = !nodrop && state.canDropFromExplosion(level, pos, vanilla)
+                    && (alldrop || level.random.nextFloat() <= (1.0F / Math.max(1.0F, size)));
+            if (shouldDrop) {
                 Block.dropResources(state, level, pos, level.getBlockEntity(pos));
             }
 
             state.onBlockExploded(level, pos, vanilla);
 
-            if (fire && level.random.nextInt(3) == 0 && level.getBlockState(pos).isAir()) {
+            if (volcanoLava && lavaFill != null && wasSolid) {
+                level.setBlock(pos, lavaFill, 3);
+            } else if (fire && (allMod || level.random.nextInt(3) == 0) && level.getBlockState(pos).isAir()) {
                 BlockPos below = pos.below();
                 if (level.getBlockState(below).isSolidRender(level, below)) {
                     level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
                 }
             }
+        }
+
+        // Do not vaporize lava that volcano blasts just placed.
+        if (!volcanoLava) {
+            ExplosionFluidHelper.vaporizeWithNeighbors(level, affectedBlocks, 3);
         }
     }
 

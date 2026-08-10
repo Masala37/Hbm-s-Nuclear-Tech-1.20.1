@@ -8,6 +8,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import com.hbm.client.NukeFxClient;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.effect.EntityNukeTorex.Cloudlet;
 import com.hbm.lib.RefStrings;
@@ -20,16 +21,19 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * Torex mushroom billboards. Drawn in the normal entity pass with depth write so
+ * water/sky behind the cloud are occluded — without AFTER_WEATHER (that stage
+ * warps the projection matrix and makes the cloud drift/spin).
+ */
 public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     private static final ResourceLocation CLOUDLET =
             new ResourceLocation(RefStrings.MODID, "textures/particle/particle_base.png");
     private static final ResourceLocation FLASH =
             new ResourceLocation(RefStrings.MODID, "textures/particle/flare.png");
-
-    private static long flashTimestamp;
-    private static long shakeTimestamp;
 
     public RenderTorex(EntityRendererProvider.Context context) {
         super(context);
@@ -38,24 +42,28 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     @Override
     public void render(EntityNukeTorex cloud, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight) {
-        poseStack.pushPose();
+        applyClientFx(cloud);
 
+        Quaternionf orientation = new Quaternionf(this.entityRenderDispatcher.cameraOrientation());
+        cloudletWrapper(cloud, partialTicks, poseStack, buffer, orientation);
+        if (cloud.tickCount < 101) {
+            flashWrapper(cloud, partialTicks, poseStack, buffer, orientation);
+        }
+
+        super.render(cloud, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    }
+
+    private static void applyClientFx(EntityNukeTorex cloud) {
         if (cloud.tickCount < 100 && Minecraft.getInstance().level != null) {
             Minecraft.getInstance().level.setSkyFlashTime(2);
         }
 
-        cloudletWrapper(cloud, partialTicks, poseStack, buffer);
-
-        if (cloud.tickCount < 101) {
-            flashWrapper(cloud, partialTicks, poseStack, buffer);
+        if (cloud.tickCount < 10) {
+            NukeFxClient.markFlash();
         }
 
-        if (cloud.tickCount < 10 && System.currentTimeMillis() - flashTimestamp > 1000L) {
-            flashTimestamp = System.currentTimeMillis();
-        }
-
-        if (cloud.didPlaySound && !cloud.didShake && System.currentTimeMillis() - shakeTimestamp > 1000L) {
-            shakeTimestamp = System.currentTimeMillis();
+        if (cloud.didPlaySound && !cloud.didShake) {
+            NukeFxClient.markShake();
             cloud.didShake = true;
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
@@ -63,35 +71,36 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
                 player.hurtDuration = 15;
             }
         }
-
-        poseStack.popPose();
-        super.render(cloud, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
-    private void cloudletWrapper(EntityNukeTorex cloud, float interp, PoseStack poseStack, MultiBufferSource buffer) {
+    private static void cloudletWrapper(EntityNukeTorex cloud, float interp, PoseStack poseStack,
+                                        MultiBufferSource buffer, Quaternionf orientation) {
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
         Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         cloudlets.sort(Comparator.comparingDouble((Cloudlet c) ->
                 cam.distanceToSqr(c.posX, c.posY, c.posZ)).reversed());
 
-        VertexConsumer consumer = buffer.getBuffer(HbmRenderTypes.torexCloud(CLOUDLET));
+        VertexConsumer consumer = buffer.getBuffer(HbmRenderTypes.TOREX_CLOUD);
         PoseStack.Pose pose = poseStack.last();
-        Quaternionf orientation = new Quaternionf(this.entityRenderDispatcher.cameraOrientation());
         int light = LightTexture.FULL_BRIGHT;
+
+        double ox = cloud.getX();
+        double oy = cloud.getY();
+        double oz = cloud.getZ();
 
         for (Cloudlet cloudlet : cloudlets) {
             Vec3 vec = cloudlet.getInterpPos(interp);
-            float x = (float) (vec.x - cloud.getX());
-            float y = (float) (vec.y - cloud.getY());
-            float z = (float) (vec.z - cloud.getZ());
+            float x = (float) (vec.x - ox);
+            float y = (float) (vec.y - oy);
+            float z = (float) (vec.z - oz);
             tessellateCloudlet(consumer, pose, orientation, x, y, z, cloudlet, interp, light);
         }
     }
 
-    private void flashWrapper(EntityNukeTorex cloud, float interp, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(HbmRenderTypes.torexFlash(FLASH));
+    private static void flashWrapper(EntityNukeTorex cloud, float interp, PoseStack poseStack,
+                                     MultiBufferSource buffer, Quaternionf orientation) {
+        VertexConsumer consumer = buffer.getBuffer(HbmRenderTypes.TOREX_FLASH);
         PoseStack.Pose pose = poseStack.last();
-        Quaternionf orientation = new Quaternionf(this.entityRenderDispatcher.cameraOrientation());
         int light = LightTexture.FULL_BRIGHT;
 
         double age = Math.min(cloud.tickCount + interp, 100);
@@ -111,12 +120,15 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     private static void tessellateCloudlet(VertexConsumer consumer, PoseStack.Pose pose, Quaternionf orientation,
                                            float posX, float posY, float posZ, Cloudlet cloud, float interp, int light) {
         float alpha = cloud.getAlpha();
+        if (cloud.type != EntityNukeTorex.TorexType.CONDENSATION) {
+            alpha = Mth.clamp(alpha * 1.2F, 0F, 1F);
+        }
         float scale = cloud.getScale();
-        float brightness = cloud.type == EntityNukeTorex.TorexType.CONDENSATION ? 0.9F : 0.75F * cloud.colorMod;
+        float brightness = cloud.type == EntityNukeTorex.TorexType.CONDENSATION ? 0.9F : 0.85F * cloud.colorMod;
         Vec3 color = cloud.getInterpColor(interp);
-        float r = (float) color.x * brightness;
-        float g = (float) color.y * brightness;
-        float b = (float) color.z * brightness;
+        float r = Mth.clamp((float) color.x * brightness, 0F, 1F);
+        float g = Mth.clamp((float) color.y * brightness, 0F, 1F);
+        float b = Mth.clamp((float) color.z * brightness, 0F, 1F);
         writeBillboard(consumer, pose, orientation, posX, posY, posZ, scale, r, g, b, alpha, light);
     }
 
@@ -128,7 +140,6 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     private static void writeBillboard(VertexConsumer consumer, PoseStack.Pose pose, Quaternionf orientation,
                                        float posX, float posY, float posZ, float scale,
                                        float r, float g, float b, float a, int light) {
-        // Camera-facing quad in the XY plane after applying camera orientation (legacy ActiveRenderInfo).
         Vector3f[] corners = new Vector3f[] {
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),

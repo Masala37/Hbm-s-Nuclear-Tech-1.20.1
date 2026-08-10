@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=up":    { "model": "hbm:block/charge_semtex" },
+    "facing=down":  { "model": "hbm:block/charge_semtex", "x": 180 },
+    "facing=north": { "model": "hbm:block/charge_semtex", "x": 90 },
+    "facing=south": { "model": "hbm:block/charge_semtex", "x": 90, "y": 180 },
+    "facing=west":  { "model": "hbm:block/charge_semtex", "x": 90, "y": 270 },
+    "facing=east":  { "model": "hbm:block/charge_semtex", "x": 90, "y": 90 }
+  }
+}

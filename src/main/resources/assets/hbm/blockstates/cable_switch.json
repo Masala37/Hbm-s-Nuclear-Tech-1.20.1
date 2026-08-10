@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "powered=false": { "model": "hbm:block/cable_switch_off" },
+    "powered=true": { "model": "hbm:block/cable_switch_on" }
+  }
+}

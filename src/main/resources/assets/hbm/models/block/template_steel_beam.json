@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "all": "#all", "particle": "#all" },
+  "elements": [
+    {
+      "from": [7, 0, 7],
+      "to": [9, 16, 9],
+      "faces": {
+        "north": { "texture": "#all" }, "south": { "texture": "#all" },
+        "west": { "texture": "#all" }, "east": { "texture": "#all" },
+        "up": { "texture": "#all" }, "down": { "texture": "#all" }
+      }
+    }
+  ]
+}

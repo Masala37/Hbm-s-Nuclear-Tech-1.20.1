@@ -1,13 +1,29 @@
 {
-  "replace": false,
-  "values": [
-    "#forge:ores/uranium",
-    "#forge:ores/thorium",
-    "#forge:ores/titanium",
-    "#forge:ores/tungsten",
-    "#forge:ores/aluminium",
-    "#forge:ores/copper",
-    "#forge:ores/lead",
-    "#forge:ores/beryllium"
-  ]
+    "replace":  false,
+    "values":  [
+                   "#forge:ores/uranium",
+                   "#forge:ores/thorium",
+                   "#forge:ores/titanium",
+                   "#forge:ores/tungsten",
+                   "#forge:ores/aluminium",
+                   "#forge:ores/copper",
+                   "#forge:ores/lead",
+                   "#forge:ores/beryllium",
+                   "#forge:ores/cobalt",
+                   "#forge:ores/sulfur",
+                   "#forge:ores/niter",
+                   "#forge:ores/fluorite",
+                   "#forge:ores/lignite",
+                   "#forge:ores/asbestos",
+                   "#forge:ores/rare",
+                   "#forge:ores/oil",
+                   "#forge:ores/oil_empty",
+                   "#forge:ores/bedrock_oil",
+                   "#forge:ores/gneiss_iron",
+                   "#forge:ores/gneiss_gold",
+                   "#forge:ores/gneiss_uranium",
+                   "#forge:ores/gneiss_copper",
+                   "#forge:ores/coal_oil",
+                   "#forge:ores/coltan"
+               ]
 }

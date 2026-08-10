@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "all": "#all", "particle": "#all" },
+  "elements": [
+    { "from": [1, 0, 1], "to": [3, 10, 3], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [6, 0, 1], "to": [8, 12, 3], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [13, 0, 1], "to": [15, 9, 3], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [1, 0, 6], "to": [3, 11, 8], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [6, 0, 6], "to": [10, 14, 10], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [13, 0, 6], "to": [15, 10, 8], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [1, 0, 13], "to": [3, 9, 15], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [6, 0, 13], "to": [8, 11, 15], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } },
+    { "from": [13, 0, 13], "to": [15, 12, 15], "faces": { "north":{"texture":"#all"}, "south":{"texture":"#all"}, "west":{"texture":"#all"}, "east":{"texture":"#all"}, "up":{"texture":"#all"}, "down":{"texture":"#all"} } }
+  ]
+}

@@ -1,16 +1,15 @@
 package com.hbm.entity.effect;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import com.hbm.registry.ModEntities;
+import com.hbm.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -109,8 +108,8 @@ public class EntityNukeTorex extends Entity {
 
             // spawn shock clouds
             if (tickCount < 150) {
-                // Cap shock density — legacy can request 700+/tick which tanks the renderer.
-                int cloudCount = Math.min(tickCount * 5, 120);
+                // Cap early shock density — too many near-core cloudlets wash out into neon colors.
+                int cloudCount = Math.min(20 + tickCount * 2, 80);
                 int shockLife = Math.max(300 - tickCount * 20, 50);
 
                 for (int i = 0; i < cloudCount; i++) {
@@ -129,7 +128,7 @@ public class EntityNukeTorex extends Entity {
                     double hearRange = (tickCount * 1.5 + 1) * 1.5;
                     Player player = level().getNearestPlayer(this, hearRange);
                     if (player != null) {
-                        level().playLocalSound(getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE,
+                        level().playLocalSound(getX(), getY(), getZ(), ModSounds.NUCLEAR_EXPLOSION.get(),
                                 SoundSource.BLOCKS, 10000F, 1F, false);
                         didPlaySound = true;
                     }
@@ -457,31 +456,38 @@ public class EntityNukeTorex extends Entity {
             double dist = Math.sqrt(distSq);
 
             dist = Math.max(dist, 1);
-            double col = 2D / dist;
+            double col = Math.min(2D / dist, 1.0D);
 
             int typeId = EntityNukeTorex.this.getTorexType();
 
             if (typeId == 1) {
-                this.color = new Vec3(
+                this.color = clampColor(
                         Math.max(col * 1, 0.25),
                         Math.max(col * 2, 0.25),
                         Math.max(col * 0.5, 0.25));
             } else if (typeId == 2) {
-                Color awt = Color.getHSBColor(this.angle / 2F / (float) Math.PI, 1F, 1F);
-                if (this.type == TorexType.RING) {
-                    this.color = new Vec3(
-                            Math.max(col * 1, 0.25),
-                            Math.max(col * 1, 0.25),
-                            Math.max(col * 1, 0.25));
-                } else {
-                    this.color = new Vec3(awt.getRed() / 255D, awt.getGreen() / 255D, awt.getBlue() / 255D);
-                }
+                // Avoid rainbow HSB for standard play — keep dusty white/grey.
+                this.color = clampColor(
+                        Math.max(col * 1, 0.35),
+                        Math.max(col * 1, 0.35),
+                        Math.max(col * 1, 0.35));
+            } else if (this.type == TorexType.SHOCK) {
+                // Early ground shock: dusty grey-white, not neon orange.
+                this.color = clampColor(
+                        Math.max(col * 1.05, 0.35),
+                        Math.max(col * 0.95, 0.32),
+                        Math.max(col * 0.85, 0.28));
             } else {
-                this.color = new Vec3(
-                        Math.max(col * 2, 0.25),
-                        Math.max(col * 1.5, 0.25),
-                        Math.max(col * 0.5, 0.25));
+                // Fireball / stem: warm but clamped so shaders don't blow out.
+                this.color = clampColor(
+                        Math.max(col * 1.6, 0.25),
+                        Math.max(col * 1.1, 0.25),
+                        Math.max(col * 0.45, 0.25));
             }
+        }
+
+        private static Vec3 clampColor(double r, double g, double b) {
+            return new Vec3(Mth.clamp(r, 0D, 1D), Mth.clamp(g, 0D, 1D), Mth.clamp(b, 0D, 1D));
         }
 
         public Vec3 getInterpPos(float interp) {
@@ -510,10 +516,10 @@ public class EntityNukeTorex extends Entity {
                 greying += 1;
             }
 
-            return new Vec3(
-                    (prevColor.x + (color.x - prevColor.x) * interp) * greying,
-                    (prevColor.y + (color.y - prevColor.y) * interp) * greying,
-                    (prevColor.z + (color.z - prevColor.z) * interp) * greying);
+            double r = (prevColor.x + (color.x - prevColor.x) * interp) * greying;
+            double g = (prevColor.y + (color.y - prevColor.y) * interp) * greying;
+            double b = (prevColor.z + (color.z - prevColor.z) * interp) * greying;
+            return new Vec3(Mth.clamp(r, 0D, 1D), Mth.clamp(g, 0D, 1D), Mth.clamp(b, 0D, 1D));
         }
 
         public float getAlpha() {
@@ -590,6 +596,16 @@ public class EntityNukeTorex extends Entity {
             return;
         }
         EntityNukeTorex torex = new EntityNukeTorex(level).setScale(scaleFromRadius(radius));
+        torex.setPos(x, y, z);
+        level.addFreshEntity(torex);
+    }
+
+    /** Balefire mushroom (type 1 green cloudlet tint). */
+    public static void statFacBale(Level level, double x, double y, double z, float radius) {
+        if (level.isClientSide) {
+            return;
+        }
+        EntityNukeTorex torex = new EntityNukeTorex(level).setScale(scaleFromRadius(radius)).setType(1);
         torex.setPos(x, y, z);
         level.addFreshEntity(torex);
     }

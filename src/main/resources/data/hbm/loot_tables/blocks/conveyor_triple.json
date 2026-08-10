@@ -1,0 +1,4 @@
+{
+  "type": "minecraft:block",
+  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:conveyor_triple" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+}

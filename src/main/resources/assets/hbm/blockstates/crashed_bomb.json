@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "type=balefire": { "model": "hbm:block/dud_balefire" },
+    "type=conventional": { "model": "hbm:block/dud_conventional" },
+    "type=nuke": { "model": "hbm:block/dud_nuke" },
+    "type=salted": { "model": "hbm:block/dud_salted" }
+  }
+}

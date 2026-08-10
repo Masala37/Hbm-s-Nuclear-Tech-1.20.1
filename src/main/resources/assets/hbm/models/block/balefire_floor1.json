@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_fire_floor",
+  "textures": {
+    "fire": "hbm:block/balefire_1",
+    "particle": "hbm:block/balefire_1"
+  }
+}

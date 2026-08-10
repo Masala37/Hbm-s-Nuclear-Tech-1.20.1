@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/deco_satellite_receiver.obj",
+  "textures": { "particle": "hbm:block/deco_satellite_receiver" }
+}
