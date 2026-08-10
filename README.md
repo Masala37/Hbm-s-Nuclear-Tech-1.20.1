@@ -18,10 +18,10 @@ This is a **rewrite**, not a drop-in update from 1.7.10. Roughly:
 
 | Area | Status |
 |------|--------|
-| Bombs / nukes / detonators | Mostly playable |
-| Radiation, Sellafield, hazmat | Playable |
-| Bomb caller / missile MVP | Playable |
-| Early machines (furnace, battery, diesel, cables) | Playable |
+| Bombs / nukes / detonators | Mostly done |
+| Radiation, Sellafield, hazmat | WIP |
+| Bomb caller / missile MVP | WIP |
+| Early machines (furnace, battery, diesel, cables) | Missing or stub |
 | RBMK, weapons, most machines | Missing or stub |
 
 In-game **tooltips** and **creative tab titles** mark content as Working / WIP / Not implemented.
