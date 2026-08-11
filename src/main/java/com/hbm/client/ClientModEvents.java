@@ -6,7 +6,9 @@ import com.hbm.client.screen.CombustionGeneratorScreen;
 import com.hbm.client.screen.DieselGeneratorScreen;
 import com.hbm.client.screen.ElectricFurnaceScreen;
 import com.hbm.client.screen.FluidBarrelScreen;
+import com.hbm.client.screen.LaunchPadScreen;
 import com.hbm.client.screen.MachineBatteryScreen;
+import com.hbm.client.screen.MissileAssemblyScreen;
 import com.hbm.client.screen.NukeBoyScreen;
 import com.hbm.client.screen.NukeCustomScreen;
 import com.hbm.client.screen.NukeFleijaScreen;
@@ -22,6 +24,7 @@ import com.hbm.client.screen.StorageCrateScreen;
 import com.hbm.client.render.blockentity.AssembledNukeRenderer;
 import com.hbm.client.render.blockentity.RenderCrashedBomb;
 import com.hbm.client.render.blockentity.RenderLandmine;
+import com.hbm.client.render.blockentity.RenderLaunchPad;
 import com.hbm.client.render.entity.PrimedBombRenderer;
 import com.hbm.client.render.entity.RenderBombProjectiles;
 import com.hbm.client.render.entity.RenderBomber;
@@ -64,6 +67,8 @@ public final class ClientModEvents {
         safeRegister(ModMenus.FLUID_BARREL.get(), FluidBarrelScreen::new, "fluid_barrel");
         safeRegister(ModMenus.DIESEL_GENERATOR.get(), DieselGeneratorScreen::new, "diesel_generator");
         safeRegister(ModMenus.COMBUSTION_GENERATOR.get(), CombustionGeneratorScreen::new, "combustion_generator");
+        safeRegister(ModMenus.MISSILE_ASSEMBLY.get(), MissileAssemblyScreen::new, "machine_missile_assembly");
+        safeRegister(ModMenus.LAUNCH_PAD.get(), LaunchPadScreen::new, "launch_pad");
         safeRegister(ModMenus.NUKE_BOY.get(), NukeBoyScreen::new, "nuke_boy");
         safeRegister(ModMenus.NUKE_MAN.get(), NukeManScreen::new, "nuke_man");
         safeRegister(ModMenus.NUKE_GADGET.get(), NukeGadgetScreen::new, "nuke_gadget");
@@ -111,9 +116,14 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.CLUSTER_BOMBLET.get(), RenderBombProjectiles.ClusterBomblet::new);
         event.registerEntityRenderer(ModEntities.BOMBLET_ZETA.get(), RenderBombProjectiles.BombletZeta::new);
         event.registerEntityRenderer(ModEntities.MISSILE_GENERIC.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_STRONG.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_INCENDIARY.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_CLUSTER.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_BUSTER.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MIST.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.FALLING_NUKE.get(), RenderBombProjectiles.FallingNuke::new);
         event.registerEntityRenderer(ModEntities.BOMBER.get(), RenderBomber::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_PAD.get(), RenderLaunchPad::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandmine::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_BOY.get(), AssembledNukeRenderer::new);
@@ -135,5 +145,10 @@ public final class ClientModEvents {
         event.register(new ResourceLocation(RefStrings.MODID, "block/mine_ap_desert"));
         event.register(new ResourceLocation(RefStrings.MODID, "block/mine_ap_snow"));
         event.register(new ResourceLocation(RefStrings.MODID, "block/mine_ap_stone"));
+        // Missile skins + silo pad (standalone bake for entity/BER render).
+        for (ResourceLocation model : RenderMissile.allModels()) {
+            event.register(model);
+        }
+        event.register(new ResourceLocation(RefStrings.MODID, "block/launch_pad_silo"));
     }
 }

@@ -1,13 +1,12 @@
 package com.hbm.entity.missile;
 
-import com.hbm.explosion.ExplosionNT;
 import com.hbm.registry.ModEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 
 /**
- * Generic HE missile — ExplosionNT ~12 radius on impact.
+ * Generic HE missile — legacy Tier-1 {@code explodeStandard(15, 24, false)} + small FX.
  */
 public class EntityMissileGeneric extends EntityMissileBaseNT {
     public EntityMissileGeneric(EntityType<? extends EntityMissileGeneric> type, Level level) {
@@ -24,13 +23,12 @@ public class EntityMissileGeneric extends EntityMissileBaseNT {
     }
 
     @Override
+    protected float getContrailScale() {
+        return 0.5F;
+    }
+
+    @Override
     protected void onImpact(HitResult hit) {
-        if (level().isClientSide) {
-            return;
-        }
-        new ExplosionNT(level(), this, getX(), getY(), getZ(), 12.0F)
-                .overrideResolution(16)
-                .addAttrib(ExplosionNT.ExAttrib.NODROP)
-                .explode();
+        MissileImpacts.heTier1(level(), this, getX(), getY(), getZ());
     }
 }

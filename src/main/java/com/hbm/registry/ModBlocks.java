@@ -55,6 +55,8 @@ import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
 import com.hbm.blocks.machine.LaunchPadBlock;
+import com.hbm.blocks.machine.MissileAssemblyBlock;
+import com.hbm.blocks.machine.InfiniteBatteryBlock;
 import com.hbm.blocks.machine.MachineBatteryBlock;
 import com.hbm.blocks.machine.RedCableBlock;
 import com.hbm.blocks.machine.StorageCrateBlock;
@@ -676,6 +678,8 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> FLUID_BARREL = BLOCKS.register("fluid_barrel", FluidBarrelBlock::new);
     public static final RegistryObject<Block> MACHINE_BATTERY = BLOCKS.register("machine_battery", MachineBatteryBlock::new);
+    public static final RegistryObject<Block> MACHINE_BATTERY_INFINITE =
+            BLOCKS.register("machine_battery_infinite", InfiniteBatteryBlock::new);
     public static final RegistryObject<Block> COMBUSTION_GENERATOR = BLOCKS.register("combustion_generator", CombustionGeneratorBlock::new);
     public static final RegistryObject<Block> DIESEL_GENERATOR = BLOCKS.register("diesel_generator", DieselGeneratorBlock::new);
     public static final RegistryObject<Block> ELECTRIC_FURNACE = BLOCKS.register("electric_furnace", ElectricFurnaceBlock::new);
@@ -700,6 +704,8 @@ public final class ModBlocks {
     public static final RegistryObject<Block> DET_MINER = BLOCKS.register("det_miner", DetExplosiveBlock::miner);
     public static final RegistryObject<Block> BOMB_MULTI = BLOCKS.register("bomb_multi", BombMultiBlock::new);
     public static final RegistryObject<Block> LAUNCH_PAD = BLOCKS.register("launch_pad", LaunchPadBlock::new);
+    public static final RegistryObject<Block> MACHINE_MISSILE_ASSEMBLY =
+            BLOCKS.register("machine_missile_assembly", MissileAssemblyBlock::new);
     public static final RegistryObject<Block> BOMB_FLOAT = BLOCKS.register("bomb_float", SpecialtyBombBlock::floatBomb);
     public static final RegistryObject<Block> EMP_BOMB = BLOCKS.register("emp_bomb", SpecialtyBombBlock::emp);
     public static final RegistryObject<Block> FIREWORKS = BLOCKS.register("fireworks", FireworksBlock::new);

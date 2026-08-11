@@ -1,0 +1,11 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/launch_pad_silo.obj",
+  "textures": {
+    "particle": "hbm:block/launchpad/silo",
+    "material": "hbm:block/launchpad/silo"
+  }
+}

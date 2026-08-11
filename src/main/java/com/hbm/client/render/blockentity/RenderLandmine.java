@@ -2,6 +2,7 @@ package com.hbm.client.render.blockentity;
 
 import com.hbm.blockentity.bomb.LandmineBlockEntity;
 import com.hbm.blocks.bomb.LandmineBlock;
+import com.hbm.client.render.ObjModelRenderer;
 import com.hbm.lib.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -27,19 +28,17 @@ import net.minecraftforge.client.model.data.ModelData;
  */
 public class RenderLandmine implements BlockEntityRenderer<LandmineBlockEntity> {
     private static final ModelResourceLocation AP_GRASS = blockstate("mine_ap");
-    private static final ModelResourceLocation AP_DESERT = standalone("mine_ap_desert");
-    private static final ModelResourceLocation AP_SNOW = standalone("mine_ap_snow");
-    private static final ModelResourceLocation AP_STONE = standalone("mine_ap_stone");
+    private static final ResourceLocation AP_DESERT = id("block/mine_ap_desert");
+    private static final ResourceLocation AP_SNOW = id("block/mine_ap_snow");
+    private static final ResourceLocation AP_STONE = id("block/mine_ap_stone");
 
     public RenderLandmine(BlockEntityRendererProvider.Context context) {
     }
 
-    private static ModelResourceLocation standalone(String path) {
-        // RegisterAdditional models bake under the "standalone" variant in Forge 1.20.1.
-        return new ModelResourceLocation(new ResourceLocation(RefStrings.MODID, "block/" + path), "standalone");
+    private static ResourceLocation id(String path) {
+        return new ResourceLocation(RefStrings.MODID, path);
     }
 
-    // Blockstate models (inventory / default) use empty variant.
     private static ModelResourceLocation blockstate(String path) {
         return new ModelResourceLocation(new ResourceLocation(RefStrings.MODID, path), "");
     }
@@ -90,30 +89,31 @@ public class RenderLandmine implements BlockEntityRenderer<LandmineBlockEntity> 
     }
 
     private static BakedModel resolveApModel(Level level, BlockPos pos, BakedModel fallback) {
-        ModelResourceLocation loc = AP_GRASS;
-        if (level != null) {
-            int surface = level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ());
-            if (surface > pos.getY() + 2) {
-                loc = AP_STONE;
-            } else {
-                Biome biome = level.getBiome(pos).value();
-                if (biome.coldEnoughToSnow(pos)) {
-                    loc = AP_SNOW;
-                } else {
-                    // Approximate legacy desert check (hot + dry).
-                    float temp = biome.getBaseTemperature();
-                    if (temp >= 1.5F) {
-                        loc = AP_DESERT;
-                    }
-                }
+        if (level == null) {
+            return fallback;
+        }
+
+        ResourceLocation skin = null;
+        int surface = level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ());
+        if (surface > pos.getY() + 2) {
+            skin = AP_STONE;
+        } else {
+            Biome biome = level.getBiome(pos).value();
+            if (biome.coldEnoughToSnow(pos)) {
+                skin = AP_SNOW;
+            } else if (biome.getBaseTemperature() >= 1.5F) {
+                skin = AP_DESERT;
             }
         }
 
-        BakedModel model = Minecraft.getInstance().getModelManager().getModel(loc);
-        if (model == null || model == Minecraft.getInstance().getModelManager().getMissingModel()) {
-            return fallback;
+        if (skin == null) {
+            BakedModel grass = Minecraft.getInstance().getModelManager().getModel(AP_GRASS);
+            return grass != null && grass != Minecraft.getInstance().getModelManager().getMissingModel()
+                    ? grass : fallback;
         }
-        return model;
+
+        BakedModel model = ObjModelRenderer.get(skin);
+        return model != null ? model : fallback;
     }
 
     @Override

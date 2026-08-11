@@ -1,12 +1,12 @@
 package com.hbm.items.tool;
 
 import com.hbm.api.bomb.IBomb;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * Shift-use to link a bomb position, use in air to detonate (legacy ItemDetonator).
+ * Shift-use to link a bomb/launch pad, use in air to detonate/launch (legacy ItemDetonator).
  */
 public class DetonatorItem extends Item {
     private static final String TAG_X = "LinkX";
@@ -62,7 +62,7 @@ public class DetonatorItem extends Item {
         if (!level.isClientSide) {
             player.displayClientMessage(Component.translatable("item.hbm.detonator.position_set"), true);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.5F, 1.5F);
+                    ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
@@ -91,7 +91,7 @@ public class DetonatorItem extends Item {
         BlockState state = level.getBlockState(linked);
         if (state.getBlock() instanceof IBomb bomb) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             IBomb.BombReturnCode result = bomb.explode(level, linked);
             player.displayClientMessage(Component.translatable(result.getMessageKey()), true);
         } else {
@@ -113,7 +113,6 @@ public class DetonatorItem extends Item {
     private static boolean isLinkedDimension(ItemStack stack, ResourceKey<Level> dimension) {
         CompoundTag tag = stack.getTag();
         if (tag == null || !tag.contains(TAG_DIM)) {
-            // Legacy links without dim: allow same-world use only if tag missing after upgrade.
             return true;
         }
         ResourceLocation linked = ResourceLocation.tryParse(tag.getString(TAG_DIM));

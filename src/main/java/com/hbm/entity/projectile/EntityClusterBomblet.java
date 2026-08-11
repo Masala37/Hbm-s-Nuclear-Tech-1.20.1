@@ -1,10 +1,13 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.network.ExplosionSmallEffectPacket;
+import com.hbm.network.ModMessages;
 import com.hbm.registry.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -12,9 +15,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PacketDistributor;
 
 /**
- * Multi-bomb / chaos cluster submunition (stand-in for legacy catapult cluster bullets).
+ * Chaos cluster submunition — legacy catapult cluster bullet
+ * ({@code ExplosionVNT 7.5} + {@code ExplosionEffectWeapon(10, 2.5, 1)}).
  */
 public class EntityClusterBomblet extends ThrowableProjectile {
     public EntityClusterBomblet(EntityType<? extends EntityClusterBomblet> type, Level level) {
@@ -37,7 +42,7 @@ public class EntityClusterBomblet extends ThrowableProjectile {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && tickCount > 120) {
+        if (!level().isClientSide && tickCount > 1200) {
             discard();
         }
     }
@@ -48,10 +53,20 @@ public class EntityClusterBomblet extends ThrowableProjectile {
         if (level().isClientSide || tickCount < 3) {
             return;
         }
-        new ExplosionNT(level(), this, getX(), getY(), getZ(), 2.5F)
-                .overrideResolution(8)
+        double x = getX();
+        double y = getY();
+        double z = getZ();
+        // Legacy submunition: 7.5F dig + weapon small-explosion SFX/FX.
+        new ExplosionNT(level(), this, x, y, z, 7.5F)
+                .overrideResolution(12)
                 .addAttrib(ExplosionNT.ExAttrib.NODROP)
                 .explode();
+        if (level() instanceof ServerLevel server) {
+            ModMessages.CHANNEL.send(
+                    PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                            x, y, z, 200.0D, server.dimension())),
+                    ExplosionSmallEffectPacket.weapon(x, y, z));
+        }
         discard();
     }
 

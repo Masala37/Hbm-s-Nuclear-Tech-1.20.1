@@ -1,13 +1,17 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.api.bomb.IBomb;
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
+import com.hbm.entity.missile.MissileLaunchRegistry;
+import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.items.tool.DesignatorItem;
-import com.hbm.registry.ModItems;
+import com.hbm.registry.ModBlockEntities;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -18,21 +22,27 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Missile launch pad — designator sets target, missile inserts, empty hand / redstone launches.
+ * Missile launch pad — designator, missile, battery/fuel GUI, redstone / detonator launch.
+ * Legacy {@code LaunchPad} implements {@link IBomb}; detonators call {@link #explode}.
  */
-public class LaunchPadBlock extends BaseEntityBlock {
+public class LaunchPadBlock extends BaseEntityBlock implements IBomb {
     public LaunchPadBlock() {
         super(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.METAL)
                 .strength(5.0F, 30.0F)
                 .requiresCorrectToolForDrops()
+                .noOcclusion()
                 .sound(SoundType.METAL));
     }
 
@@ -42,9 +52,16 @@ public class LaunchPadBlock extends BaseEntityBlock {
         return new LaunchPadBlockEntity(pos, state);
     }
 
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, ModBlockEntities.LAUNCH_PAD.get(),
+                level.isClientSide ? LaunchPadBlockEntity::clientTick : LaunchPadBlockEntity::serverTick);
+    }
+
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -82,10 +99,18 @@ public class LaunchPadBlock extends BaseEntityBlock {
         }
 
         ItemStack held = player.getItemInHand(hand);
+        if (!held.isEmpty() && held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+            boolean filled = pad.getCapability(ForgeCapabilities.FLUID_HANDLER, null)
+                    .map(handler -> FluidUtil.interactWithFluidHandler(player, hand, handler))
+                    .orElse(false);
+            if (filled) {
+                return InteractionResult.CONSUME;
+            }
+        }
 
         if (held.getItem() instanceof DesignatorItem) {
             if (pad.trySetTargetFromDesignator(held)) {
-                level.playSound(null, pos, SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.BLOCKS, 0.5F, 1.0F);
+                level.playSound(null, pos, ModSounds.TECH_BLEEP.get(), SoundSource.BLOCKS, 0.5F, 1.0F);
                 player.displayClientMessage(Component.literal("Launch pad target set: "
                         + pad.getTarget().getX() + ", " + pad.getTarget().getY() + ", "
                         + pad.getTarget().getZ()), true);
@@ -95,7 +120,7 @@ public class LaunchPadBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if (held.is(ModItems.MISSILE_GENERIC.get())) {
+        if (MissileLaunchRegistry.isLaunchable(held)) {
             if (pad.tryInsertMissile(held)) {
                 level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 1.0F);
                 player.displayClientMessage(Component.literal("Missile loaded"), true);
@@ -105,22 +130,10 @@ public class LaunchPadBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if (held.isEmpty()) {
-            if (player.isShiftKeyDown()) {
-                pad.dropContents();
-                player.displayClientMessage(Component.literal("Missile ejected"), true);
-                return InteractionResult.CONSUME;
-            }
-            if (pad.launch()) {
-                level.playSound(null, pos, SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.BLOCKS, 1.0F, 0.8F);
-                player.displayClientMessage(Component.literal("Missile launched"), true);
-            } else {
-                player.displayClientMessage(pad.statusMessage(), true);
-            }
-            return InteractionResult.CONSUME;
+        if (!(player instanceof ServerPlayer sp)) {
+            return InteractionResult.PASS;
         }
-
-        player.displayClientMessage(pad.statusMessage(), true);
+        HbmMenuHelper.open(sp, pad, pos);
         return InteractionResult.CONSUME;
     }
 
@@ -129,10 +142,22 @@ public class LaunchPadBlock extends BaseEntityBlock {
         if (!state.is(newState.getBlock())) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof LaunchPadBlockEntity pad) {
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
-                        pad.getItems().getStackInSlot(0));
+                pad.dropContents();
             }
             super.onRemove(state, level, pos, newState, isMoving);
         }
+    }
+
+    /** Legacy launch-pad detonator path → {@link LaunchPadBlockEntity#launchFromDesignator()}. */
+    @Override
+    public BombReturnCode explode(Level level, BlockPos pos) {
+        if (level.isClientSide) {
+            return BombReturnCode.UNDEFINED;
+        }
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof LaunchPadBlockEntity pad) {
+            return pad.launchFromDesignator();
+        }
+        return BombReturnCode.UNDEFINED;
     }
 }

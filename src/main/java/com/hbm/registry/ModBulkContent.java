@@ -237,7 +237,6 @@ public final class ModBulkContent {
             "machine_large_turbine",
             "machine_microwave",
             "machine_mining_laser",
-            "machine_missile_assembly",
             "machine_press",
             "machine_puf6_tank",
             "machine_radar",

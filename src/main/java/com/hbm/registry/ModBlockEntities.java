@@ -23,8 +23,10 @@ import com.hbm.blockentity.machine.CombustionGeneratorBlockEntity;
 import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
+import com.hbm.blockentity.machine.InfiniteBatteryBlockEntity;
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
+import com.hbm.blockentity.machine.MissileAssemblyBlockEntity;
 import com.hbm.blockentity.machine.RedCableBlockEntity;
 import com.hbm.blockentity.machine.StorageCrateBlockEntity;
 import com.hbm.blockentity.rbmk.RBMKPassiveBlockEntity;
@@ -58,6 +60,12 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("machine_battery", () -> BlockEntityType.Builder.of(
                     MachineBatteryBlockEntity::new,
                     ModBlocks.MACHINE_BATTERY.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<InfiniteBatteryBlockEntity>> MACHINE_BATTERY_INFINITE =
+            BLOCK_ENTITIES.register("machine_battery_infinite", () -> BlockEntityType.Builder.of(
+                    InfiniteBatteryBlockEntity::new,
+                    ModBlocks.MACHINE_BATTERY_INFINITE.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<CombustionGeneratorBlockEntity>> COMBUSTION_GENERATOR =
@@ -182,6 +190,12 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("launch_pad", () -> BlockEntityType.Builder.of(
                     LaunchPadBlockEntity::new,
                     ModBlocks.LAUNCH_PAD.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<MissileAssemblyBlockEntity>> MISSILE_ASSEMBLY =
+            BLOCK_ENTITIES.register("machine_missile_assembly", () -> BlockEntityType.Builder.of(
+                    MissileAssemblyBlockEntity::new,
+                    ModBlocks.MACHINE_MISSILE_ASSEMBLY.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB =

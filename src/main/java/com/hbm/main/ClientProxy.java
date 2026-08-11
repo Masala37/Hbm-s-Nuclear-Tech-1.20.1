@@ -1,11 +1,17 @@
 package com.hbm.main;
 
+import com.hbm.client.particle.ClientMissileParticles;
+import com.hbm.client.sound.ClientMissileSounds;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModBulkContent;
 import com.hbm.registry.ModCreativeTabs;
 import com.hbm.registry.ModFluids;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,6 +23,24 @@ public class ClientProxy extends ServerProxy {
     public void register(IEventBus modBus) {
         super.register(modBus);
         modBus.addListener(this::clientSetup);
+    }
+
+    @Override
+    public void playMissileTakeoff(EntityMissileBaseNT missile) {
+        ClientMissileSounds.playLaunch(missile);
+    }
+
+    @Override
+    public void spawnMissileContrail(EntityMissileBaseNT missile) {
+        ClientMissileParticles.spawnContrail(missile);
+    }
+
+    @Override
+    public void tickLaunchPadSmoke(Level level, BlockPos pos) {
+        if (level instanceof ClientLevel clientLevel
+                && ClientMissileParticles.hasMissileNearPad(clientLevel, pos)) {
+            ClientMissileParticles.spawnLaunchSmoke(pos);
+        }
     }
 
     private void clientSetup(FMLClientSetupEvent event) {

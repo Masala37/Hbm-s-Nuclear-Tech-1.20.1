@@ -2,14 +2,16 @@ package com.hbm.explosion;
 
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.network.ModMessages;
+import com.hbm.network.SmokeCloudEffectPacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.Random;
 
@@ -99,6 +101,30 @@ public final class ExplosionLarge {
         return Blocks.STONE;
     }
 
+    /**
+     * Legacy AuxParticle smoke {@code mode=cloud} — bunker buster / large explode FX.
+     */
+    public static void spawnParticles(Level level, double x, double y, double z, int count) {
+        if (!(level instanceof ServerLevel server) || count <= 0) {
+            return;
+        }
+        ModMessages.CHANNEL.send(
+                PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                        x, y, z, 250.0D, server.dimension())),
+                SmokeCloudEffectPacket.cloud(x, y, z, count));
+    }
+
+    /** Legacy AuxParticle smoke {@code mode=radial}. */
+    public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
+        if (!(level instanceof ServerLevel server) || count <= 0) {
+            return;
+        }
+        ModMessages.CHANNEL.send(
+                PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                        x, y, z, 250.0D, server.dimension())),
+                new SmokeCloudEffectPacket(x, y, z, count, SmokeCloudEffectPacket.Mode.RADIAL));
+    }
+
     public static void spawnShrapnels(Level level, double x, double y, double z, int count) {
         if (level.isClientSide || count <= 0) {
             return;
@@ -134,12 +160,7 @@ public final class ExplosionLarge {
     }
 
     private static void spawnCloud(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) {
-            return;
-        }
-        int n = Math.min(count, 80);
-        server.sendParticles(ParticleTypes.LARGE_SMOKE, x, y + 0.5D, z, n, 1.2D, 0.8D, 1.2D, 0.05D);
-        server.sendParticles(ParticleTypes.EXPLOSION, x, y + 0.5D, z, Math.max(2, n / 20), 0.5D, 0.5D, 0.5D, 0.0D);
+        spawnParticles(level, x, y, z, count);
     }
 
     public static int cloudFunction(int i) {

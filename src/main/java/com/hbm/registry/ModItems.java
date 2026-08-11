@@ -1,5 +1,8 @@
 package com.hbm.registry;
 
+import com.hbm.items.machine.BatteryCreativeItem;
+import com.hbm.items.machine.InfiniteFluidBarrelItem;
+import com.hbm.items.machine.LaunchPadBlockItem;
 import com.hbm.items.food.BombWaffleItem;
 import com.hbm.items.special.BombComponentItem;
 import com.hbm.items.special.BombKitItem;
@@ -10,6 +13,8 @@ import com.hbm.items.special.DemonCoreItem;
 import com.hbm.items.special.VolcanoBlockItem;
 import com.hbm.items.tool.BombCallerItem;
 import com.hbm.items.tool.DesignatorItem;
+import com.hbm.items.tool.DesignatorRangeItem;
+import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.tool.DeadmanDetonatorItem;
 import com.hbm.items.tool.DefuserItem;
 import com.hbm.items.tool.DetonatorItem;
@@ -657,6 +662,7 @@ public final class ModItems {
     public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver", ScrewdriverItem::steel);
     public static final RegistryObject<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh", ScrewdriverItem::desh);
     public static final RegistryObject<Item> DESIGNATOR = ITEMS.register("designator", DesignatorItem::new);
+    public static final RegistryObject<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", DesignatorRangeItem::new);
     public static final RegistryObject<Item> DESIGNATOR_MANUAL = registerIngot("designator_manual");
     public static final RegistryObject<Item> DESIGNATOR_TRACKER = registerIngot("designator_tracker");
     public static final RegistryObject<Item> DESIGNATOR_ARTY = registerIngot("designator_arty");
@@ -760,14 +766,23 @@ public final class ModItems {
     public static final RegistryObject<Item> THRUSTER_MEDIUM = registerIngot("thruster_medium");
     public static final RegistryObject<Item> THRUSTER_LARGE = registerIngot("thruster_large");
     public static final RegistryObject<Item> THRUSTER_NUCLEAR = registerIngot("thruster_nuclear");
-    public static final RegistryObject<Item> MISSILE_GENERIC = registerIngot("missile_generic");
-    public static final RegistryObject<Item> MISSILE_STRONG = registerIngot("missile_strong");
-    public static final RegistryObject<Item> MISSILE_INCENDIARY = registerIngot("missile_incendiary");
-    public static final RegistryObject<Item> MISSILE_INCENDIARY_STRONG = registerIngot("missile_incendiary_strong");
-    public static final RegistryObject<Item> MISSILE_CLUSTER = registerIngot("missile_cluster");
-    public static final RegistryObject<Item> MISSILE_CLUSTER_STRONG = registerIngot("missile_cluster_strong");
-    public static final RegistryObject<Item> MISSILE_BUSTER = registerIngot("missile_buster");
-    public static final RegistryObject<Item> MISSILE_BUSTER_STRONG = registerIngot("missile_buster_strong");
+    public static final RegistryObject<Item> MISSILE_GENERIC =
+            ITEMS.register("missile_generic", () -> new MissileItem(MissileItem.GuiTier.TIER1));
+    public static final RegistryObject<Item> MISSILE_CHIP = registerIngot("missile_chip");
+    public static final RegistryObject<Item> MISSILE_STRONG =
+            ITEMS.register("missile_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
+    public static final RegistryObject<Item> MISSILE_INCENDIARY =
+            ITEMS.register("missile_incendiary", () -> new MissileItem(MissileItem.GuiTier.TIER1));
+    public static final RegistryObject<Item> MISSILE_INCENDIARY_STRONG =
+            ITEMS.register("missile_incendiary_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
+    public static final RegistryObject<Item> MISSILE_CLUSTER =
+            ITEMS.register("missile_cluster", () -> new MissileItem(MissileItem.GuiTier.TIER1));
+    public static final RegistryObject<Item> MISSILE_CLUSTER_STRONG =
+            ITEMS.register("missile_cluster_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
+    public static final RegistryObject<Item> MISSILE_BUSTER =
+            ITEMS.register("missile_buster", () -> new MissileItem(MissileItem.GuiTier.TIER1));
+    public static final RegistryObject<Item> MISSILE_BUSTER_STRONG =
+            ITEMS.register("missile_buster_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
     public static final RegistryObject<Item> MISSILE_BURST = registerIngot("missile_burst");
     public static final RegistryObject<Item> MISSILE_INFERNO = registerIngot("missile_inferno");
     public static final RegistryObject<Item> MISSILE_NUCLEAR = registerIngot("missile_nuclear");
@@ -822,7 +837,8 @@ public final class ModItems {
     public static final RegistryObject<Item> AMMO_GRENADE_KAMPF = registerIngot("ammo_grenade_kampf");
     public static final RegistryObject<Item> AMMO_GRENADE_LEADBURSTER = registerIngot("ammo_grenade_leadburster");
     // fluid_barrel is the FluidBarrelBlock item — do not register a separate part with that id
-    public static final RegistryObject<Item> FLUID_BARREL_INFINITE = registerIngot("fluid_barrel_infinite");
+    public static final RegistryObject<Item> FLUID_BARREL_INFINITE =
+            ITEMS.register("fluid_barrel_infinite", InfiniteFluidBarrelItem::new);
     public static final RegistryObject<Item> FLUID_TANK = registerIngot("fluid_tank");
     public static final RegistryObject<Item> FLUID_TANK_LEAD = registerIngot("fluid_tank_lead");
     public static final RegistryObject<Item> FLUID_IDENTIFIER = registerIngot("fluid_identifier");
@@ -1455,6 +1471,10 @@ public final class ModItems {
     public static final RegistryObject<Item> DECO_RBMK_SMOOTH = registerBlockItem(ModBlocks.DECO_RBMK_SMOOTH);
     public static final RegistryObject<Item> FLUID_BARREL = registerBlockItem(ModBlocks.FLUID_BARREL);
     public static final RegistryObject<Item> MACHINE_BATTERY = registerBlockItem(ModBlocks.MACHINE_BATTERY);
+    public static final RegistryObject<Item> MACHINE_BATTERY_INFINITE =
+            registerBlockItem(ModBlocks.MACHINE_BATTERY_INFINITE);
+    public static final RegistryObject<Item> BATTERY_CREATIVE =
+            ITEMS.register("battery_creative", BatteryCreativeItem::new);
     public static final RegistryObject<Item> COMBUSTION_GENERATOR = registerBlockItem(ModBlocks.COMBUSTION_GENERATOR);
     public static final RegistryObject<Item> DIESEL_GENERATOR = registerBlockItem(ModBlocks.DIESEL_GENERATOR);
     public static final RegistryObject<Item> ELECTRIC_FURNACE = registerBlockItem(ModBlocks.ELECTRIC_FURNACE);
@@ -1488,7 +1508,10 @@ public final class ModItems {
     public static final RegistryObject<Item> NUKE_PROTOTYPE = registerBlockItem(ModBlocks.NUKE_PROTOTYPE);
     public static final RegistryObject<Item> NUKE_CUSTOM = registerBlockItem(ModBlocks.NUKE_CUSTOM);
     public static final RegistryObject<Item> BOMB_MULTI = registerBlockItem(ModBlocks.BOMB_MULTI);
-    public static final RegistryObject<Item> LAUNCH_PAD = registerBlockItem(ModBlocks.LAUNCH_PAD);
+    public static final RegistryObject<Item> LAUNCH_PAD = ITEMS.register("launch_pad",
+            () -> new LaunchPadBlockItem(ModBlocks.LAUNCH_PAD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_MISSILE_ASSEMBLY =
+            registerBlockItem(ModBlocks.MACHINE_MISSILE_ASSEMBLY);
     public static final RegistryObject<Item> BOMB_FLOAT = registerBlockItem(ModBlocks.BOMB_FLOAT);
     public static final RegistryObject<Item> EMP_BOMB = registerBlockItem(ModBlocks.EMP_BOMB);
     public static final RegistryObject<Item> FIREWORKS = registerBlockItem(ModBlocks.FIREWORKS);

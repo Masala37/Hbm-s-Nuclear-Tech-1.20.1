@@ -5,7 +5,9 @@ import com.hbm.inventory.menu.CombustionGeneratorMenu;
 import com.hbm.inventory.menu.DieselGeneratorMenu;
 import com.hbm.inventory.menu.ElectricFurnaceMenu;
 import com.hbm.inventory.menu.FluidBarrelMenu;
+import com.hbm.inventory.menu.LaunchPadMenu;
 import com.hbm.inventory.menu.MachineBatteryMenu;
+import com.hbm.inventory.menu.MissileAssemblyMenu;
 import com.hbm.inventory.menu.NukeBoyMenu;
 import com.hbm.inventory.menu.NukeCustomMenu;
 import com.hbm.inventory.menu.NukeFleijaMenu;
@@ -44,6 +46,12 @@ public final class ModMenus {
 
     public static final RegistryObject<MenuType<CombustionGeneratorMenu>> COMBUSTION_GENERATOR =
             MENUS.register("combustion_generator", () -> IForgeMenuType.create(CombustionGeneratorMenu::new));
+
+    public static final RegistryObject<MenuType<MissileAssemblyMenu>> MISSILE_ASSEMBLY =
+            MENUS.register("machine_missile_assembly", () -> IForgeMenuType.create(MissileAssemblyMenu::new));
+
+    public static final RegistryObject<MenuType<LaunchPadMenu>> LAUNCH_PAD =
+            MENUS.register("launch_pad", () -> IForgeMenuType.create(LaunchPadMenu::new));
 
     public static final RegistryObject<MenuType<NukeBoyMenu>> NUKE_BOY =
             MENUS.register("nuke_boy", () -> IForgeMenuType.create(NukeBoyMenu::new));

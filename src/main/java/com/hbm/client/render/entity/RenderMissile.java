@@ -1,87 +1,176 @@
 package com.hbm.client.render.entity;
 
+import com.hbm.client.render.ObjModelRenderer;
 import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileBuster;
+import com.hbm.entity.missile.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.lib.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 /**
- * Elongated rocket mesh for missiles.
+ * Y-up forge:obj missile renderer — nose (+Y) aligned to travel direction.
  */
 public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
-    private static final ResourceLocation TEXTURE =
-            new ResourceLocation("minecraft", "textures/block/iron_block.png");
+    public static final ResourceLocation MODEL_V2 = id("block/missile_v2");
+    public static final ResourceLocation MODEL_V2_INC = id("block/missile_v2_inc");
+    public static final ResourceLocation MODEL_V2_CL = id("block/missile_v2_cl");
+    public static final ResourceLocation MODEL_V2_BU = id("block/missile_v2_bu");
+    public static final ResourceLocation MODEL_STRONG = id("block/missile_strong");
+    public static final ResourceLocation MODEL_STRONG_INC = id("block/missile_strong_inc");
+    public static final ResourceLocation MODEL_STRONG_CL = id("block/missile_strong_cl");
+    public static final ResourceLocation MODEL_STRONG_BU = id("block/missile_strong_bu");
+
+    private static final ResourceLocation[] ALL = {
+            MODEL_V2, MODEL_V2_INC, MODEL_V2_CL, MODEL_V2_BU,
+            MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU
+    };
+
+    private static final Vector3f NOSE = new Vector3f(0.0F, 1.0F, 0.0F);
 
     public RenderMissile(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.5F;
     }
 
+    public static ResourceLocation[] allModels() {
+        return ALL;
+    }
+
+    private static ResourceLocation id(String path) {
+        return new ResourceLocation(RefStrings.MODID, path);
+    }
+
     @Override
     public void render(EntityMissileBaseNT entity, float entityYaw, float partialTicks, PoseStack pose,
                        MultiBufferSource buffers, int packedLight) {
         pose.pushPose();
-        pose.mulPose(Axis.YP.rotationDegrees(-entityYaw));
-        pose.mulPose(Axis.XP.rotationDegrees(entity.getXRot() - 90.0F));
 
-        VertexConsumer consumer = buffers.getBuffer(RenderType.entitySolid(TEXTURE));
-        Matrix4f mat = pose.last().pose();
-        Matrix3f norm = pose.last().normal();
+        Vec3 dir = travelDirection(entity, partialTicks);
+        Vector3f to = new Vector3f((float) dir.x, (float) dir.y, (float) dir.z);
+        if (to.lengthSquared() > 1.0E-8F) {
+            to.normalize();
+            Quaternionf orient = new Quaternionf().rotationTo(NOSE, to);
+            pose.mulPose(orient);
+        } else {
+            // Fallback: legacy yaw/pitch
+            float yaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
+            float pitch = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
+            pose.mulPose(Axis.YP.rotationDegrees(yaw - 90.0F));
+            pose.mulPose(Axis.ZP.rotationDegrees(pitch));
+        }
 
-        // Body
-        box(consumer, mat, norm, packedLight, 0.55F, 0.55F, 0.6F, 1.0F,
-                -0.35F, 0.0F, -0.35F, 0.35F, 3.2F, 0.35F);
-        // Nose cone
-        box(consumer, mat, norm, packedLight, 0.7F, 0.25F, 0.25F, 1.0F,
-                -0.22F, 3.0F, -0.22F, 0.22F, 4.0F, 0.22F);
-        // Fins
-        box(consumer, mat, norm, packedLight, 0.4F, 0.4F, 0.45F, 1.0F,
-                -0.9F, 0.0F, -0.08F, 0.9F, 0.7F, 0.08F);
-        box(consumer, mat, norm, packedLight, 0.4F, 0.4F, 0.45F, 1.0F,
-                -0.08F, 0.0F, -0.9F, 0.08F, 0.7F, 0.9F);
+        if (isStrong(entity)) {
+            pose.scale(1.5F, 1.5F, 1.5F);
+        }
 
+        ObjModelRenderer.render(pose, buffers, modelFor(entity),
+                LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
         pose.popPose();
         super.render(entity, entityYaw, partialTicks, pose, buffers, packedLight);
     }
 
-    private static void box(VertexConsumer consumer, Matrix4f mat, Matrix3f norm, int light,
-                            float r, float g, float b, float a,
-                            float x0, float y0, float z0, float x1, float y1, float z1) {
-        quad(consumer, mat, norm, light, r, g, b, a, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1, 0, 0, 1);
-        quad(consumer, mat, norm, light, r, g, b, a, x1, y0, z0, x0, y0, z0, x0, y1, z0, x1, y1, z0, 0, 0, -1);
-        quad(consumer, mat, norm, light, r, g, b, a, x0, y1, z1, x1, y1, z1, x1, y1, z0, x0, y1, z0, 0, 1, 0);
-        quad(consumer, mat, norm, light, r, g, b, a, x0, y0, z0, x1, y0, z0, x1, y0, z1, x0, y0, z1, 0, -1, 0);
-        quad(consumer, mat, norm, light, r, g, b, a, x1, y0, z1, x1, y0, z0, x1, y1, z0, x1, y1, z1, 1, 0, 0);
-        quad(consumer, mat, norm, light, r, g, b, a, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0, -1, 0, 0);
+    /** Prefer live motion; fall back to displacement / upright. */
+    private static Vec3 travelDirection(EntityMissileBaseNT entity, float partialTicks) {
+        Vec3 motion = entity.getDeltaMovement();
+        if (motion.lengthSqr() > 1.0E-6D) {
+            return motion;
+        }
+        double dx = entity.getX() - entity.xo;
+        double dy = entity.getY() - entity.yo;
+        double dz = entity.getZ() - entity.zo;
+        if (dx * dx + dy * dy + dz * dz > 1.0E-6D) {
+            return new Vec3(dx, dy, dz);
+        }
+        float yaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
+        float pitch = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
+        // Legacy pitch 0 = up → world +Y
+        double elev = Math.toRadians(pitch + 90.0F);
+        double yawRad = Math.toRadians(yaw);
+        double horiz = Math.cos(elev);
+        return new Vec3(-Math.sin(yawRad) * horiz, Math.sin(elev), Math.cos(yawRad) * horiz);
     }
 
-    private static void quad(VertexConsumer consumer, Matrix4f mat, Matrix3f norm, int light,
-                             float r, float g, float b, float a,
-                             float x0, float y0, float z0,
-                             float x1, float y1, float z1,
-                             float x2, float y2, float z2,
-                             float x3, float y3, float z3,
-                             float nx, float ny, float nz) {
-        consumer.vertex(mat, x0, y0, z0).color(r, g, b, a).uv(0, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(norm, nx, ny, nz).endVertex();
-        consumer.vertex(mat, x1, y1, z1).color(r, g, b, a).uv(1, 1)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(norm, nx, ny, nz).endVertex();
-        consumer.vertex(mat, x2, y2, z2).color(r, g, b, a).uv(1, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(norm, nx, ny, nz).endVertex();
-        consumer.vertex(mat, x3, y3, z3).color(r, g, b, a).uv(0, 0)
-                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(norm, nx, ny, nz).endVertex();
+    public static void renderStanding(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
+                                      int packedLight, boolean strongScale) {
+        pose.pushPose();
+        if (strongScale) {
+            pose.scale(1.5F, 1.5F, 1.5F);
+        }
+        ObjModelRenderer.render(pose, buffers, modelId, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        pose.popPose();
+    }
+
+    public static boolean isStrong(EntityMissileBaseNT entity) {
+        if (entity instanceof EntityMissileStrong) {
+            return true;
+        }
+        if (entity instanceof EntityMissileIncendiary e) {
+            return e.isStrong();
+        }
+        if (entity instanceof EntityMissileCluster e) {
+            return e.isStrong();
+        }
+        if (entity instanceof EntityMissileBuster e) {
+            return e.isStrong();
+        }
+        return false;
+    }
+
+    public static ResourceLocation modelFor(EntityMissileBaseNT entity) {
+        boolean strong = isStrong(entity);
+        if (entity instanceof EntityMissileIncendiary) {
+            return strong ? MODEL_STRONG_INC : MODEL_V2_INC;
+        }
+        if (entity instanceof EntityMissileCluster) {
+            return strong ? MODEL_STRONG_CL : MODEL_V2_CL;
+        }
+        if (entity instanceof EntityMissileBuster) {
+            return strong ? MODEL_STRONG_BU : MODEL_V2_BU;
+        }
+        return strong ? MODEL_STRONG : MODEL_V2;
+    }
+
+    public static ResourceLocation modelForItem(ItemStack stack) {
+        Item item = stack.getItem();
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+        if (key == null) {
+            return MODEL_V2;
+        }
+        return switch (key.getPath()) {
+            case "missile_strong" -> MODEL_STRONG;
+            case "missile_incendiary_strong" -> MODEL_STRONG_INC;
+            case "missile_cluster_strong" -> MODEL_STRONG_CL;
+            case "missile_buster_strong" -> MODEL_STRONG_BU;
+            case "missile_incendiary" -> MODEL_V2_INC;
+            case "missile_cluster" -> MODEL_V2_CL;
+            case "missile_buster" -> MODEL_V2_BU;
+            default -> MODEL_V2;
+        };
+    }
+
+    public static boolean isStrongItem(ItemStack stack) {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        return key != null && key.getPath().contains("_strong");
     }
 
     @Override
     public ResourceLocation getTextureLocation(EntityMissileBaseNT entity) {
-        return TEXTURE;
+        return new ResourceLocation(RefStrings.MODID, "textures/block/missile/missile_v2.png");
     }
 }

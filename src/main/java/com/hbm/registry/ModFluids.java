@@ -63,6 +63,10 @@ public final class ModFluids {
             "gasoline", 0xFF445772, 750, 800, 300, true);
     public static final FluidEntry LUBRICANT = registerLiquid(
             "lubricant", 0xFF606060, 900, 2000, 300, true);
+    public static final FluidEntry ETHANOL = registerLiquid(
+            "ethanol", 0xFFE8F0FF, 789, 1200, 300, false);
+    public static final FluidEntry PEROXIDE = registerLiquid(
+            "peroxide", 0xFFE8FFE8, 1450, 1200, 300, false);
     public static final FluidEntry SULFURIC_ACID = registerLiquid(
             "sulfuric_acid", 0xFFB0AA64, 1800, 1500, 300, true);
     public static final FluidEntry NITRIC_ACID = registerLiquid(

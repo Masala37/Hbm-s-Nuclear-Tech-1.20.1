@@ -13,7 +13,11 @@ import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.missile.EntityMissileBuster;
+import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileGeneric;
+import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityClusterBomblet;
 import com.hbm.entity.projectile.EntityFallingNuke;
@@ -173,6 +177,42 @@ public final class ModEntities {
                     .clientTrackingRange(256)
                     .updateInterval(1)
                     .build("missile_generic"));
+
+    public static final RegistryObject<EntityType<EntityMissileStrong>> MISSILE_STRONG = ENTITIES.register(
+            "missile_strong",
+            () -> EntityType.Builder.<EntityMissileStrong>of(EntityMissileStrong::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.0F, 4.5F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_strong"));
+
+    public static final RegistryObject<EntityType<EntityMissileIncendiary>> MISSILE_INCENDIARY = ENTITIES.register(
+            "missile_incendiary",
+            () -> EntityType.Builder.<EntityMissileIncendiary>of(EntityMissileIncendiary::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.0F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_incendiary"));
+
+    public static final RegistryObject<EntityType<EntityMissileCluster>> MISSILE_CLUSTER = ENTITIES.register(
+            "missile_cluster",
+            () -> EntityType.Builder.<EntityMissileCluster>of(EntityMissileCluster::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.0F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_cluster"));
+
+    public static final RegistryObject<EntityType<EntityMissileBuster>> MISSILE_BUSTER = ENTITIES.register(
+            "missile_buster",
+            () -> EntityType.Builder.<EntityMissileBuster>of(EntityMissileBuster::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.0F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_buster"));
 
     public static final RegistryObject<EntityType<EntityMist>> MIST = ENTITIES.register(
             "mist",

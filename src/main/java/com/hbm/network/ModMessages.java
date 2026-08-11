@@ -54,6 +54,36 @@ public final class ModMessages {
                 .consumerMainThread(FstbmbButtonPacket::handle)
                 .add();
 
+        CHANNEL.messageBuilder(AssembleMissilePacket.class, nextId++)
+                .encoder(AssembleMissilePacket::encode)
+                .decoder(AssembleMissilePacket::decode)
+                .consumerMainThread(AssembleMissilePacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(LaunchPadPacket.class, nextId++)
+                .encoder(LaunchPadPacket::encode)
+                .decoder(LaunchPadPacket::decode)
+                .consumerMainThread(LaunchPadPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(ExplosionLargeEffectPacket.class, nextId++)
+                .encoder(ExplosionLargeEffectPacket::encode)
+                .decoder(ExplosionLargeEffectPacket::decode)
+                .consumerMainThread(ExplosionLargeEffectPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(ExplosionSmallEffectPacket.class, nextId++)
+                .encoder(ExplosionSmallEffectPacket::encode)
+                .decoder(ExplosionSmallEffectPacket::decode)
+                .consumerMainThread(ExplosionSmallEffectPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(SmokeCloudEffectPacket.class, nextId++)
+                .encoder(SmokeCloudEffectPacket::encode)
+                .decoder(SmokeCloudEffectPacket::decode)
+                .consumerMainThread(SmokeCloudEffectPacket::handle)
+                .add();
+
         CHANNEL.messageBuilder(LivingPropsSyncPacket.class, nextId++)
                 .encoder(LivingPropsSyncPacket::encode)
                 .decoder(LivingPropsSyncPacket::decode)

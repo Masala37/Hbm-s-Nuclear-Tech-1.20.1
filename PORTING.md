@@ -70,6 +70,8 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Chunk radiation + entity contamination + Sellafield live decay (5→0→gravel/sand) + hazmat/Geiger
 - [x] Bomber flybys (EntityBomber types 0–4) + fallout column undercut + crashed-bomb rad aura + taint spread lite
 - [x] Digamma living stack + HazardSystem (RAD/DIGAMMA inventory + tooltips) + typed BombletZeta + Missile MVP (designator/pad/generic)
+- [x] Missile depth: Tier-1 warheads, FE launch gate (~75k), size/preset assembly machine
+- [x] Missile Tier-1/2 fidelity: hybrid ballistics, warhead impacts, composeEffect debris/FX, launch pad + assembly
 - [ ] RBMK GUIs / simulation
 
 ## Radiation / Sellafield QA checklist
@@ -86,7 +88,9 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - Hold uranium ingot / nuclear waste: inventory applies RAD; tooltip shows RAD/s; Geiger env rises.
 - Hold `particle_digamma` or use `digamma_diagnostic`: digamma dose / DRX readout; max health drops with digamma.
 - Bomb caller: whistle + multi-box plane; carpet HE ~4; napalm sets fire; chlorine mist on ground impact.
-- Designator RMB → coords in tooltip → use on launch pad → insert `missile_generic` → empty hand or redstone → HE crater.
+- Designator RMB on ground → coords in tooltip → RMB designator on launch pad (with coords stored) programs pad.
+- Power the pad (≥75k FE via cables/battery) → insert `missile_generic` / incendiary / cluster / buster / strong variants → empty hand or redstone → matching warhead impact.
+- Missile assembly: chip + matching-size warhead/thruster + fuselage (+ optional fins) → Assemble → preset missile item.
 
 ## Why this is a rewrite, not a version bump
 

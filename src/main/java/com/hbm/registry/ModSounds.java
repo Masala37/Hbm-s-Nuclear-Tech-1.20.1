@@ -18,6 +18,11 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> TECH_BLEEP = register("tool.tech_bleep");
     public static final RegistryObject<SoundEvent> SPARK_SHOOT = register("weapon.spark_shoot");
     public static final RegistryObject<SoundEvent> ROCKET_FLAME = register("weapon.rocket_flame");
+    public static final RegistryObject<SoundEvent> MISSILE_TAKEOFF = register("weapon.missile_takeoff");
+    public static final RegistryObject<SoundEvent> EXPLOSION_LARGE_NEAR = register("weapon.explosion_large_near");
+    public static final RegistryObject<SoundEvent> EXPLOSION_LARGE_FAR = register("weapon.explosion_large_far");
+    public static final RegistryObject<SoundEvent> EXPLOSION_SMALL_NEAR = register("weapon.explosion_small_near");
+    public static final RegistryObject<SoundEvent> EXPLOSION_SMALL_FAR = register("weapon.explosion_small_far");
     public static final RegistryObject<SoundEvent> MUKE_EXPLOSION = register("weapon.muke_explosion");
     public static final RegistryObject<SoundEvent> NUCLEAR_EXPLOSION = register("weapon.nuclear_explosion");
     public static final RegistryObject<SoundEvent> BOMB_WHISTLE = register("entity.bomb_whistle");
@@ -28,6 +33,8 @@ public final class ModSounds {
     }
 
     private static RegistryObject<SoundEvent> register(String path) {
+        // Variable-range (vanilla default): volume drives audible distance.
+        // Fixed-range events were unreliable for launch SFX in-game.
         return SOUNDS.register(path, () -> SoundEvent.createVariableRangeEvent(
                 new ResourceLocation(RefStrings.MODID, path)));
     }

@@ -1,10 +1,10 @@
 package com.hbm.items.tool;
 
+import com.hbm.blocks.machine.LaunchPadBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -14,12 +14,14 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * Missile designator — RMB on a block stores target coordinates (NBT keys x/y/z).
+ * RMB on a launch pad with a stored target lets the pad claim the click to program itself.
  */
 public class DesignatorItem extends Item {
     public DesignatorItem() {
@@ -51,10 +53,17 @@ public class DesignatorItem extends Item {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         ItemStack stack = context.getItemInHand();
+        BlockState state = level.getBlockState(pos);
+
+        // Already programmed: let LaunchPadBlock.use transfer coords to the pad
+        if (state.getBlock() instanceof LaunchPadBlock && hasTarget(stack)) {
+            return InteractionResult.PASS;
+        }
+
         setTarget(stack, pos);
         if (!level.isClientSide) {
             Player player = context.getPlayer();
-            level.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.5F, 1.2F);
+            level.playSound(null, pos, com.hbm.registry.ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 0.5F, 1.0F);
             if (player != null) {
                 player.displayClientMessage(Component.literal("Target set: " + pos.getX() + ", "
                         + pos.getY() + ", " + pos.getZ()).withStyle(ChatFormatting.YELLOW), true);

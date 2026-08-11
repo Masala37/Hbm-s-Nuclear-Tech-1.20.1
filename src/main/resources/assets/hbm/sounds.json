@@ -13,7 +13,7 @@
   },
   "tool.tech_bleep": {
     "category": "player",
-    "sounds": [{ "name": "hbm:tool/techBleep", "stream": false }]
+    "sounds": [{ "name": "hbm:tool/tech_bleep", "stream": false }]
   },
   "weapon.spark_shoot": {
     "category": "block",
@@ -23,9 +23,39 @@
       { "name": "hbm:weapon/spark_shoot3", "stream": false }
     ]
   },
+  "weapon.missile_takeoff": {
+    "category": "player",
+    "sounds": [
+      { "name": "hbm:weapon/missile_takeoff", "stream": false },
+      { "name": "hbm:weapon/missile_takeoff_alt", "stream": false }
+    ]
+  },
   "weapon.rocket_flame": {
-    "category": "block",
+    "category": "player",
     "sounds": [{ "name": "hbm:weapon/rocket_flame", "stream": false }]
+  },
+  "weapon.explosion_large_near": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/explosion_large_near", "stream": false }]
+  },
+  "weapon.explosion_large_far": {
+    "category": "block",
+    "sounds": [{ "name": "hbm:weapon/explosion_large_far", "stream": false }]
+  },
+  "weapon.explosion_small_near": {
+    "category": "block",
+    "sounds": [
+      { "name": "hbm:weapon/explosion_small_near1", "stream": false },
+      { "name": "hbm:weapon/explosion_small_near2", "stream": false },
+      { "name": "hbm:weapon/explosion_small_near3", "stream": false }
+    ]
+  },
+  "weapon.explosion_small_far": {
+    "category": "block",
+    "sounds": [
+      { "name": "hbm:weapon/explosion_small_far1", "stream": false },
+      { "name": "hbm:weapon/explosion_small_far2", "stream": false }
+    ]
   },
   "weapon.muke_explosion": {
     "category": "block",
@@ -37,7 +67,7 @@
   },
   "entity.bomb_whistle": {
     "category": "hostile",
-    "sounds": [{ "name": "hbm:entity/bombWhistle", "stream": false }]
+    "sounds": [{ "name": "hbm:entity/bomb_whistle", "stream": false }]
   },
   "entity.bomber_loop": {
     "category": "hostile",

@@ -20,7 +20,7 @@ This is a **rewrite**, not a drop-in update from 1.7.10. Roughly:
 |------|--------|
 | Bombs / nukes / detonators | Mostly done |
 | Radiation, Sellafield, hazmat | WIP |
-| Bomb caller / missile MVP | WIP |
+| Bomb caller / missile Tier-1/2 | Alpha (pad, assembly, warheads, debris FX) |
 | Early machines (furnace, battery, diesel, cables) | Missing or stub |
 | RBMK, weapons, most machines | Missing or stub |
 

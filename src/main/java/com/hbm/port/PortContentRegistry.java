@@ -169,13 +169,19 @@ public final class PortContentRegistry {
                 "defuser", "screwdriver", "screwdriver_desh",
                 "bomb_caller", "bomb_waffle", "guide_book",
                 "geiger_counter", "digamma_diagnostic", "particle_digamma",
-                "launch_pad", "designator", "missile_generic",
+                "launch_pad", "designator", "designator_range", "machine_missile_assembly", "missile_chip",
+                "missile_generic", "missile_strong",
+                "missile_incendiary", "missile_incendiary_strong",
+                "missile_cluster", "missile_cluster_strong",
+                "missile_buster", "missile_buster_strong",
                 "fire_digamma", "taint",
                 "toxic_block", "bucket_toxic",
                 "gas_radon", "gas_radon_dense", "gas_radon_tomb",
                 "fallout", "volcano_core", "volcano_rad_core",
-                "electric_furnace", "machine_battery", "machine_diesel", "machine_combustion",
-                "fluid_barrel_steel", "red_cable", "red_cable_classic", "red_cable_paintable",
+                "electric_furnace", "machine_battery", "machine_battery_infinite", "battery_creative",
+                "ethanol_bucket", "peroxide_bucket",
+                "machine_diesel", "machine_combustion",
+                "fluid_barrel_steel", "fluid_barrel_infinite", "red_cable", "red_cable_classic", "red_cable_paintable",
                 "cable_switch", "cable_detector", "cable_diode",
                 "crate_iron", "crate_steel",
                 "flame_war", "therm_endo", "therm_exo",
@@ -196,7 +202,7 @@ public final class PortContentRegistry {
         Collections.addAll(set,
                 "designator_manual", "designator_tracker", "designator_arty", "sat_designator",
                 "rbmk_blank", "rbmk_reflector", "rbmk_absorber", "rbmk_moderator",
-                "compact_launcher", "launch_table", "machine_missile_assembly");
+                "compact_launcher", "launch_table");
         return set;
     }
 }

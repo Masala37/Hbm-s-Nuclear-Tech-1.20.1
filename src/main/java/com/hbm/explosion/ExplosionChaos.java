@@ -2,6 +2,7 @@ package com.hbm.explosion;
 
 import com.hbm.entity.projectile.EntityClusterBomblet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +23,38 @@ import java.util.List;
  */
 public final class ExplosionChaos {
     private ExplosionChaos() {
+    }
+
+    /**
+     * Legacy {@code ExplosionChaos.igniteFlammableBlocks} — set fire atop flammable blocks
+     * inside a half-squared sphere of radius {@code bound}.
+     */
+    public static void igniteFlammableBlocks(Level level, int x, int y, int z, int bound) {
+        if (level.isClientSide || bound <= 0) {
+            return;
+        }
+        int r = bound;
+        int r22 = (r * r) / 2;
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
+        for (int xx = -r; xx < r; xx++) {
+            for (int yy = -r; yy < r; yy++) {
+                for (int zz = -r; zz < r; zz++) {
+                    if (xx * xx + yy * yy + zz * zz >= r22) {
+                        continue;
+                    }
+                    pos.set(x + xx, y + yy, z + zz);
+                    above.set(pos.getX(), pos.getY() + 1, pos.getZ());
+                    if (!level.isInWorldBounds(pos) || !level.isInWorldBounds(above)) {
+                        continue;
+                    }
+                    BlockState state = level.getBlockState(pos);
+                    if (state.isFlammable(level, pos, Direction.UP) && level.getBlockState(above).isAir()) {
+                        level.setBlock(above, Blocks.FIRE.defaultBlockState(), 3);
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -178,6 +178,8 @@ public final class CreativeTabClassifier {
         Map<String, Kind> map = new HashMap<>();
         put(map, Kind.MACHINE,
                 "electric_furnace", "diesel_generator", "combustion_generator", "machine_battery",
+                "machine_battery_infinite", "battery_creative",
+                "ethanol_bucket", "peroxide_bucket",
                 "fluid_barrel", "red_cable", "red_cable_classic", "red_wire_coated", "cable_switch",
                 "cable_detector", "cable_diode", "crate_iron", "crate_steel", "deco_rbmk",
                 "deco_rbmk_smooth", "pwr_controller",

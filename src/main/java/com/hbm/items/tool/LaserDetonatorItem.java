@@ -1,10 +1,10 @@
 package com.hbm.items.tool;
 
 import com.hbm.api.bomb.IBomb;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,10 +24,11 @@ import org.joml.Vector3f;
 import java.util.List;
 
 /**
- * Aim and click to detonate a bomb in line of sight (legacy {@code ItemLaserDetonator}).
+ * Aim and click to detonate a bomb / launch pad in line of sight (legacy {@code ItemLaserDetonator}).
  */
 public class LaserDetonatorItem extends Item {
-    private static final double RANGE = 128.0D;
+    /** Legacy {@code Library.rayTrace(player, 500, 1)}. */
+    private static final double RANGE = 500.0D;
 
     public LaserDetonatorItem() {
         super(new Item.Properties().stacksTo(1));
@@ -50,7 +51,7 @@ public class LaserDetonatorItem extends Item {
             if (!level.isClientSide) {
                 player.displayClientMessage(Component.translatable(IBomb.BombReturnCode.ERROR_NO_BOMB.getMessageKey()), true);
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 1.0F, 0.5F);
+                        ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
             return InteractionResultHolder.fail(stack);
         }
@@ -64,12 +65,12 @@ public class LaserDetonatorItem extends Item {
         BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof IBomb bomb) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             IBomb.BombReturnCode result = bomb.explode(level, pos);
             player.displayClientMessage(Component.translatable(result.getMessageKey()), true);
         } else {
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 1.0F, 0.5F);
+                    ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             player.displayClientMessage(Component.translatable(IBomb.BombReturnCode.ERROR_NO_BOMB.getMessageKey()), true);
         }
         return InteractionResultHolder.consume(stack);
