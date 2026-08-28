@@ -1,10 +1,16 @@
 package com.hbm.entity.missile;
 
 import com.hbm.blocks.generic.TaintBlock;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityEMPBlast;
+import com.hbm.entity.logic.EntityEMP;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.network.ExplosionLargeEffectPacket;
 import com.hbm.network.ModMessages;
@@ -20,7 +26,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PacketDistributor;
 
 /**
- * Shared warhead impact helpers matching legacy {@code EntityMissileTier1}/{@code Tier2}.
+ * Shared warhead impact helpers matching legacy {@code EntityMissileTier1}/{@code Tier2}/{@code Tier3}.
  */
 public final class MissileImpacts {
     private MissileImpacts() {
@@ -59,13 +65,20 @@ public final class MissileImpacts {
         composeEffect(level, x, y, z, ExplosionLargeEffectPacket.Preset.STANDARD);
     }
 
+    /**
+     * Legacy {@code ExplosionCreator.composeEffectLarge} (huge / spare warheads).
+     */
+    public static void composeEffectLarge(Level level, double x, double y, double z) {
+        composeEffect(level, x, y, z, ExplosionLargeEffectPacket.Preset.LARGE);
+    }
+
     private static void composeEffect(Level level, double x, double y, double z,
                                       ExplosionLargeEffectPacket.Preset preset) {
         if (level.isClientSide || !(level instanceof ServerLevel server)) {
             return;
         }
-        // Legacy packet range: Math.max(300, soundRange).
-        double range = 300.0D;
+        // Legacy packet range: Math.max(300, soundRange). LARGE soundRange is 350.
+        double range = preset == ExplosionLargeEffectPacket.Preset.LARGE ? 350.0D : 300.0D;
         ModMessages.CHANNEL.send(
                 PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                         x, y, z, range, server.dimension())),
@@ -216,6 +229,82 @@ public final class MissileImpacts {
                 level.setBlock(target, taint, 2);
             }
         }
+    }
+
+    /**
+     * Legacy {@code EntityMissileSchrabidium}: MK3 FLEIJA dig + cyan cloud at
+     * {@code BombConfig.aSchrabRadius} (default 20). Cloud is skipped if the blast
+     * entity is already discarded (legacy AT-suppression {@code isDead} check).
+     */
+    public static void schrabidiumMicro(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        int radius = BombConfig.aSchrabRadius.get();
+        EntityNukeExplosionMK3 blast = EntityNukeExplosionMK3.statFacFleija(
+                level, source.getX(), source.getY(), source.getZ(), radius);
+        if (blast.isRemoved()) {
+            return;
+        }
+        level.addFreshEntity(blast);
+        EntityCloudFleija cloud = new EntityCloudFleija(level, radius);
+        cloud.setPos(source.getX(), source.getY(), source.getZ());
+        level.addFreshEntity(cloud);
+    }
+
+    /**
+     * Legacy {@code EntityMissileEMP}: sphere EMP drain/scrap radius 50 plus expanding ring visual.
+     */
+    public static void empMicro(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        ExplosionNukeGeneric.empBlast(level,
+                (int) source.getX(), (int) source.getY(), (int) source.getZ(), 50);
+        EntityEMPBlast.spawn(level, source.getX(), source.getY(), source.getZ(), 50);
+    }
+
+    /**
+     * Legacy {@code EntityMissileDecoy}: 4F blast, no fire, no block damage
+     * ({@code newExplosion(..., 4F, false, false)} → {@link Level.ExplosionInteraction#NONE}).
+     */
+    public static void decoy(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        level.explode(source, source.getX(), source.getY(), source.getZ(),
+                4.0F, false, Level.ExplosionInteraction.NONE);
+    }
+
+    /**
+     * Legacy {@code EntityMissileEMPStrong}: spawn the 10-minute {@code EntityEMP} logic field.
+     */
+    public static void empStrong(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        EntityEMP.spawn(level, source.getX(), source.getY(), source.getZ());
+    }
+
+    /**
+     * Legacy {@code EntityMissileBurst}: explodeStandard(50F, 48, false) + composeEffectLarge.
+     */
+    public static void burstTier3(Level level, Entity source, double x, double y, double z) {
+        explodeStandard(level, source, x, y, z, 50.0F, 48, false);
+        composeEffectLarge(level, x, y, z);
+    }
+
+    /** Alias for {@link #burstTier3} using the missile position. */
+    public static void spare(Level level, Entity source) {
+        burstTier3(level, source, source.getX(), source.getY(), source.getZ());
+    }
+
+    /**
+     * Legacy {@code EntityMissileStealth}: explodeStandard(20F, 24, false) + composeEffectStandard.
+     */
+    public static void stealth(Level level, Entity source) {
+        explodeStandard(level, source, source.getX(), source.getY(), source.getZ(), 20.0F, 24, false);
+        composeEffectStandard(level, source.getX(), source.getY(), source.getZ());
     }
 
     /**

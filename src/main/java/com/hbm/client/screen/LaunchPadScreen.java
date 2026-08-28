@@ -113,6 +113,8 @@ public class LaunchPadScreen extends AbstractContainerScreen<LaunchPadMenu> {
             scale = switch (mi.getTier()) {
                 case TIER0 -> 2.25D; // Micro — legacy TYPE_TIER0 pad preview
                 case TIER2 -> 1.375D;
+                case TIER3 -> 0.925D; // Huge — legacy GUILaunchPadLarge HUGE
+                case STEALTH -> 1.125D; // unique mesh; legacy GUILaunchPadLarge
                 default -> 1.75D;
             };
         } else if (RenderMissile.isStrongItem(missile)) {

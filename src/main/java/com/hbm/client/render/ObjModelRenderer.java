@@ -17,6 +17,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Shared helper for rendering forge:obj models registered via {@code ModelEvent.RegisterAdditional}
  * or blockstates (nukes / mines / missiles / silo).
@@ -25,6 +28,8 @@ import org.jetbrains.annotations.Nullable;
  * not {@code #standalone}. Looking up only MRL keys returns the missing model and draws nothing.
  */
 public final class ObjModelRenderer {
+    private static final Set<ResourceLocation> MISSING_WARNED = ConcurrentHashMap.newKeySet();
+
     private ObjModelRenderer() {
     }
 
@@ -59,7 +64,9 @@ public final class ObjModelRenderer {
             return model;
         }
 
-        HbmNuclearTechMod.LOGGER.warn("Missing baked OBJ model: {} (tried plain, #standalone, #)", modelId);
+        if (MISSING_WARNED.add(modelId)) {
+            HbmNuclearTechMod.LOGGER.warn("Missing baked OBJ model: {} (tried plain, #standalone, #)", modelId);
+        }
         return null;
     }
 

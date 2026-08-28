@@ -10,6 +10,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 /**
  * Client-only missile exhaust / launch plume (legacy {@code missileContrail} + {@code launchSmoke}).
@@ -58,19 +60,29 @@ public final class ClientMissileParticles {
             thrust = new Vec3(-Math.sin(yawRad) * horiz, Math.sin(elev), Math.cos(yawRad) * horiz);
         }
 
-        float scale = Math.max(missile.getContrailScalePublic(), 1.0F);
+        // Legacy uses getContrailScale as-is (Tier-1 / micro = 0.5). Do not clamp up to 1.
+        float scale = missile.getContrailScalePublic();
+        if (scale <= 0.0F) {
+            scale = 1.0F;
+        }
         int steps = Math.max(Math.min((int) Math.ceil(len), 10), 1);
+        Vec3[] offsets = missile.contrailOffsets();
+        Quaternionf orient = noseToThrust(thrust);
 
-        for (int i = 0; i < steps; i++) {
-            double j = i - len;
-            double px = missile.getX() - dx * j;
-            double py = missile.getY() - dy * j;
-            double pz = missile.getZ() - dz * j;
-            ParticleRocketFlame fx = new ParticleRocketFlame(level, px, py, pz)
-                    .setScale(scale)
-                    .setMaxAge(60 + level.random.nextInt(20));
-            fx.setMotion(-thrust.x, -thrust.y, -thrust.z);
-            mc.particleEngine.add(fx);
+        for (Vec3 offset : offsets) {
+            Vector3f world = new Vector3f((float) offset.x, (float) offset.y, (float) offset.z);
+            orient.transform(world);
+            for (int i = 0; i < steps; i++) {
+                double j = i - len;
+                double px = missile.getX() - dx * j + world.x;
+                double py = missile.getY() - dy * j + world.y;
+                double pz = missile.getZ() - dz * j + world.z;
+                ParticleRocketFlame fx = new ParticleRocketFlame(level, px, py, pz)
+                        .setScale(scale)
+                        .setMaxAge(60 + level.random.nextInt(20));
+                fx.setMotion(-thrust.x, -thrust.y, -thrust.z);
+                mc.particleEngine.add(fx);
+            }
         }
     }
 
@@ -108,6 +120,20 @@ public final class ClientMissileParticles {
             plume.setMotion(moX, 0.0D, moZ);
             mc.particleEngine.add(plume);
         }
+    }
+
+    /**
+     * Same orientation as {@code RenderMissile}: local +Y is the nose, so engine
+     * offsets in missile space follow the airframe instead of entity yaw/pitch
+     * (yaw faces the target; the mesh follows velocity).
+     */
+    private static Quaternionf noseToThrust(Vec3 thrust) {
+        Vector3f to = new Vector3f((float) thrust.x, (float) thrust.y, (float) thrust.z);
+        if (to.lengthSquared() < 1.0E-8F) {
+            return new Quaternionf();
+        }
+        to.normalize();
+        return new Quaternionf().rotationTo(new Vector3f(0.0F, 1.0F, 0.0F), to);
     }
 
     /** True when a flying missile is still in the legacy pad smoke AABB. */

@@ -52,6 +52,13 @@ public final class MissileLaunchRegistry {
         register(ModItems.MISSILE_TAINT, EntityMissileTaint::new);
         register(ModItems.MISSILE_MICRO, EntityMissileMicro::new);
         register(ModItems.MISSILE_BHOLE, EntityMissileBHole::new);
+        register(ModItems.MISSILE_SCHRABIDIUM, EntityMissileSchrabidium::new);
+        register(ModItems.MISSILE_EMP, EntityMissileEMP::new);
+        register(ModItems.MISSILE_EMP_STRONG,
+                (level, x, y, z, tx, ty, tz) -> new EntityMissileEMPStrong(level, x, y, z, tx, ty, tz));
+        register(ModItems.MISSILE_DECOY, EntityMissileDecoy::new);
+        register(ModItems.MISSILE_STEALTH, EntityMissileStealth::new);
+        register(ModItems.MISSILE_BURST, EntityMissileBurst::new);
     }
 
     public static void register(Supplier<? extends Item> item, Spawner spawner) {

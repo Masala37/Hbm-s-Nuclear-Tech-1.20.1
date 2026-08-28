@@ -1,0 +1,11 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_huge.obj",
+  "textures": {
+    "particle": "hbm:block/missile/missile_huge",
+    "material": "hbm:block/missile/missile_huge"
+  }
+}

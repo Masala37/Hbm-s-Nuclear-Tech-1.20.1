@@ -115,15 +115,23 @@ public final class ExplosionNukeGeneric {
     }
 
     public static void emp(Level level, BlockPos pos) {
-        if (level.isClientSide) {
-            return;
+        if (drainEnergy(level, pos) && level.random.nextInt(5) <= 1) {
+            level.setBlock(pos, ModBlocks.ELECTRICAL_SCRAP.get().defaultBlockState(), 3);
         }
+    }
 
+    /**
+     * Drain Forge energy at a block without converting it to electrical scrap.
+     * Used by the sustained {@code EntityEMP} field (legacy setPower(0) / extractEnergy).
+     */
+    public static boolean drainEnergy(Level level, BlockPos pos) {
+        if (level.isClientSide) {
+            return false;
+        }
         BlockEntity be = level.getBlockEntity(pos);
         if (be == null) {
-            return;
+            return false;
         }
-
         boolean drained = drainEnergy(be, null);
         if (!drained) {
             for (Direction dir : Direction.values()) {
@@ -132,10 +140,23 @@ public final class ExplosionNukeGeneric {
                 }
             }
         }
+        return drained;
+    }
 
-        if (drained && level.random.nextInt(5) <= 1) {
-            level.setBlock(pos, ModBlocks.ELECTRICAL_SCRAP.get().defaultBlockState(), 3);
+    /** True if the block entity exposes a Forge energy capability on any side. */
+    public static boolean hasEnergyCapability(BlockEntity be) {
+        if (be == null) {
+            return false;
         }
+        if (be.getCapability(ForgeCapabilities.ENERGY, null).isPresent()) {
+            return true;
+        }
+        for (Direction dir : Direction.values()) {
+            if (be.getCapability(ForgeCapabilities.ENERGY, dir).isPresent()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

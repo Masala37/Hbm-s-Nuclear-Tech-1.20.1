@@ -143,8 +143,15 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MISSILE_TAINT.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_MICRO.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_BHOLE.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_SCHRABIDIUM.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_EMP.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_EMP_STRONG.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_DECOY.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_STEALTH.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_BURST.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.BLACK_HOLE.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntities.MIST.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.EMP_LOGIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.FALLING_NUKE.get(), RenderBombProjectiles.FallingNuke::new);
         event.registerEntityRenderer(ModEntities.BOMBER.get(), RenderBomber::new);
         event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_PAD.get(), RenderLaunchPad::new);

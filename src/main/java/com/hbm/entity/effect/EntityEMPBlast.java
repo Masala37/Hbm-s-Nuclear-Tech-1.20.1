@@ -61,7 +61,7 @@ public class EntityEMPBlast extends Entity {
         super.tick();
         age++;
         scale++;
-        if (age >= getMaxAge()) {
+        if (!level().isClientSide && age >= getMaxAge()) {
             discard();
         }
     }

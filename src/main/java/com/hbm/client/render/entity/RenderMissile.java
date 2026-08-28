@@ -3,10 +3,16 @@ package com.hbm.client.render.entity;
 import com.hbm.client.render.ObjModelRenderer;
 import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileBHole;
+import com.hbm.entity.missile.EntityMissileBurst;
 import com.hbm.entity.missile.EntityMissileBuster;
 import com.hbm.entity.missile.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileDecoy;
+import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
 import com.hbm.entity.missile.EntityMissileIncendiary;
 import com.hbm.entity.missile.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileSchrabidium;
+import com.hbm.entity.missile.EntityMissileStealth;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.lib.RefStrings;
@@ -34,6 +40,7 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     public static final ResourceLocation MODEL_V2_INC = id("block/missile_v2_inc");
     public static final ResourceLocation MODEL_V2_CL = id("block/missile_v2_cl");
     public static final ResourceLocation MODEL_V2_BU = id("block/missile_v2_bu");
+    public static final ResourceLocation MODEL_V2_DECOY = id("block/missile_v2_decoy");
     public static final ResourceLocation MODEL_STRONG = id("block/missile_strong");
     public static final ResourceLocation MODEL_STRONG_INC = id("block/missile_strong_inc");
     public static final ResourceLocation MODEL_STRONG_CL = id("block/missile_strong_cl");
@@ -41,18 +48,24 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     public static final ResourceLocation MODEL_MICRO_TAINT = id("block/missile_micro_taint");
     public static final ResourceLocation MODEL_MICRO = id("block/missile_micro");
     public static final ResourceLocation MODEL_MICRO_BHOLE = id("block/missile_micro_bhole");
+    public static final ResourceLocation MODEL_MICRO_SCHRAB = id("block/missile_micro_schrab");
+    public static final ResourceLocation MODEL_MICRO_EMP = id("block/missile_micro_emp");
+    public static final ResourceLocation MODEL_STRONG_EMP = id("block/missile_strong_emp");
+    public static final ResourceLocation MODEL_STEALTH = id("block/missile_stealth");
+    public static final ResourceLocation MODEL_HUGE = id("block/missile_huge");
 
     private static final ResourceLocation[] ALL = {
-            MODEL_V2, MODEL_V2_INC, MODEL_V2_CL, MODEL_V2_BU,
-            MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU,
-            MODEL_MICRO_TAINT, MODEL_MICRO, MODEL_MICRO_BHOLE
+            MODEL_V2, MODEL_V2_INC, MODEL_V2_CL, MODEL_V2_BU, MODEL_V2_DECOY,
+            MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU, MODEL_STRONG_EMP,
+            MODEL_MICRO_TAINT, MODEL_MICRO, MODEL_MICRO_BHOLE, MODEL_MICRO_SCHRAB, MODEL_MICRO_EMP,
+            MODEL_STEALTH, MODEL_HUGE
     };
 
     private static final Vector3f NOSE = new Vector3f(0.0F, 1.0F, 0.0F);
 
     public RenderMissile(EntityRendererProvider.Context context) {
         super(context);
-        this.shadowRadius = 0.5F;
+        this.shadowRadius = 0.0F;
     }
 
     public static ResourceLocation[] allModels() {
@@ -115,16 +128,42 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
 
     public static void renderStanding(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
                                       int packedLight, boolean strongScale) {
+        renderStanding(pose, buffers, modelId, packedLight, strongScale ? 1.5F : 1.0F);
+    }
+
+    public static void renderStanding(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
+                                      int packedLight, float scale) {
         pose.pushPose();
-        if (strongScale) {
-            pose.scale(1.5F, 1.5F, 1.5F);
+        if (scale != 1.0F) {
+            pose.scale(scale, scale, scale);
         }
         ObjModelRenderer.render(pose, buffers, modelId, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
         pose.popPose();
     }
 
+    /** Pad world render: stealth 1.125, huge/burst 0.925, strong 1.5, others 1.0. Flight must not 1.5x unique meshes. */
+    public static float standingScale(ItemStack stack) {
+        if (isStealthItem(stack)) {
+            return 1.125F;
+        }
+        if (isBurstItem(stack)) {
+            return 0.925F;
+        }
+        return isStrongItem(stack) ? 1.5F : 1.0F;
+    }
+
+    public static boolean isStealthItem(ItemStack stack) {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        return key != null && "missile_stealth".equals(key.getPath());
+    }
+
+    public static boolean isBurstItem(ItemStack stack) {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        return key != null && "missile_burst".equals(key.getPath());
+    }
+
     public static boolean isStrong(EntityMissileBaseNT entity) {
-        if (entity instanceof EntityMissileStrong) {
+        if (entity instanceof EntityMissileStrong || entity instanceof EntityMissileEMPStrong) {
             return true;
         }
         if (entity instanceof EntityMissileIncendiary e) {
@@ -148,6 +187,24 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
         }
         if (entity instanceof EntityMissileBHole) {
             return MODEL_MICRO_BHOLE;
+        }
+        if (entity instanceof EntityMissileSchrabidium) {
+            return MODEL_MICRO_SCHRAB;
+        }
+        if (entity instanceof EntityMissileEMP) {
+            return MODEL_MICRO_EMP;
+        }
+        if (entity instanceof EntityMissileEMPStrong) {
+            return MODEL_STRONG_EMP;
+        }
+        if (entity instanceof EntityMissileDecoy) {
+            return MODEL_V2_DECOY;
+        }
+        if (entity instanceof EntityMissileStealth) {
+            return MODEL_STEALTH;
+        }
+        if (entity instanceof EntityMissileBurst) {
+            return MODEL_HUGE;
         }
         boolean strong = isStrong(entity);
         if (entity instanceof EntityMissileIncendiary) {
@@ -179,6 +236,12 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
             case "missile_taint" -> MODEL_MICRO_TAINT;
             case "missile_micro" -> MODEL_MICRO;
             case "missile_bhole" -> MODEL_MICRO_BHOLE;
+            case "missile_schrabidium" -> MODEL_MICRO_SCHRAB;
+            case "missile_emp" -> MODEL_MICRO_EMP;
+            case "missile_emp_strong" -> MODEL_STRONG_EMP;
+            case "missile_decoy" -> MODEL_V2_DECOY;
+            case "missile_stealth" -> MODEL_STEALTH;
+            case "missile_burst" -> MODEL_HUGE;
             default -> MODEL_V2;
         };
     }

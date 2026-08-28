@@ -283,7 +283,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
     public boolean hasFuel() {
         int cost = getRequiredFuelAmount();
         if (cost <= 0) {
-            // Solid / pre-fueled (legacy MICRO / Tier0 — taint, micro, bhole) — no tank drain
+            // Solid / pre-fueled (legacy MICRO / Tier0 — taint, micro, bhole, schrab) — no tank drain
             return true;
         }
         return fuelTank.getFluidAmount() >= cost

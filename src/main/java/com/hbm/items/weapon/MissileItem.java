@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 /**
  * Missile item with legacy-style 3D inventory / hand rendering (BEWLR).
  * Fuel caps follow legacy {@code ItemMissile} form-factor defaults
- * (MICRO/TIER0 = solid pre-fueled → 0 mB; V2 = 4000; Strong = 8000).
+ * (MICRO/TIER0 = solid pre-fueled → 0 mB; V2 = 4000; Strong = 8000; Huge = 12000 kerosene/loxy).
  */
 public class MissileItem extends Item {
     public enum GuiTier {
@@ -29,7 +29,22 @@ public class MissileItem extends Item {
         /** Strong / Tier2 — legacy guiScale 2.0 + mesh 1.5.
          * Legacy fuelCap is 8000 kerosene; this pad only stocks ethanol/peroxide,
          * so keep the previous 4000 mB drain until kerosene tanks are ported. */
-        TIER2(2.0F, 6.5F, 1.5F, 4_000);
+        TIER2(2.0F, 6.5F, 1.5F, 4_000),
+        /**
+         * Huge / Tier3 — legacy TYPE_TIER3 guiScale 1.25 / guiOffset 1.0, generateStandard
+         * (meshScale 1.0 — do not 1.5× like strong). Legacy fuelCap is 12_000 mB
+         * kerosene/loxy; this pad only stocks ethanol/peroxide, so 4000 mB like other
+         * liquid missiles until loxy/kerosene tanks exist.
+         */
+        TIER3(1.25F, 1.0F, 1.0F, 4_000),
+        /**
+         * Stealth — unique mesh. Legacy TYPE_STEALTH guiScale 1.75 / guiOffset 4.75.
+         * Form factor is STRONG but tooltip stays Tier 1. Legacy fuel is 8000
+         * kerosene/peroxide; this pad only stocks ethanol/peroxide, so 4000 mB
+         * like other strong missiles until kerosene tanks are ported.
+         * meshScale 1.0 — do not 1.5x the unique mesh.
+         */
+        STEALTH(1.75F, 4.75F, 1.0F, 4_000);
 
         public final float guiScale;
         public final float guiOffset;
@@ -67,8 +82,10 @@ public class MissileItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.missile.tier." + tier.name().toLowerCase())
-                .withStyle(ChatFormatting.ITALIC));
+        String tierKey = tier == GuiTier.STEALTH
+                ? "item.missile.tier.tier1"
+                : "item.missile.tier." + tier.name().toLowerCase();
+        tooltip.add(Component.translatable(tierKey).withStyle(ChatFormatting.ITALIC));
 
         Component fuelName = tier.fuelCap <= 0
                 ? Component.translatable("item.missile.fuel.solid.prefueled").withStyle(ChatFormatting.GOLD)
@@ -84,9 +101,25 @@ public class MissileItem extends Item {
 
         var key = ForgeRegistries.ITEMS.getKey(this);
         if (key != null && "missile_taint".equals(key.getPath())) {
-            // Legacy ItemCustomLore optional desc — only taint has a useful port note;
-            // micro-nuke has no .desc in legacy en_US.lang.
             tooltip.add(Component.translatable("item.hbm.missile_taint.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_schrabidium".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_schrabidium.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_emp_strong".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_emp_strong.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_emp".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_emp.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_decoy".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_decoy.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_stealth".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_stealth.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_burst".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_burst.desc")
                     .withStyle(ChatFormatting.GRAY));
         }
     }

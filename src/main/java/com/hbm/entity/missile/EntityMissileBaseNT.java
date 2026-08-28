@@ -1,5 +1,7 @@
 package com.hbm.entity.missile;
 
+import api.hbm.entity.IRadarDetectableNT;
+import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -22,11 +24,12 @@ import net.minecraftforge.network.NetworkHooks;
  * Rotation matches 1.7.10: yaw faces target, pitch is {@code atan2(my, horiz) - 90}
  * (0 = nose up). Renderer uses the same yaw/pitch as legacy.
  */
-public abstract class EntityMissileBaseNT extends Entity implements IEntityAdditionalSpawnData {
+public abstract class EntityMissileBaseNT extends Entity implements IEntityAdditionalSpawnData, IRadarDetectableNT {
     private static final EntityDataAccessor<Integer> DATA_TARGET_X =
             SynchedEntityData.defineId(EntityMissileBaseNT.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_TARGET_Z =
             SynchedEntityData.defineId(EntityMissileBaseNT.class, EntityDataSerializers.INT);
+    private static final Vec3[] CENTER_CONTRAIL = { Vec3.ZERO };
 
     protected int startX;
     protected int startZ;
@@ -95,6 +98,15 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
     /** Client particle helper access. */
     public float getContrailScalePublic() {
         return getContrailScale();
+    }
+
+    /**
+     * Missile-local engine exhaust offsets (nose along +Y, same space as the OBJ).
+     * Client contrails rotate these into world space with travel direction.
+     * Default is a single center puff; huge airframes return four engines.
+     */
+    public Vec3[] contrailOffsets() {
+        return CENTER_CONTRAIL;
     }
 
     @Override
@@ -314,5 +326,44 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         return distance < 300.0D * 300.0D;
+    }
+
+    @Override
+    public boolean canBeSeenBy(Object radar) {
+        return true;
+    }
+
+    @Override
+    public boolean paramsApplicable(RadarScanParams params) {
+        return params.scanMissiles;
+    }
+
+    @Override
+    public boolean suppliesRedstone(RadarScanParams params) {
+        if (params.smartMode && getDeltaMovement().y >= 0.0D) {
+            return false;
+        }
+        return true;
+    }
+
+    /** Radar blip/name tier. Decoy overrides to spoof TIER4. */
+    protected int radarTier() {
+        return IRadarDetectableNT.TIER1;
+    }
+
+    @Override
+    public String getUnlocalizedName() {
+        return switch (radarTier()) {
+            case IRadarDetectableNT.TIER0 -> "radar.target.tier0";
+            case IRadarDetectableNT.TIER2 -> "radar.target.tier2";
+            case IRadarDetectableNT.TIER3 -> "radar.target.tier3";
+            case IRadarDetectableNT.TIER4 -> "radar.target.tier4";
+            default -> "radar.target.tier1";
+        };
+    }
+
+    @Override
+    public int getBlipLevel() {
+        return radarTier();
     }
 }

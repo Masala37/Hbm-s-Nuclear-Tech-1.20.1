@@ -1,5 +1,6 @@
 package com.hbm.entity.missile;
 
+import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.registry.ModEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -16,6 +17,11 @@ public class EntityMissileStrong extends EntityMissileBaseNT {
     public EntityMissileStrong(Level level, double x, double y, double z,
                                int targetX, int targetY, int targetZ) {
         super(ModEntities.MISSILE_STRONG.get(), level, x, y, z, targetX, targetY, targetZ);
+    }
+
+    @Override
+    protected int radarTier() {
+        return IRadarDetectableNT.TIER2;
     }
 
     @Override

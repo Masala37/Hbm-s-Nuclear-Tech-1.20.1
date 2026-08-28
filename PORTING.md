@@ -71,7 +71,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Bomber flybys (EntityBomber types 0–4) + fallout column undercut + crashed-bomb rad aura + taint spread lite
 - [x] Digamma living stack + HazardSystem (RAD/DIGAMMA inventory + tooltips) + typed BombletZeta + Missile MVP (designator/pad/generic)
 - [x] Missile depth: Tier-1 warheads, FE launch gate (~75k), size/preset assembly machine
-- [x] Missile Tier-1/2 fidelity: hybrid ballistics, warhead impacts, composeEffect debris/FX, launch pad + assembly
+- [x] Missile pad roster: T0–T3 + stealth/decoy (schrab FLEIJA, EMP field, spare huge HE); radar hooks; launch pad + assembly
 - [ ] RBMK GUIs / simulation
 
 ## Radiation / Sellafield QA checklist

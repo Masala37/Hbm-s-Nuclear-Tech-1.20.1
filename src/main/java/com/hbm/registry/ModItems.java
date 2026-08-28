@@ -784,28 +784,34 @@ public final class ModItems {
             ITEMS.register("missile_buster", () -> new MissileItem(MissileItem.GuiTier.TIER1));
     public static final RegistryObject<Item> MISSILE_BUSTER_STRONG =
             ITEMS.register("missile_buster_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
-    public static final RegistryObject<Item> MISSILE_BURST = registerIngot("missile_burst");
+    public static final RegistryObject<Item> MISSILE_BURST =
+            ITEMS.register("missile_burst", () -> new MissileItem(MissileItem.GuiTier.TIER3));
     public static final RegistryObject<Item> MISSILE_INFERNO = registerIngot("missile_inferno");
     public static final RegistryObject<Item> MISSILE_NUCLEAR = registerIngot("missile_nuclear");
     public static final RegistryObject<Item> MISSILE_NUCLEAR_CLUSTER = registerIngot("missile_nuclear_cluster");
     public static final RegistryObject<Item> MISSILE_ENDO = registerIngot("missile_endo");
     public static final RegistryObject<Item> MISSILE_EXO = registerIngot("missile_exo");
-    public static final RegistryObject<Item> MISSILE_EMP = registerIngot("missile_emp");
-    public static final RegistryObject<Item> MISSILE_EMP_STRONG = registerIngot("missile_emp_strong");
+    public static final RegistryObject<Item> MISSILE_EMP =
+            ITEMS.register("missile_emp", () -> new MissileItem(MissileItem.GuiTier.TIER0));
+    public static final RegistryObject<Item> MISSILE_EMP_STRONG =
+            ITEMS.register("missile_emp_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
     public static final RegistryObject<Item> MISSILE_TAINT =
             ITEMS.register("missile_taint", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_MICRO =
             ITEMS.register("missile_micro", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_BHOLE =
             ITEMS.register("missile_bhole", () -> new MissileItem(MissileItem.GuiTier.TIER0));
-    public static final RegistryObject<Item> MISSILE_STEALTH = registerIngot("missile_stealth");
+    public static final RegistryObject<Item> MISSILE_STEALTH =
+            ITEMS.register("missile_stealth", () -> new MissileItem(MissileItem.GuiTier.STEALTH));
     public static final RegistryObject<Item> MISSILE_ANTI_BALLISTIC = registerIngot("missile_anti_ballistic");
     public static final RegistryObject<Item> MISSILE_DOOMSDAY = registerIngot("missile_doomsday");
-    public static final RegistryObject<Item> MISSILE_SCHRABIDIUM = registerIngot("missile_schrabidium");
+    public static final RegistryObject<Item> MISSILE_SCHRABIDIUM =
+            ITEMS.register("missile_schrabidium", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_CARRIER = registerIngot("missile_carrier");
     public static final RegistryObject<Item> MISSILE_SHUTTLE = registerIngot("missile_shuttle");
     public static final RegistryObject<Item> MISSILE_VOLCANO = registerIngot("missile_volcano");
-    public static final RegistryObject<Item> MISSILE_DECOY = registerIngot("missile_decoy");
+    public static final RegistryObject<Item> MISSILE_DECOY =
+            ITEMS.register("missile_decoy", () -> new MissileItem(MissileItem.GuiTier.TIER1));
     public static final RegistryObject<Item> MISSILE_DRILL = registerIngot("missile_drill");
     public static final RegistryObject<Item> MISSILE_RAIN = registerIngot("missile_rain");
     public static final RegistryObject<Item> MISSILE_CUSTOM = registerIngot("missile_custom");

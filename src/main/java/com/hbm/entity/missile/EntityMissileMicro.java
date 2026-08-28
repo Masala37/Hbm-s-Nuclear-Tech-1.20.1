@@ -1,5 +1,6 @@
 package com.hbm.entity.missile;
 
+import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.registry.ModEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -26,6 +27,11 @@ public class EntityMissileMicro extends EntityMissileBaseNT {
     @Override
     protected float getContrailScale() {
         return 0.5F;
+    }
+
+    @Override
+    protected int radarTier() {
+        return IRadarDetectableNT.TIER0;
     }
 
     @Override

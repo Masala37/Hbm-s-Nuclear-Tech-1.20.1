@@ -2,7 +2,7 @@
 
 Unofficial **Forge 1.20.1** port of [Hbm's Nuclear Tech Mod](https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT).
 
-- **Version:** `1.0.28-1.20.1-port-alpha`
+- **Version:** `1.0.30-1.20.1-port-alpha`
 - **Requires:** Minecraft 1.20.1, Forge 47.x, Java 17
 - **License:** GPL-3.0
 
@@ -20,7 +20,7 @@ This is a **rewrite**, not a drop-in update from 1.7.10. Roughly:
 |------|--------|
 | Bombs / nukes / detonators | Mostly done |
 | Radiation, Sellafield, hazmat | WIP |
-| Bomb caller / missile Tier-1/2 | Alpha (pad, assembly, warheads, debris FX) |
+| Bomb caller / missiles | Alpha (pad, T0–T3 + stealth/decoy/EMP/spare, debris FX) |
 | Early machines (furnace, battery, diesel, cables) | Missing or stub |
 | RBMK, weapons, most machines | Missing or stub |
 
@@ -34,7 +34,7 @@ See [PORTING.md](PORTING.md) for the detailed checklist.
 gradlew.bat build
 ```
 
-Output: `build/libs/HBM-NTM-1.0.28-1.20.1-port-alpha.jar`
+Output: `build/libs/HBM-NTM-1.0.30-1.20.1-port-alpha.jar`
 
 ## Legacy reference
 

@@ -13,6 +13,7 @@ public final class BombConfig {
     public static ForgeConfigSpec.IntValue missileRadius;
     public static ForgeConfigSpec.IntValue tsarRadius;
     public static ForgeConfigSpec.IntValue fleijaRadius;
+    public static ForgeConfigSpec.IntValue aSchrabRadius;
     public static ForgeConfigSpec.IntValue soliniumRadius;
     public static ForgeConfigSpec.IntValue prototypeRadius;
     public static ForgeConfigSpec.IntValue customRadius;
@@ -57,6 +58,10 @@ public final class BombConfig {
         fleijaRadius = builder
                 .comment("Radius of FLEIJA (MK3 fleija dig)")
                 .defineInRange("fleijaRadius", 50, 1, 500);
+
+        aSchrabRadius = builder
+                .comment("Radius of the schrabidium missile (MK3 fleija dig + cyan cloud)")
+                .defineInRange("aSchrabRadius", 20, 1, 500);
 
         soliniumRadius = builder
                 .comment("Radius of Solinium (MK3 solinium dig)")

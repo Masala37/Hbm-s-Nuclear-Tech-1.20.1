@@ -1,4 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": { "layer0": "hbm:item/missile_stealth" }
+  "parent": "hbm:item/missile_bewlr"
 }

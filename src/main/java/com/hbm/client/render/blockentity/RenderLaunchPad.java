@@ -72,7 +72,7 @@ public class RenderLaunchPad implements BlockEntityRenderer<LaunchPadBlockEntity
                 pose, buffers,
                 RenderMissile.modelForItem(missile),
                 LightTexture.FULL_BRIGHT,
-                RenderMissile.isStrongItem(missile));
+                RenderMissile.standingScale(missile));
         pose.popPose();
     }
 

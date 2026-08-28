@@ -1,5 +1,6 @@
 package com.hbm.entity.missile;
 
+import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.registry.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -45,6 +46,11 @@ public class EntityMissileCluster extends EntityMissileBaseNT {
     @Override
     protected float getContrailScale() {
         return isStrong() ? 1.0F : 0.5F;
+    }
+
+    @Override
+    protected int radarTier() {
+        return isStrong() ? IRadarDetectableNT.TIER2 : IRadarDetectableNT.TIER1;
     }
 
     @Override

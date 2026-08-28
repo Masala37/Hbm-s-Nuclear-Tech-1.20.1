@@ -5,6 +5,7 @@ import com.hbm.lib.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -45,6 +46,7 @@ public class RenderEMPBlast extends EntityRenderer<EntityEMPBlast> {
         Matrix4f matrix = poseStack.last().pose();
         Matrix3f normal = poseStack.last().normal();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(TEXTURE));
+        int light = LightTexture.FULL_BRIGHT;
 
         float inner = scale * 0.82F;
         float outer = scale;
@@ -63,10 +65,10 @@ public class RenderEMPBlast extends EntityRenderer<EntityEMPBlast> {
             float u0 = i / (float) SEGMENTS;
             float u1 = (i + 1) / (float) SEGMENTS;
 
-            vertex(consumer, matrix, normal, c0 * outer, s0 * outer, 0.0F, u0, 0.0F, r, g, b, alpha, packedLight);
-            vertex(consumer, matrix, normal, c1 * outer, s1 * outer, 0.0F, u1, 0.0F, r, g, b, alpha, packedLight);
-            vertex(consumer, matrix, normal, c1 * inner, s1 * inner, 0.0F, u1, 1.0F, r, g, b, alpha, packedLight);
-            vertex(consumer, matrix, normal, c0 * inner, s0 * inner, 0.0F, u0, 1.0F, r, g, b, alpha, packedLight);
+            vertex(consumer, matrix, normal, c0 * outer, s0 * outer, 0.0F, u0, 0.0F, r, g, b, alpha, light);
+            vertex(consumer, matrix, normal, c1 * outer, s1 * outer, 0.0F, u1, 0.0F, r, g, b, alpha, light);
+            vertex(consumer, matrix, normal, c1 * inner, s1 * inner, 0.0F, u1, 1.0F, r, g, b, alpha, light);
+            vertex(consumer, matrix, normal, c0 * inner, s0 * inner, 0.0F, u0, 1.0F, r, g, b, alpha, light);
         }
 
         poseStack.popPose();
