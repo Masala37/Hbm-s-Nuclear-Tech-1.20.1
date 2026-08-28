@@ -16,10 +16,15 @@ public final class HbmRenderTypes extends RenderType {
             new ResourceLocation("hbm", "textures/particle/particle_base.png");
     private static final ResourceLocation FLASH =
             new ResourceLocation("hbm", "textures/particle/flare.png");
+    private static final ResourceLocation BHOLE_DISC =
+            new ResourceLocation("hbm", "textures/entity/bhole_disc.png");
 
     /** Cached so {@code endBatch(type)} can flush the same instance we drew into. */
     public static final RenderType TOREX_CLOUD = createCloud(CLOUDLET);
     public static final RenderType TOREX_FLASH = createFlash(FLASH);
+    public static final RenderType BHOLE_DISC_TRANSLUCENT = createBholeDisc(BHOLE_DISC, false);
+    public static final RenderType BHOLE_DISC_ADDITIVE = createBholeDisc(BHOLE_DISC, true);
+    public static final RenderType BHOLE_JETS = createBholeJets();
 
     private HbmRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize,
                            boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
@@ -61,6 +66,36 @@ public final class HbmRenderTypes extends RenderType {
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setCullState(NO_CULL)
                         .setLightmapState(LIGHTMAP)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .setDepthTestState(LEQUAL_DEPTH_TEST)
+                        .createCompositeState(false));
+    }
+
+    private static RenderType createBholeDisc(ResourceLocation texture, boolean additive) {
+        String name = additive ? "hbm_bhole_disc_add" : "hbm_bhole_disc";
+        return create(name, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, BIG_BUFFER,
+                false, true,
+                CompositeState.builder()
+                        .setShaderState(POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        // Glow must be SRC_ALPHA, ONE (lightning). ADDITIVE is ONE, ONE and ignores fade alpha.
+                        .setTransparencyState(additive ? LIGHTNING_TRANSPARENCY : TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(NO_CULL)
+                        .setLightmapState(LIGHTMAP)
+                        // Translucent pass writes depth so Fancy clouds do not draw through the disc.
+                        .setWriteMaskState(additive ? COLOR_WRITE : COLOR_DEPTH_WRITE)
+                        .setDepthTestState(LEQUAL_DEPTH_TEST)
+                        .createCompositeState(false));
+    }
+
+    private static RenderType createBholeJets() {
+        return create("hbm_bhole_jets", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 256,
+                false, true,
+                CompositeState.builder()
+                        .setShaderState(POSITION_COLOR_SHADER)
+                        .setTextureState(NO_TEXTURE)
+                        .setTransparencyState(LIGHTNING_TRANSPARENCY)
+                        .setCullState(NO_CULL)
                         .setWriteMaskState(COLOR_WRITE)
                         .setDepthTestState(LEQUAL_DEPTH_TEST)
                         .createCompositeState(false));

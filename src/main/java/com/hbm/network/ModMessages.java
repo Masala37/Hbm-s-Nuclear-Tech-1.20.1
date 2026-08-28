@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
  * Thin networking scaffold. Legacy threaded custom codecs are not ported yet.
  */
 public final class ModMessages {
-    private static final String PROTOCOL = "3";
+    private static final String PROTOCOL = "4";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(RefStrings.MODID, "main"),
@@ -82,6 +82,12 @@ public final class ModMessages {
                 .encoder(SmokeCloudEffectPacket::encode)
                 .decoder(SmokeCloudEffectPacket::decode)
                 .consumerMainThread(SmokeCloudEffectPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(MukeEffectPacket.class, nextId++)
+                .encoder(MukeEffectPacket::encode)
+                .decoder(MukeEffectPacket::decode)
+                .consumerMainThread(MukeEffectPacket::handle)
                 .add();
 
         CHANNEL.messageBuilder(LivingPropsSyncPacket.class, nextId++)

@@ -37,6 +37,8 @@ public class EntityNukeExplosionMK5 extends Entity {
 
     private IExplosionRay explosion;
     private boolean flashed;
+    /** When true, skip port-added vanilla flash/smoke on first tick (legacy MK5 has none). */
+    private boolean suppressFlashFx;
 
     public EntityNukeExplosionMK5(EntityType<? extends EntityNukeExplosionMK5> type, Level level) {
         super(type, level);
@@ -74,7 +76,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         setDeltaMovement(Vec3.ZERO);
         setPos(blastX, blastY, blastZ);
 
-        if (!flashed && level() instanceof ServerLevel server) {
+        if (!flashed && !suppressFlashFx && level() instanceof ServerLevel server) {
             flashed = true;
             float scale = Math.max(2.0F, length / 8.0F);
             server.sendParticles(ParticleTypes.EXPLOSION_EMITTER, getX(), getY(), getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
@@ -82,6 +84,8 @@ public class EntityNukeExplosionMK5 extends Entity {
             server.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY() + 2.0D, getZ(), 40, scale, scale * 0.5D, scale, 0.05D);
             server.playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS,
                     16.0F, 0.5F + random.nextFloat() * 0.2F);
+        } else if (!flashed && suppressFlashFx) {
+            flashed = true;
         }
 
         ExplosionNukeGeneric.dealDamage(level(), getX(), getY(), getZ(), this.length * 2.0D);
@@ -130,6 +134,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         this.speed = tag.getInt("speed");
         this.length = tag.getInt("length");
         this.flashed = tag.getBoolean("flashed");
+        this.suppressFlashFx = tag.getBoolean("suppressFlashFx");
         this.fallout = !tag.contains("fallout") || tag.getBoolean("fallout");
         this.falloutAdd = tag.getInt("falloutAdd");
         if (tag.contains("blastX")) {
@@ -146,6 +151,7 @@ public class EntityNukeExplosionMK5 extends Entity {
         tag.putInt("speed", speed);
         tag.putInt("length", length);
         tag.putBoolean("flashed", flashed);
+        tag.putBoolean("suppressFlashFx", suppressFlashFx);
         tag.putBoolean("fallout", fallout);
         tag.putInt("falloutAdd", falloutAdd);
         if (originSet) {
@@ -182,6 +188,12 @@ public class EntityNukeExplosionMK5 extends Entity {
 
     public EntityNukeExplosionMK5 moreFallout(int fallout) {
         this.falloutAdd = fallout;
+        return this;
+    }
+
+    /** Skip port-only vanilla flash particles (legacy MK5 is silent/invisible aside from dig). */
+    public EntityNukeExplosionMK5 suppressFlashFx() {
+        this.suppressFlashFx = true;
         return this;
     }
 }

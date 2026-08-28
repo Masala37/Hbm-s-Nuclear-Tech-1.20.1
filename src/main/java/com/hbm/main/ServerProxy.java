@@ -29,6 +29,10 @@ public class ServerProxy {
     public void spawnMissileContrail(EntityMissileBaseNT missile) {
     }
 
+    /** Client-only: looping rumble that follows a live singularity. */
+    public void playBlackHole(com.hbm.entity.effect.EntityBlackHole hole) {
+    }
+
     /** Client-only: pad launch smoke while a missile is nearby. */
     public void tickLaunchPadSmoke(Level level, BlockPos pos) {
     }

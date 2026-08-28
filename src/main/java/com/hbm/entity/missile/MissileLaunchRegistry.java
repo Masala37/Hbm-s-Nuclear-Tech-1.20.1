@@ -49,6 +49,9 @@ public final class MissileLaunchRegistry {
                 (level, x, y, z, tx, ty, tz) -> new EntityMissileBuster(level, x, y, z, tx, ty, tz, false));
         register(ModItems.MISSILE_BUSTER_STRONG,
                 (level, x, y, z, tx, ty, tz) -> new EntityMissileBuster(level, x, y, z, tx, ty, tz, true));
+        register(ModItems.MISSILE_TAINT, EntityMissileTaint::new);
+        register(ModItems.MISSILE_MICRO, EntityMissileMicro::new);
+        register(ModItems.MISSILE_BHOLE, EntityMissileBHole::new);
     }
 
     public static void register(Supplier<? extends Item> item, Spawner spawner) {

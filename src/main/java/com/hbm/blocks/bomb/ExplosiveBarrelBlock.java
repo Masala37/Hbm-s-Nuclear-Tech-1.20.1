@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.api.bomb.IBomb;
+import com.hbm.blocks.generic.TaintBlock;
 import com.hbm.entity.bomb.PrimedBombEntity;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionThermo;
@@ -242,7 +243,7 @@ public class ExplosiveBarrelBlock extends Block implements IBomb {
     }
 
     private static void scatterTaint(Level level, BlockPos origin) {
-        BlockState taint = ModBlocks.TAINT.get().defaultBlockState();
+        BlockState taint = TaintBlock.fresh();
         for (int i = 0; i < 100; i++) {
             BlockPos target = origin.offset(
                     level.random.nextInt(9) - 4,

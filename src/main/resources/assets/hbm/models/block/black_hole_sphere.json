@@ -1,0 +1,11 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/sphere.obj",
+  "textures": {
+    "particle": "hbm:block/black_hole",
+    "material": "hbm:block/black_hole"
+  }
+}

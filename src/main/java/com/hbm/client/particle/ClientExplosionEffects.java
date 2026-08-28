@@ -273,4 +273,21 @@ public final class ClientExplosionEffects {
         int delayTicks = (int) (dist / SPEED_OF_SOUND);
         mc.getSoundManager().playDelayed(instance, Math.max(0, delayTicks));
     }
+
+    /**
+     * Legacy AuxParticle {@code type=muke}: shockwave + flash (which seeds mushroom clouds).
+     * Also applies a short hurt-cam punch like legacy ClientProxy.
+     */
+    public static void spawnMuke(double x, double y, double z, boolean balefire) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null || mc.player == null) {
+            return;
+        }
+        mc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
+        mc.particleEngine.add(new ParticleMukeFlash(level, x, y, z, balefire));
+        // Legacy: player.hurtTime = 15; player.maxHurtTime = 15;
+        mc.player.hurtTime = 15;
+        mc.player.hurtDuration = 15;
+    }
 }

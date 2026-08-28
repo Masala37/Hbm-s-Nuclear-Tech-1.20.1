@@ -26,6 +26,7 @@ import com.hbm.client.render.blockentity.RenderCrashedBomb;
 import com.hbm.client.render.blockentity.RenderLandmine;
 import com.hbm.client.render.blockentity.RenderLaunchPad;
 import com.hbm.client.render.entity.PrimedBombRenderer;
+import com.hbm.client.render.entity.RenderBlackHole;
 import com.hbm.client.render.entity.RenderBombProjectiles;
 import com.hbm.client.render.entity.RenderBomber;
 import com.hbm.client.render.entity.RenderEMPBlast;
@@ -34,8 +35,10 @@ import com.hbm.client.render.entity.RenderFireworks;
 import com.hbm.client.render.entity.RenderNukeCloud;
 import com.hbm.client.render.entity.RenderRubble;
 import com.hbm.client.render.entity.RenderTorex;
+import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.lib.RefStrings;
 import com.hbm.registry.ModBlockEntities;
+import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModEntities;
 import com.hbm.registry.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -47,6 +50,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -59,6 +63,22 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(ClientModEvents::registerMenuScreens);
+    }
+
+    @SubscribeEvent
+    public static void onBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tintIndex) -> {
+            int intensity = state.hasProperty(SellafieldSlakedBlock.INTENSITY)
+                    ? state.getValue(SellafieldSlakedBlock.INTENSITY)
+                    : 0;
+            return SellafieldSlakedBlock.tintColor(intensity);
+        }, ModBlocks.SELLAFIELD_SLAKED.get());
+    }
+
+    @SubscribeEvent
+    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> SellafieldSlakedBlock.tintColor(0),
+                ModBlocks.SELLAFIELD_SLAKED.get());
     }
 
     public static void registerMenuScreens() {
@@ -120,6 +140,10 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MISSILE_INCENDIARY.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_CLUSTER.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_BUSTER.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_TAINT.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_MICRO.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_BHOLE.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.BLACK_HOLE.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntities.MIST.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.FALLING_NUKE.get(), RenderBombProjectiles.FallingNuke::new);
         event.registerEntityRenderer(ModEntities.BOMBER.get(), RenderBomber::new);
@@ -149,6 +173,7 @@ public final class ClientModEvents {
         for (ResourceLocation model : RenderMissile.allModels()) {
             event.register(model);
         }
+        event.register(RenderBlackHole.MODEL_SPHERE);
         event.register(new ResourceLocation(RefStrings.MODID, "block/launch_pad_silo"));
     }
 }

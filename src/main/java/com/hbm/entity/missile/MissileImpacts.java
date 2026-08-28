@@ -1,14 +1,22 @@
 package com.hbm.entity.missile;
 
+import com.hbm.blocks.generic.TaintBlock;
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.network.ExplosionLargeEffectPacket;
 import com.hbm.network.ModMessages;
+import com.hbm.registry.ModBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PacketDistributor;
 
 /**
@@ -141,6 +149,73 @@ public final class MissileImpacts {
         ExplosionLarge.spawnParticles(level, x, y, z, 8);
         ExplosionLarge.spawnShrapnels(level, x, y, z, 8);
         ExplosionLarge.spawnRubble(level, x, y, z, 8);
+    }
+
+    /**
+     * Legacy {@code EntityMissileMicro}:
+     * {@code ExplosionNukeSmall.explode(..., posY + 0.5, ..., PARAMS_HIGH)}.
+     * {@code PARAMS_HIGH}: not mini-nuke → MK5 dig at {@code BombConfig.fatmanRadius} (default 35),
+     * no shrapnel, no kill-radius pass (MK5 deals damage itself), muke FX / sound.
+     */
+    public static void microNuke(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        ExplosionNukeSmall.explode(level, source.getX(), source.getY() + 0.5D, source.getZ(),
+                ExplosionNukeSmall.PARAMS_HIGH);
+    }
+
+    /**
+     * Legacy {@code EntityMissileBHole}: vanilla 1.5F blast then a 1.5-size black hole
+     * at the missile position.
+     */
+    public static void blackHoleMicro(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        double x = source.getX();
+        double y = source.getY();
+        double z = source.getZ();
+        level.explode(source, x, y, z, 1.5F, true, Level.ExplosionInteraction.TNT);
+        EntityBlackHole hole = new EntityBlackHole(level, 1.5F);
+        hole.setPos(x, y, z);
+        level.addFreshEntity(hole);
+    }
+
+    /**
+     * Legacy {@code EntityMissileTaint}: vanilla 5F blast at hit + 100 solid→taint(age 0)
+     * replacements in an 11³ cube centered on the impact <em>block</em> (mop.blockX/Y/Z).
+     */
+    public static void taintMicro(Level level, Entity source, HitResult hit) {
+        if (level.isClientSide) {
+            return;
+        }
+        double x = hit.getLocation().x;
+        double y = hit.getLocation().y;
+        double z = hit.getLocation().z;
+        level.explode(source, x, y, z, 5.0F, true, Level.ExplosionInteraction.TNT);
+        BlockPos origin;
+        if (hit.getType() == HitResult.Type.BLOCK && hit instanceof BlockHitResult blockHit) {
+            origin = blockHit.getBlockPos();
+        } else {
+            origin = BlockPos.containing(x, y, z);
+        }
+        BlockState taint = ModBlocks.TAINT.get().defaultBlockState()
+                .setValue(TaintBlock.AGE, 0);
+        for (int i = 0; i < 100; i++) {
+            BlockPos target = origin.offset(
+                    level.random.nextInt(11) - 5,
+                    level.random.nextInt(11) - 5,
+                    level.random.nextInt(11) - 5);
+            if (!level.isInWorldBounds(target)) {
+                continue;
+            }
+            BlockState state = level.getBlockState(target);
+            if (!state.isAir() && state.isSolidRender(level, target)
+                    && state.getDestroySpeed(level, target) >= 0.0F) {
+                level.setBlock(target, taint, 2);
+            }
+        }
     }
 
     /**

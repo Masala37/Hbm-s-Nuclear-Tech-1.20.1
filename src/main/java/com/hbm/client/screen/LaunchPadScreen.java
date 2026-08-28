@@ -71,21 +71,27 @@ public class LaunchPadScreen extends AbstractContainerScreen<LaunchPadMenu> {
         drawTank(graphics, x + 143, y, this.menu.getBlockEntity().getOxidizerTank().getFluid(),
                 this.menu.getOxidizerAmount(), LaunchPadBlockEntity.TANK_CAPACITY);
 
-        // Legacy checkmark lamps
+        // Legacy checkmark lamps — solid/pre-fueled (fuelCap 0) always show green fuel lamps
         boolean missileOk = this.menu.getBlockEntity().isMissileValid();
+        int fuelCost = this.menu.getBlockEntity().getRequiredFuelAmount();
         if (missileOk) {
             int uv = this.menu.getEnergy() >= LaunchPadBlockEntity.LAUNCH_COST ? 192 : 198;
             graphics.blit(TEXTURE, x + 112, y + 23, uv, 0, 6, 8);
         }
-        if (this.menu.getFuelAmount() >= LaunchPadBlockEntity.TIER1_FUEL_COST) {
+        if (fuelCost <= 0 && missileOk) {
             graphics.blit(TEXTURE, x + 130, y + 23, 192, 0, 6, 8);
-        } else if (this.menu.getFuelAmount() > 0) {
-            graphics.blit(TEXTURE, x + 130, y + 23, 198, 0, 6, 8);
-        }
-        if (this.menu.getOxidizerAmount() >= LaunchPadBlockEntity.TIER1_FUEL_COST) {
             graphics.blit(TEXTURE, x + 148, y + 23, 192, 0, 6, 8);
-        } else if (this.menu.getOxidizerAmount() > 0) {
-            graphics.blit(TEXTURE, x + 148, y + 23, 198, 0, 6, 8);
+        } else {
+            if (this.menu.getFuelAmount() >= fuelCost && fuelCost > 0) {
+                graphics.blit(TEXTURE, x + 130, y + 23, 192, 0, 6, 8);
+            } else if (this.menu.getFuelAmount() > 0) {
+                graphics.blit(TEXTURE, x + 130, y + 23, 198, 0, 6, 8);
+            }
+            if (this.menu.getOxidizerAmount() >= fuelCost && fuelCost > 0) {
+                graphics.blit(TEXTURE, x + 148, y + 23, 192, 0, 6, 8);
+            } else if (this.menu.getOxidizerAmount() > 0) {
+                graphics.blit(TEXTURE, x + 148, y + 23, 198, 0, 6, 8);
+            }
         }
 
         renderMissilePreview(graphics);
@@ -102,7 +108,16 @@ public class LaunchPadScreen extends AbstractContainerScreen<LaunchPadMenu> {
         pose.pushPose();
         // Legacy: guiLeft+70, guiTop+120, z=100; YP 90; scale; YP 75
         pose.translate(this.leftPos + 70, this.topPos + 120, 100);
-        double scale = RenderMissile.isStrongItem(missile) ? 1.375D : 1.75D;
+        double scale = 1.75D;
+        if (missile.getItem() instanceof com.hbm.items.weapon.MissileItem mi) {
+            scale = switch (mi.getTier()) {
+                case TIER0 -> 2.25D; // Micro — legacy TYPE_TIER0 pad preview
+                case TIER2 -> 1.375D;
+                default -> 1.75D;
+            };
+        } else if (RenderMissile.isStrongItem(missile)) {
+            scale = 1.375D;
+        }
         pose.mulPose(Axis.YP.rotationDegrees(90.0F));
         pose.scale((float) (-8.0D * scale), (float) (-8.0D * scale), (float) (-8.0D * scale));
         pose.mulPose(Axis.YP.rotationDegrees(75.0F));

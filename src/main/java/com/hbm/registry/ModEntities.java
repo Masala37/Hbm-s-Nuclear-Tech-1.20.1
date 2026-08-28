@@ -1,6 +1,7 @@
 package com.hbm.registry;
 
 import com.hbm.entity.bomb.PrimedBombEntity;
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityCloudSolinium;
@@ -13,11 +14,14 @@ import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.missile.EntityMissileBHole;
 import com.hbm.entity.missile.EntityMissileBuster;
 import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileGeneric;
 import com.hbm.entity.missile.EntityMissileIncendiary;
 import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityClusterBomblet;
 import com.hbm.entity.projectile.EntityFallingNuke;
@@ -213,6 +217,42 @@ public final class ModEntities {
                     .clientTrackingRange(256)
                     .updateInterval(1)
                     .build("missile_buster"));
+
+    public static final RegistryObject<EntityType<EntityMissileTaint>> MISSILE_TAINT = ENTITIES.register(
+            "missile_taint",
+            () -> EntityType.Builder.<EntityMissileTaint>of(EntityMissileTaint::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(0.75F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_taint"));
+
+    public static final RegistryObject<EntityType<EntityMissileMicro>> MISSILE_MICRO = ENTITIES.register(
+            "missile_micro",
+            () -> EntityType.Builder.<EntityMissileMicro>of(EntityMissileMicro::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(0.75F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_micro"));
+
+    public static final RegistryObject<EntityType<EntityMissileBHole>> MISSILE_BHOLE = ENTITIES.register(
+            "missile_bhole",
+            () -> EntityType.Builder.<EntityMissileBHole>of(EntityMissileBHole::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(0.75F, 4.0F)
+                    .clientTrackingRange(256)
+                    .updateInterval(1)
+                    .build("missile_bhole"));
+
+    public static final RegistryObject<EntityType<EntityBlackHole>> BLACK_HOLE = ENTITIES.register(
+            "entity_black_hole",
+            () -> EntityType.Builder.<EntityBlackHole>of(EntityBlackHole::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(1.5F, 1.5F)
+                    .clientTrackingRange(250)
+                    .updateInterval(1)
+                    .build("entity_black_hole"));
 
     public static final RegistryObject<EntityType<EntityMist>> MIST = ENTITIES.register(
             "mist",

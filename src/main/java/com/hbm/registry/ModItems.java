@@ -27,6 +27,7 @@ import com.hbm.items.tool.MultiDetonatorItem;
 import com.hbm.items.tool.ScrewdriverItem;
 import com.hbm.item.HbmArmorMaterials;
 import com.hbm.lib.RefStrings;
+import com.hbm.port.PortContentRegistry;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -791,8 +792,12 @@ public final class ModItems {
     public static final RegistryObject<Item> MISSILE_EXO = registerIngot("missile_exo");
     public static final RegistryObject<Item> MISSILE_EMP = registerIngot("missile_emp");
     public static final RegistryObject<Item> MISSILE_EMP_STRONG = registerIngot("missile_emp_strong");
-    public static final RegistryObject<Item> MISSILE_TAINT = registerIngot("missile_taint");
-    public static final RegistryObject<Item> MISSILE_MICRO = registerIngot("missile_micro");
+    public static final RegistryObject<Item> MISSILE_TAINT =
+            ITEMS.register("missile_taint", () -> new MissileItem(MissileItem.GuiTier.TIER0));
+    public static final RegistryObject<Item> MISSILE_MICRO =
+            ITEMS.register("missile_micro", () -> new MissileItem(MissileItem.GuiTier.TIER0));
+    public static final RegistryObject<Item> MISSILE_BHOLE =
+            ITEMS.register("missile_bhole", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_STEALTH = registerIngot("missile_stealth");
     public static final RegistryObject<Item> MISSILE_ANTI_BALLISTIC = registerIngot("missile_anti_ballistic");
     public static final RegistryObject<Item> MISSILE_DOOMSDAY = registerIngot("missile_doomsday");
@@ -800,7 +805,6 @@ public final class ModItems {
     public static final RegistryObject<Item> MISSILE_CARRIER = registerIngot("missile_carrier");
     public static final RegistryObject<Item> MISSILE_SHUTTLE = registerIngot("missile_shuttle");
     public static final RegistryObject<Item> MISSILE_VOLCANO = registerIngot("missile_volcano");
-    public static final RegistryObject<Item> MISSILE_BHOLE = registerIngot("missile_bhole");
     public static final RegistryObject<Item> MISSILE_DECOY = registerIngot("missile_decoy");
     public static final RegistryObject<Item> MISSILE_DRILL = registerIngot("missile_drill");
     public static final RegistryObject<Item> MISSILE_RAIN = registerIngot("missile_rain");
@@ -906,6 +910,142 @@ public final class ModItems {
     public static final RegistryObject<Item> SAT_MINER = registerIngot("sat_miner");
     public static final RegistryObject<Item> SAT_RADAR = registerIngot("sat_radar");
     public static final RegistryObject<Item> SAT_RELAY = registerIngot("sat_relay");
+
+    /**
+     * Remaining legacy 1.7.10 "Missiles and Satellites" tab content, registered as inert
+     * placeholders (marked as stubs so tooltips show "Not implemented").
+     */
+    private static final String[] MISSILE_TAB_PLACEHOLDER_IDS = {
+            "missile_soyuz",
+            "missile_soyuz_lander",
+            "missile_doomsday_rusted",
+            // custom missile thrusters
+            "mp_thruster_10_kerosene",
+            "mp_thruster_10_solid",
+            "mp_thruster_10_xenon",
+            "mp_thruster_15_kerosene",
+            "mp_thruster_15_kerosene_dual",
+            "mp_thruster_15_kerosene_triple",
+            "mp_thruster_15_solid",
+            "mp_thruster_15_solid_hexdecuple",
+            "mp_thruster_15_hydrogen",
+            "mp_thruster_15_hydrogen_dual",
+            "mp_thruster_15_balefire_short",
+            "mp_thruster_15_balefire",
+            "mp_thruster_15_balefire_large",
+            "mp_thruster_15_balefire_large_rad",
+            "mp_thruster_20_kerosene",
+            "mp_thruster_20_kerosene_dual",
+            "mp_thruster_20_kerosene_triple",
+            "mp_thruster_20_solid",
+            "mp_thruster_20_solid_multi",
+            "mp_thruster_20_solid_multier",
+            // custom missile stability fins (legacy size-20 fin id really is "mp_s_20")
+            "mp_stability_10_flat",
+            "mp_stability_10_cruise",
+            "mp_stability_10_space",
+            "mp_stability_15_flat",
+            "mp_stability_15_thin",
+            "mp_stability_15_soyuz",
+            "mp_s_20",
+            // custom missile fuselages (incl. legacy skin variants)
+            "mp_fuselage_10_kerosene",
+            "mp_fuselage_10_kerosene_camo",
+            "mp_fuselage_10_kerosene_desert",
+            "mp_fuselage_10_kerosene_sky",
+            "mp_fuselage_10_kerosene_flames",
+            "mp_fuselage_10_kerosene_insulation",
+            "mp_fuselage_10_kerosene_sleek",
+            "mp_fuselage_10_kerosene_metal",
+            "mp_fuselage_10_kerosene_taint",
+            "mp_fuselage_10_solid",
+            "mp_fuselage_10_solid_flames",
+            "mp_fuselage_10_solid_insulation",
+            "mp_fuselage_10_solid_sleek",
+            "mp_fuselage_10_solid_soviet_glory",
+            "mp_fuselage_10_solid_cathedral",
+            "mp_fuselage_10_solid_moonlit",
+            "mp_fuselage_10_solid_battery",
+            "mp_fuselage_10_solid_duracell",
+            "mp_fuselage_10_xenon",
+            "mp_fuselage_10_xenon_bhole",
+            "mp_fuselage_10_long_kerosene",
+            "mp_fuselage_10_long_kerosene_camo",
+            "mp_fuselage_10_long_kerosene_desert",
+            "mp_fuselage_10_long_kerosene_sky",
+            "mp_fuselage_10_long_kerosene_flames",
+            "mp_fuselage_10_long_kerosene_insulation",
+            "mp_fuselage_10_long_kerosene_sleek",
+            "mp_fuselage_10_long_kerosene_metal",
+            "mp_fuselage_10_long_kerosene_taint",
+            "mp_fuselage_10_long_kerosene_vap",
+            "mp_fuselage_10_long_solid",
+            "mp_fuselage_10_long_solid_flames",
+            "mp_fuselage_10_long_solid_insulation",
+            "mp_fuselage_10_long_solid_sleek",
+            "mp_fuselage_10_long_solid_soviet_glory",
+            "mp_fuselage_10_long_solid_bullet",
+            "mp_fuselage_10_long_solid_silvermoonlight",
+            "mp_fuselage_10_15_kerosene",
+            "mp_fuselage_10_15_solid",
+            "mp_fuselage_10_15_hydrogen",
+            "mp_fuselage_10_15_balefire",
+            "mp_fuselage_15_kerosene",
+            "mp_fuselage_15_kerosene_camo",
+            "mp_fuselage_15_kerosene_desert",
+            "mp_fuselage_15_kerosene_sky",
+            "mp_fuselage_15_kerosene_insulation",
+            "mp_fuselage_15_kerosene_metal",
+            "mp_fuselage_15_kerosene_decorated",
+            "mp_fuselage_15_kerosene_steampunk",
+            "mp_fuselage_15_kerosene_polite",
+            "mp_fuselage_15_kerosene_blackjack",
+            "mp_fuselage_15_kerosene_lambda",
+            "mp_fuselage_15_kerosene_minuteman",
+            "mp_fuselage_15_kerosene_taint",
+            "mp_fuselage_15_kerosene_yuck",
+            "mp_fuselage_15_solid",
+            "mp_fuselage_15_solid_insulation",
+            "mp_fuselage_15_solid_desh",
+            "mp_fuselage_15_solid_soviet_glory",
+            "mp_fuselage_15_solid_soviet_stank",
+            "mp_fuselage_15_solid_faust",
+            "mp_fuselage_15_solid_silvermoonlight",
+            "mp_fuselage_15_solid_snowy",
+            "mp_fuselage_15_solid_panorama",
+            "mp_fuselage_15_solid_roses",
+            "mp_fuselage_15_solid_mimi",
+            "mp_fuselage_15_hydrogen",
+            "mp_fuselage_15_hydrogen_cathedral",
+            "mp_fuselage_15_balefire",
+            "mp_fuselage_15_20_kerosene",
+            "mp_fuselage_15_20_kerosene_magnusson",
+            "mp_fuselage_15_20_solid",
+            // custom missile warheads
+            "mp_warhead_10_he",
+            "mp_warhead_10_incendiary",
+            "mp_warhead_10_buster",
+            "mp_warhead_10_nuclear",
+            "mp_warhead_10_nuclear_large",
+            "mp_warhead_10_taint",
+            "mp_warhead_10_cloud",
+            "mp_warhead_15_he",
+            "mp_warhead_15_incendiary",
+            "mp_warhead_15_nuclear",
+            "mp_warhead_15_nuclear_shark",
+            "mp_warhead_15_nuclear_mimi",
+            "mp_warhead_15_boxcar",
+            "mp_warhead_15_n2",
+            "mp_warhead_15_balefire",
+            "mp_warhead_15_turbine"
+    };
+
+    static {
+        for (String id : MISSILE_TAB_PLACEHOLDER_IDS) {
+            PortContentRegistry.markStub(id);
+            ITEMS.register(id, () -> new Item(new Item.Properties()));
+        }
+    }
 
 
 

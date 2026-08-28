@@ -2,10 +2,13 @@ package com.hbm.client.render.entity;
 
 import com.hbm.client.render.ObjModelRenderer;
 import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileBHole;
 import com.hbm.entity.missile.EntityMissileBuster;
 import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileMicro;
 import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.lib.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -35,10 +38,14 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     public static final ResourceLocation MODEL_STRONG_INC = id("block/missile_strong_inc");
     public static final ResourceLocation MODEL_STRONG_CL = id("block/missile_strong_cl");
     public static final ResourceLocation MODEL_STRONG_BU = id("block/missile_strong_bu");
+    public static final ResourceLocation MODEL_MICRO_TAINT = id("block/missile_micro_taint");
+    public static final ResourceLocation MODEL_MICRO = id("block/missile_micro");
+    public static final ResourceLocation MODEL_MICRO_BHOLE = id("block/missile_micro_bhole");
 
     private static final ResourceLocation[] ALL = {
             MODEL_V2, MODEL_V2_INC, MODEL_V2_CL, MODEL_V2_BU,
-            MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU
+            MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU,
+            MODEL_MICRO_TAINT, MODEL_MICRO, MODEL_MICRO_BHOLE
     };
 
     private static final Vector3f NOSE = new Vector3f(0.0F, 1.0F, 0.0F);
@@ -133,6 +140,15 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     }
 
     public static ResourceLocation modelFor(EntityMissileBaseNT entity) {
+        if (entity instanceof EntityMissileTaint) {
+            return MODEL_MICRO_TAINT;
+        }
+        if (entity instanceof EntityMissileMicro) {
+            return MODEL_MICRO;
+        }
+        if (entity instanceof EntityMissileBHole) {
+            return MODEL_MICRO_BHOLE;
+        }
         boolean strong = isStrong(entity);
         if (entity instanceof EntityMissileIncendiary) {
             return strong ? MODEL_STRONG_INC : MODEL_V2_INC;
@@ -160,6 +176,9 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
             case "missile_incendiary" -> MODEL_V2_INC;
             case "missile_cluster" -> MODEL_V2_CL;
             case "missile_buster" -> MODEL_V2_BU;
+            case "missile_taint" -> MODEL_MICRO_TAINT;
+            case "missile_micro" -> MODEL_MICRO;
+            case "missile_bhole" -> MODEL_MICRO_BHOLE;
             default -> MODEL_V2;
         };
     }

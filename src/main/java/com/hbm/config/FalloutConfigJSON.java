@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.HbmNuclearTechMod;
+import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +33,8 @@ import java.util.function.Predicate;
 
 /**
  * Port of legacy {@code FalloutConfigJSON}: JSON-driven fallout block conversions.
- * Meta values from 1.7.10 are ignored for placement; sellafield intensity metas map to discrete blocks.
+ * Legacy sellafield intensity meta darkened {@code sellafield_slaked} via colorMultiplier;
+ * crater conversions always place slaked sellafite (not live waste tiers).
  */
 public final class FalloutConfigJSON {
 
@@ -93,34 +95,6 @@ public final class FalloutConfigJSON {
         }
     }
 
-    /**
-     * Maps legacy sellafield intensity meta {@code m} (0–9) onto discrete 1.20 blocks.
-     */
-    public static Block sellafieldIntensity(int m) {
-        if (m >= 8) {
-            return ModBlocks.SELLAFIELD_5.get();
-        }
-        if (m >= 6) {
-            return ModBlocks.SELLAFIELD_4.get();
-        }
-        if (m >= 5) {
-            return ModBlocks.SELLAFIELD_3.get();
-        }
-        if (m >= 4) {
-            return ModBlocks.SELLAFIELD_2.get();
-        }
-        if (m >= 3) {
-            return ModBlocks.SELLAFIELD_1.get();
-        }
-        if (m >= 2) {
-            return ModBlocks.SELLAFIELD_0.get();
-        }
-        if (m >= 1) {
-            return ModBlocks.SELLAFIELD_SLAKED_1.get();
-        }
-        return ModBlocks.SELLAFIELD_SLAKED.get();
-    }
-
     private static int sellafieldRank(Block block) {
         if (block == ModBlocks.SELLAFIELD_5.get()) {
             return 8;
@@ -145,7 +119,7 @@ public final class FalloutConfigJSON {
                 || block == ModBlocks.SELLAFIELD_SLAKED_3.get()) {
             return 1;
         }
-        if (block == ModBlocks.SELLAFIELD_SLAKED.get()) {
+        if (block instanceof SellafieldSlakedBlock || block == ModBlocks.SELLAFIELD_SLAKED.get()) {
             return 0;
         }
         if (block == ModBlocks.SELLAFIELD_BEDROCK.get()) {
@@ -159,7 +133,11 @@ public final class FalloutConfigJSON {
     }
 
     private static WeightedBlock wb(Block block, int weight) {
-        return new WeightedBlock(block, weight);
+        return new WeightedBlock(block, weight, -1);
+    }
+
+    private static WeightedBlock wb(Block block, int weight, int meta) {
+        return new WeightedBlock(block, weight, meta);
     }
 
     private static WeightedBlock wb(Block block) {
@@ -195,7 +173,7 @@ public final class FalloutConfigJSON {
 
         for (int i = 1; i <= 10; i++) {
             int m = 10 - i;
-            Block sellafield = sellafieldIntensity(m);
+            Block sellafield = ModBlocks.SELLAFIELD_SLAKED.get();
             double max = i * 5D;
 
             entries.add(new FalloutEntry()
@@ -229,15 +207,15 @@ public final class FalloutConfigJSON {
             entries.add(new FalloutEntry()
                     .prim(wb(ModBlocks.SELLAFIELD_BEDROCK.get())).max(max).sol(true).mB(ModBlocks.SELLAFIELD_BEDROCK.get()));
 
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mMa("iron"));
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mMa("rock"));
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mMa("sand"));
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mMa("ground"));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mMa("iron"));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mMa("rock"));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mMa("sand"));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mMa("ground"));
             if (i <= 9) {
-                entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mMa("grass"));
+                entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mMa("grass"));
             }
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mB(Blocks.DEEPSLATE));
-            entries.add(new FalloutEntry().prim(wb(sellafield)).max(max).sol(true).mB(Blocks.STONE));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mB(Blocks.DEEPSLATE));
+            entries.add(new FalloutEntry().prim(wb(sellafield, 1, m)).max(max).sol(true).mB(Blocks.STONE));
         }
 
         entries.add(new FalloutEntry()
@@ -452,8 +430,11 @@ public final class FalloutConfigJSON {
                 && !state.is(Blocks.MOSS_BLOCK));
     }
 
-    /** Weighted block outcome (meta ignored — block only). */
-    public record WeightedBlock(Block block, int weight) {
+    /** Weighted outcome; {@code meta} is legacy intensity for sellafield_slaked ({@code -1} = none). */
+    public record WeightedBlock(Block block, int weight, int meta) {
+        public WeightedBlock(Block block, int weight) {
+            this(block, weight, -1);
+        }
     }
 
     public static class FalloutEntry {
@@ -580,8 +561,15 @@ public final class FalloutConfigJSON {
 
             if (conversion != null && conversion.block() != null) {
                 Block out = conversion.block();
+                int outMeta = conversion.meta();
 
-                if (isSellafieldSurface(out) && isSellafieldSurface(b)
+                if (out instanceof SellafieldSlakedBlock && state.getBlock() instanceof SellafieldSlakedBlock) {
+                    int existing = state.getValue(SellafieldSlakedBlock.INTENSITY);
+                    int next = outMeta >= 0 ? outMeta : 0;
+                    if (next <= existing) {
+                        return false;
+                    }
+                } else if (isSellafieldSurface(out) && isSellafieldSurface(b)
                         && sellafieldRank(out) <= sellafieldRank(b)) {
                     return false;
                 }
@@ -595,7 +583,13 @@ public final class FalloutConfigJSON {
                     return false;
                 }
 
-                level.setBlock(pos, out.defaultBlockState(), 3);
+                BlockState placed;
+                if (out instanceof SellafieldSlakedBlock slaked) {
+                    placed = slaked.stateFor(outMeta >= 0 ? outMeta : 0, pos);
+                } else {
+                    placed = out.defaultBlockState();
+                }
+                level.setBlock(pos, placed, 3);
                 return true;
             }
 
@@ -817,7 +811,7 @@ public final class FalloutConfigJSON {
                 ResourceLocation key = ForgeRegistries.BLOCKS.getKey(meta.block());
                 writer.beginArray();
                 writer.value(key != null ? key.toString() : "minecraft:air");
-                writer.value(0); // meta always 0 in 1.20 port
+                writer.value(Math.max(0, meta.meta()));
                 writer.value(meta.weight());
                 writer.endArray();
             }
@@ -842,11 +836,9 @@ public final class FalloutConfigJSON {
                 JsonArray mBArray = metaBlock.getAsJsonArray();
                 // [blockName, metaIgnored, weight] — meta parsed then ignored
                 Block block = resolveBlock(mBArray.get(0).getAsString());
-                if (mBArray.size() >= 2) {
-                    mBArray.get(1).getAsInt(); // ignore meta
-                }
+                int meta = mBArray.size() >= 2 ? mBArray.get(1).getAsInt() : -1;
                 int weight = mBArray.size() >= 3 ? mBArray.get(2).getAsInt() : 1;
-                metaArray[i] = new WeightedBlock(block, weight);
+                metaArray[i] = new WeightedBlock(block, weight, meta);
             }
 
             return metaArray;

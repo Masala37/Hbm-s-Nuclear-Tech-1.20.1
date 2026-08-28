@@ -76,5 +76,17 @@
   "entity.bomber_small_loop": {
     "category": "hostile",
     "sounds": [{ "name": "hbm:entity/bomber2", "stream": true }]
+  },
+  "block.debris": {
+    "category": "block",
+    "sounds": [
+      { "name": "hbm:block/debris1", "stream": false },
+      { "name": "hbm:block/debris2", "stream": false },
+      { "name": "hbm:block/debris3", "stream": false }
+    ]
+  },
+  "entity.black_hole": {
+    "category": "hostile",
+    "sounds": [{ "name": "hbm:entity/meteorite_falling_loop", "stream": true }]
   }
 }

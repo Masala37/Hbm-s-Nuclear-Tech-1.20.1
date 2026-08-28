@@ -20,5 +20,6 @@ public final class ModRegistries {
         ModMenus.register(modBus);
         ModSounds.register(modBus);
         ModFeatures.register(modBus);
+        ModMobEffects.register(modBus);
     }
 }

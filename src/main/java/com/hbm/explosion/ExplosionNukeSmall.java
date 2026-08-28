@@ -1,14 +1,15 @@
 package com.hbm.explosion;
 
 import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.explosion.ExplosionLarge;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.network.ModMessages;
+import com.hbm.network.MukeEffectPacket;
 import com.hbm.registry.ModSounds;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
 
 /**
  * Compact nuke/muke blasts (legacy {@code ExplosionNukeSmall}).
@@ -20,29 +21,34 @@ public final class ExplosionNukeSmall {
     public static final MukeParams PARAMS_SAFE = new MukeParams()
             .safe(true).killRadius(45.0F).radiationLevel(2.0F);
     public static final MukeParams PARAMS_TOTS = new MukeParams()
-            .blastRadius(10.0F).killRadius(30.0F).shrapnelCount(0).resolution(32).radiationLevel(1.0F);
+            .blastRadius(10.0F).killRadius(30.0F).shrapnelCount(0).resolution(32).radiationLevel(1.0F)
+            .particle("tinytot");
     public static final MukeParams PARAMS_LOW = new MukeParams()
             .blastRadius(15.0F).killRadius(45.0F).radiationLevel(2.0F);
     public static final MukeParams PARAMS_MEDIUM = new MukeParams()
             .blastRadius(20.0F).killRadius(55.0F).radiationLevel(3.0F);
+    /**
+     * Legacy: {@code miniNuke = false; blastRadius = BombConfig.fatmanRadius; shrapnelCount = 0}.
+     * Default particle {@code "muke"}; killRadius stays 0 — MK5 deals entity damage.
+     */
     public static final MukeParams PARAMS_HIGH = new MukeParams()
-            .miniNuke(false).blastRadius(80.0F).shrapnelCount(0);
+            .miniNuke(false).blastRadius(0.0F).killRadius(0.0F).shrapnelCount(0);
 
     public static void explode(Level level, double x, double y, double z, MukeParams params) {
         if (level.isClientSide) {
             return;
         }
 
-        level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
-
-        if (level instanceof ServerLevel server) {
-            server.sendParticles(ParticleTypes.FLASH, x, y + 0.5D, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-            server.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y + 1.0D, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-            int sparks = Math.max(0, params.shrapnelCount);
-            if (sparks > 0) {
-                server.sendParticles(ParticleTypes.FIREWORK, x, y + 0.5D, z, sparks, 1.5D, 1.0D, 1.5D, 0.15D);
-            }
+        // Legacy AuxParticle type=muke (PARAMS_* default) — wave + flash + clouds.
+        if (params.particle != null && "muke".equals(params.particle) && level instanceof ServerLevel server) {
+            boolean balefire = server.random.nextInt(100) == 0;
+            ModMessages.CHANNEL.send(
+                    PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                            x, y, z, 250.0D, server.dimension())),
+                    new MukeEffectPacket(x, y + 0.5D, z, balefire));
         }
+
+        level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
 
         if (params.shrapnelCount > 0) {
             ExplosionLarge.spawnShrapnels(level, x, y, z, params.shrapnelCount);
@@ -55,7 +61,10 @@ public final class ExplosionNukeSmall {
                 dig.addAttrib(attrib);
             }
             dig.explode();
-            EntityNukeTorex.statFacStandard(level, x, y + 0.5D, z, params.blastRadius);
+            // Mini-nuke still gets a small torex stand-in (legacy had no MK5 for mini);
+            // PARAMS_MEDIUM path uses ExplosionNT + muke FX only in legacy — torex here was a
+            // port addition. Keep for medium/low visual fill until a dedicated mini FX lands.
+            com.hbm.entity.effect.EntityNukeTorex.statFacStandard(level, x, y + 0.5D, z, params.blastRadius);
         }
 
         if (params.killRadius > 0.0F) {
@@ -66,10 +75,13 @@ public final class ExplosionNukeSmall {
             float radius = params.blastRadius > 0.0F
                     ? params.blastRadius
                     : BombConfig.fatmanRadius.get();
-            com.hbm.entity.logic.EntityNukeExplosionMK5.statFac(level, (int) radius, x, y, z);
+            // Legacy: WorldUtil.loadAndSpawnEntityInWorld(EntityNukeExplosionMK5.statFac(...))
+            // No Torex — muke particle is the mushroom visual for PARAMS_HIGH.
+            EntityNukeExplosionMK5 mk5 = EntityNukeExplosionMK5.statFac(level, (int) radius, x, y, z);
+            mk5.suppressFlashFx();
+            level.addFreshEntity(mk5);
         }
 
-        // Legacy mini-nuke: spread rad into a diamond of neighboring chunks
         if (params.miniNuke && params.radiationLevel > 0.0F) {
             float radMod = params.radiationLevel / 3.0F;
             int ix = (int) Math.floor(x);
@@ -93,6 +105,7 @@ public final class ExplosionNukeSmall {
         public float blastRadius = 15.0F;
         public float killRadius = 45.0F;
         public float radiationLevel = 1.0F;
+        public String particle = "muke";
         public int shrapnelCount = 25;
         public int resolution = 64;
         public ExplosionNT.ExAttrib[] explosionAttribs = new ExplosionNT.ExAttrib[]{
@@ -135,6 +148,11 @@ public final class ExplosionNukeSmall {
 
         public MukeParams resolution(int value) {
             this.resolution = value;
+            return this;
+        }
+
+        public MukeParams particle(String value) {
+            this.particle = value;
             return this;
         }
     }

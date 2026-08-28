@@ -12,7 +12,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -92,7 +91,7 @@ public class EntityRubble extends ThrowableProjectile {
         BlockPos pos = BlockPos.containing(getX(), getY(), getZ());
 
         level().playSound(null, getX(), getY(), getZ(),
-                SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.5F, 1.0F);
+                com.hbm.registry.ModSounds.DEBRIS.get(), SoundSource.BLOCKS, 1.5F, 1.0F);
 
         if (level() instanceof ServerLevel server) {
             server.sendParticles(

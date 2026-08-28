@@ -174,6 +174,7 @@ public final class PortContentRegistry {
                 "missile_incendiary", "missile_incendiary_strong",
                 "missile_cluster", "missile_cluster_strong",
                 "missile_buster", "missile_buster_strong",
+                "missile_taint", "missile_micro", "missile_bhole",
                 "fire_digamma", "taint",
                 "toxic_block", "bucket_toxic",
                 "gas_radon", "gas_radon_dense", "gas_radon_tomb",

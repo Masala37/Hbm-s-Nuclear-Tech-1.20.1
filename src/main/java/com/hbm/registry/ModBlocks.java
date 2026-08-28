@@ -35,6 +35,7 @@ import com.hbm.blocks.generic.DecorativeBarrelBlock;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.blocks.generic.OreVolcanoBlock;
 import com.hbm.blocks.generic.SellafieldBedrockBlock;
+import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.generic.SellafieldWasteBlock;
 import com.hbm.blocks.generic.TaintBlock;
 import com.hbm.blocks.generic.SpikesBlock;
@@ -267,7 +268,8 @@ public final class ModBlocks {
     public static final RegistryObject<Block> DEPTH_NETHER_TILES = registerBuildingBlock("depth_nether_tiles");
     public static final RegistryObject<Block> BRICK_LIGHT_ALT = registerBuildingBlock("brick_light_alt");
     public static final RegistryObject<Block> BRICK_CONCRETE_MARKED = registerBuildingBlock("brick_concrete_marked");
-    public static final RegistryObject<Block> SELLAFIELD_SLAKED = registerBuildingBlock("sellafield_slaked");
+    public static final RegistryObject<Block> SELLAFIELD_SLAKED = BLOCKS.register("sellafield_slaked",
+            SellafieldSlakedBlock::new);
     public static final RegistryObject<Block> SELLAFIELD_0 = BLOCKS.register("sellafield_0", () -> new SellafieldWasteBlock(0));
     public static final RegistryObject<Block> SELLAFIELD_1 = BLOCKS.register("sellafield_1", () -> new SellafieldWasteBlock(1));
     public static final RegistryObject<Block> SELLAFIELD_2 = BLOCKS.register("sellafield_2", () -> new SellafieldWasteBlock(2));

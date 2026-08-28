@@ -1,0 +1,7 @@
+{
+  "parent": "hbm:block/sellafield_slaked",
+  "textures": {
+    "all": "hbm:block/sellafield_slaked_2",
+    "particle": "hbm:block/sellafield_slaked_2"
+  }
+}

@@ -267,9 +267,27 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         return MissileLaunchRegistry.isLaunchable(items.getStackInSlot(SLOT_MISSILE));
     }
 
+    /**
+     * Legacy {@code ItemMissile.fuelCap}: MICRO/Tier0 solid = 0 (power only);
+     * V2/Strong on this pad = ethanol+peroxide drain amount.
+     */
+    public int getRequiredFuelAmount() {
+        ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
+        if (missile.getItem() instanceof com.hbm.items.weapon.MissileItem mi) {
+            return mi.getFuelCap();
+        }
+        // Non-MissileItem launchables default to Tier1 fluid cost
+        return isMissileValid() ? TIER1_FUEL_COST : 0;
+    }
+
     public boolean hasFuel() {
-        return fuelTank.getFluidAmount() >= TIER1_FUEL_COST
-                && oxidizerTank.getFluidAmount() >= TIER1_FUEL_COST
+        int cost = getRequiredFuelAmount();
+        if (cost <= 0) {
+            // Solid / pre-fueled (legacy MICRO / Tier0 — taint, micro, bhole) — no tank drain
+            return true;
+        }
+        return fuelTank.getFluidAmount() >= cost
+                && oxidizerTank.getFluidAmount() >= cost
                 && isFuelFluid(fuelTank.getFluid().getFluid())
                 && isOxidizerFluid(oxidizerTank.getFluid().getFluid());
     }
@@ -323,10 +341,13 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
             return false;
         }
 
+        int fuelCost = getRequiredFuelAmount();
         items.setStackInSlot(SLOT_MISSILE, ItemStack.EMPTY);
         energy.consume(LAUNCH_COST);
-        fuelTank.drain(TIER1_FUEL_COST, IFluidHandler.FluidAction.EXECUTE);
-        oxidizerTank.drain(TIER1_FUEL_COST, IFluidHandler.FluidAction.EXECUTE);
+        if (fuelCost > 0) {
+            fuelTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
+            oxidizerTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
+        }
         delay = COOLDOWN_TICKS;
 
         BlockPos pos = worldPosition;
@@ -373,8 +394,12 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
 
     public Component statusMessage() {
         syncTargetFromDesignator();
-        if (!isMissileValid() || !hasFuel()) {
-            return Component.literal("Not ready — need missile + ethanol/peroxide");
+        if (!isMissileValid()) {
+            return Component.literal("Not ready — need launchable missile");
+        }
+        if (!hasFuel()) {
+            int cost = getRequiredFuelAmount();
+            return Component.literal("Not ready — need " + cost + " mB ethanol + peroxide");
         }
         if (!hasTarget) {
             return Component.literal("No target — designator required");

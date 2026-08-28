@@ -1,7 +1,9 @@
 package com.hbm.main;
 
 import com.hbm.client.particle.ClientMissileParticles;
+import com.hbm.client.sound.ClientBlackHoleSounds;
 import com.hbm.client.sound.ClientMissileSounds;
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.registry.ModBlocks;
 import com.hbm.registry.ModBulkContent;
@@ -28,6 +30,11 @@ public class ClientProxy extends ServerProxy {
     @Override
     public void playMissileTakeoff(EntityMissileBaseNT missile) {
         ClientMissileSounds.playLaunch(missile);
+    }
+
+    @Override
+    public void playBlackHole(EntityBlackHole hole) {
+        ClientBlackHoleSounds.play(hole);
     }
 
     @Override

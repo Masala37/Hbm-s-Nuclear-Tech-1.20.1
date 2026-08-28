@@ -28,6 +28,8 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> BOMB_WHISTLE = register("entity.bomb_whistle");
     public static final RegistryObject<SoundEvent> BOMBER_LOOP = register("entity.bomber_loop");
     public static final RegistryObject<SoundEvent> BOMBER_SMALL_LOOP = register("entity.bomber_small_loop");
+    public static final RegistryObject<SoundEvent> DEBRIS = register("block.debris");
+    public static final RegistryObject<SoundEvent> BLACK_HOLE = register("entity.black_hole");
 
     private ModSounds() {
     }
