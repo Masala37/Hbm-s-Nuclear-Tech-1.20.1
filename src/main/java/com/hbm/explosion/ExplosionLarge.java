@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.Random;
@@ -105,13 +106,18 @@ public final class ExplosionLarge {
      * Legacy AuxParticle smoke {@code mode=cloud} — bunker buster / large explode FX.
      */
     public static void spawnParticles(Level level, double x, double y, double z, int count) {
+        spawnParticles(level, x, y, z, count, false);
+    }
+
+    public static void spawnParticles(Level level, double x, double y, double z, int count, boolean bang) {
         if (!(level instanceof ServerLevel server) || count <= 0) {
             return;
         }
         ModMessages.CHANNEL.send(
                 PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                         x, y, z, 250.0D, server.dimension())),
-                SmokeCloudEffectPacket.cloud(x, y, z, count));
+                bang ? SmokeCloudEffectPacket.cloudBang(x, y, z, count)
+                        : SmokeCloudEffectPacket.cloud(x, y, z, count));
     }
 
     /** Legacy AuxParticle smoke {@code mode=radial}. */
@@ -173,5 +179,68 @@ public final class ExplosionLarge {
 
     public static int shrapnelFunction(int i) {
         return i / 3;
+    }
+
+    public static void jolt(Level level, double posX, double posY, double posZ, double strength, int count, double vel) {
+        if (level.isClientSide) {
+            return;
+        }
+        for (int j = 0; j < count; j++) {
+            double phi = RAND.nextDouble() * (Math.PI * 2);
+            double costheta = RAND.nextDouble() * 2 - 1;
+            double theta = Math.acos(costheta);
+            double vx = Math.sin(theta) * Math.cos(phi);
+            double vy = Math.sin(theta) * Math.sin(phi);
+            double vz = Math.cos(theta);
+
+            for (int i = 0; i < strength; i++) {
+                double x0 = posX + vx * i;
+                double y0 = posY + vy * i;
+                double z0 = posZ + vz * i;
+                BlockPos pos = BlockPos.containing(x0, y0, z0);
+                if (!level.isInWorldBounds(pos)) {
+                    continue;
+                }
+                BlockState state = level.getBlockState(pos);
+                if (!state.getFluidState().isEmpty() || state.liquid()) {
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                    continue;
+                }
+                if (state.isAir()) {
+                    continue;
+                }
+                if (state.getExplosionResistance(level, pos, null) > 70.0F) {
+                    continue;
+                }
+
+                EntityRubble rubble = new EntityRubble(level, x0 + 0.5D, y0 + 0.5D, z0 + 0.5D);
+                rubble.setBasedOnBlock(state.getBlock());
+                double dx = posX - (x0 + 0.5D);
+                double dy = posY - (y0 + 0.5D);
+                double dz = posZ - (z0 + 0.5D);
+                double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                if (len > 1.0E-6D) {
+                    dx /= len;
+                    dy /= len;
+                    dz /= len;
+                }
+                rubble.setDeltaMovement(dx * vel, dy * vel, dz * vel);
+                level.addFreshEntity(rubble);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                break;
+            }
+        }
+    }
+
+    /** Legacy {@code ExplosionLarge.buster}: explosions every 2 blocks along the incoming vector. */
+    public static void buster(Level level, double x, double y, double z, Vec3 vector, float strength, float depth) {
+        if (level.isClientSide) {
+            return;
+        }
+        Vec3 dir = vector.normalize();
+        for (int i = 0; i < depth; i += 2) {
+            level.explode(null, x + dir.x * i, y + dir.y * i, z + dir.z * i, strength, true,
+                    Level.ExplosionInteraction.TNT);
+        }
     }
 }

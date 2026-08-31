@@ -3,7 +3,10 @@ package com.hbm.client.screen;
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
 import com.hbm.client.render.ObjModelRenderer;
 import com.hbm.client.render.entity.RenderMissile;
+import com.hbm.client.render.missile.MissilePronter;
+import com.hbm.handler.MissileStruct;
 import com.hbm.inventory.menu.LaunchPadMenu;
+import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.lib.RefStrings;
 import com.hbm.network.LaunchPadPacket;
 import com.hbm.network.ModMessages;
@@ -12,6 +15,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -71,27 +75,18 @@ public class LaunchPadScreen extends AbstractContainerScreen<LaunchPadMenu> {
         drawTank(graphics, x + 143, y, this.menu.getBlockEntity().getOxidizerTank().getFluid(),
                 this.menu.getOxidizerAmount(), LaunchPadBlockEntity.TANK_CAPACITY);
 
-        // Legacy checkmark lamps — solid/pre-fueled (fuelCap 0) always show green fuel lamps
+        // Legacy checkmark lamps: solid (fuelCap 0) draws no fuel/ox lamps.
         boolean missileOk = this.menu.getBlockEntity().isMissileValid();
         int fuelCost = this.menu.getBlockEntity().getRequiredFuelAmount();
         if (missileOk) {
             int uv = this.menu.getEnergy() >= LaunchPadBlockEntity.LAUNCH_COST ? 192 : 198;
             graphics.blit(TEXTURE, x + 112, y + 23, uv, 0, 6, 8);
         }
-        if (fuelCost <= 0 && missileOk) {
-            graphics.blit(TEXTURE, x + 130, y + 23, 192, 0, 6, 8);
-            graphics.blit(TEXTURE, x + 148, y + 23, 192, 0, 6, 8);
-        } else {
-            if (this.menu.getFuelAmount() >= fuelCost && fuelCost > 0) {
-                graphics.blit(TEXTURE, x + 130, y + 23, 192, 0, 6, 8);
-            } else if (this.menu.getFuelAmount() > 0) {
-                graphics.blit(TEXTURE, x + 130, y + 23, 198, 0, 6, 8);
-            }
-            if (this.menu.getOxidizerAmount() >= fuelCost && fuelCost > 0) {
-                graphics.blit(TEXTURE, x + 148, y + 23, 192, 0, 6, 8);
-            } else if (this.menu.getOxidizerAmount() > 0) {
-                graphics.blit(TEXTURE, x + 148, y + 23, 198, 0, 6, 8);
-            }
+        if (missileOk && fuelCost > 0) {
+            graphics.blit(TEXTURE, x + 130, y + 23,
+                    this.menu.getFuelAmount() >= fuelCost ? 192 : 198, 0, 6, 8);
+            graphics.blit(TEXTURE, x + 148, y + 23,
+                    this.menu.getOxidizerAmount() >= fuelCost ? 192 : 198, 0, 6, 8);
         }
 
         renderMissilePreview(graphics);
@@ -108,26 +103,42 @@ public class LaunchPadScreen extends AbstractContainerScreen<LaunchPadMenu> {
         pose.pushPose();
         // Legacy: guiLeft+70, guiTop+120, z=100; YP 90; scale; YP 75
         pose.translate(this.leftPos + 70, this.topPos + 120, 100);
-        double scale = 1.75D;
-        if (missile.getItem() instanceof com.hbm.items.weapon.MissileItem mi) {
-            scale = switch (mi.getTier()) {
-                case TIER0 -> 2.25D; // Micro — legacy TYPE_TIER0 pad preview
-                case TIER2 -> 1.375D;
-                case TIER3 -> 0.925D; // Huge — legacy GUILaunchPadLarge HUGE
-                case STEALTH -> 1.125D; // unique mesh; legacy GUILaunchPadLarge
-                default -> 1.75D;
-            };
-        } else if (RenderMissile.isStrongItem(missile)) {
-            scale = 1.375D;
-        }
-        pose.mulPose(Axis.YP.rotationDegrees(90.0F));
-        pose.scale((float) (-8.0D * scale), (float) (-8.0D * scale), (float) (-8.0D * scale));
-        pose.mulPose(Axis.YP.rotationDegrees(75.0F));
 
         Lighting.setupForEntityInInventory();
         MultiBufferSource.BufferSource buffers = this.minecraft.renderBuffers().bufferSource();
-        int light = 0xF000F0;
-        ObjModelRenderer.render(pose, buffers, RenderMissile.modelForItem(missile), light, OverlayTexture.NO_OVERLAY);
+        if (missile.getItem() instanceof ItemCustomMissile) {
+            MissileStruct struct = ItemCustomMissile.getStruct(missile);
+            double height = Math.max(MissilePronter.getHeight(struct), 6.0D);
+            double scale = 80.0D / height;
+            pose.mulPose(Axis.YP.rotationDegrees(90.0F));
+            pose.translate(MissilePronter.getHeight(struct) / 2.0D * scale, 0.0D, 0.0D);
+            pose.scale((float) scale, (float) scale, (float) scale);
+            pose.mulPose(Axis.XP.rotationDegrees(90.0F));
+            pose.mulPose(Axis.ZP.rotationDegrees(-90.0F));
+            pose.scale(-1.0F, -1.0F, -1.0F);
+            MissilePronter.prontMissile(pose, buffers, struct, LightTexture.FULL_BRIGHT);
+        } else {
+            double scale = 1.75D;
+            if (missile.getItem() instanceof com.hbm.items.weapon.MissileItem mi) {
+                scale = switch (mi.getTier()) {
+                    case TIER0 -> 2.5D;
+                    case TIER2 -> 1.375D;
+                    case TIER3 -> 0.925D;
+                    case STEALTH -> 1.125D;
+                    case ROBIN -> 1.0D;
+                    case TIER4 -> 0.875D;
+                    case ABM -> 1.6D;
+                    default -> 1.75D;
+                };
+            } else if (RenderMissile.isStrongItem(missile)) {
+                scale = 1.375D;
+            }
+            pose.mulPose(Axis.YP.rotationDegrees(90.0F));
+            pose.scale((float) scale, (float) scale, (float) scale);
+            pose.scale(-8.0F, -8.0F, -8.0F);
+            int light = 0xF000F0;
+            ObjModelRenderer.render(pose, buffers, RenderMissile.modelForItem(missile), light, OverlayTexture.NO_OVERLAY);
+        }
         buffers.endBatch();
         Lighting.setupFor3DItems();
         pose.popPose();

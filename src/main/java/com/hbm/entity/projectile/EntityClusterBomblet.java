@@ -60,6 +60,8 @@ public class EntityClusterBomblet extends ThrowableProjectile {
         new ExplosionNT(level(), this, x, y, z, 7.5F)
                 .overrideResolution(12)
                 .addAttrib(ExplosionNT.ExAttrib.NODROP)
+                .addAttrib(ExplosionNT.ExAttrib.NOSOUND)
+                .addAttrib(ExplosionNT.ExAttrib.NOPARTICLE)
                 .explode();
         if (level() instanceof ServerLevel server) {
             ModMessages.CHANNEL.send(

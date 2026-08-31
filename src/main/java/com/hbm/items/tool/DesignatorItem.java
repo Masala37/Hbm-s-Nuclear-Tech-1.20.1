@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import api.hbm.item.IDesignatorItem;
 import com.hbm.blocks.machine.LaunchPadBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.List;
  * Missile designator — RMB on a block stores target coordinates (NBT keys x/y/z).
  * RMB on a launch pad with a stored target lets the pad claim the click to program itself.
  */
-public class DesignatorItem extends Item {
+public class DesignatorItem extends Item implements IDesignatorItem {
     public DesignatorItem() {
         super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
     }
@@ -46,6 +48,17 @@ public class DesignatorItem extends Item {
         tag.putInt("x", pos.getX());
         tag.putInt("y", pos.getY());
         tag.putInt("z", pos.getZ());
+    }
+
+    @Override
+    public boolean isReady(Level world, ItemStack stack, int x, int y, int z) {
+        return hasTarget(stack);
+    }
+
+    @Override
+    public Vec3 getCoords(Level world, ItemStack stack, int x, int y, int z) {
+        BlockPos pos = getTarget(stack);
+        return new Vec3(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override

@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_parts/mp_f_15_kerosene.obj",
+  "mtl_override": "hbm:models/obj/missile_parts/mp_f_15_kerosene_yuck.mtl",
+  "textures": {
+    "particle": "hbm:block/missile_parts/mp_f_15_kerosene_yuck",
+    "material": "hbm:block/missile_parts/mp_f_15_kerosene_yuck",
+    "#material": "hbm:block/missile_parts/mp_f_15_kerosene_yuck"
+  }
+}

@@ -1,4 +1,15 @@
 {
   "type": "minecraft:block",
-  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:compact_launcher" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+  "pools": [{
+    "rolls": 1,
+    "entries": [{ "type": "minecraft:item", "name": "hbm:compact_launcher" }],
+    "conditions": [
+      { "condition": "minecraft:survives_explosion" },
+      {
+        "condition": "minecraft:block_state_property",
+        "block": "hbm:compact_launcher",
+        "properties": { "ox": "1", "oz": "1" }
+      }
+    ]
+  }]
 }

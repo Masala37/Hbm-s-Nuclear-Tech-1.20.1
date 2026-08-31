@@ -7,6 +7,10 @@ import com.hbm.client.screen.DieselGeneratorScreen;
 import com.hbm.client.screen.ElectricFurnaceScreen;
 import com.hbm.client.screen.FluidBarrelScreen;
 import com.hbm.client.screen.LaunchPadScreen;
+import com.hbm.client.screen.LaunchPadRustedScreen;
+import com.hbm.client.screen.CompactLauncherScreen;
+import com.hbm.client.screen.LaunchTableScreen;
+import com.hbm.client.screen.RadarNTSlotsScreen;
 import com.hbm.client.screen.MachineBatteryScreen;
 import com.hbm.client.screen.MissileAssemblyScreen;
 import com.hbm.client.screen.NukeBoyScreen;
@@ -25,16 +29,27 @@ import com.hbm.client.render.blockentity.AssembledNukeRenderer;
 import com.hbm.client.render.blockentity.RenderCrashedBomb;
 import com.hbm.client.render.blockentity.RenderLandmine;
 import com.hbm.client.render.blockentity.RenderLaunchPad;
+import com.hbm.client.render.blockentity.RenderLaunchPadLarge;
+import com.hbm.client.render.blockentity.RenderLaunchPadRusted;
+import com.hbm.client.render.blockentity.RenderCompactLauncher;
+import com.hbm.client.render.blockentity.RenderLaunchTable;
+import com.hbm.client.render.blockentity.RenderMissileAssembly;
+import com.hbm.client.render.blockentity.RenderRadar;
+import com.hbm.client.render.blockentity.RenderRadarLarge;
+import com.hbm.client.render.blockentity.RenderRadarScreen;
 import com.hbm.client.render.entity.PrimedBombRenderer;
 import com.hbm.client.render.entity.RenderBlackHole;
 import com.hbm.client.render.entity.RenderBombProjectiles;
 import com.hbm.client.render.entity.RenderBomber;
 import com.hbm.client.render.entity.RenderEMPBlast;
 import com.hbm.client.render.entity.RenderMissile;
+import com.hbm.client.render.entity.RenderMissileAntiBallistic;
+import com.hbm.client.render.entity.RenderMissileCustom;
 import com.hbm.client.render.entity.RenderFireworks;
 import com.hbm.client.render.entity.RenderNukeCloud;
 import com.hbm.client.render.entity.RenderRubble;
 import com.hbm.client.render.entity.RenderTorex;
+import com.hbm.client.render.missile.MissilePartModels;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.lib.RefStrings;
 import com.hbm.registry.ModBlockEntities;
@@ -89,6 +104,10 @@ public final class ClientModEvents {
         safeRegister(ModMenus.COMBUSTION_GENERATOR.get(), CombustionGeneratorScreen::new, "combustion_generator");
         safeRegister(ModMenus.MISSILE_ASSEMBLY.get(), MissileAssemblyScreen::new, "machine_missile_assembly");
         safeRegister(ModMenus.LAUNCH_PAD.get(), LaunchPadScreen::new, "launch_pad");
+        safeRegister(ModMenus.LAUNCH_PAD_RUSTED.get(), LaunchPadRustedScreen::new, "launch_pad_rusted");
+        safeRegister(ModMenus.COMPACT_LAUNCHER.get(), CompactLauncherScreen::new, "compact_launcher");
+        safeRegister(ModMenus.LAUNCH_TABLE.get(), LaunchTableScreen::new, "launch_table");
+        safeRegister(ModMenus.RADAR_NT.get(), RadarNTSlotsScreen::new, "machine_radar");
         safeRegister(ModMenus.NUKE_BOY.get(), NukeBoyScreen::new, "nuke_boy");
         safeRegister(ModMenus.NUKE_MAN.get(), NukeManScreen::new, "nuke_man");
         safeRegister(ModMenus.NUKE_GADGET.get(), NukeGadgetScreen::new, "nuke_gadget");
@@ -149,12 +168,31 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MISSILE_DECOY.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_STEALTH.get(), RenderMissile::new);
         event.registerEntityRenderer(ModEntities.MISSILE_BURST.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_INFERNO.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_RAIN.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_DRILL.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_SHUTTLE.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_NUCLEAR.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_NUCLEAR_CLUSTER.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_VOLCANO.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissile::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_CUSTOM.get(), RenderMissileCustom::new);
+        event.registerEntityRenderer(ModEntities.MISSILE_ANTI_BALLISTIC.get(), RenderMissileAntiBallistic::new);
         event.registerEntityRenderer(ModEntities.BLACK_HOLE.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntities.MIST.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.EMP_LOGIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.FALLING_NUKE.get(), RenderBombProjectiles.FallingNuke::new);
         event.registerEntityRenderer(ModEntities.BOMBER.get(), RenderBomber::new);
         event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_PAD.get(), RenderLaunchPad::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_PAD_LARGE.get(), RenderLaunchPadLarge::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_PAD_RUSTED.get(), RenderLaunchPadRusted::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.COMPACT_LAUNCHER.get(), RenderCompactLauncher::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.LAUNCH_TABLE.get(), RenderLaunchTable::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.MISSILE_ASSEMBLY.get(), RenderMissileAssembly::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.RADAR.get(), RenderRadar::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.RADAR_LARGE.get(), RenderRadarLarge::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.RADAR_SCREEN.get(), RenderRadarScreen::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandmine::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_BOY.get(), AssembledNukeRenderer::new);
@@ -180,7 +218,13 @@ public final class ClientModEvents {
         for (ResourceLocation model : RenderMissile.allModels()) {
             event.register(model);
         }
+        for (ResourceLocation model : MissilePartModels.allModels()) {
+            event.register(model);
+        }
         event.register(RenderBlackHole.MODEL_SPHERE);
         event.register(new ResourceLocation(RefStrings.MODID, "block/launch_pad_silo"));
+        event.register(RenderLaunchPad.PAD_RUSTED_MODEL);
+        event.register(RenderMissileAssembly.BENCH_MODEL);
+        event.register(RenderMissileAssembly.STRUT_MODEL);
     }
 }

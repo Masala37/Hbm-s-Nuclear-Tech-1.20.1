@@ -1,1 +1,3 @@
-{ "parent": "hbm:block/launch_table" }
+{
+  "parent": "hbm:item/missile_bewlr"
+}

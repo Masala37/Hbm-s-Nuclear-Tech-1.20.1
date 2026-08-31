@@ -6,6 +6,8 @@ import com.hbm.blocks.bomb.DudType;
 import com.hbm.blocks.bomb.VolcanoBlock;
 import com.hbm.blocks.bomb.VolcanoMode;
 import com.hbm.items.tool.BombCallerItem;
+import com.hbm.items.weapon.ItemCustomMissile;
+import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.lib.RefStrings;
 import com.hbm.port.PortContentRegistry;
 import net.minecraft.core.registries.Registries;
@@ -97,13 +99,25 @@ public final class ModCreativeTabs {
                 items.add(item);
             }
         }
-        // Working first, then WIP, then unimplemented stubs — easier for alpha players
-        items.sort(Comparator
-                .comparingInt((Item item) -> PortContentRegistry.status(item).sortKey)
-                .thenComparing(item -> {
-                    ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
-                    return key != null ? key.getPath() : "";
-                }));
+        if (kind == CreativeTabClassifier.Kind.MISSILE) {
+            items.sort(Comparator
+                    .comparingInt((Item item) -> {
+                        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+                        return LegacyMissileTabOrder.rank(key != null ? key.getPath() : "");
+                    })
+                    .thenComparing(item -> {
+                        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+                        return key != null ? key.getPath() : "";
+                    }));
+        } else {
+            // Working first, then WIP, then unimplemented stubs — easier for alpha players
+            items.sort(Comparator
+                    .comparingInt((Item item) -> PortContentRegistry.status(item).sortKey)
+                    .thenComparing(item -> {
+                        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+                        return key != null ? key.getPath() : "";
+                    }));
+        }
         for (Item item : items) {
             if (item == ModItems.CRASHED_BOMB.get()) {
                 for (DudType type : DudType.values()) {
@@ -121,6 +135,9 @@ public final class ModCreativeTabs {
                 for (BombCallerItem.StrikeType type : BombCallerItem.StrikeType.values()) {
                     output.accept(BombCallerItem.stack(type));
                 }
+            } else if (item instanceof ItemCustomMissile
+                    || (item instanceof ItemCustomMissilePart part && part.isHiddenFromCreative())) {
+                continue;
             } else {
                 output.accept(item);
             }

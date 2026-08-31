@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.client.ClientDesignatorScreens;
 import com.hbm.client.particle.ClientMissileParticles;
 import com.hbm.client.sound.ClientBlackHoleSounds;
 import com.hbm.client.sound.ClientMissileSounds;
@@ -13,6 +14,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -33,13 +35,33 @@ public class ClientProxy extends ServerProxy {
     }
 
     @Override
+    public void playMissileTakeoffAt(double x, double y, double z) {
+        com.hbm.client.particle.ClientExplosionEffects.playMissileTakeoff(x, y, z);
+    }
+
+    @Override
+    public void spawnAbmContrail(com.hbm.entity.missile.EntityMissileAntiBallistic missile) {
+        ClientMissileParticles.spawnAbmContrail(missile);
+    }
+
+    @Override
     public void playBlackHole(EntityBlackHole hole) {
         ClientBlackHoleSounds.play(hole);
     }
 
     @Override
+    public boolean tryPlayNuclearExplosion(double x, double y, double z, double hearRange) {
+        return com.hbm.client.particle.ClientExplosionEffects.playNuclearExplosionIfInRange(
+                x, y, z, hearRange);
+    }
+
+    @Override
     public void spawnMissileContrail(EntityMissileBaseNT missile) {
-        ClientMissileParticles.spawnContrail(missile);
+        if (missile instanceof com.hbm.entity.missile.EntityMissileCustom custom) {
+            ClientMissileParticles.spawnFuelContrail(custom);
+        } else {
+            ClientMissileParticles.spawnContrail(missile);
+        }
     }
 
     @Override
@@ -48,6 +70,33 @@ public class ClientProxy extends ServerProxy {
                 && ClientMissileParticles.hasMissileNearPad(clientLevel, pos)) {
             ClientMissileParticles.spawnLaunchSmoke(pos);
         }
+    }
+
+    @Override
+    public void tickCustomLauncherSmoke(Level level, BlockPos pos, float spread) {
+        if (level instanceof ClientLevel clientLevel
+                && ClientMissileParticles.hasCustomMissileNearPad(clientLevel, pos)) {
+            ClientMissileParticles.spawnCustomLauncherSmoke(pos, spread);
+        }
+    }
+
+    @Override
+    public void openDesignatorScreen(Player player) {
+        ClientDesignatorScreens.open(player);
+    }
+
+    @Override
+    public void tickLaunchPadLarge(Level level, BlockPos pos, Object pad) {
+        if (pad instanceof com.hbm.blockentity.machine.LaunchPadLargeBlockEntity large) {
+            com.hbm.client.sound.ClientLaunchPadSounds.tickLarge(level, pos, large);
+        }
+    }
+
+    @Override
+    public void tickMachineLoop(Level level, BlockPos pos, net.minecraft.world.level.block.Block block,
+                                net.minecraft.world.level.block.state.properties.BooleanProperty lit,
+                                net.minecraft.sounds.SoundEvent sound, float volume) {
+        com.hbm.client.sound.ClientMachineSounds.keep(pos, block, lit, sound, volume);
     }
 
     private void clientSetup(FMLClientSetupEvent event) {

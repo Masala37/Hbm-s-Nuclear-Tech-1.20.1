@@ -3,6 +3,8 @@ package com.hbm.registry;
 import com.hbm.items.machine.BatteryCreativeItem;
 import com.hbm.items.machine.InfiniteFluidBarrelItem;
 import com.hbm.items.machine.LaunchPadBlockItem;
+import com.hbm.items.machine.MissileAssemblyBlockItem;
+import com.hbm.items.machine.RadarBlockItem;
 import com.hbm.items.food.BombWaffleItem;
 import com.hbm.items.special.BombComponentItem;
 import com.hbm.items.special.BombKitItem;
@@ -13,7 +15,10 @@ import com.hbm.items.special.DemonCoreItem;
 import com.hbm.items.special.VolcanoBlockItem;
 import com.hbm.items.tool.BombCallerItem;
 import com.hbm.items.tool.DesignatorItem;
+import com.hbm.items.tool.DesignatorManualItem;
 import com.hbm.items.tool.DesignatorRangeItem;
+import com.hbm.items.weapon.CustomMissilePartItems;
+import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.tool.DeadmanDetonatorItem;
 import com.hbm.items.tool.DefuserItem;
@@ -24,6 +29,7 @@ import com.hbm.items.tool.GeigerCounterItem;
 import com.hbm.items.tool.GuideBookItem;
 import com.hbm.items.tool.LaserDetonatorItem;
 import com.hbm.items.tool.MultiDetonatorItem;
+import com.hbm.items.tool.RadarLinkerItem;
 import com.hbm.items.tool.ScrewdriverItem;
 import com.hbm.item.HbmArmorMaterials;
 import com.hbm.lib.RefStrings;
@@ -664,7 +670,8 @@ public final class ModItems {
     public static final RegistryObject<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh", ScrewdriverItem::desh);
     public static final RegistryObject<Item> DESIGNATOR = ITEMS.register("designator", DesignatorItem::new);
     public static final RegistryObject<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", DesignatorRangeItem::new);
-    public static final RegistryObject<Item> DESIGNATOR_MANUAL = registerIngot("designator_manual");
+    public static final RegistryObject<Item> RADAR_LINKER = ITEMS.register("radar_linker", RadarLinkerItem::new);
+    public static final RegistryObject<Item> DESIGNATOR_MANUAL = ITEMS.register("designator_manual", DesignatorManualItem::new);
     public static final RegistryObject<Item> DESIGNATOR_TRACKER = registerIngot("designator_tracker");
     public static final RegistryObject<Item> DESIGNATOR_ARTY = registerIngot("designator_arty");
     public static final RegistryObject<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", DeadmanDetonatorItem::new);
@@ -786,9 +793,12 @@ public final class ModItems {
             ITEMS.register("missile_buster_strong", () -> new MissileItem(MissileItem.GuiTier.TIER2));
     public static final RegistryObject<Item> MISSILE_BURST =
             ITEMS.register("missile_burst", () -> new MissileItem(MissileItem.GuiTier.TIER3));
-    public static final RegistryObject<Item> MISSILE_INFERNO = registerIngot("missile_inferno");
-    public static final RegistryObject<Item> MISSILE_NUCLEAR = registerIngot("missile_nuclear");
-    public static final RegistryObject<Item> MISSILE_NUCLEAR_CLUSTER = registerIngot("missile_nuclear_cluster");
+    public static final RegistryObject<Item> MISSILE_INFERNO =
+            ITEMS.register("missile_inferno", () -> new MissileItem(MissileItem.GuiTier.TIER3));
+    public static final RegistryObject<Item> MISSILE_NUCLEAR =
+            ITEMS.register("missile_nuclear", () -> new MissileItem(MissileItem.GuiTier.TIER4));
+    public static final RegistryObject<Item> MISSILE_NUCLEAR_CLUSTER =
+            ITEMS.register("missile_nuclear_cluster", () -> new MissileItem(MissileItem.GuiTier.TIER4));
     public static final RegistryObject<Item> MISSILE_ENDO = registerIngot("missile_endo");
     public static final RegistryObject<Item> MISSILE_EXO = registerIngot("missile_exo");
     public static final RegistryObject<Item> MISSILE_EMP =
@@ -803,18 +813,27 @@ public final class ModItems {
             ITEMS.register("missile_bhole", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_STEALTH =
             ITEMS.register("missile_stealth", () -> new MissileItem(MissileItem.GuiTier.STEALTH));
-    public static final RegistryObject<Item> MISSILE_ANTI_BALLISTIC = registerIngot("missile_anti_ballistic");
-    public static final RegistryObject<Item> MISSILE_DOOMSDAY = registerIngot("missile_doomsday");
+    public static final RegistryObject<Item> MISSILE_ANTI_BALLISTIC =
+            ITEMS.register("missile_anti_ballistic", () -> new MissileItem(MissileItem.GuiTier.ABM));
+    public static final RegistryObject<Item> MISSILE_DOOMSDAY =
+            ITEMS.register("missile_doomsday", () -> new MissileItem(MissileItem.GuiTier.TIER4));
+    public static final RegistryObject<Item> MISSILE_DOOMSDAY_RUSTED =
+            ITEMS.register("missile_doomsday_rusted", () -> new MissileItem(MissileItem.GuiTier.TIER4, false));
     public static final RegistryObject<Item> MISSILE_SCHRABIDIUM =
             ITEMS.register("missile_schrabidium", () -> new MissileItem(MissileItem.GuiTier.TIER0));
     public static final RegistryObject<Item> MISSILE_CARRIER = registerIngot("missile_carrier");
-    public static final RegistryObject<Item> MISSILE_SHUTTLE = registerIngot("missile_shuttle");
-    public static final RegistryObject<Item> MISSILE_VOLCANO = registerIngot("missile_volcano");
+    public static final RegistryObject<Item> MISSILE_SHUTTLE =
+            ITEMS.register("missile_shuttle", () -> new MissileItem(MissileItem.GuiTier.ROBIN));
+    public static final RegistryObject<Item> MISSILE_VOLCANO =
+            ITEMS.register("missile_volcano", () -> new MissileItem(MissileItem.GuiTier.TIER4));
     public static final RegistryObject<Item> MISSILE_DECOY =
             ITEMS.register("missile_decoy", () -> new MissileItem(MissileItem.GuiTier.TIER1));
-    public static final RegistryObject<Item> MISSILE_DRILL = registerIngot("missile_drill");
-    public static final RegistryObject<Item> MISSILE_RAIN = registerIngot("missile_rain");
-    public static final RegistryObject<Item> MISSILE_CUSTOM = registerIngot("missile_custom");
+    public static final RegistryObject<Item> MISSILE_DRILL =
+            ITEMS.register("missile_drill", () -> new MissileItem(MissileItem.GuiTier.TIER3));
+    public static final RegistryObject<Item> MISSILE_RAIN =
+            ITEMS.register("missile_rain", () -> new MissileItem(MissileItem.GuiTier.TIER3));
+    public static final RegistryObject<Item> MISSILE_CUSTOM =
+            ITEMS.register("missile_custom", ItemCustomMissile::new);
     public static final RegistryObject<Item> MISSILE_ASSEMBLY = registerIngot("missile_assembly");
     public static final RegistryObject<Item> MISSILE_KIT = registerIngot("missile_kit");
     public static final RegistryObject<Item> AMMO_45 = registerIngot("ammo_45");
@@ -886,11 +905,11 @@ public final class ModItems {
     public static final RegistryObject<Item> PARTICLE_ASCHRAB = registerIngot("particle_aschrab");
     public static final RegistryObject<Item> PARTICLE_HIGGS = registerIngot("particle_higgs");
     public static final RegistryObject<Item> PARTICLE_DARK = registerIngot("particle_dark");
-    public static final RegistryObject<Item> MP_C_1 = registerIngot("mp_c_1");
-    public static final RegistryObject<Item> MP_C_2 = registerIngot("mp_c_2");
-    public static final RegistryObject<Item> MP_C_3 = registerIngot("mp_c_3");
-    public static final RegistryObject<Item> MP_C_4 = registerIngot("mp_c_4");
-    public static final RegistryObject<Item> MP_C_5 = registerIngot("mp_c_5");
+    public static final RegistryObject<Item> MP_C_1 = CustomMissilePartItems.MP_C_1;
+    public static final RegistryObject<Item> MP_C_2 = CustomMissilePartItems.MP_C_2;
+    public static final RegistryObject<Item> MP_C_3 = CustomMissilePartItems.MP_C_3;
+    public static final RegistryObject<Item> MP_C_4 = CustomMissilePartItems.MP_C_4;
+    public static final RegistryObject<Item> MP_C_5 = CustomMissilePartItems.MP_C_5;
     public static final RegistryObject<Item> MP_FUSELAGE = registerIngot("mp_fuselage");
     public static final RegistryObject<Item> MP_STABILITY = registerIngot("mp_stability");
     public static final RegistryObject<Item> MP_THRUSTER = registerIngot("mp_thruster");
@@ -924,126 +943,6 @@ public final class ModItems {
     private static final String[] MISSILE_TAB_PLACEHOLDER_IDS = {
             "missile_soyuz",
             "missile_soyuz_lander",
-            "missile_doomsday_rusted",
-            // custom missile thrusters
-            "mp_thruster_10_kerosene",
-            "mp_thruster_10_solid",
-            "mp_thruster_10_xenon",
-            "mp_thruster_15_kerosene",
-            "mp_thruster_15_kerosene_dual",
-            "mp_thruster_15_kerosene_triple",
-            "mp_thruster_15_solid",
-            "mp_thruster_15_solid_hexdecuple",
-            "mp_thruster_15_hydrogen",
-            "mp_thruster_15_hydrogen_dual",
-            "mp_thruster_15_balefire_short",
-            "mp_thruster_15_balefire",
-            "mp_thruster_15_balefire_large",
-            "mp_thruster_15_balefire_large_rad",
-            "mp_thruster_20_kerosene",
-            "mp_thruster_20_kerosene_dual",
-            "mp_thruster_20_kerosene_triple",
-            "mp_thruster_20_solid",
-            "mp_thruster_20_solid_multi",
-            "mp_thruster_20_solid_multier",
-            // custom missile stability fins (legacy size-20 fin id really is "mp_s_20")
-            "mp_stability_10_flat",
-            "mp_stability_10_cruise",
-            "mp_stability_10_space",
-            "mp_stability_15_flat",
-            "mp_stability_15_thin",
-            "mp_stability_15_soyuz",
-            "mp_s_20",
-            // custom missile fuselages (incl. legacy skin variants)
-            "mp_fuselage_10_kerosene",
-            "mp_fuselage_10_kerosene_camo",
-            "mp_fuselage_10_kerosene_desert",
-            "mp_fuselage_10_kerosene_sky",
-            "mp_fuselage_10_kerosene_flames",
-            "mp_fuselage_10_kerosene_insulation",
-            "mp_fuselage_10_kerosene_sleek",
-            "mp_fuselage_10_kerosene_metal",
-            "mp_fuselage_10_kerosene_taint",
-            "mp_fuselage_10_solid",
-            "mp_fuselage_10_solid_flames",
-            "mp_fuselage_10_solid_insulation",
-            "mp_fuselage_10_solid_sleek",
-            "mp_fuselage_10_solid_soviet_glory",
-            "mp_fuselage_10_solid_cathedral",
-            "mp_fuselage_10_solid_moonlit",
-            "mp_fuselage_10_solid_battery",
-            "mp_fuselage_10_solid_duracell",
-            "mp_fuselage_10_xenon",
-            "mp_fuselage_10_xenon_bhole",
-            "mp_fuselage_10_long_kerosene",
-            "mp_fuselage_10_long_kerosene_camo",
-            "mp_fuselage_10_long_kerosene_desert",
-            "mp_fuselage_10_long_kerosene_sky",
-            "mp_fuselage_10_long_kerosene_flames",
-            "mp_fuselage_10_long_kerosene_insulation",
-            "mp_fuselage_10_long_kerosene_sleek",
-            "mp_fuselage_10_long_kerosene_metal",
-            "mp_fuselage_10_long_kerosene_taint",
-            "mp_fuselage_10_long_kerosene_vap",
-            "mp_fuselage_10_long_solid",
-            "mp_fuselage_10_long_solid_flames",
-            "mp_fuselage_10_long_solid_insulation",
-            "mp_fuselage_10_long_solid_sleek",
-            "mp_fuselage_10_long_solid_soviet_glory",
-            "mp_fuselage_10_long_solid_bullet",
-            "mp_fuselage_10_long_solid_silvermoonlight",
-            "mp_fuselage_10_15_kerosene",
-            "mp_fuselage_10_15_solid",
-            "mp_fuselage_10_15_hydrogen",
-            "mp_fuselage_10_15_balefire",
-            "mp_fuselage_15_kerosene",
-            "mp_fuselage_15_kerosene_camo",
-            "mp_fuselage_15_kerosene_desert",
-            "mp_fuselage_15_kerosene_sky",
-            "mp_fuselage_15_kerosene_insulation",
-            "mp_fuselage_15_kerosene_metal",
-            "mp_fuselage_15_kerosene_decorated",
-            "mp_fuselage_15_kerosene_steampunk",
-            "mp_fuselage_15_kerosene_polite",
-            "mp_fuselage_15_kerosene_blackjack",
-            "mp_fuselage_15_kerosene_lambda",
-            "mp_fuselage_15_kerosene_minuteman",
-            "mp_fuselage_15_kerosene_taint",
-            "mp_fuselage_15_kerosene_yuck",
-            "mp_fuselage_15_solid",
-            "mp_fuselage_15_solid_insulation",
-            "mp_fuselage_15_solid_desh",
-            "mp_fuselage_15_solid_soviet_glory",
-            "mp_fuselage_15_solid_soviet_stank",
-            "mp_fuselage_15_solid_faust",
-            "mp_fuselage_15_solid_silvermoonlight",
-            "mp_fuselage_15_solid_snowy",
-            "mp_fuselage_15_solid_panorama",
-            "mp_fuselage_15_solid_roses",
-            "mp_fuselage_15_solid_mimi",
-            "mp_fuselage_15_hydrogen",
-            "mp_fuselage_15_hydrogen_cathedral",
-            "mp_fuselage_15_balefire",
-            "mp_fuselage_15_20_kerosene",
-            "mp_fuselage_15_20_kerosene_magnusson",
-            "mp_fuselage_15_20_solid",
-            // custom missile warheads
-            "mp_warhead_10_he",
-            "mp_warhead_10_incendiary",
-            "mp_warhead_10_buster",
-            "mp_warhead_10_nuclear",
-            "mp_warhead_10_nuclear_large",
-            "mp_warhead_10_taint",
-            "mp_warhead_10_cloud",
-            "mp_warhead_15_he",
-            "mp_warhead_15_incendiary",
-            "mp_warhead_15_nuclear",
-            "mp_warhead_15_nuclear_shark",
-            "mp_warhead_15_nuclear_mimi",
-            "mp_warhead_15_boxcar",
-            "mp_warhead_15_n2",
-            "mp_warhead_15_balefire",
-            "mp_warhead_15_turbine"
     };
 
     static {
@@ -1656,8 +1555,25 @@ public final class ModItems {
     public static final RegistryObject<Item> BOMB_MULTI = registerBlockItem(ModBlocks.BOMB_MULTI);
     public static final RegistryObject<Item> LAUNCH_PAD = ITEMS.register("launch_pad",
             () -> new LaunchPadBlockItem(ModBlocks.LAUNCH_PAD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LAUNCH_PAD_LARGE = ITEMS.register("launch_pad_large",
+            () -> new LaunchPadBlockItem(ModBlocks.LAUNCH_PAD_LARGE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LAUNCH_PAD_RUSTED = ITEMS.register("launch_pad_rusted",
+            () -> new LaunchPadBlockItem(ModBlocks.LAUNCH_PAD_RUSTED.get(), new Item.Properties()));
+    public static final RegistryObject<Item> COMPACT_LAUNCHER = ITEMS.register("compact_launcher",
+            () -> new LaunchPadBlockItem(ModBlocks.COMPACT_LAUNCHER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LAUNCH_TABLE = ITEMS.register("launch_table",
+            () -> new LaunchPadBlockItem(ModBlocks.LAUNCH_TABLE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LAUNCH_CODE = registerComponent("launch_code");
+    public static final RegistryObject<Item> LAUNCH_KEY = registerComponent("launch_key");
     public static final RegistryObject<Item> MACHINE_MISSILE_ASSEMBLY =
-            registerBlockItem(ModBlocks.MACHINE_MISSILE_ASSEMBLY);
+            ITEMS.register("machine_missile_assembly",
+                    () -> new MissileAssemblyBlockItem(ModBlocks.MACHINE_MISSILE_ASSEMBLY.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_RADAR = ITEMS.register("machine_radar",
+            () -> new RadarBlockItem(ModBlocks.MACHINE_RADAR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> MACHINE_RADAR_LARGE = ITEMS.register("machine_radar_large",
+            () -> new RadarBlockItem(ModBlocks.MACHINE_RADAR_LARGE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> RADAR_SCREEN = ITEMS.register("radar_screen",
+            () -> new RadarBlockItem(ModBlocks.RADAR_SCREEN.get(), new Item.Properties()));
     public static final RegistryObject<Item> BOMB_FLOAT = registerBlockItem(ModBlocks.BOMB_FLOAT);
     public static final RegistryObject<Item> EMP_BOMB = registerBlockItem(ModBlocks.EMP_BOMB);
     public static final RegistryObject<Item> FIREWORKS = registerBlockItem(ModBlocks.FIREWORKS);

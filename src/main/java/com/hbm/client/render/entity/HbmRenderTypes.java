@@ -25,6 +25,9 @@ public final class HbmRenderTypes extends RenderType {
     public static final RenderType BHOLE_DISC_TRANSLUCENT = createBholeDisc(BHOLE_DISC, false);
     public static final RenderType BHOLE_DISC_ADDITIVE = createBholeDisc(BHOLE_DISC, true);
     public static final RenderType BHOLE_JETS = createBholeJets();
+    public static final RenderType RADAR_SWEEP = createRadarSweep();
+    public static final RenderType RADAR_SCREEN_BLIPS = RenderType.entityTranslucent(
+            new ResourceLocation("hbm", "textures/gui/machine/gui_radar_nt.png"));
 
     private HbmRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize,
                            boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
@@ -84,6 +87,19 @@ public final class HbmRenderTypes extends RenderType {
                         .setLightmapState(LIGHTMAP)
                         // Translucent pass writes depth so Fancy clouds do not draw through the disc.
                         .setWriteMaskState(additive ? COLOR_WRITE : COLOR_DEPTH_WRITE)
+                        .setDepthTestState(LEQUAL_DEPTH_TEST)
+                        .createCompositeState(false));
+    }
+
+    private static RenderType createRadarSweep() {
+        return create("hbm_radar_sweep", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256,
+                false, true,
+                CompositeState.builder()
+                        .setShaderState(POSITION_COLOR_SHADER)
+                        .setTextureState(NO_TEXTURE)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(NO_CULL)
+                        .setWriteMaskState(COLOR_WRITE)
                         .setDepthTestState(LEQUAL_DEPTH_TEST)
                         .createCompositeState(false));
     }

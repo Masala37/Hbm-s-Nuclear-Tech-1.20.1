@@ -1,4 +1,15 @@
 {
   "type": "minecraft:block",
-  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:launch_pad" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+  "pools": [{
+    "rolls": 1,
+    "entries": [{ "type": "minecraft:item", "name": "hbm:launch_pad" }],
+    "conditions": [
+      { "condition": "minecraft:survives_explosion" },
+      {
+        "condition": "minecraft:block_state_property",
+        "block": "hbm:launch_pad",
+        "properties": { "ox": "1", "oz": "1" }
+      }
+    ]
+  }]
 }

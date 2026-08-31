@@ -24,9 +24,19 @@ import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
 import com.hbm.blockentity.machine.ElectricFurnaceBlockEntity;
 import com.hbm.blockentity.machine.FluidBarrelBlockEntity;
 import com.hbm.blockentity.machine.InfiniteBatteryBlockEntity;
+import com.hbm.blockentity.machine.CompactLauncherBlockEntity;
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
+import com.hbm.blockentity.machine.LaunchPadLargeBlockEntity;
+import com.hbm.blockentity.machine.LaunchPadProxyBlockEntity;
+import com.hbm.blockentity.machine.LaunchPadRustedBlockEntity;
+import com.hbm.blockentity.machine.LaunchTableBlockEntity;
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
 import com.hbm.blockentity.machine.MissileAssemblyBlockEntity;
+import com.hbm.blockentity.machine.RadarLargeBlockEntity;
+import com.hbm.blockentity.machine.RadarNTBlockEntity;
+import com.hbm.blockentity.machine.RadarProxyBlockEntity;
+import com.hbm.blockentity.machine.RadarScreenBlockEntity;
+import com.hbm.blockentity.machine.RedCableBlockEntity;
 import com.hbm.blockentity.machine.RedCableBlockEntity;
 import com.hbm.blockentity.machine.StorageCrateBlockEntity;
 import com.hbm.blockentity.rbmk.RBMKPassiveBlockEntity;
@@ -192,10 +202,67 @@ public final class ModBlockEntities {
                     ModBlocks.LAUNCH_PAD.get()
             ).build(null));
 
+    public static final RegistryObject<BlockEntityType<LaunchPadLargeBlockEntity>> LAUNCH_PAD_LARGE =
+            BLOCK_ENTITIES.register("launch_pad_large", () -> BlockEntityType.Builder.of(
+                    LaunchPadLargeBlockEntity::new,
+                    ModBlocks.LAUNCH_PAD_LARGE.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<LaunchPadRustedBlockEntity>> LAUNCH_PAD_RUSTED =
+            BLOCK_ENTITIES.register("launch_pad_rusted", () -> BlockEntityType.Builder.of(
+                    LaunchPadRustedBlockEntity::new,
+                    ModBlocks.LAUNCH_PAD_RUSTED.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<LaunchPadProxyBlockEntity>> LAUNCH_PAD_PROXY =
+            BLOCK_ENTITIES.register("launch_pad_proxy", () -> BlockEntityType.Builder.of(
+                    LaunchPadProxyBlockEntity::new,
+                    ModBlocks.LAUNCH_PAD.get(),
+                    ModBlocks.LAUNCH_PAD_LARGE.get(),
+                    ModBlocks.COMPACT_LAUNCHER.get(),
+                    ModBlocks.LAUNCH_TABLE.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<CompactLauncherBlockEntity>> COMPACT_LAUNCHER =
+            BLOCK_ENTITIES.register("compact_launcher", () -> BlockEntityType.Builder.of(
+                    CompactLauncherBlockEntity::new,
+                    ModBlocks.COMPACT_LAUNCHER.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<LaunchTableBlockEntity>> LAUNCH_TABLE =
+            BLOCK_ENTITIES.register("launch_table", () -> BlockEntityType.Builder.of(
+                    LaunchTableBlockEntity::new,
+                    ModBlocks.LAUNCH_TABLE.get()
+            ).build(null));
+
     public static final RegistryObject<BlockEntityType<MissileAssemblyBlockEntity>> MISSILE_ASSEMBLY =
             BLOCK_ENTITIES.register("machine_missile_assembly", () -> BlockEntityType.Builder.of(
                     MissileAssemblyBlockEntity::new,
                     ModBlocks.MACHINE_MISSILE_ASSEMBLY.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<RadarNTBlockEntity>> RADAR =
+            BLOCK_ENTITIES.register("machine_radar", () -> BlockEntityType.Builder.of(
+                    RadarNTBlockEntity::new,
+                    ModBlocks.MACHINE_RADAR.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<RadarLargeBlockEntity>> RADAR_LARGE =
+            BLOCK_ENTITIES.register("machine_radar_large", () -> BlockEntityType.Builder.of(
+                    RadarLargeBlockEntity::new,
+                    ModBlocks.MACHINE_RADAR_LARGE.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<RadarScreenBlockEntity>> RADAR_SCREEN =
+            BLOCK_ENTITIES.register("radar_screen", () -> BlockEntityType.Builder.of(
+                    RadarScreenBlockEntity::new,
+                    ModBlocks.RADAR_SCREEN.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<RadarProxyBlockEntity>> RADAR_PROXY =
+            BLOCK_ENTITIES.register("radar_proxy", () -> BlockEntityType.Builder.of(
+                    RadarProxyBlockEntity::new,
+                    ModBlocks.MACHINE_RADAR_LARGE.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB =

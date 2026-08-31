@@ -133,7 +133,18 @@ public final class PortContentRegistry {
             "sellafield_",
             "hazmat_",
             "cable_red",
-            "waste_"
+            "waste_",
+            "mp_thruster_10_",
+            "mp_thruster_15_",
+            "mp_thruster_20_",
+            "mp_stability_10_",
+            "mp_stability_15_",
+            "mp_s_20",
+            "mp_fuselage_10_",
+            "mp_fuselage_15_",
+            "mp_warhead_10_",
+            "mp_warhead_15_",
+            "mp_c_"
     };
 
     private static final String[] PARTIAL_PREFIXES = {
@@ -169,20 +180,31 @@ public final class PortContentRegistry {
                 "defuser", "screwdriver", "screwdriver_desh",
                 "bomb_caller", "bomb_waffle", "guide_book",
                 "geiger_counter", "digamma_diagnostic", "particle_digamma",
-                "launch_pad", "designator", "designator_range", "machine_missile_assembly", "missile_chip",
+                "launch_pad", "launch_pad_large", "launch_pad_rusted",
+                "compact_launcher", "launch_table",
+                "launch_code", "launch_key",
+                "designator", "designator_range", "designator_manual", "radar_linker",
+                "machine_missile_assembly", "machine_radar", "machine_radar_large", "radar_screen", "missile_chip",
+                "missile_custom",
                 "missile_generic", "missile_strong",
                 "missile_incendiary", "missile_incendiary_strong",
                 "missile_cluster", "missile_cluster_strong",
                 "missile_buster", "missile_buster_strong",
                 "missile_taint", "missile_micro", "missile_bhole", "missile_schrabidium",
                 "missile_emp", "missile_emp_strong", "missile_decoy", "missile_stealth",
-                "missile_burst",
+                "missile_burst", "missile_inferno", "missile_rain", "missile_drill",
+                "missile_shuttle",
+                "missile_nuclear", "missile_nuclear_cluster", "missile_volcano",
+                "missile_doomsday", "missile_doomsday_rusted",
+                "missile_anti_ballistic",
                 "fire_digamma", "taint",
                 "toxic_block", "bucket_toxic",
                 "gas_radon", "gas_radon_dense", "gas_radon_tomb",
                 "fallout", "volcano_core", "volcano_rad_core",
                 "electric_furnace", "machine_battery", "machine_battery_infinite", "battery_creative",
                 "ethanol_bucket", "peroxide_bucket",
+                "kerosene_bucket", "oxygen_bucket", "kerosene_reform_bucket",
+                "hydrogen_bucket", "xenon_bucket", "balefire_bucket",
                 "machine_diesel", "machine_combustion",
                 "fluid_barrel_steel", "fluid_barrel_infinite", "red_cable", "red_cable_classic", "red_cable_paintable",
                 "cable_switch", "cable_detector", "cable_diode",
@@ -203,9 +225,8 @@ public final class PortContentRegistry {
     private static Set<String> partialIds() {
         Set<String> set = new HashSet<>();
         Collections.addAll(set,
-                "designator_manual", "designator_tracker", "designator_arty", "sat_designator",
-                "rbmk_blank", "rbmk_reflector", "rbmk_absorber", "rbmk_moderator",
-                "compact_launcher", "launch_table");
+                "designator_tracker", "designator_arty", "sat_designator",
+                "rbmk_blank", "rbmk_reflector", "rbmk_absorber", "rbmk_moderator");
         return set;
     }
 }

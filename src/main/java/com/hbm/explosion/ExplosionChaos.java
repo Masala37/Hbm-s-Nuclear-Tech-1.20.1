@@ -58,6 +58,42 @@ public final class ExplosionChaos {
     }
 
     /**
+     * Legacy {@code ExplosionChaos.igniteAllBlocks} — put fire on top of any non-air
+     * block whose cell above is air or a snow layer (Inferno G.R.N. Mk.II).
+     */
+    public static void igniteAllBlocks(Level level, int x, int y, int z, int bound) {
+        if (level.isClientSide || bound <= 0) {
+            return;
+        }
+        int r = bound;
+        int r22 = (r * r) / 2;
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
+        for (int xx = -r; xx < r; xx++) {
+            for (int yy = -r; yy < r; yy++) {
+                for (int zz = -r; zz < r; zz++) {
+                    if (xx * xx + yy * yy + zz * zz >= r22) {
+                        continue;
+                    }
+                    pos.set(x + xx, y + yy, z + zz);
+                    above.set(pos.getX(), pos.getY() + 1, pos.getZ());
+                    if (!level.isInWorldBounds(pos) || !level.isInWorldBounds(above)) {
+                        continue;
+                    }
+                    BlockState ground = level.getBlockState(pos);
+                    if (ground.isAir()) {
+                        continue;
+                    }
+                    BlockState aboveState = level.getBlockState(above);
+                    if (aboveState.isAir() || aboveState.is(Blocks.SNOW)) {
+                        level.setBlock(above, Blocks.FIRE.defaultBlockState(), 3);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Fire cluster bomblets (legacy catapult cluster submunitions).
      */
     public static void cluster(Level level, double x, double y, double z, int count,

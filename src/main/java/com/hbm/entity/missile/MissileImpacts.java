@@ -43,7 +43,9 @@ public final class MissileImpacts {
         }
         ExplosionNT blast = new ExplosionNT(level, source, x, y, z, strength)
                 .overrideResolution(resolution)
-                .addAttrib(ExplosionNT.ExAttrib.NODROP);
+                .addAttrib(ExplosionNT.ExAttrib.NODROP)
+                .addAttrib(ExplosionNT.ExAttrib.NOSOUND)
+                .addAttrib(ExplosionNT.ExAttrib.NOPARTICLE);
         if (fire) {
             blast.addAttrib(ExplosionNT.ExAttrib.FIRE);
         }
@@ -300,6 +302,46 @@ public final class MissileImpacts {
     }
 
     /**
+     * Legacy {@code EntityMissileInferno}: explodeStandard(50F, 48, true)
+     * + composeEffectLarge (HBM near/far bang) + igniteAllBlocks(10)
+     * + igniteFlammableBlocks(25).
+     */
+    public static void inferno(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        double x = source.getX();
+        double y = source.getY();
+        double z = source.getZ();
+        explodeStandard(level, source, x, y, z, 50.0F, 48, true);
+        composeEffectLarge(level, x, y, z);
+        int ix = Mth.floor(x);
+        int iy = Mth.floor(y);
+        int iz = Mth.floor(z);
+        ExplosionChaos.igniteAllBlocks(level, ix, iy, iz, 10);
+        ExplosionChaos.igniteFlammableBlocks(level, ix, iy, iz, 25);
+    }
+
+    /**
+     * Legacy {@code EntityMissileRain}: vanilla 25F casing blast +
+     * {@link ExplosionChaos#cluster} ×100 (airburst via {@code isCluster}).
+     * Bomblets use the small weapon bang packet.
+     */
+    public static void rain(Level level, Entity source) {
+        if (level.isClientSide) {
+            return;
+        }
+        double x = source.getX();
+        double y = source.getY();
+        double z = source.getZ();
+        level.explode(source, x, y, z, 25.0F, Level.ExplosionInteraction.TNT);
+        float yawRad = (float) Math.toRadians(source.getYRot());
+        float pitchRad = (float) Math.toRadians(source.getXRot());
+        ExplosionChaos.cluster(level, x, y, z, 100, yawRad, pitchRad,
+                (float) Math.PI * 0.25F, (float) Math.PI * 0.25F, 1.0F);
+    }
+
+    /**
      * Legacy {@code EntityMissileStealth}: explodeStandard(20F, 24, false) + composeEffectStandard.
      */
     public static void stealth(Level level, Entity source) {
@@ -308,8 +350,7 @@ public final class MissileImpacts {
     }
 
     /**
-     * Vertical bunker shaft. Dig layers are silent (HBM bang comes from smoke cloud packet);
-     * only the surface layer deals entity damage.
+     * Vertical bunker shaft. 1.7.10 {@code createExplosion} plays vanilla explode each layer.
      */
     private static void digBunkerShaft(Level level, Entity source, double x, double y, double z,
                                        int depth, float strength) {
@@ -321,7 +362,6 @@ public final class MissileImpacts {
             ExplosionNT blast = new ExplosionNT(level, source, x, y - i, z, strength)
                     .overrideResolution(resolution)
                     .addAttrib(ExplosionNT.ExAttrib.NODROP)
-                    .addAttrib(ExplosionNT.ExAttrib.NOSOUND)
                     .addAttrib(ExplosionNT.ExAttrib.NOPARTICLE);
             if (i > 0) {
                 blast.addAttrib(ExplosionNT.ExAttrib.NOHURT);

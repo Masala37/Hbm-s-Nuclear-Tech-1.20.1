@@ -5,9 +5,7 @@ import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.network.ModMessages;
 import com.hbm.network.MukeEffectPacket;
-import com.hbm.registry.ModSounds;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -47,8 +45,6 @@ public final class ExplosionNukeSmall {
                             x, y, z, 250.0D, server.dimension())),
                     new MukeEffectPacket(x, y + 0.5D, z, balefire));
         }
-
-        level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
 
         if (params.shrapnelCount > 0) {
             ExplosionLarge.spawnShrapnels(level, x, y, z, params.shrapnelCount);

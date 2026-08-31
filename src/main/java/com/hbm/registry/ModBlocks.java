@@ -55,8 +55,15 @@ import com.hbm.blocks.machine.CombustionGeneratorBlock;
 import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.blocks.machine.ElectricFurnaceBlock;
 import com.hbm.blocks.machine.FluidBarrelBlock;
+import com.hbm.blocks.machine.CompactLauncherBlock;
 import com.hbm.blocks.machine.LaunchPadBlock;
+import com.hbm.blocks.machine.LaunchPadLargeBlock;
+import com.hbm.blocks.machine.LaunchPadRustedBlock;
+import com.hbm.blocks.machine.LaunchTableBlock;
 import com.hbm.blocks.machine.MissileAssemblyBlock;
+import com.hbm.blocks.machine.RadarLargeBlock;
+import com.hbm.blocks.machine.RadarNTBlock;
+import com.hbm.blocks.machine.RadarScreenBlock;
 import com.hbm.blocks.machine.InfiniteBatteryBlock;
 import com.hbm.blocks.machine.MachineBatteryBlock;
 import com.hbm.blocks.machine.RedCableBlock;
@@ -706,8 +713,20 @@ public final class ModBlocks {
     public static final RegistryObject<Block> DET_MINER = BLOCKS.register("det_miner", DetExplosiveBlock::miner);
     public static final RegistryObject<Block> BOMB_MULTI = BLOCKS.register("bomb_multi", BombMultiBlock::new);
     public static final RegistryObject<Block> LAUNCH_PAD = BLOCKS.register("launch_pad", LaunchPadBlock::new);
+    public static final RegistryObject<Block> LAUNCH_PAD_LARGE =
+            BLOCKS.register("launch_pad_large", LaunchPadLargeBlock::new);
+    public static final RegistryObject<Block> LAUNCH_PAD_RUSTED =
+            BLOCKS.register("launch_pad_rusted", LaunchPadRustedBlock::new);
+    public static final RegistryObject<Block> COMPACT_LAUNCHER =
+            BLOCKS.register("compact_launcher", CompactLauncherBlock::new);
+    public static final RegistryObject<Block> LAUNCH_TABLE =
+            BLOCKS.register("launch_table", LaunchTableBlock::new);
     public static final RegistryObject<Block> MACHINE_MISSILE_ASSEMBLY =
             BLOCKS.register("machine_missile_assembly", MissileAssemblyBlock::new);
+    public static final RegistryObject<Block> MACHINE_RADAR = BLOCKS.register("machine_radar", RadarNTBlock::new);
+    public static final RegistryObject<Block> MACHINE_RADAR_LARGE =
+            BLOCKS.register("machine_radar_large", RadarLargeBlock::new);
+    public static final RegistryObject<Block> RADAR_SCREEN = BLOCKS.register("radar_screen", RadarScreenBlock::new);
     public static final RegistryObject<Block> BOMB_FLOAT = BLOCKS.register("bomb_float", SpecialtyBombBlock::floatBomb);
     public static final RegistryObject<Block> EMP_BOMB = BLOCKS.register("emp_bomb", SpecialtyBombBlock::emp);
     public static final RegistryObject<Block> FIREWORKS = BLOCKS.register("fireworks", FireworksBlock::new);

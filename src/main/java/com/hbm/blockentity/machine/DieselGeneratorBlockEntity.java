@@ -1,11 +1,13 @@
 package com.hbm.blockentity.machine;
 
+import com.hbm.HbmNuclearTechMod;
 import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.energy.EnergyNetworkHelper;
 import com.hbm.energy.ModEnergyStorage;
 import com.hbm.inventory.menu.DieselGeneratorMenu;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModFluids;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -136,6 +138,11 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         if (wasRunning != be.running) {
             be.onChanged();
         }
+    }
+
+    public static void clientTick(Level level, BlockPos pos, BlockState state, DieselGeneratorBlockEntity be) {
+        HbmNuclearTechMod.proxy.tickMachineLoop(level, pos, state.getBlock(), DieselGeneratorBlock.LIT,
+                ModSounds.ENGINE.get(), 1.0F);
     }
 
     @Override

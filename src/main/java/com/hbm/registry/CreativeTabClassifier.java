@@ -180,6 +180,8 @@ public final class CreativeTabClassifier {
                 "electric_furnace", "diesel_generator", "combustion_generator", "machine_battery",
                 "machine_battery_infinite", "battery_creative",
                 "ethanol_bucket", "peroxide_bucket",
+                "kerosene_bucket", "oxygen_bucket", "kerosene_reform_bucket",
+                "hydrogen_bucket", "xenon_bucket", "balefire_bucket",
                 "fluid_barrel", "red_cable", "red_cable_classic", "red_wire_coated", "cable_switch",
                 "cable_detector", "cable_diode", "crate_iron", "crate_steel", "deco_rbmk",
                 "deco_rbmk_smooth", "pwr_controller",
@@ -208,7 +210,10 @@ public final class CreativeTabClassifier {
         put(map, Kind.HIDDEN,
                 "structure_anchor",
                 "gadget_wireing",
-                "demon_core_closed_still");
+                "demon_core_closed_still",
+                "missile_custom",
+                "mp_fuselage_10_long_kerosene_dash",
+                "mp_fuselage_15_kerosene_pip");
         // kits that look nuke-named but are gear packs / consumables
         put(map, Kind.CONSUMABLE,
                 "nuke_starter_kit", "nuke_advanced_kit", "nuke_electric_kit", "nuke_commercially_kit",

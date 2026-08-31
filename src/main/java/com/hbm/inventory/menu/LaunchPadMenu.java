@@ -1,9 +1,9 @@
 package com.hbm.inventory.menu;
 
+import api.hbm.item.IDesignatorItem;
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
 import com.hbm.energy.ItemEnergyHelper;
 import com.hbm.entity.missile.MissileLaunchRegistry;
-import com.hbm.items.tool.DesignatorItem;
 import com.hbm.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -47,7 +47,7 @@ public class LaunchPadMenu extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(be.getItems(), LaunchPadBlockEntity.SLOT_DESIGNATOR, 26, 72) {
             @Override
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.getItem() instanceof DesignatorItem;
+                return stack.getItem() instanceof IDesignatorItem;
             }
         });
         this.addSlot(new SlotItemHandler(be.getItems(), LaunchPadBlockEntity.SLOT_BATTERY, 107, 90) {
@@ -182,7 +182,7 @@ public class LaunchPadMenu extends AbstractContainerMenu {
             boolean moved;
             if (MissileLaunchRegistry.isLaunchable(stack)) {
                 moved = this.moveItemStackTo(stack, 0, 1, false);
-            } else if (stack.getItem() instanceof DesignatorItem) {
+            } else if (stack.getItem() instanceof IDesignatorItem) {
                 moved = this.moveItemStackTo(stack, 1, 2, false);
             } else if (ItemEnergyHelper.isEnergyItem(stack)) {
                 moved = this.moveItemStackTo(stack, 2, 3, false);

@@ -6,8 +6,13 @@ import com.hbm.inventory.menu.DieselGeneratorMenu;
 import com.hbm.inventory.menu.ElectricFurnaceMenu;
 import com.hbm.inventory.menu.FluidBarrelMenu;
 import com.hbm.inventory.menu.LaunchPadMenu;
+import com.hbm.inventory.menu.LaunchPadRustedMenu;
+import com.hbm.inventory.menu.CompactLauncherMenu;
+import com.hbm.inventory.menu.LaunchTableMenu;
 import com.hbm.inventory.menu.MachineBatteryMenu;
 import com.hbm.inventory.menu.MissileAssemblyMenu;
+import com.hbm.inventory.menu.RadarNTMenu;
+import com.hbm.inventory.menu.NukeBoyMenu;
 import com.hbm.inventory.menu.NukeBoyMenu;
 import com.hbm.inventory.menu.NukeCustomMenu;
 import com.hbm.inventory.menu.NukeFleijaMenu;
@@ -52,6 +57,18 @@ public final class ModMenus {
 
     public static final RegistryObject<MenuType<LaunchPadMenu>> LAUNCH_PAD =
             MENUS.register("launch_pad", () -> IForgeMenuType.create(LaunchPadMenu::new));
+
+    public static final RegistryObject<MenuType<LaunchPadRustedMenu>> LAUNCH_PAD_RUSTED =
+            MENUS.register("launch_pad_rusted", () -> IForgeMenuType.create(LaunchPadRustedMenu::new));
+
+    public static final RegistryObject<MenuType<CompactLauncherMenu>> COMPACT_LAUNCHER =
+            MENUS.register("compact_launcher", () -> IForgeMenuType.create(CompactLauncherMenu::new));
+
+    public static final RegistryObject<MenuType<LaunchTableMenu>> LAUNCH_TABLE =
+            MENUS.register("launch_table", () -> IForgeMenuType.create(LaunchTableMenu::new));
+
+    public static final RegistryObject<MenuType<RadarNTMenu>> RADAR_NT =
+            MENUS.register("machine_radar", () -> IForgeMenuType.create(RadarNTMenu::new));
 
     public static final RegistryObject<MenuType<NukeBoyMenu>> NUKE_BOY =
             MENUS.register("nuke_boy", () -> IForgeMenuType.create(NukeBoyMenu::new));

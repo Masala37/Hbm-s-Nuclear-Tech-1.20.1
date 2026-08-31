@@ -88,6 +88,31 @@ public final class EnergyNetworkHelper {
         }
     }
 
+    /** Pull FE out of {@code from} on {@code fromSide} into {@code sink}. */
+    public static void pullFrom(Level level, BlockPos from, Direction fromSide, IEnergyStorage sink, int maxTransfer) {
+        if (sink.getEnergyStored() >= sink.getMaxEnergyStored() || maxTransfer <= 0) {
+            return;
+        }
+        BlockEntity neighbor = level.getBlockEntity(from);
+        if (neighbor == null) {
+            return;
+        }
+        neighbor.getCapability(ForgeCapabilities.ENERGY, fromSide).ifPresent(source -> {
+            if (!source.canExtract()) {
+                return;
+            }
+            int want = Math.min(maxTransfer, sink.getMaxEnergyStored() - sink.getEnergyStored());
+            int available = source.extractEnergy(want, true);
+            if (available <= 0) {
+                return;
+            }
+            int accepted = sink.receiveEnergy(available, false);
+            if (accepted > 0) {
+                source.extractEnergy(accepted, false);
+            }
+        });
+    }
+
     /** Push FE toward a single neighbor. */
     public static void pushToNeighbor(Level level, BlockPos pos, IEnergyStorage source, int maxTransfer,
                                       Direction direction) {

@@ -3,10 +3,12 @@ package com.hbm.blockentity.machine;
 import com.hbm.entity.missile.MissileAssemblyRecipes;
 import com.hbm.inventory.menu.MissileAssemblyMenu;
 import com.hbm.registry.ModBlockEntities;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,18 +16,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Size/preset missile assembly — chip + warhead + fuselage + fins + thruster → preset missile.
- * <p>
- * Slot layout / matching adapted from HBM-Modernized (GPL-3.0).
+ * Legacy {@code TileEntityMachineMissileAssembly}: chip + warhead + fuselage + optional fins + thruster
+ * → {@code missile_custom}. Hoppers cannot insert or extract.
  */
 public class MissileAssemblyBlockEntity extends BlockEntity implements MenuProvider {
     public static final int SLOT_CHIP = 0;
@@ -39,23 +37,16 @@ public class MissileAssemblyBlockEntity extends BlockEntity implements MenuProvi
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
+            if (level != null && !level.isClientSide) {
+                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+            }
         }
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return switch (slot) {
-                case SLOT_CHIP -> MissileAssemblyRecipes.isChip(stack);
-                case SLOT_WARHEAD -> MissileAssemblyRecipes.isWarhead(stack);
-                case SLOT_FUSELAGE -> MissileAssemblyRecipes.isFuselage(stack);
-                case SLOT_FINS -> MissileAssemblyRecipes.isFins(stack);
-                case SLOT_THRUSTER -> MissileAssemblyRecipes.isThruster(stack);
-                case SLOT_OUTPUT -> false;
-                default -> false;
-            };
+            return slot != SLOT_OUTPUT;
         }
     };
-
-    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> items);
 
     public MissileAssemblyBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.MISSILE_ASSEMBLY.get(), pos, state);
@@ -65,47 +56,78 @@ public class MissileAssemblyBlockEntity extends BlockEntity implements MenuProvi
         return items;
     }
 
+    public ItemStack chip() {
+        return items.getStackInSlot(SLOT_CHIP);
+    }
+
+    public ItemStack warhead() {
+        return items.getStackInSlot(SLOT_WARHEAD);
+    }
+
+    public ItemStack fuselage() {
+        return items.getStackInSlot(SLOT_FUSELAGE);
+    }
+
+    public ItemStack fins() {
+        return items.getStackInSlot(SLOT_FINS);
+    }
+
+    public ItemStack thruster() {
+        return items.getStackInSlot(SLOT_THRUSTER);
+    }
+
+    public ItemStack output() {
+        return items.getStackInSlot(SLOT_OUTPUT);
+    }
+
+    public int chipState() {
+        return MissileAssemblyRecipes.chipState(chip());
+    }
+
+    public int fuselageState() {
+        return MissileAssemblyRecipes.fuselageState(fuselage());
+    }
+
+    public int warheadState() {
+        return MissileAssemblyRecipes.warheadState(warhead(), fuselage(), thruster());
+    }
+
+    public int stabilityState() {
+        return MissileAssemblyRecipes.stabilityState(fins(), fuselage());
+    }
+
+    public int thrusterState() {
+        return MissileAssemblyRecipes.thrusterState(thruster(), fuselage());
+    }
+
     public boolean canAssemble() {
-        if (!items.getStackInSlot(SLOT_OUTPUT).isEmpty()) {
-            return false;
-        }
-        ItemStack result = MissileAssemblyRecipes.resolve(
-                items.getStackInSlot(SLOT_CHIP),
-                items.getStackInSlot(SLOT_WARHEAD),
-                items.getStackInSlot(SLOT_FUSELAGE),
-                items.getStackInSlot(SLOT_FINS),
-                items.getStackInSlot(SLOT_THRUSTER));
-        return !result.isEmpty();
+        return MissileAssemblyRecipes.canBuild(chip(), warhead(), fuselage(), fins(), thruster(), output());
     }
 
     public boolean tryAssemble() {
         if (!canAssemble()) {
             return false;
         }
-        ItemStack result = MissileAssemblyRecipes.resolve(
-                items.getStackInSlot(SLOT_CHIP),
-                items.getStackInSlot(SLOT_WARHEAD),
-                items.getStackInSlot(SLOT_FUSELAGE),
-                items.getStackInSlot(SLOT_FINS),
-                items.getStackInSlot(SLOT_THRUSTER));
-        if (result.isEmpty()) {
-            return false;
-        }
-        items.extractItem(SLOT_CHIP, 1, false);
-        items.extractItem(SLOT_WARHEAD, 1, false);
-        items.extractItem(SLOT_FUSELAGE, 1, false);
-        if (!items.getStackInSlot(SLOT_FINS).isEmpty()) {
-            items.extractItem(SLOT_FINS, 1, false);
-        }
-        items.extractItem(SLOT_THRUSTER, 1, false);
+        ItemStack result = MissileAssemblyRecipes.construct(chip(), warhead(), fuselage(), fins(), thruster());
+        boolean consumeFins = stabilityState() == 1;
         items.setStackInSlot(SLOT_OUTPUT, result);
+        if (consumeFins) {
+            items.setStackInSlot(SLOT_FINS, ItemStack.EMPTY);
+        }
+        items.setStackInSlot(SLOT_CHIP, ItemStack.EMPTY);
+        items.setStackInSlot(SLOT_WARHEAD, ItemStack.EMPTY);
+        items.setStackInSlot(SLOT_FUSELAGE, ItemStack.EMPTY);
+        items.setStackInSlot(SLOT_THRUSTER, ItemStack.EMPTY);
+        if (level != null) {
+            level.playSound(null, worldPosition, ModSounds.MISSILE_ASSEMBLY.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
         setChanged();
         return true;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("block.hbm.machine_missile_assembly");
+        return Component.translatable("container.missileAssembly");
     }
 
     @Nullable
@@ -129,16 +151,26 @@ public class MissileAssemblyBlockEntity extends BlockEntity implements MenuProvi
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return itemOptional.cast();
-        }
-        return super.getCapability(cap, side);
+    public AABB getRenderBoundingBox() {
+        return new AABB(worldPosition).inflate(16.0D, 24.0D, 16.0D);
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        itemOptional.invalidate();
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
+    }
+
+    @Nullable
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag tag = pkt.getTag();
+        if (tag != null) {
+            load(tag);
+        }
     }
 }

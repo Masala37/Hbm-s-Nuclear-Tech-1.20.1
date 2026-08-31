@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import com.hbm.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -25,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -53,7 +55,8 @@ public class ExplosionNT {
          * Naval / underwater dig: liquids do not soak blast power and are not destroyed
          * (legacy {@code BlockAllocatorWater}).
          */
-        WATER_DIG
+        WATER_DIG,
+        ERRODE
     }
 
     private final Level level;
@@ -66,6 +69,7 @@ public class ExplosionNT {
     private int resolution = 16;
     private final EnumSet<ExAttrib> attributes = EnumSet.noneOf(ExAttrib.class);
     private final Set<BlockPos> affectedBlocks = new HashSet<>();
+    private final Random explosionRNG = new Random();
 
     public ExplosionNT(Level level, @Nullable Entity source, double x, double y, double z, float size) {
         this.level = level;
@@ -82,6 +86,13 @@ public class ExplosionNT {
     }
 
     public ExplosionNT addAllAttrib(Iterable<ExAttrib> attribs) {
+        for (ExAttrib attrib : attribs) {
+            attributes.add(attrib);
+        }
+        return this;
+    }
+
+    public ExplosionNT addAllAttrib(ExAttrib... attribs) {
         for (ExAttrib attrib : attribs) {
             attributes.add(attrib);
         }
@@ -152,6 +163,9 @@ public class ExplosionNT {
                             float resistance = ExplosionFluidHelper.blastResistance(level, pos, state);
                             power -= (resistance + 0.3F) * step;
                             if (power > 0.0F && !(waterDig && liquid)) {
+                                affectedBlocks.add(pos.immutable());
+                            } else if (attributes.contains(ExAttrib.ERRODE)
+                                    && erosionReplacement(state.getBlock()) != null) {
                                 affectedBlocks.add(pos.immutable());
                             }
                         }
@@ -261,10 +275,19 @@ public class ExplosionNT {
                 continue;
             }
 
-            // Legacy only replaced normal cubes with volcanic/rad lava.
             boolean wasSolid = state.isCollisionShapeFullBlock(level, pos) || state.isSolidRender(level, pos);
 
-            boolean shouldDrop = !nodrop && state.canDropFromExplosion(level, pos, vanilla)
+            boolean doesErrode = false;
+            BlockState errodesInto = Blocks.AIR.defaultBlockState();
+            if (attributes.contains(ExAttrib.ERRODE) && explosionRNG.nextFloat() < 0.6F) {
+                Block replacement = erosionReplacement(state.getBlock());
+                if (replacement != null) {
+                    doesErrode = true;
+                    errodesInto = replacement.defaultBlockState();
+                }
+            }
+
+            boolean shouldDrop = !nodrop && !doesErrode && state.canDropFromExplosion(level, pos, vanilla)
                     && (alldrop || level.random.nextFloat() <= (1.0F / Math.max(1.0F, size)));
             if (shouldDrop) {
                 Block.dropResources(state, level, pos, level.getBlockEntity(pos));
@@ -272,7 +295,9 @@ public class ExplosionNT {
 
             state.onBlockExploded(level, pos, vanilla);
 
-            if (volcanoLava && lavaFill != null && wasSolid) {
+            if (doesErrode && wasSolid) {
+                level.setBlock(pos, errodesInto, 3);
+            } else if (volcanoLava && lavaFill != null && wasSolid) {
                 level.setBlock(pos, lavaFill, 3);
             } else if (fire && (allMod || level.random.nextInt(3) == 0) && level.getBlockState(pos).isAir()) {
                 BlockPos below = pos.below();
@@ -301,5 +326,19 @@ public class ExplosionNT {
                 server.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
+    }
+
+    @Nullable
+    private static Block erosionReplacement(Block block) {
+        if (block == ModBlocks.CONCRETE.get()) {
+            return Blocks.GRAVEL;
+        }
+        if (block == ModBlocks.BRICK_CONCRETE.get()) {
+            return ModBlocks.BRICK_CONCRETE_BROKEN.get();
+        }
+        if (block == ModBlocks.BRICK_CONCRETE_BROKEN.get()) {
+            return Blocks.GRAVEL;
+        }
+        return null;
     }
 }

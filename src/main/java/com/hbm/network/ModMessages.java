@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
  * Thin networking scaffold. Legacy threaded custom codecs are not ported yet.
  */
 public final class ModMessages {
-    private static final String PROTOCOL = "4";
+    private static final String PROTOCOL = "5";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(RefStrings.MODID, "main"),
@@ -66,6 +66,12 @@ public final class ModMessages {
                 .consumerMainThread(LaunchPadPacket::handle)
                 .add();
 
+        CHANNEL.messageBuilder(LaunchPadRustedPacket.class, nextId++)
+                .encoder(LaunchPadRustedPacket::encode)
+                .decoder(LaunchPadRustedPacket::decode)
+                .consumerMainThread(LaunchPadRustedPacket::handle)
+                .add();
+
         CHANNEL.messageBuilder(ExplosionLargeEffectPacket.class, nextId++)
                 .encoder(ExplosionLargeEffectPacket::encode)
                 .decoder(ExplosionLargeEffectPacket::decode)
@@ -90,10 +96,46 @@ public final class ModMessages {
                 .consumerMainThread(MukeEffectPacket::handle)
                 .add();
 
+        CHANNEL.messageBuilder(RbmkMushEffectPacket.class, nextId++)
+                .encoder(RbmkMushEffectPacket::encode)
+                .decoder(RbmkMushEffectPacket::decode)
+                .consumerMainThread(RbmkMushEffectPacket::handle)
+                .add();
+
         CHANNEL.messageBuilder(LivingPropsSyncPacket.class, nextId++)
                 .encoder(LivingPropsSyncPacket::encode)
                 .decoder(LivingPropsSyncPacket::decode)
                 .consumerMainThread(LivingPropsSyncPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(RadarNTSyncPacket.class, nextId++)
+                .encoder(RadarNTSyncPacket::encode)
+                .decoder(RadarNTSyncPacket::decode)
+                .consumerMainThread(RadarNTSyncPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(RadarScreenSyncPacket.class, nextId++)
+                .encoder(RadarScreenSyncPacket::encode)
+                .decoder(RadarScreenSyncPacket::decode)
+                .consumerMainThread(RadarScreenSyncPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(RadarControlPacket.class, nextId++)
+                .encoder(RadarControlPacket::encode)
+                .decoder(RadarControlPacket::decode)
+                .consumerMainThread(RadarControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(LaunchTablePadSizePacket.class, nextId++)
+                .encoder(LaunchTablePadSizePacket::encode)
+                .decoder(LaunchTablePadSizePacket::decode)
+                .consumerMainThread(LaunchTablePadSizePacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(ItemDesignatorPacket.class, nextId++)
+                .encoder(ItemDesignatorPacket::encode)
+                .decoder(ItemDesignatorPacket::decode)
+                .consumerMainThread(ItemDesignatorPacket::handle)
                 .add();
 
         HbmNuclearTechMod.LOGGER.info("Registered HBM network channel hbm:main (protocol {})", PROTOCOL);

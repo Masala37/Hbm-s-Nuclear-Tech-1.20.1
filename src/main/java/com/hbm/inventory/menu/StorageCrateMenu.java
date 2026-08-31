@@ -24,6 +24,7 @@ public class StorageCrateMenu extends AbstractContainerMenu {
         this.rows = be.getItems().getSlots() / 9;
         addCrateSlots();
         addPlayerInventory(inv, 18 + rows * 18, 18 + rows * 18 + 58);
+        be.startOpen(inv.player);
     }
 
     public StorageCrateMenu(int id, Inventory inv, FriendlyByteBuf buf) {
@@ -81,5 +82,11 @@ public class StorageCrateMenu extends AbstractContainerMenu {
             }
         }
         return result;
+    }
+
+    @Override
+    public void removed(@NotNull Player player) {
+        super.removed(player);
+        be.stopOpen(player);
     }
 }

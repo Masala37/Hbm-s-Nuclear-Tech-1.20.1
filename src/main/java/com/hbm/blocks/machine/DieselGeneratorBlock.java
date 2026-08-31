@@ -71,8 +71,8 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null
-                : createTickerHelper(type, ModBlockEntities.DIESEL_GENERATOR.get(), DieselGeneratorBlockEntity::serverTick);
+        return createTickerHelper(type, ModBlockEntities.DIESEL_GENERATOR.get(),
+                level.isClientSide ? DieselGeneratorBlockEntity::clientTick : DieselGeneratorBlockEntity::serverTick);
     }
 
     @Override

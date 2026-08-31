@@ -70,8 +70,8 @@ public class CombustionGeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null
-                : createTickerHelper(type, ModBlockEntities.COMBUSTION_GENERATOR.get(), CombustionGeneratorBlockEntity::serverTick);
+        return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.COMBUSTION_GENERATOR.get(),
+                CombustionGeneratorBlockEntity::serverTick);
     }
 
     @Override

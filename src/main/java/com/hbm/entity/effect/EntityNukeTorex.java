@@ -3,18 +3,15 @@ package com.hbm.entity.effect;
 import java.util.ArrayList;
 
 import com.hbm.registry.ModEntities;
-import com.hbm.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -126,10 +123,8 @@ public class EntityNukeTorex extends Entity {
 
                 if (!didPlaySound) {
                     double hearRange = (tickCount * 1.5 + 1) * 1.5;
-                    Player player = level().getNearestPlayer(this, hearRange);
-                    if (player != null) {
-                        level().playLocalSound(getX(), getY(), getZ(), ModSounds.NUCLEAR_EXPLOSION.get(),
-                                SoundSource.BLOCKS, 10000F, 1F, false);
+                    if (com.hbm.HbmNuclearTechMod.proxy.tryPlayNuclearExplosion(
+                            getX(), getY(), getZ(), hearRange)) {
                         didPlaySound = true;
                     }
                 }

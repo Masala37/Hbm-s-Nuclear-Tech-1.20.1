@@ -67,6 +67,18 @@ public final class ModFluids {
             "ethanol", 0xFFE8F0FF, 789, 1200, 300, false);
     public static final FluidEntry PEROXIDE = registerLiquid(
             "peroxide", 0xFFE8FFE8, 1450, 1200, 300, false);
+    public static final FluidEntry KEROSENE = registerLiquid(
+            "kerosene", 0xFFFFA5D2, 810, 1200, 300, false);
+    public static final FluidEntry OXYGEN = registerLiquid(
+            "oxygen", 0xFF98BDF9, 1141, 800, 173, false);
+    public static final FluidEntry KEROSENE_REFORM = registerLiquid(
+            "kerosene_reform", 0xFFFFA5F3, 810, 1200, 300, false);
+    public static final FluidEntry HYDROGEN = registerLiquid(
+            "hydrogen", 0xFF4286F4, 70, 200, 13, false);
+    public static final FluidEntry XENON = registerLiquid(
+            "xenon", 0xFFBA45E8, 5, 200, 300, false);
+    public static final FluidEntry BALEFIRE = registerLiquid(
+            "balefire", 0xFF28E02E, 1500, 2000, 1500, false);
     public static final FluidEntry SULFURIC_ACID = registerLiquid(
             "sulfuric_acid", 0xFFB0AA64, 1800, 1500, 300, true);
     public static final FluidEntry NITRIC_ACID = registerLiquid(
@@ -249,8 +261,13 @@ public final class ModFluids {
             int temperature,
             boolean gaseous,
             boolean placeable) {
-        ResourceLocation stillTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_still");
-        ResourceLocation flowingTex = new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_flowing");
+        boolean waterSprite = !placeable && !gaseous;
+        ResourceLocation stillTex = waterSprite
+                ? new ResourceLocation("minecraft", "block/water_still")
+                : new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_still");
+        ResourceLocation flowingTex = waterSprite
+                ? new ResourceLocation("minecraft", "block/water_flow")
+                : new ResourceLocation(RefStrings.MODID, "block/fluid/" + name + "_flowing");
 
         RegistryObject<FluidType> type = FLUID_TYPES.register(name, () -> new FluidType(
                 FluidType.Properties.create()

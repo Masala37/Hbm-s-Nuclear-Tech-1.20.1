@@ -5,6 +5,7 @@ import com.hbm.wiaj.WorldInAJar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -182,11 +183,9 @@ public final class ClientExplosionEffects {
                     ? ModSounds.EXPLOSION_SMALL_NEAR.get()
                     : ModSounds.EXPLOSION_SMALL_FAR.get();
             float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-            SimpleSoundInstance instance = new SimpleSoundInstance(
-                    sound, SoundSource.BLOCKS, 3.0F, pitch,
-                    RandomSource.create(), x, y, z);
-            int delayTicks = (int) (dist / SPEED_OF_SOUND);
-            mc.getSoundManager().playDelayed(instance, Math.max(0, delayTicks));
+            mc.getSoundManager().playDelayed(
+                    carrying(sound, SoundSource.BLOCKS, 1.0F, pitch, x, y, z),
+                    Math.max(0, (int) (dist / SPEED_OF_SOUND)));
         }
 
         for (int i = 0; i < cloudCount; i++) {
@@ -217,15 +216,15 @@ public final class ClientExplosionEffects {
 
     /**
      * Legacy ClientProxy {@code type=smoke} cloud/radial — {@link ParticleExSmoke} burst.
-     * Cloud mode also plays the HBM large bang (bunker busters have no composeEffect).
      */
-    public static void spawnExSmoke(double x, double y, double z, int count, boolean radial) {
+    public static void spawnExSmoke(double x, double y, double z, int count, boolean radial,
+                                     boolean playBang) {
         Minecraft mc = Minecraft.getInstance();
         ClientLevel level = mc.level;
         if (level == null || count <= 0) {
             return;
         }
-        if (!radial && mc.player != null) {
+        if (playBang && !radial) {
             playLargeExplosionBang(x, y, z, 150.0F);
         }
         int n = Math.max(1, count);
@@ -267,11 +266,77 @@ public final class ClientExplosionEffects {
                 ? ModSounds.EXPLOSION_LARGE_NEAR.get()
                 : ModSounds.EXPLOSION_LARGE_FAR.get();
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        SimpleSoundInstance instance = new SimpleSoundInstance(
-                sound, SoundSource.BLOCKS, 4.0F, pitch,
-                RandomSource.create(), x, y, z);
-        int delayTicks = (int) (dist / SPEED_OF_SOUND);
-        mc.getSoundManager().playDelayed(instance, Math.max(0, delayTicks));
+        mc.getSoundManager().playDelayed(
+                carrying(sound, SoundSource.BLOCKS, 1.0F, pitch, x, y, z),
+                Math.max(0, (int) (dist / SPEED_OF_SOUND)));
+    }
+
+    /**
+     * Pad takeoff. 1.7.10 {@code playSoundEffect} volume 2 → ~32 blocks.
+     */
+    public static void playMissileTakeoff(double x, double y, double z) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return;
+        }
+        if (mc.player.distanceToSqr(x, y, z) > 32.0D * 32.0D) {
+            return;
+        }
+        mc.getSoundManager().play(carrying(
+                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.PLAYERS, 1.0F, 1.0F, x, y, z));
+    }
+
+    /**
+     * Shuttle {@code robin_explosion}. 1.7.10 volume 4 → ~64 blocks.
+     */
+    public static void playRobinExplosion(double x, double y, double z) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null || mc.player == null) {
+            return;
+        }
+        if (mc.player.distanceToSqr(x, y, z) > 64.0D * 64.0D) {
+            return;
+        }
+        float pitch = (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F;
+        mc.getSoundManager().play(carrying(
+                ModSounds.ROBIN_EXPLOSION.get(), SoundSource.PLAYERS, 1.0F, pitch, x, y, z));
+    }
+
+    /** Torex shock-front boom (1.7.10 {@code playSoundClient} nuclearExplosion). */
+    public static boolean playNuclearExplosionIfInRange(double x, double y, double z, double hearRange) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return false;
+        }
+        if (mc.player.distanceToSqr(x, y, z) >= hearRange * hearRange) {
+            return false;
+        }
+        mc.getSoundManager().play(carrying(
+                ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.BLOCKS, 1.0F, 1.0F, x, y, z));
+        return true;
+    }
+
+    /** Positional SFX that still carries after 1.20's volume clamp (caller gates distance). */
+    private static SimpleSoundInstance carrying(SoundEvent sound, SoundSource source,
+                                                float volume, float pitch,
+                                                double x, double y, double z) {
+        return new SimpleSoundInstance(
+                sound.getLocation(), source, volume, pitch, RandomSource.create(),
+                false, 0, SoundInstance.Attenuation.NONE, x, y, z, false);
+    }
+
+    /**
+     * Legacy AuxParticle {@code type=rbmkmush} — 30-frame additive mushroom strip.
+     */
+    public static void spawnRbmkMush(double x, double y, double z, float scale) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+        mc.particleEngine.add(new ParticleRBMKMush(level, x, y, z, scale));
+        playRobinExplosion(x, y, z);
     }
 
     /**
@@ -286,6 +351,10 @@ public final class ClientExplosionEffects {
         }
         mc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
         mc.particleEngine.add(new ParticleMukeFlash(level, x, y, z, balefire));
+        if (Math.sqrt(mc.player.distanceToSqr(x, y, z)) <= 240.0D) {
+            mc.getSoundManager().play(carrying(
+                    ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 1.0F, 1.0F, x, y, z));
+        }
         // Legacy: player.hurtTime = 15; player.maxHurtTime = 15;
         mc.player.hurtTime = 15;
         mc.player.hurtDuration = 15;

@@ -1,11 +1,18 @@
 package com.hbm.client.particle;
 
+import com.hbm.blockentity.machine.LaunchPadBlockEntity;
+import com.hbm.blockentity.machine.LaunchPadLargeBlockEntity;
+import com.hbm.blockentity.machine.LaunchPadRustedBlockEntity;
 import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,7 +28,84 @@ public final class ClientMissileParticles {
     private ClientMissileParticles() {
     }
 
-    /** Legacy {@code EntityMissileBaseNT.spawnContraolWithOffset} using {@link ParticleRocketFlame}. */
+    /**
+     * Fuel-colored exhaust for assembled custom missiles. Xenon emits nothing.
+     */
+    public static void spawnFuelContrail(EntityMissileCustom missile) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+        ItemCustomMissilePart fuselage = missile.fuselage();
+        if (fuselage == null || fuselage.attributes == null
+                || !(fuselage.attributes[0] instanceof FuelType type)) {
+            return;
+        }
+        float r;
+        float g;
+        float b;
+        switch (type) {
+            case KEROSENE -> {
+                r = 0.0F;
+                g = 0.0F;
+                b = 0.0F;
+            }
+            case SOLID -> {
+                r = 0.3F;
+                g = 0.2F;
+                b = 0.05F;
+            }
+            case HYDROGEN -> {
+                r = 0.7F;
+                g = 0.7F;
+                b = 0.7F;
+            }
+            case BALEFIRE -> {
+                r = 0.2F;
+                g = 0.7F;
+                b = 0.2F;
+            }
+            default -> {
+                return;
+            }
+        }
+        Vec3 motion = missile.getDeltaMovement();
+        if (motion.lengthSqr() < 1.0E-12D) {
+            motion = new Vec3(0.0D, 1.0D, 0.0D);
+        }
+        Vec3 v = motion.normalize();
+        double vel = missile.getFlightVelocity();
+        double x = missile.getX();
+        double y = missile.getY();
+        double z = missile.getZ();
+        for (int i = 0; i < vel; i++) {
+            mc.particleEngine.add(new ParticleContrail(
+                    level, x - v.x * i, y - v.y * i, z - v.z * i, r, g, b, 1.0F));
+        }
+    }
+
+    /** Legacy {@code ABMContrail} — default black ParticleContrail. */
+    public static void spawnAbmContrail(com.hbm.entity.missile.EntityMissileAntiBallistic missile) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+        Vec3 motion = missile.getDeltaMovement();
+        if (motion.lengthSqr() < 1.0E-12D) {
+            motion = new Vec3(0.0D, 1.0D, 0.0D);
+        }
+        Vec3 v = motion.normalize();
+        mc.particleEngine.add(new ParticleContrail(
+                level,
+                missile.getX() - v.x,
+                missile.getY() - v.y,
+                missile.getZ() - v.z,
+                0.0F, 0.0F, 0.0F, 1.0F));
+    }
+
+    /** Preset-missile exhaust ({@code missileContrail} / {@link ParticleRocketFlame}). */
     public static void spawnContrail(EntityMissileBaseNT missile) {
         Minecraft mc = Minecraft.getInstance();
         ClientLevel level = mc.level;
@@ -88,7 +172,8 @@ public final class ClientMissileParticles {
 
     /**
      * Legacy {@code launchSmoke} — 15 ground-hugging {@link ParticleSmokePlume}s with
-     * horizontal motion only (moY = 0), cardinally biased like the old TE tick.
+     * horizontal motion only (moY = 0). Silo/rusted: facing ± opposite ± rotate UP;
+     * large pad: facing ± opposite only.
      */
     public static void spawnLaunchSmoke(BlockPos padPos) {
         Minecraft mc = Minecraft.getInstance();
@@ -102,20 +187,52 @@ public final class ClientMissileParticles {
         double z = padPos.getZ() + 0.5D;
         RandomSource rand = level.random;
 
-        // Prefer a random horizontal axis each puff (legacy ForgeDirection ± opposite ± rotate UP).
-        Direction[] dirs = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
+        Direction facing = Direction.NORTH;
+        boolean perpendicular = true;
+        BlockEntity be = level.getBlockEntity(padPos);
+        if (be instanceof LaunchPadLargeBlockEntity large) {
+            facing = large.getFacing();
+            perpendicular = false;
+        } else if (be instanceof LaunchPadBlockEntity silo) {
+            facing = silo.getFacing();
+        } else if (be instanceof LaunchPadRustedBlockEntity rusted) {
+            facing = rusted.getFacing();
+        }
 
         for (int i = 0; i < 15; i++) {
-            Direction dir = dirs[rand.nextInt(dirs.length)];
+            Direction dir = facing;
             if (rand.nextBoolean()) {
                 dir = dir.getOpposite();
             }
-            if (rand.nextBoolean()) {
-                dir = dir.getClockWise();
+            if (perpendicular && rand.nextBoolean()) {
+                dir = dir.getCounterClockWise();
             }
             float moX = (float) (rand.nextGaussian() * 0.15F + 0.75F) * dir.getStepX();
             float moZ = (float) (rand.nextGaussian() * 0.15F + 0.75F) * dir.getStepZ();
 
+            ParticleSmokePlume plume = new ParticleSmokePlume(level, x, y, z);
+            plume.setMotion(moX, 0.0D, moZ);
+            mc.particleEngine.add(plume);
+        }
+    }
+
+    /**
+     * Compact launcher / launch table: 15 plumes with motion on one axis only.
+     */
+    public static void spawnCustomLauncherSmoke(BlockPos padPos, float spread) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+        if (level == null) {
+            return;
+        }
+        double x = padPos.getX() + 0.5D;
+        double y = padPos.getY() + 0.25D;
+        double z = padPos.getZ() + 0.5D;
+        RandomSource rand = level.random;
+        for (int i = 0; i < 15; i++) {
+            boolean dir = rand.nextBoolean();
+            float moX = dir ? 0.0F : (float) (rand.nextGaussian() * spread);
+            float moZ = !dir ? 0.0F : (float) (rand.nextGaussian() * spread);
             ParticleSmokePlume plume = new ParticleSmokePlume(level, x, y, z);
             plume.setMotion(moX, 0.0D, moZ);
             mc.particleEngine.add(plume);
@@ -142,5 +259,12 @@ public final class ClientMissileParticles {
                 pos.getX() - 0.5D, pos.getY(), pos.getZ() - 0.5D,
                 pos.getX() + 1.5D, pos.getY() + 10.0D, pos.getZ() + 1.5D);
         return !level.getEntitiesOfClass(EntityMissileBaseNT.class, box).isEmpty();
+    }
+
+    public static boolean hasCustomMissileNearPad(ClientLevel level, BlockPos pos) {
+        AABB box = new AABB(
+                pos.getX() - 0.5D, pos.getY(), pos.getZ() - 0.5D,
+                pos.getX() + 1.5D, pos.getY() + 10.0D, pos.getZ() + 1.5D);
+        return !level.getEntitiesOfClass(EntityMissileCustom.class, box).isEmpty();
     }
 }

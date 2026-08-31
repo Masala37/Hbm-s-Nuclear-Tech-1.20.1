@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -39,11 +40,11 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
     protected double velocity;
     protected double decelY;
     protected double accelXZ;
+    public int health = 50;
     /** Finish open-loop ballistic arc above this height over the target, then guide in. */
     private static final double ARC_HANDOFF_HEIGHT = 20.0D;
     /** Legacy cluster warheads airburst when descending steeply. */
     protected boolean isCluster;
-    private boolean playedClientTakeoff;
 
     public EntityMissileBaseNT(EntityType<? extends EntityMissileBaseNT> type, Level level) {
         super(type, level);
@@ -100,6 +101,10 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
         return getContrailScale();
     }
 
+    public double getFlightVelocity() {
+        return velocity;
+    }
+
     /**
      * Missile-local engine exhaust offsets (nose along +Y, same space as the OBJ).
      * Client contrails rotate these into world space with travel direction.
@@ -129,9 +134,9 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
 
         if (level().isClientSide) {
             setPos(to.x, to.y, to.z);
-            playClientTakeoffOnce();
             spawnContrail();
         } else {
+            MissileChunkTickets.keepFlight(this, velocity);
             if (getY() < level().getMinBuildHeight() - 16 || tickCount > 1200) {
                 discard();
                 return;
@@ -165,35 +170,44 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
 
         // --- 3) THEN update motion for next tick (legacy missile onUpdate tail) ---
         motion = getDeltaMovement();
-        double my = motion.y - decelY * velocity;
-        double mx = motion.x;
-        double mz = motion.z;
+        double mx;
+        double my;
+        double mz;
+        if (hasPropulsion()) {
+            my = motion.y - decelY * velocity;
+            mx = motion.x;
+            mz = motion.z;
 
-        Vec3 vector = new Vec3(targetX - startX, 0.0D, targetZ - startZ);
-        if (vector.lengthSqr() > 1.0E-6D) {
-            vector = vector.normalize().scale(accelXZ);
-            if (my > 0.0D) {
-                // Legacy open-loop boost toward target while climbing.
-                mx += vector.x * velocity;
-                mz += vector.z * velocity;
-            } else if (my < 0.0D) {
-                // Finish the ballistic arc open-loop until ~20 above the target,
-                // then lock onto the designator for the last stretch (~10+ block buffer).
-                if (getY() > targetY + ARC_HANDOFF_HEIGHT) {
-                    mx -= vector.x * velocity;
-                    mz -= vector.z * velocity;
-                } else {
-                    double sdx = (targetX + 0.5D) - getX();
-                    double sdz = (targetZ + 0.5D) - getZ();
-                    double sinkPerTick = Math.max(1.0E-3D, -my * Math.max(velocity, 1.0E-3D));
-                    double ticksLeft = Math.max(1.0D, (getY() - targetY) / sinkPerTick);
-                    if (getY() <= targetY) {
-                        ticksLeft = 1.0D;
+            Vec3 vector = new Vec3(targetX - startX, 0.0D, targetZ - startZ);
+            if (vector.lengthSqr() > 1.0E-6D) {
+                vector = vector.normalize().scale(accelXZ);
+                if (my > 0.0D) {
+                    mx += vector.x * velocity;
+                    mz += vector.z * velocity;
+                } else if (my < 0.0D) {
+                    if (getY() > targetY + ARC_HANDOFF_HEIGHT) {
+                        mx -= vector.x * velocity;
+                        mz -= vector.z * velocity;
+                    } else {
+                        double sdx = (targetX + 0.5D) - getX();
+                        double sdz = (targetZ + 0.5D) - getZ();
+                        double sinkPerTick = Math.max(1.0E-3D, -my * Math.max(velocity, 1.0E-3D));
+                        double ticksLeft = Math.max(1.0D, (getY() - targetY) / sinkPerTick);
+                        if (getY() <= targetY) {
+                            ticksLeft = 1.0D;
+                        }
+                        double vStep = Math.max(velocity, 1.0E-3D);
+                        mx = sdx / ticksLeft / vStep;
+                        mz = sdz / ticksLeft / vStep;
                     }
-                    double vStep = Math.max(velocity, 1.0E-3D);
-                    mx = sdx / ticksLeft / vStep;
-                    mz = sdz / ticksLeft / vStep;
                 }
+            }
+        } else {
+            mx = motion.x * 0.99D;
+            mz = motion.z * 0.99D;
+            my = motion.y;
+            if (my > -1.5D) {
+                my -= 0.05D;
             }
         }
 
@@ -219,7 +233,6 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
         }
 
         if (!level().isClientSide) {
-            // Legacy: cluster airburst check after motion update.
             if (isCluster && my < -1.5D) {
                 cluster();
                 discard();
@@ -227,12 +240,8 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
         }
     }
 
-    private void playClientTakeoffOnce() {
-        if (playedClientTakeoff) {
-            return;
-        }
-        playedClientTakeoff = true;
-        com.hbm.HbmNuclearTechMod.proxy.playMissileTakeoff(this);
+    public boolean hasPropulsion() {
+        return true;
     }
 
     /** Exhaust opposite travel direction — legacy {@code ParticleRocketFlame} / missileContrail. */
@@ -365,5 +374,34 @@ public abstract class EntityMissileBaseNT extends Entity implements IEntityAddit
     @Override
     public int getBlipLevel() {
         return radarTier();
+    }
+
+    @Override
+    public boolean isPickable() {
+        return true;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (isInvulnerableTo(source)) {
+            return false;
+        }
+        if (!level().isClientSide && health > 0) {
+            health -= amount;
+            if (health <= 0) {
+                killMissile();
+            }
+        }
+        return true;
+    }
+
+    protected void killMissile() {
+        if (!isRemoved()) {
+            discard();
+            Vec3 motion = getDeltaMovement();
+            com.hbm.explosion.ExplosionLarge.explode(level(), getX(), getY(), getZ(), 5, true, false, true, this);
+            com.hbm.explosion.ExplosionLarge.spawnShrapnelShower(
+                    level(), getX(), getY(), getZ(), motion.x, motion.y, motion.z, 15, 0.075);
+        }
     }
 }

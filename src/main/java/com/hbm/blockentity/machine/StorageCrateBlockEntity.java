@@ -3,10 +3,12 @@ package com.hbm.blockentity.machine;
 import com.hbm.blocks.machine.StorageCrateBlock;
 import com.hbm.inventory.menu.StorageCrateMenu;
 import com.hbm.registry.ModBlockEntities;
+import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -67,6 +69,18 @@ public class StorageCrateBlockEntity extends BlockEntity implements MenuProvider
             container.setItem(i, items.getStackInSlot(i).copy());
         }
         return container;
+    }
+
+    public void startOpen(Player player) {
+        if (level != null && !level.isClientSide) {
+            level.playSound(null, worldPosition, ModSounds.CRATE_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+    }
+
+    public void stopOpen(Player player) {
+        if (level != null && !level.isClientSide) {
+            level.playSound(null, worldPosition, ModSounds.CRATE_CLOSE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
     }
 
     @Override

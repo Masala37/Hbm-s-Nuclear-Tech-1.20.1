@@ -1,16 +1,21 @@
 package com.hbm.blockentity.machine;
 
+import api.hbm.item.IDesignatorItem;
 import com.hbm.api.bomb.IBomb;
+import com.hbm.blocks.machine.LaunchPadBlock;
 import com.hbm.energy.EnergyNetworkHelper;
 import com.hbm.energy.ItemEnergyHelper;
 import com.hbm.energy.ModEnergyStorage;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.MissileLaunchRegistry;
+import com.hbm.entity.missile.MissileSystemRules;
 import com.hbm.inventory.menu.LaunchPadMenu;
-import com.hbm.items.tool.DesignatorItem;
+import com.hbm.items.weapon.MissileItem;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModFluids;
 import com.hbm.registry.ModSounds;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,15 +24,18 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -44,7 +52,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Silo launch pad — legacy TileEntityLaunchPadBase parity (1×1 block, 3×3 silo mesh).
  */
-public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
+public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, IRadarCommandReceiver {
     public static final int SLOT_MISSILE = 0;
     public static final int SLOT_DESIGNATOR = 1;
     public static final int SLOT_BATTERY = 2;
@@ -55,10 +63,10 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
 
     public static final int ENERGY_CAPACITY = 100_000;
     public static final int ENERGY_TRANSFER = 5_000;
-    public static final int LAUNCH_COST = 75_000;
-    public static final int TANK_CAPACITY = 24_000;
+    public static final int LAUNCH_COST = MissileSystemRules.PAD_LAUNCH_COST;
+    public static final int TANK_CAPACITY = MissileSystemRules.PAD_TANK;
     public static final int TIER1_FUEL_COST = 4_000;
-    public static final int COOLDOWN_TICKS = 100;
+    public static final int COOLDOWN_TICKS = MissileSystemRules.PAD_COOLDOWN;
 
     public static final int STATE_MISSING = 0;
     public static final int STATE_LOADING = 1;
@@ -83,7 +91,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot) {
                 case SLOT_MISSILE -> MissileLaunchRegistry.isLaunchable(stack);
-                case SLOT_DESIGNATOR -> stack.getItem() instanceof DesignatorItem;
+                case SLOT_DESIGNATOR -> stack.getItem() instanceof IDesignatorItem;
                 case SLOT_BATTERY -> ItemEnergyHelper.isEnergyItem(stack);
                 case SLOT_FUEL_IN, SLOT_OX_IN -> FluidUtil.getFluidHandler(stack).isPresent()
                         || stack.getItem() instanceof com.hbm.items.machine.InfiniteFluidBarrelItem;
@@ -93,7 +101,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
     };
 
     private final ModEnergyStorage energy = new ModEnergyStorage(
-            ENERGY_CAPACITY, ENERGY_TRANSFER, ENERGY_TRANSFER, this::onChanged);
+            ENERGY_CAPACITY, ENERGY_TRANSFER, 0, this::onChanged);
 
     private final FluidTank fuelTank = new FluidTank(TANK_CAPACITY) {
         @Override
@@ -156,28 +164,48 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
 
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action) {
-            if (resource.isEmpty()) {
-                return FluidStack.EMPTY;
-            }
-            if (isFuelFluid(resource.getFluid())) {
-                return fuelTank.drain(resource, action);
-            }
-            if (isOxidizerFluid(resource.getFluid())) {
-                return oxidizerTank.drain(resource, action);
-            }
             return FluidStack.EMPTY;
         }
 
         @Override
         public FluidStack drain(int maxDrain, FluidAction action) {
-            if (!fuelTank.getFluid().isEmpty()) {
-                return fuelTank.drain(maxDrain, action);
-            }
-            return oxidizerTank.drain(maxDrain, action);
+            return FluidStack.EMPTY;
         }
     };
 
-    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> items);
+    private final IItemHandler hopperItems = new IItemHandler() {
+        @Override
+        public int getSlots() {
+            return 1;
+        }
+
+        @Override
+        public @NotNull ItemStack getStackInSlot(int slot) {
+            return items.getStackInSlot(SLOT_MISSILE);
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            return items.insertItem(SLOT_MISSILE, stack, simulate);
+        }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return items.isItemValid(SLOT_MISSILE, stack);
+        }
+    };
+
+    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> hopperItems);
     private final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energy);
     private final LazyOptional<IFluidHandler> fluidOptional = LazyOptional.of(() -> combinedFluids);
 
@@ -185,21 +213,28 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
     private int targetX;
     private int targetY;
     private int targetZ;
-    private boolean wasPowered;
-    private int delay = COOLDOWN_TICKS;
-    private int state = STATE_MISSING;
+    protected boolean wasPowered;
+    protected int delay = COOLDOWN_TICKS;
+    protected int state = STATE_MISSING;
+    private Direction facing = Direction.NORTH;
 
     public LaunchPadBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.LAUNCH_PAD.get(), pos, state);
+        this(ModBlockEntities.LAUNCH_PAD.get(), pos, state);
+    }
+
+    public LaunchPadBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     /**
-     * Silo mesh is 3×3 (OBJ ±1.5) and standing missiles are tall; default 1×1×1 AABB
-     * frustum-culls the BER when looking at the rocket tip or silo edges.
+     * Silo mesh is 3×3 (OBJ ±1.5) and standing missiles are tall; 1.7.10 AABB
+     * is x-2..+3, y+15.
      */
     @Override
     public AABB getRenderBoundingBox() {
-        return new AABB(worldPosition).inflate(2.0D, 8.0D, 2.0D);
+        return new AABB(
+                worldPosition.getX() - 2.0D, worldPosition.getY(), worldPosition.getZ() - 2.0D,
+                worldPosition.getX() + 3.0D, worldPosition.getY() + 15.0D, worldPosition.getZ() + 3.0D);
     }
 
     public ItemStackHandler getItems() {
@@ -216,6 +251,24 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
 
     public FluidTank getOxidizerTank() {
         return oxidizerTank;
+    }
+
+    public Direction getFacing() {
+        return facing == null ? Direction.NORTH : facing;
+    }
+
+    public void setFacing(Direction facing) {
+        this.facing = facing.getAxis().isHorizontal() ? facing : Direction.NORTH;
+        setChanged();
+        syncToClient();
+    }
+
+    public double getLaunchOffset() {
+        return 1.0D;
+    }
+
+    public boolean isReadyForLaunch() {
+        return delay <= 0;
     }
 
     public int getState() {
@@ -244,23 +297,60 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         setChanged();
     }
 
-    private void syncTargetFromDesignator() {
+    protected void syncTargetFromDesignator() {
         ItemStack stack = items.getStackInSlot(SLOT_DESIGNATOR);
-        if (stack.getItem() instanceof DesignatorItem && DesignatorItem.hasTarget(stack)) {
-            BlockPos t = DesignatorItem.getTarget(stack);
+        BlockPos pad = worldPosition;
+        if (stack.getItem() instanceof IDesignatorItem designator
+                && designator.isReady(level, stack, pad.getX(), pad.getY(), pad.getZ())) {
+            Vec3 coords = designator.getCoords(level, stack, pad.getX(), pad.getY(), pad.getZ());
             hasTarget = true;
-            targetX = t.getX();
-            targetY = t.getY();
-            targetZ = t.getZ();
+            targetX = (int) Math.floor(coords.x);
+            targetY = (int) Math.floor(coords.y);
+            targetZ = (int) Math.floor(coords.z);
+        } else {
+            hasTarget = false;
         }
     }
 
-    public static boolean isFuelFluid(Fluid fluid) {
-        return fluid == ModFluids.ETHANOL.source.get();
+    public boolean isFuelFluid(Fluid fluid) {
+        Fluid expected = expectedFuelFluid();
+        return expected != null && fluid == expected;
     }
 
-    public static boolean isOxidizerFluid(Fluid fluid) {
-        return fluid == ModFluids.PEROXIDE.source.get();
+    public boolean isOxidizerFluid(Fluid fluid) {
+        Fluid expected = expectedOxidizerFluid();
+        return expected != null && fluid == expected;
+    }
+
+    /**
+     * Legacy {@code TileEntityLaunchPadBase.setFuel} — tank types follow the loaded missile.
+     * Empty / solid-fuel slots accept nothing (1.7 tanks stay {@code Fluids.NONE}).
+     */
+    @Nullable
+    private Fluid expectedFuelFluid() {
+        ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
+        if (!(missile.getItem() instanceof MissileItem mi) || !mi.requiresFluidFuel()) {
+            return null;
+        }
+        return switch (mi.getTier()) {
+            case TIER1 -> ModFluids.ETHANOL.source.get();
+            case TIER2, STEALTH, ROBIN, TIER3 -> ModFluids.KEROSENE.source.get();
+            case TIER4 -> ModFluids.KEROSENE_REFORM.source.get();
+            default -> null;
+        };
+    }
+
+    @Nullable
+    private Fluid expectedOxidizerFluid() {
+        ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
+        if (!(missile.getItem() instanceof MissileItem mi) || !mi.requiresFluidFuel()) {
+            return null;
+        }
+        return switch (mi.getTier()) {
+            case TIER1, TIER2, STEALTH, ROBIN -> ModFluids.PEROXIDE.source.get();
+            case TIER3, TIER4 -> ModFluids.OXYGEN.source.get();
+            default -> null;
+        };
     }
 
     public boolean isMissileValid() {
@@ -268,28 +358,31 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     /**
-     * Legacy {@code ItemMissile.fuelCap}: MICRO/Tier0 solid = 0 (power only);
-     * V2/Strong on this pad = ethanol+peroxide drain amount.
+     * Legacy {@code ItemMissile.fuelCap}: MICRO/Tier0 / ABM solid = 0 (power only);
+     * V2 4000 ethanol; Strong/Stealth/Robin 8000 kerosene; Huge 12000 kerosene;
+     * Atlas 16000 jet fuel.
      */
     public int getRequiredFuelAmount() {
         ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
-        if (missile.getItem() instanceof com.hbm.items.weapon.MissileItem mi) {
+        if (missile.getItem() instanceof MissileItem mi) {
             return mi.getFuelCap();
         }
-        // Non-MissileItem launchables default to Tier1 fluid cost
         return isMissileValid() ? TIER1_FUEL_COST : 0;
     }
 
-    public boolean hasFuel() {
+    public boolean hasTankFuel() {
         int cost = getRequiredFuelAmount();
         if (cost <= 0) {
-            // Solid / pre-fueled (legacy MICRO / Tier0 — taint, micro, bhole, schrab) — no tank drain
             return true;
         }
         return fuelTank.getFluidAmount() >= cost
                 && oxidizerTank.getFluidAmount() >= cost
                 && isFuelFluid(fuelTank.getFluid().getFluid())
                 && isOxidizerFluid(oxidizerTank.getFluid().getFluid());
+    }
+
+    public boolean hasFuel() {
+        return energy.getEnergyStored() >= LAUNCH_COST && hasTankFuel();
     }
 
     public boolean tryInsertMissile(ItemStack stack) {
@@ -300,21 +393,47 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         return true;
     }
 
-    public boolean trySetTargetFromDesignator(ItemStack stack) {
-        if (!(stack.getItem() instanceof DesignatorItem) || !DesignatorItem.hasTarget(stack)) {
+    public boolean tryInsertDesignator(ItemStack stack) {
+        if (!(stack.getItem() instanceof IDesignatorItem) || !items.getStackInSlot(SLOT_DESIGNATOR).isEmpty()) {
             return false;
         }
-        setTarget(DesignatorItem.getTarget(stack));
+        items.setStackInSlot(SLOT_DESIGNATOR, stack.split(1));
         return true;
+    }
+
+    public boolean trySetTargetFromDesignator(ItemStack stack) {
+        BlockPos pad = worldPosition;
+        if (!(stack.getItem() instanceof IDesignatorItem designator)
+                || !designator.isReady(level, stack, pad.getX(), pad.getY(), pad.getZ())) {
+            return false;
+        }
+        Vec3 coords = designator.getCoords(level, stack, pad.getX(), pad.getY(), pad.getZ());
+        setTarget(new BlockPos((int) Math.floor(coords.x), (int) Math.floor(coords.y), (int) Math.floor(coords.z)));
+        return true;
+    }
+
+    public boolean needsDesignator() {
+        return !MissileLaunchRegistry.isAntiBallistic(items.getStackInSlot(SLOT_MISSILE));
     }
 
     public boolean canLaunch() {
         syncTargetFromDesignator();
-        return hasTarget
-                && isMissileValid()
-                && hasFuel()
-                && energy.getEnergyStored() >= LAUNCH_COST
-                && delay <= 0;
+        return radarCanLaunch()
+                && (!needsDesignator() || hasTarget);
+    }
+
+    public boolean radarCanLaunch() {
+        return isMissileValid() && hasFuel() && isReadyForLaunch();
+    }
+
+    @Override
+    public boolean sendCommandPosition(int x, int y, int z) {
+        return launchTo(x, z, null);
+    }
+
+    @Override
+    public boolean sendCommandEntity(Entity target) {
+        return launchTo((int) Math.floor(target.getX()), (int) Math.floor(target.getZ()), target);
     }
 
     /**
@@ -328,16 +447,28 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         if (!canLaunch()) {
             return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
         }
-        return launch() ? IBomb.BombReturnCode.LAUNCHED : IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+        return spawnLaunch(targetX, targetZ, null) ? IBomb.BombReturnCode.LAUNCHED : IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
     }
 
     public boolean launch() {
         if (level == null || level.isClientSide || !canLaunch()) {
             return false;
         }
-        ItemStack missileStack = items.getStackInSlot(SLOT_MISSILE);
-        var spawner = MissileLaunchRegistry.getSpawner(missileStack.getItem());
-        if (spawner == null) {
+        return spawnLaunch(targetX, targetZ, null);
+    }
+
+    private boolean launchTo(int targetX, int targetZ, Entity track) {
+        if (level == null || level.isClientSide || !radarCanLaunch()) {
+            return false;
+        }
+        return spawnLaunch(targetX, targetZ, track);
+    }
+
+    private boolean spawnLaunch(int targetX, int targetZ, Entity track) {
+        ItemStack missileStack = items.getStackInSlot(SLOT_MISSILE).copy();
+        boolean abm = MissileLaunchRegistry.isAntiBallistic(missileStack);
+        var spawner = abm ? null : MissileLaunchRegistry.getSpawner(missileStack.getItem());
+        if (!abm && spawner == null) {
             return false;
         }
 
@@ -351,28 +482,32 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         delay = COOLDOWN_TICKS;
 
         BlockPos pos = worldPosition;
-        EntityMissileBaseNT missile = spawner.spawn(
-                level,
-                pos.getX() + 0.5D,
-                pos.getY() + 1.0D,
-                pos.getZ() + 0.5D,
-                targetX, targetY, targetZ);
-        level.addFreshEntity(missile);
-        playLaunchSounds(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+        level.playSound(null, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
+        double y = pos.getY() + getLaunchOffset();
+        if (abm) {
+            EntityMissileAntiBallistic abmEntity = new EntityMissileAntiBallistic(
+                    level, pos.getX() + 0.5D, y, pos.getZ() + 0.5D);
+            if (track != null) {
+                abmEntity.tracking = track;
+            }
+            level.addFreshEntity(abmEntity);
+        } else {
+            EntityMissileBaseNT missile = spawner.spawn(
+                    level,
+                    pos.getX() + 0.5D,
+                    y,
+                    pos.getZ() + 0.5D,
+                    targetX, targetY, targetZ);
+            level.addFreshEntity(missile);
+        }
+        onLaunched();
         setChanged();
         syncToClient();
         return true;
     }
 
-    private static void playLaunchSounds(Level level, double x, double y, double z) {
-        level.playSound(null, x, y, z, ModSounds.MISSILE_TAKEOFF.get(), SoundSource.PLAYERS, 4.0F, 1.0F);
-        if (level instanceof net.minecraft.server.level.ServerLevel server) {
-            for (net.minecraft.server.level.ServerPlayer player : server.players()) {
-                if (player.distanceToSqr(x, y, z) < 128.0D * 128.0D) {
-                    player.playNotifySound(ModSounds.MISSILE_TAKEOFF.get(), SoundSource.PLAYERS, 4.0F, 1.0F);
-                }
-            }
-        }
+    protected void onLaunched() {
     }
 
     public void checkRedstone(boolean powered) {
@@ -397,15 +532,19 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         if (!isMissileValid()) {
             return Component.literal("Not ready — need launchable missile");
         }
-        if (!hasFuel()) {
-            int cost = getRequiredFuelAmount();
-            return Component.literal("Not ready — need " + cost + " mB ethanol + peroxide");
-        }
-        if (!hasTarget) {
-            return Component.literal("No target — designator required");
-        }
         if (energy.getEnergyStored() < LAUNCH_COST) {
             return Component.literal("Need " + LAUNCH_COST + " FE (have " + energy.getEnergyStored() + ")");
+        }
+        if (!hasTankFuel()) {
+            int cost = getRequiredFuelAmount();
+            ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
+            Component fuelName = missile.getItem() instanceof MissileItem mi
+                    ? Component.translatable(mi.getFuelLangKey())
+                    : Component.translatable("item.missile.fuel.ethanol_peroxide");
+            return Component.literal("Not ready — need " + cost + " mB ").append(fuelName);
+        }
+        if (needsDesignator() && !hasTarget) {
+            return Component.literal("No target — designator required");
         }
         if (delay > 0) {
             return Component.literal("Loading... (" + delay + ")");
@@ -413,18 +552,18 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         return Component.literal("Ready → " + targetX + ", " + targetY + ", " + targetZ);
     }
 
-    private void onChanged() {
+    protected void onChanged() {
         setChanged();
         syncToClient();
     }
 
-    private void syncToClient() {
+    protected void syncToClient() {
         if (level != null && !level.isClientSide) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
-    private void updateState() {
+    protected void updateState() {
         if (!isMissileValid() || !hasFuel()) {
             state = STATE_MISSING;
             delay = COOLDOWN_TICKS;
@@ -435,7 +574,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    private void processFluidSlots() {
+    protected void processFluidSlots() {
         transferFluidItem(SLOT_FUEL_IN, SLOT_FUEL_OUT, fuelTank);
         transferFluidItem(SLOT_OX_IN, SLOT_OX_OUT, oxidizerTank);
     }
@@ -488,8 +627,33 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
+    /** 1.7.10 {@code TileEntityLaunchPad.getConPos} — cables one block outside the 3×3. */
+    protected static void pullConPos(Level level, BlockPos pos, LaunchPadBlockEntity be) {
+        be.pullEnergyPorts(level);
+    }
+
+    protected void pullEnergyPorts(Level level) {
+        BlockPos pos = worldPosition;
+        EnergyNetworkHelper.pullFrom(level, pos.offset(2, 0, -1), Direction.WEST, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(2, 0, 1), Direction.WEST, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(-2, 0, -1), Direction.EAST, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(-2, 0, 1), Direction.EAST, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(-1, 0, 2), Direction.NORTH, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(1, 0, 2), Direction.NORTH, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(-1, 0, -2), Direction.SOUTH, energy, ENERGY_TRANSFER);
+        EnergyNetworkHelper.pullFrom(level, pos.offset(1, 0, -2), Direction.SOUTH, energy, ENERGY_TRANSFER);
+    }
+
     public static void serverTick(Level level, BlockPos pos, BlockState state, LaunchPadBlockEntity be) {
-        EnergyNetworkHelper.pullFromNeighbors(level, pos, be.energy, ENERGY_TRANSFER);
+        LaunchPadBlock.tryCompleteStructure(level, pos);
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                if (dx != 0 && dz != 0) {
+                    EnergyNetworkHelper.pullFromNeighbors(level, pos.offset(dx, 0, dz), be.energy, ENERGY_TRANSFER);
+                }
+            }
+        }
+        pullConPos(level, pos, be);
         ItemEnergyHelper.chargeFromItem(be.items.getStackInSlot(SLOT_BATTERY), be.energy, ENERGY_TRANSFER);
         be.processFluidSlots();
 
@@ -540,6 +704,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         tag.putBoolean("wasPowered", wasPowered);
         tag.putInt("delay", delay);
         tag.putInt("padState", this.state);
+        tag.putString("padFacing", getFacing().getSerializedName());
     }
 
     @Override
@@ -562,6 +727,10 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
         wasPowered = tag.getBoolean("wasPowered");
         delay = tag.contains("delay") ? tag.getInt("delay") : COOLDOWN_TICKS;
         this.state = tag.getInt("padState");
+        if (tag.contains("padFacing")) {
+            Direction loaded = Direction.byName(tag.getString("padFacing"));
+            this.facing = loaded != null && loaded.getAxis().isHorizontal() ? loaded : Direction.NORTH;
+        }
     }
 
     @Override
@@ -587,6 +756,9 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider {
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return itemOptional.cast();
+        }
+        if (side != null && side.getAxis().isVertical()) {
+            return super.getCapability(cap, side);
         }
         if (cap == ForgeCapabilities.ENERGY) {
             return energyOptional.cast();

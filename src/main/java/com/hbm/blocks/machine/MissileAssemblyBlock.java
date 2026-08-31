@@ -34,6 +34,7 @@ public class MissileAssemblyBlock extends BaseEntityBlock {
                 .mapColor(MapColor.METAL)
                 .strength(5.0F, 20.0F)
                 .requiresCorrectToolForDrops()
+                .noOcclusion()
                 .sound(SoundType.METAL));
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -51,7 +52,7 @@ public class MissileAssemblyBlock extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Nullable

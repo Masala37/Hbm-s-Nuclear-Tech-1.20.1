@@ -1,1 +1,11 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/machine_missile_assembly" } }
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_assembly.obj",
+  "textures": {
+    "particle": "hbm:block/machine_missile_assembly",
+    "material": "hbm:block/missile_assembly"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_parts/mp_w_15_boxcar.obj",
+  "mtl_override": "hbm:models/obj/missile_parts/mp_w_15_boxcar.mtl",
+  "textures": {
+    "particle": "hbm:block/missile_parts/mp_w_15_boxcar",
+    "material": "hbm:block/missile_parts/mp_w_15_boxcar",
+    "#material": "hbm:block/missile_parts/mp_w_15_boxcar"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_parts/mp_f_10_long_kerosene.obj",
+  "mtl_override": "hbm:models/obj/missile_parts/mp_f_10_long_kerosene_flames.mtl",
+  "textures": {
+    "particle": "hbm:block/missile_parts/mp_f_10_long_kerosene_flames",
+    "material": "hbm:block/missile_parts/mp_f_10_long_kerosene_flames",
+    "#material": "hbm:block/missile_parts/mp_f_10_long_kerosene_flames"
+  }
+}

@@ -3,32 +3,33 @@ package com.hbm.client.render;
 import com.hbm.HbmNuclearTechMod;
 import com.hbm.lib.RefStrings;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Shared helper for rendering forge:obj models registered via {@code ModelEvent.RegisterAdditional}
- * or blockstates (nukes / mines / missiles / silo).
- * <p>
- * Forge 1.20.1 / 47.4 stores RegisterAdditional bakes under the plain {@link ResourceLocation},
- * not {@code #standalone}. Looking up only MRL keys returns the missing model and draws nothing.
+ * Draws forge:obj bakes as entities (no block-face shade, no back-face cull).
+ * Forge 1.20.1 / 47.4 stores RegisterAdditional bakes under the plain {@link ResourceLocation}.
  */
 public final class ObjModelRenderer {
     private static final Set<ResourceLocation> MISSING_WARNED = ConcurrentHashMap.newKeySet();
+    private static final Direction[] CULL_FACES = Direction.values();
 
     private ObjModelRenderer() {
     }
@@ -46,19 +47,16 @@ public final class ObjModelRenderer {
         ModelManager models = Minecraft.getInstance().getModelManager();
         BakedModel missing = models.getMissingModel();
 
-        // Forge 47.4 RegisterAdditional: baked under plain ResourceLocation
         BakedModel model = models.getModel(modelId);
         if (model != null && model != missing) {
             return model;
         }
 
-        // Older docs / some loaders: #standalone
         model = models.getModel(standalone(modelId));
         if (model != null && model != missing) {
             return model;
         }
 
-        // Blockstate empty variant
         model = models.getModel(new ModelResourceLocation(modelId, ""));
         if (model != null && model != missing) {
             return model;
@@ -76,20 +74,28 @@ public final class ObjModelRenderer {
         if (model == null) {
             return;
         }
-        BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-        BlockState state = Blocks.AIR.defaultBlockState();
-        RandomSource random = RandomSource.create(42L);
-        for (RenderType type : model.getRenderTypes(state, random, ModelData.EMPTY)) {
-            dispatcher.getModelRenderer().renderModel(
-                    pose.last(),
-                    buffers.getBuffer(type),
-                    state,
-                    model,
-                    1.0F, 1.0F, 1.0F,
-                    packedLight,
-                    packedOverlay,
-                    ModelData.EMPTY,
-                    type);
+        var buffer = buffers.getBuffer(RenderType.entityCutoutNoCull(InventoryMenu.BLOCK_ATLAS));
+        RandomSource random = RandomSource.create();
+        random.setSeed(42L);
+        emit(pose, buffer, model.getQuads(null, null, random, ModelData.EMPTY, null), packedLight, packedOverlay);
+        for (Direction side : CULL_FACES) {
+            random.setSeed(42L);
+            emit(pose, buffer, model.getQuads(null, side, random, ModelData.EMPTY, null), packedLight, packedOverlay);
         }
+    }
+
+    private static void emit(PoseStack pose, VertexConsumer buffer,
+                             List<BakedQuad> quads, int packedLight, int packedOverlay) {
+        for (BakedQuad quad : quads) {
+            buffer.putBulkData(pose.last(), quad,
+                    new float[] {1.0F, 1.0F, 1.0F, 1.0F},
+                    1.0F, 1.0F, 1.0F,
+                    new int[] {packedLight, packedLight, packedLight, packedLight},
+                    packedOverlay, false);
+        }
+    }
+
+    public static void render(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId, int packedLight) {
+        render(pose, buffers, modelId, packedLight, OverlayTexture.NO_OVERLAY);
     }
 }

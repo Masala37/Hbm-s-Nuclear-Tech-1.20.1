@@ -18,7 +18,8 @@ import java.util.function.Consumer;
 /**
  * Missile item with legacy-style 3D inventory / hand rendering (BEWLR).
  * Fuel caps follow legacy {@code ItemMissile} form-factor defaults
- * (MICRO/TIER0 = solid pre-fueled → 0 mB; V2 = 4000; Strong = 8000; Huge = 12000 kerosene/loxy).
+ * (MICRO/TIER0 = solid pre-fueled → 0 mB; V2 = 4000 ethanol; Strong/Stealth/Robin = 8000
+ * kerosene; Huge = 12000 kerosene/loxy; Atlas = 16000 jetfuel/loxy).
  */
 public class MissileItem extends Item {
     public enum GuiTier {
@@ -26,25 +27,36 @@ public class MissileItem extends Item {
         TIER0(3.75F, 10.75F, 1.0F, 0),
         /** V2 / Tier1 — legacy guiScale 2.5, ethanol/peroxide 4000 mB. */
         TIER1(2.5F, 8.5F, 1.0F, 4_000),
-        /** Strong / Tier2 — legacy guiScale 2.0 + mesh 1.5.
-         * Legacy fuelCap is 8000 kerosene; this pad only stocks ethanol/peroxide,
-         * so keep the previous 4000 mB drain until kerosene tanks are ported. */
-        TIER2(2.0F, 6.5F, 1.5F, 4_000),
+        /** Strong / Tier2 — legacy guiScale 2.0 + mesh 1.5, kerosene/peroxide 8000 mB. */
+        TIER2(2.0F, 6.5F, 1.5F, 8_000),
         /**
          * Huge / Tier3 — legacy TYPE_TIER3 guiScale 1.25 / guiOffset 1.0, generateStandard
-         * (meshScale 1.0 — do not 1.5× like strong). Legacy fuelCap is 12_000 mB
-         * kerosene/loxy; this pad only stocks ethanol/peroxide, so 4000 mB like other
-         * liquid missiles until loxy/kerosene tanks exist.
+         * (meshScale 1.0 — do not 1.5× like strong). Kerosene/loxy 12_000 mB.
          */
-        TIER3(1.25F, 1.0F, 1.0F, 4_000),
+        TIER3(1.25F, 1.0F, 1.0F, 12_000),
         /**
          * Stealth — unique mesh. Legacy TYPE_STEALTH guiScale 1.75 / guiOffset 4.75.
-         * Form factor is STRONG but tooltip stays Tier 1. Legacy fuel is 8000
-         * kerosene/peroxide; this pad only stocks ethanol/peroxide, so 4000 mB
-         * like other strong missiles until kerosene tanks are ported.
+         * Form factor is STRONG but tooltip stays Tier 1. Kerosene/peroxide 8000 mB.
          * meshScale 1.0 — do not 1.5x the unique mesh.
          */
-        STEALTH(1.75F, 4.75F, 1.0F, 4_000);
+        STEALTH(1.75F, 4.75F, 1.0F, 8_000),
+        /**
+         * Reliant Robin — unique shuttle mesh. Legacy TYPE_ROBIN guiScale 1.25 /
+         * guiOffset 2. Form factor OTHER, fuelCap 8000 kerosene/peroxide.
+         * Pad GUI scale is OTHER (1.0), not huge 0.925. meshScale 1.0.
+         */
+        ROBIN(1.25F, 2.0F, 1.0F, 8_000),
+        /**
+         * Atlas / Tier4 — legacy TYPE_NUCLEAR guiScale 1.375 / guiOffset 1.5,
+         * generateStandard (meshScale 1.0). Form factor ATLAS, fuelCap 16_000
+         * jetfuel/loxy.
+         */
+        TIER4(1.375F, 1.5F, 1.0F, 16_000),
+        /**
+         * Anti-ballistic interceptor — legacy TYPE_ABM guiScale 2.25 / guiOffset 7.
+         * Form factor ABM, solid pre-fueled (fuelCap 0). Tooltip stays Tier 1.
+         */
+        ABM(2.25F, 7.0F, 1.0F, 0);
 
         public final float guiScale;
         public final float guiOffset;
@@ -61,14 +73,24 @@ public class MissileItem extends Item {
     }
 
     private final GuiTier tier;
+    private final boolean launchable;
 
     public MissileItem(GuiTier tier) {
+        this(tier, true);
+    }
+
+    public MissileItem(GuiTier tier, boolean launchable) {
         super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
         this.tier = tier;
+        this.launchable = launchable;
     }
 
     public GuiTier getTier() {
         return tier;
+    }
+
+    public boolean isLaunchable() {
+        return launchable;
     }
 
     /** Legacy {@code ItemMissile.fuelCap} — 0 means no fluid propellant required. */
@@ -80,16 +102,46 @@ public class MissileItem extends Item {
         return tier.fuelCap > 0;
     }
 
+    /** Legacy {@code ItemMissile.fuel} lang key for tooltip and pad status. */
+    public String getFuelLangKey() {
+        if (tier.fuelCap <= 0) {
+            return "item.missile.fuel.solid.prefueled";
+        }
+        return switch (tier) {
+            case TIER4 -> "item.missile.fuel.jetfuel_loxy";
+            case TIER3 -> "item.missile.fuel.kerosene_loxy";
+            case TIER2, STEALTH, ROBIN -> "item.missile.fuel.kerosene_peroxide";
+            default -> "item.missile.fuel.ethanol_peroxide";
+        };
+    }
+
+    private ChatFormatting getFuelStyle() {
+        if (tier.fuelCap <= 0) {
+            return ChatFormatting.GOLD;
+        }
+        return switch (tier) {
+            case TIER4 -> ChatFormatting.RED;
+            case TIER3 -> ChatFormatting.LIGHT_PURPLE;
+            case TIER2, STEALTH, ROBIN -> ChatFormatting.BLUE;
+            default -> ChatFormatting.AQUA;
+        };
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        String tierKey = tier == GuiTier.STEALTH
-                ? "item.missile.tier.tier1"
-                : "item.missile.tier." + tier.name().toLowerCase();
+        String tierKey = switch (tier) {
+            case STEALTH, ABM -> "item.missile.tier.tier1";
+            case ROBIN -> "item.missile.tier.tier3";
+            default -> "item.missile.tier." + tier.name().toLowerCase();
+        };
         tooltip.add(Component.translatable(tierKey).withStyle(ChatFormatting.ITALIC));
 
-        Component fuelName = tier.fuelCap <= 0
-                ? Component.translatable("item.missile.fuel.solid.prefueled").withStyle(ChatFormatting.GOLD)
-                : Component.translatable("item.missile.fuel.ethanol_peroxide").withStyle(ChatFormatting.AQUA);
+        if (!launchable) {
+            tooltip.add(Component.translatable("item.missile.desc.notLaunchable").withStyle(ChatFormatting.RED));
+            return;
+        }
+
+        Component fuelName = Component.translatable(getFuelLangKey()).withStyle(getFuelStyle());
         tooltip.add(Component.translatable("item.missile.desc.fuel")
                 .append(": ")
                 .append(fuelName));
@@ -120,6 +172,18 @@ public class MissileItem extends Item {
                     .withStyle(ChatFormatting.GRAY));
         } else if (key != null && "missile_burst".equals(key.getPath())) {
             tooltip.add(Component.translatable("item.hbm.missile_burst.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_inferno".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_inferno.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_rain".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_rain.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_drill".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_drill.desc")
+                    .withStyle(ChatFormatting.GRAY));
+        } else if (key != null && "missile_volcano".equals(key.getPath())) {
+            tooltip.add(Component.translatable("item.hbm.missile_volcano.desc")
                     .withStyle(ChatFormatting.GRAY));
         }
     }

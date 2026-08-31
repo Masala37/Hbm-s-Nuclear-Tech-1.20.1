@@ -22,23 +22,33 @@ public final class SmokeCloudEffectPacket implements PacketBase {
     private final double z;
     private final int count;
     private final Mode mode;
+    private final boolean playBang;
 
     public SmokeCloudEffectPacket(double x, double y, double z, int count, Mode mode) {
+        this(x, y, z, count, mode, false);
+    }
+
+    public SmokeCloudEffectPacket(double x, double y, double z, int count, Mode mode, boolean playBang) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.count = count;
         this.mode = mode;
+        this.playBang = playBang;
     }
 
     public static SmokeCloudEffectPacket cloud(double x, double y, double z, int count) {
-        return new SmokeCloudEffectPacket(x, y, z, count, Mode.CLOUD);
+        return new SmokeCloudEffectPacket(x, y, z, count, Mode.CLOUD, false);
+    }
+
+    public static SmokeCloudEffectPacket cloudBang(double x, double y, double z, int count) {
+        return new SmokeCloudEffectPacket(x, y, z, count, Mode.CLOUD, true);
     }
 
     public static SmokeCloudEffectPacket decode(FriendlyByteBuf buf) {
         return new SmokeCloudEffectPacket(
                 buf.readDouble(), buf.readDouble(), buf.readDouble(),
-                buf.readVarInt(), Mode.values()[buf.readByte()]);
+                buf.readVarInt(), Mode.values()[buf.readByte()], buf.readBoolean());
     }
 
     @Override
@@ -48,6 +58,7 @@ public final class SmokeCloudEffectPacket implements PacketBase {
         buf.writeDouble(z);
         buf.writeVarInt(count);
         buf.writeByte(mode.ordinal());
+        buf.writeBoolean(playBang);
     }
 
     @Override
@@ -62,6 +73,7 @@ public final class SmokeCloudEffectPacket implements PacketBase {
         if (Minecraft.getInstance().level == null) {
             return;
         }
-        com.hbm.client.particle.ClientExplosionEffects.spawnExSmoke(x, y, z, count, mode == Mode.RADIAL);
+        com.hbm.client.particle.ClientExplosionEffects.spawnExSmoke(
+                x, y, z, count, mode == Mode.RADIAL, playBang);
     }
 }

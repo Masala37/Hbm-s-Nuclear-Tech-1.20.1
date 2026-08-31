@@ -1,1 +1,13 @@
-{ "variants": { "": { "model": "hbm:block/compact_launcher" } } }
+{
+  "variants": {
+    "ox=0,oz=0": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=0,oz=1": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=0,oz=2": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=1,oz=0": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=1,oz=1": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=1,oz=2": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=2,oz=0": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=2,oz=1": { "model": "hbm:block/compact_launcher_dummy" },
+    "ox=2,oz=2": { "model": "hbm:block/compact_launcher_dummy" }
+  }
+}

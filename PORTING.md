@@ -71,7 +71,10 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Bomber flybys (EntityBomber types 0–4) + fallout column undercut + crashed-bomb rad aura + taint spread lite
 - [x] Digamma living stack + HazardSystem (RAD/DIGAMMA inventory + tooltips) + typed BombletZeta + Missile MVP (designator/pad/generic)
 - [x] Missile depth: Tier-1 warheads, FE launch gate (~75k), size/preset assembly machine
-- [x] Missile pad roster: T0–T3 + stealth/decoy (schrab FLEIJA, EMP field, spare huge HE); radar hooks; launch pad + assembly
+- [x] Missile pad roster: T0–T4 + stealth/decoy/ABM (schrab FLEIJA, EMP field, spare huge HE, nuclear/MIRV/volcano/doomsday)
+- [x] Compact launcher, launch table, large/rusted pads, dummyable placement, custom missile parts + assembly
+- [x] Radar NT / large / screen + linker; designator (click + manual coords)
+- [x] 1.7 sounds.json catalog (snake_case events) + pad/diesel/crate audio
 - [ ] RBMK GUIs / simulation
 
 ## Radiation / Sellafield QA checklist
@@ -90,7 +93,8 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - Bomb caller: whistle + multi-box plane; carpet HE ~4; napalm sets fire; chlorine mist on ground impact.
 - Designator RMB on ground → coords in tooltip → RMB designator on launch pad (with coords stored) programs pad.
 - Power the pad (≥75k FE via cables/battery) → insert `missile_generic` / incendiary / cluster / buster / strong variants → empty hand or redstone → matching warhead impact.
-- Missile assembly: chip + matching-size warhead/thruster + fuselage (+ optional fins) → Assemble → preset missile item.
+- Missile assembly: chip + matching-size warhead/thruster + fuselage (+ optional fins) → Assemble → custom missile; compact launcher / launch table fire SIZE_10/15 (table also SIZE_20).
+- Radar NT: place at Y≥55, power, linker to screens; silo/large pad still need a designator except ABM.
 
 ## Why this is a rewrite, not a version bump
 

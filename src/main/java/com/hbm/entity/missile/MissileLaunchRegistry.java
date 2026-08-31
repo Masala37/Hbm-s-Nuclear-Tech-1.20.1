@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 /**
- * Maps missile items to spawn factories for the launch pad.
- * <p>
- * Size/preset ideas adapted from HBM-Modernized (GPL-3.0) launchable registration.
+ * Maps missile items to spawn factories for the silo / large pad.
+ * Custom missiles launch from the compact launcher / launch table only
+ * (legacy {@code TileEntityLaunchPadBase.isMissileValid} is {@code ItemMissile}).
  */
 public final class MissileLaunchRegistry {
     @FunctionalInterface
@@ -59,6 +59,22 @@ public final class MissileLaunchRegistry {
         register(ModItems.MISSILE_DECOY, EntityMissileDecoy::new);
         register(ModItems.MISSILE_STEALTH, EntityMissileStealth::new);
         register(ModItems.MISSILE_BURST, EntityMissileBurst::new);
+        register(ModItems.MISSILE_INFERNO, EntityMissileInferno::new);
+        register(ModItems.MISSILE_RAIN, EntityMissileRain::new);
+        register(ModItems.MISSILE_DRILL, EntityMissileDrill::new);
+        register(ModItems.MISSILE_SHUTTLE, EntityMissileShuttle::new);
+        register(ModItems.MISSILE_NUCLEAR, EntityMissileNuclear::new);
+        register(ModItems.MISSILE_NUCLEAR_CLUSTER, EntityMissileMirv::new);
+        register(ModItems.MISSILE_VOLCANO, EntityMissileVolcano::new);
+        register(ModItems.MISSILE_DOOMSDAY, EntityMissileDoomsday::new);
+    }
+
+    public static boolean isAntiBallistic(Item item) {
+        return item == ModItems.MISSILE_ANTI_BALLISTIC.get();
+    }
+
+    public static boolean isAntiBallistic(ItemStack stack) {
+        return !stack.isEmpty() && isAntiBallistic(stack.getItem());
     }
 
     public static void register(Supplier<? extends Item> item, Spawner spawner) {
@@ -71,12 +87,24 @@ public final class MissileLaunchRegistry {
 
     public static boolean isLaunchable(ItemStack stack) {
         bootstrap();
-        return !stack.isEmpty() && LAUNCHABLES.containsKey(stack.getItem());
+        if (stack.isEmpty()) {
+            return false;
+        }
+        if (stack.getItem() instanceof com.hbm.items.weapon.MissileItem mi && !mi.isLaunchable()) {
+            return false;
+        }
+        if (isAntiBallistic(stack.getItem())) {
+            return true;
+        }
+        return LAUNCHABLES.containsKey(stack.getItem());
     }
 
     public static boolean isLaunchable(Item item) {
         bootstrap();
-        return item != null && LAUNCHABLES.containsKey(item);
+        if (item instanceof com.hbm.items.weapon.MissileItem mi && !mi.isLaunchable()) {
+            return false;
+        }
+        return item != null && (LAUNCHABLES.containsKey(item) || isAntiBallistic(item));
     }
 
     public static Spawner getSpawner(Item item) {

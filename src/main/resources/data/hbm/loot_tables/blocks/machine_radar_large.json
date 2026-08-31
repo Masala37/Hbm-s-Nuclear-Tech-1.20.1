@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [{
+    "rolls": 1,
+    "entries": [{ "type": "minecraft:item", "name": "hbm:machine_radar_large" }],
+    "conditions": [
+      { "condition": "minecraft:survives_explosion" },
+      {
+        "condition": "minecraft:block_state_property",
+        "block": "hbm:machine_radar_large",
+        "properties": { "ox": "1", "oy": "0", "oz": "1" }
+      }
+    ]
+  }]
+}

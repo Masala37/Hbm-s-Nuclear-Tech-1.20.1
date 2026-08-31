@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "ox=0,oz=0": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=0,oz=1": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=0,oz=2": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=1,oz=0": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=1,oz=1": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=1,oz=2": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=2,oz=0": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=2,oz=1": { "model": "hbm:block/launch_pad_dummy_rusted" },
+    "ox=2,oz=2": { "model": "hbm:block/launch_pad_dummy_rusted" }
+  }
+}

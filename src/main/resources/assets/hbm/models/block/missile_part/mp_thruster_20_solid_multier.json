@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/missile_parts/mp_t_20_solid_multi.obj",
+  "mtl_override": "hbm:models/obj/missile_parts/mp_t_20_solid_multier.mtl",
+  "textures": {
+    "particle": "hbm:block/missile_parts/mp_t_20_solid_multier",
+    "material": "hbm:block/missile_parts/mp_t_20_solid_multier",
+    "#material": "hbm:block/missile_parts/mp_t_20_solid_multier"
+  }
+}

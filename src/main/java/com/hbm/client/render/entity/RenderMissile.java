@@ -10,8 +10,17 @@ import com.hbm.entity.missile.EntityMissileDecoy;
 import com.hbm.entity.missile.EntityMissileEMP;
 import com.hbm.entity.missile.EntityMissileEMPStrong;
 import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileInferno;
 import com.hbm.entity.missile.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileDrill;
 import com.hbm.entity.missile.EntityMissileSchrabidium;
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileDoomsdayRusted;
+import com.hbm.entity.missile.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileNuclear;
+import com.hbm.entity.missile.EntityMissileVolcano;
+import com.hbm.entity.missile.EntityMissileShuttle;
 import com.hbm.entity.missile.EntityMissileStealth;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.missile.EntityMissileTaint;
@@ -27,13 +36,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 /**
- * Y-up forge:obj missile renderer — nose (+Y) aligned to travel direction.
+ * Nose along +Y. Flight pose matches 1.7.10 {@code RenderMissileGeneric}:
+ * yaw-90 around Y, pitch around Z, then undo yaw.
  */
 public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     public static final ResourceLocation MODEL_V2 = id("block/missile_v2");
@@ -53,15 +60,25 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
     public static final ResourceLocation MODEL_STRONG_EMP = id("block/missile_strong_emp");
     public static final ResourceLocation MODEL_STEALTH = id("block/missile_stealth");
     public static final ResourceLocation MODEL_HUGE = id("block/missile_huge");
+    public static final ResourceLocation MODEL_HUGE_INC = id("block/missile_huge_inc");
+    public static final ResourceLocation MODEL_HUGE_CL = id("block/missile_huge_cl");
+    public static final ResourceLocation MODEL_HUGE_BU = id("block/missile_huge_bu");
+    public static final ResourceLocation MODEL_SHUTTLE = id("block/missile_shuttle");
+    public static final ResourceLocation MODEL_NUCLEAR = id("block/missile_nuclear");
+    public static final ResourceLocation MODEL_NUCLEAR_CLUSTER = id("block/missile_nuclear_cluster");
+    public static final ResourceLocation MODEL_VOLCANO = id("block/missile_volcano");
+    public static final ResourceLocation MODEL_DOOMSDAY = id("block/missile_doomsday");
+    public static final ResourceLocation MODEL_DOOMSDAY_RUSTED = id("block/missile_doomsday_rusted");
+    public static final ResourceLocation MODEL_ABM = id("block/missile_abm");
 
     private static final ResourceLocation[] ALL = {
             MODEL_V2, MODEL_V2_INC, MODEL_V2_CL, MODEL_V2_BU, MODEL_V2_DECOY,
             MODEL_STRONG, MODEL_STRONG_INC, MODEL_STRONG_CL, MODEL_STRONG_BU, MODEL_STRONG_EMP,
             MODEL_MICRO_TAINT, MODEL_MICRO, MODEL_MICRO_BHOLE, MODEL_MICRO_SCHRAB, MODEL_MICRO_EMP,
-            MODEL_STEALTH, MODEL_HUGE
+            MODEL_STEALTH, MODEL_HUGE, MODEL_HUGE_INC, MODEL_HUGE_CL, MODEL_HUGE_BU,
+            MODEL_SHUTTLE, MODEL_NUCLEAR, MODEL_NUCLEAR_CLUSTER, MODEL_VOLCANO,
+            MODEL_DOOMSDAY, MODEL_DOOMSDAY_RUSTED, MODEL_ABM
     };
-
-    private static final Vector3f NOSE = new Vector3f(0.0F, 1.0F, 0.0F);
 
     public RenderMissile(EntityRendererProvider.Context context) {
         super(context);
@@ -81,19 +98,11 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
                        MultiBufferSource buffers, int packedLight) {
         pose.pushPose();
 
-        Vec3 dir = travelDirection(entity, partialTicks);
-        Vector3f to = new Vector3f((float) dir.x, (float) dir.y, (float) dir.z);
-        if (to.lengthSquared() > 1.0E-8F) {
-            to.normalize();
-            Quaternionf orient = new Quaternionf().rotationTo(NOSE, to);
-            pose.mulPose(orient);
-        } else {
-            // Fallback: legacy yaw/pitch
-            float yaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
-            float pitch = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
-            pose.mulPose(Axis.YP.rotationDegrees(yaw - 90.0F));
-            pose.mulPose(Axis.ZP.rotationDegrees(pitch));
-        }
+        float yaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
+        float pitch = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
+        pose.mulPose(Axis.YP.rotationDegrees(yaw - 90.0F));
+        pose.mulPose(Axis.ZP.rotationDegrees(pitch));
+        pose.mulPose(Axis.YP.rotationDegrees(-(yaw - 90.0F)));
 
         if (isStrong(entity)) {
             pose.scale(1.5F, 1.5F, 1.5F);
@@ -103,27 +112,6 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
                 LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
         pose.popPose();
         super.render(entity, entityYaw, partialTicks, pose, buffers, packedLight);
-    }
-
-    /** Prefer live motion; fall back to displacement / upright. */
-    private static Vec3 travelDirection(EntityMissileBaseNT entity, float partialTicks) {
-        Vec3 motion = entity.getDeltaMovement();
-        if (motion.lengthSqr() > 1.0E-6D) {
-            return motion;
-        }
-        double dx = entity.getX() - entity.xo;
-        double dy = entity.getY() - entity.yo;
-        double dz = entity.getZ() - entity.zo;
-        if (dx * dx + dy * dy + dz * dz > 1.0E-6D) {
-            return new Vec3(dx, dy, dz);
-        }
-        float yaw = Mth.lerp(partialTicks, entity.yRotO, entity.getYRot());
-        float pitch = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
-        // Legacy pitch 0 = up → world +Y
-        double elev = Math.toRadians(pitch + 90.0F);
-        double yawRad = Math.toRadians(yaw);
-        double horiz = Math.cos(elev);
-        return new Vec3(-Math.sin(yawRad) * horiz, Math.sin(elev), Math.cos(yawRad) * horiz);
     }
 
     public static void renderStanding(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
@@ -141,13 +129,10 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
         pose.popPose();
     }
 
-    /** Pad world render: stealth 1.125, huge/burst 0.925, strong 1.5, others 1.0. Flight must not 1.5x unique meshes. */
+    /** Small-pad world render: 1.5 only for strong (item renderer generateLarge). */
     public static float standingScale(ItemStack stack) {
-        if (isStealthItem(stack)) {
-            return 1.125F;
-        }
-        if (isBurstItem(stack)) {
-            return 0.925F;
+        if (stack.getItem() instanceof com.hbm.items.weapon.MissileItem missile) {
+            return missile.getTier().meshScale;
         }
         return isStrongItem(stack) ? 1.5F : 1.0F;
     }
@@ -157,9 +142,25 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
         return key != null && "missile_stealth".equals(key.getPath());
     }
 
-    public static boolean isBurstItem(ItemStack stack) {
+    public static boolean isHugeItem(ItemStack stack) {
         ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
-        return key != null && "missile_burst".equals(key.getPath());
+        if (key == null) {
+            return false;
+        }
+        String path = key.getPath();
+        return "missile_burst".equals(path) || "missile_inferno".equals(path)
+                || "missile_rain".equals(path) || "missile_drill".equals(path);
+    }
+
+    public static boolean isAtlasItem(ItemStack stack) {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        if (key == null) {
+            return false;
+        }
+        String path = key.getPath();
+        return "missile_nuclear".equals(path) || "missile_nuclear_cluster".equals(path)
+                || "missile_volcano".equals(path) || "missile_doomsday".equals(path)
+                || "missile_doomsday_rusted".equals(path);
     }
 
     public static boolean isStrong(EntityMissileBaseNT entity) {
@@ -206,6 +207,33 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
         if (entity instanceof EntityMissileBurst) {
             return MODEL_HUGE;
         }
+        if (entity instanceof EntityMissileInferno) {
+            return MODEL_HUGE_INC;
+        }
+        if (entity instanceof EntityMissileRain) {
+            return MODEL_HUGE_CL;
+        }
+        if (entity instanceof EntityMissileDrill) {
+            return MODEL_HUGE_BU;
+        }
+        if (entity instanceof EntityMissileShuttle) {
+            return MODEL_SHUTTLE;
+        }
+        if (entity instanceof EntityMissileNuclear) {
+            return MODEL_NUCLEAR;
+        }
+        if (entity instanceof EntityMissileMirv) {
+            return MODEL_NUCLEAR_CLUSTER;
+        }
+        if (entity instanceof EntityMissileVolcano) {
+            return MODEL_VOLCANO;
+        }
+        if (entity instanceof EntityMissileDoomsdayRusted) {
+            return MODEL_DOOMSDAY_RUSTED;
+        }
+        if (entity instanceof EntityMissileDoomsday) {
+            return MODEL_DOOMSDAY;
+        }
         boolean strong = isStrong(entity);
         if (entity instanceof EntityMissileIncendiary) {
             return strong ? MODEL_STRONG_INC : MODEL_V2_INC;
@@ -242,6 +270,16 @@ public class RenderMissile extends EntityRenderer<EntityMissileBaseNT> {
             case "missile_decoy" -> MODEL_V2_DECOY;
             case "missile_stealth" -> MODEL_STEALTH;
             case "missile_burst" -> MODEL_HUGE;
+            case "missile_inferno" -> MODEL_HUGE_INC;
+            case "missile_rain" -> MODEL_HUGE_CL;
+            case "missile_drill" -> MODEL_HUGE_BU;
+            case "missile_shuttle" -> MODEL_SHUTTLE;
+            case "missile_nuclear" -> MODEL_NUCLEAR;
+            case "missile_nuclear_cluster" -> MODEL_NUCLEAR_CLUSTER;
+            case "missile_volcano" -> MODEL_VOLCANO;
+            case "missile_doomsday" -> MODEL_DOOMSDAY;
+            case "missile_doomsday_rusted" -> MODEL_DOOMSDAY_RUSTED;
+            case "missile_anti_ballistic" -> MODEL_ABM;
             default -> MODEL_V2;
         };
     }
