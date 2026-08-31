@@ -12,7 +12,7 @@ Things you should also avoid include:
 * new libraries (unless your PR absolutely needs it like for special mod compat)
 * duplicate util functions (just use what we have, man)
 * unused or half finished util functions (for obvious reasons)
-* half finished or obviously broken features (à la "bob will fix it, i'm sure of it", please don't do that)
+* half finished or obviously broken features (à la "KeepIt will fix it, i'm sure of it", please don't do that)
 * updating the changelog (you're guaranteed to cause a merge conflict with that)
 * any use of `I18n`, use `I18nUtil` instead
 
@@ -40,6 +40,4 @@ This ties together with the previous point - there's no guarantees that your PR 
 If you want to help the project, consider getting involved with the [wiki](https://nucleartech.wiki/) first. Writing an article is the easiest and quickest way of helping, and requires no programming knowledge. If you do know Java and want to help, consider these places first:
 
 * Localization, i.e. translations in different language are always accepted.
-* `IConfigurableMachine`, an interface that allows machines to be added to the `hbmMachines.json` config, is still not used by many machines.
-* F1 Presentations, also known as "Stare" or "Jar Presentations", is a neat system of creating a short movie explaining functionality. All the relevant code can be found in `com.hbm.wiaj`.
-* Adding tooltips to more machines, explaining some of the basics.
+
