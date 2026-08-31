@@ -235,6 +235,13 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
         return key != null && "hbm".equals(key.getNamespace()) && "rocket_fuel".equals(key.getPath());
     }
 
+    public boolean fillFromInfiniteBarrel() {
+        updateTypes();
+        boolean fuel = InfiniteFluidBarrelItem.fillTank(fuelTank, fuelType);
+        boolean ox = InfiniteFluidBarrelItem.fillTank(oxidizerTank, oxidizerType);
+        return fuel || ox;
+    }
+
     public boolean isFuelFluid(Fluid fluid) {
         return fuelType != null && fluid == fuelType;
     }
@@ -482,11 +489,7 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
             return;
         }
         if (in.getItem() instanceof InfiniteFluidBarrelItem) {
-            if (accepted == null) {
-                return;
-            }
-            tank.fill(new FluidStack(accepted, Math.min(1000, tank.getSpace())),
-                    IFluidHandler.FluidAction.EXECUTE);
+            InfiniteFluidBarrelItem.fillTank(tank, accepted);
             return;
         }
         ItemStack single = in.copyWithCount(1);

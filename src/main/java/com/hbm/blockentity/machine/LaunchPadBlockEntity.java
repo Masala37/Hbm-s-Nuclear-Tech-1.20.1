@@ -312,6 +312,12 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         }
     }
 
+    public boolean fillFromInfiniteBarrel() {
+        boolean fuel = com.hbm.items.machine.InfiniteFluidBarrelItem.fillTank(fuelTank, expectedFuelFluid());
+        boolean ox = com.hbm.items.machine.InfiniteFluidBarrelItem.fillTank(oxidizerTank, expectedOxidizerFluid());
+        return fuel || ox;
+    }
+
     public boolean isFuelFluid(Fluid fluid) {
         Fluid expected = expectedFuelFluid();
         return expected != null && fluid == expected;
@@ -585,23 +591,9 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
             return;
         }
 
-        // Legacy infinite barrel: fill without consuming
         if (in.getItem() instanceof com.hbm.items.machine.InfiniteFluidBarrelItem) {
-            FluidStack content = tank.getFluid();
-            Fluid targetFluid;
-            if (!content.isEmpty()) {
-                targetFluid = content.getFluid();
-            } else if (tank == fuelTank) {
-                targetFluid = ModFluids.ETHANOL.source.get();
-            } else if (tank == oxidizerTank) {
-                targetFluid = ModFluids.PEROXIDE.source.get();
-            } else {
-                return;
-            }
-            if (tank.isFluidValid(new FluidStack(targetFluid, 1))) {
-                tank.fill(new FluidStack(targetFluid, Math.min(1000, tank.getSpace())),
-                        IFluidHandler.FluidAction.EXECUTE);
-            }
+            Fluid preferred = tank == fuelTank ? expectedFuelFluid() : expectedOxidizerFluid();
+            com.hbm.items.machine.InfiniteFluidBarrelItem.fillTank(tank, preferred);
             return;
         }
 

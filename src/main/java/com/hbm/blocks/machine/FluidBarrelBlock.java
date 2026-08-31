@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidBarrelBlock extends BaseEntityBlock {
@@ -70,7 +69,8 @@ public class FluidBarrelBlock extends BaseEntityBlock {
         }
 
         boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
-        if (holdingFluidItem && FluidUtil.interactWithFluidHandler(player, hand, barrel.getFluidHandler())) {
+        if (holdingFluidItem && com.hbm.items.machine.InfiniteFluidBarrelItem.interact(
+                player, hand, barrel.getFluidHandler())) {
             barrel.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
             return InteractionResult.CONSUME;

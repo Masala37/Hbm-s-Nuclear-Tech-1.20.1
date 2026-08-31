@@ -75,6 +75,7 @@ The original 1.7.10 source (~3,400 Java files) is preserved in `legacy-1.7.10/` 
 - [x] Compact launcher, launch table, large/rusted pads, dummyable placement, custom missile parts + assembly
 - [x] Radar NT / large / screen + linker; designator (click + manual coords)
 - [x] 1.7 sounds.json catalog (snake_case events) + pad/diesel/crate audio
+- [x] Infinite fluid barrel fills pad/diesel tanks (typed tanks + missile expected fuel)
 - [ ] RBMK GUIs / simulation
 
 ## Radiation / Sellafield QA checklist

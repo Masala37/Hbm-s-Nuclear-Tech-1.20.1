@@ -306,7 +306,11 @@ public class LaunchTableBlock extends BaseEntityBlock implements IBomb {
             return InteractionResult.PASS;
         }
         BlockPos core = corePos(pos, state);
-        if (!held.isEmpty() && held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (held.getItem() instanceof com.hbm.items.machine.InfiniteFluidBarrelItem) {
+            if (table.fillFromInfiniteBarrel()) {
+                return InteractionResult.CONSUME;
+            }
+        } else if (!held.isEmpty() && held.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
             boolean filled = table.getCapability(ForgeCapabilities.FLUID_HANDLER, null)
                     .map(handler -> FluidUtil.interactWithFluidHandler(player, hand, handler))
                     .orElse(false);

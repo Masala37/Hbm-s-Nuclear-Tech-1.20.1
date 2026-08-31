@@ -2,7 +2,7 @@
 
 Unofficial **Forge 1.20.1** port of [Hbm's Nuclear Tech Mod](https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT).
 
-- **Version:** `1.0.31-1.20.1-port-alpha`
+- **Version:** `1.0.32-1.20.1-port-alpha`
 - **Requires:** Minecraft 1.20.1, Forge 47.x, Java 17
 - **License:** GPL-3.0
 
@@ -34,7 +34,7 @@ See [PORTING.md](PORTING.md) for the detailed checklist.
 gradlew.bat build
 ```
 
-Output: `build/libs/HBM-NTM-1.0.31-1.20.1-port-alpha.jar`
+Output: `build/libs/HBM-NTM-1.0.32-1.20.1-port-alpha.jar`
 
 ## Legacy reference
 

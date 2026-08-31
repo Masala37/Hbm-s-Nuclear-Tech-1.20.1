@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class DieselGeneratorBlock extends BaseEntityBlock {
@@ -96,7 +95,9 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
 
         // Bucket fill/empty first; otherwise open GUI (same as battery path).
         boolean holdingFluidItem = player.getItemInHand(hand).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
-        if (holdingFluidItem && FluidUtil.interactWithFluidHandler(player, hand, generator.getFluidHandler())) {
+        if (holdingFluidItem && com.hbm.items.machine.InfiniteFluidBarrelItem.interact(
+                player, hand, generator.getFluidHandler(),
+                com.hbm.registry.ModFluids.DIESEL.source.get())) {
             generator.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
             return InteractionResult.CONSUME;
