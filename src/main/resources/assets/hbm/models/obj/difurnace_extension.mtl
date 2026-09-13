@@ -1,0 +1,9 @@
+newmtl top
+Kd 1 1 1
+map_Kd hbm:block/difurnace_top_off_alt
+newmtl bottom
+Kd 1 1 1
+map_Kd hbm:block/machine_furnace_brick_top
+newmtl side
+Kd 1 1 1
+map_Kd hbm:block/difurnace_side_alt

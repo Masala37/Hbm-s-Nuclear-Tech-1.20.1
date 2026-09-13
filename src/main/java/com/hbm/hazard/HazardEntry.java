@@ -1,16 +1,21 @@
 package com.hbm.hazard;
 
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.type.HazardTypeBase;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Single hazard binding on an item (legacy {@code HazardEntry}, modifiers deferred).
+ * Single hazard binding on an item (legacy {@code HazardEntry}).
  */
 public class HazardEntry {
 
     private final HazardTypeBase type;
     private final float baseLevel;
+    private final List<HazardModifier> mods = new ArrayList<>();
 
     public HazardEntry(HazardTypeBase type) {
         this(type, 1.0F);
@@ -21,8 +26,19 @@ public class HazardEntry {
         this.baseLevel = level;
     }
 
+    public HazardEntry addMod(HazardModifier modifier) {
+        if (modifier != null) {
+            mods.add(modifier);
+        }
+        return this;
+    }
+
+    public float evaluatedLevel(ItemStack stack, LivingEntity entity) {
+        return HazardModifier.evalAllModifiers(stack, entity, baseLevel, mods);
+    }
+
     public void applyHazard(ItemStack stack, LivingEntity entity) {
-        type.onUpdate(entity, baseLevel, stack);
+        type.onUpdate(entity, evaluatedLevel(stack, entity), stack);
     }
 
     public HazardTypeBase getType() {
@@ -34,6 +50,8 @@ public class HazardEntry {
     }
 
     public HazardEntry clone(float mult) {
-        return new HazardEntry(type, baseLevel * mult);
+        HazardEntry copy = new HazardEntry(type, baseLevel * mult);
+        copy.mods.addAll(mods);
+        return copy;
     }
 }

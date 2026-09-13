@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/pole_top" },
+    "facing=south": { "model": "hbm:block/pole_top", "y": 180 },
+    "facing=west":  { "model": "hbm:block/pole_top", "y": 270 },
+    "facing=east":  { "model": "hbm:block/pole_top", "y": 90 }
+  }
+}

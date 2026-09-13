@@ -1,0 +1,305 @@
+{
+  "source": "legacy-1.7.10 BlastFurnaceRecipesNT.registerDefaults",
+  "recipes": [
+    {
+      "name": "blast.steelFromIngot",
+      "duration": 800,
+      "inputItem": [
+        {
+          "ore": "ingotIron",
+          "count": 2
+        },
+        {
+          "ore": "sand",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_steel",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.steelFromDust",
+      "duration": 800,
+      "inputItem": [
+        {
+          "ore": "dustIron",
+          "count": 2
+        },
+        {
+          "ore": "sand",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_steel",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.steelFromOre",
+      "duration": 800,
+      "inputItem": [
+        {
+          "ore": "oreIron",
+          "count": 1
+        },
+        {
+          "ore": "sand",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_steel",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.steelWithFlux",
+      "duration": 1200,
+      "inputItem": [
+        {
+          "ore": "oreIron",
+          "count": 1
+        },
+        {
+          "item": "hbm:powder_flux",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_steel",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "blast.mingrade",
+      "duration": 400,
+      "inputItem": [
+        {
+          "ore": "ingotCopper",
+          "count": 1
+        },
+        {
+          "ore": "dustRedstone",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_red_copper",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.mingradeDust",
+      "duration": 400,
+      "inputItem": [
+        {
+          "ore": "dustCopper",
+          "count": 1
+        },
+        {
+          "ore": "dustRedstone",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_red_copper",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.mingradeIngot",
+      "duration": 400,
+      "inputItem": [
+        {
+          "ore": "ingotCopper",
+          "count": 1
+        },
+        {
+          "ore": "ingotRedstone",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_red_copper",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.mingradeCursed",
+      "duration": 400,
+      "inputItem": [
+        {
+          "ore": "dustCopper",
+          "count": 1
+        },
+        {
+          "ore": "ingotRedstone",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_red_copper",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "blast.mingradeOre",
+      "duration": 1200,
+      "inputItem": [
+        {
+          "ore": "oreCopper",
+          "count": 1
+        },
+        {
+          "ore": "dustRedstone",
+          "count": 6
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_red_copper",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "name": "blast.meteorSword",
+      "duration": 1200,
+      "inputItem": [
+        {
+          "ore": "ingotCobalt",
+          "count": 1
+        },
+        {
+          "item": "hbm:meteorite_sword_hardened",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:meteorite_sword_alloyed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "blast.meteor",
+      "duration": 600,
+      "inputItem": [
+        {
+          "ore": "ingotCobalt",
+          "count": 1
+        },
+        {
+          "item": "hbm:powder_meteorite",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_meteorite",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "blast.starmetal",
+      "duration": 600,
+      "inputItem": [
+        {
+          "ore": "ingotSaturnite",
+          "count": 1
+        },
+        {
+          "item": "hbm:ingot_meteorite",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_starmetal",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "blast.paa",
+      "duration": 600,
+      "inputItem": [
+        {
+          "ore": "ingotGold",
+          "count": 1
+        },
+        {
+          "item": "hbm:plate_mixed",
+          "count": 1
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:plate_paa",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "blast.firebrick",
+      "duration": 800,
+      "inputItem": [
+        {
+          "ore": "dustAluminum",
+          "count": 1
+        },
+        {
+          "item": "minecraft:clay_ball",
+          "count": 7
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_firebrick",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "name": "blast.firebrickLimestone",
+      "duration": 800,
+      "inputItem": [
+        {
+          "ore": "oreLimestone",
+          "count": 1
+        },
+        {
+          "item": "minecraft:clay_ball",
+          "count": 6
+        }
+      ],
+      "outputItem": [
+        {
+          "item": "hbm:ingot_firebrick",
+          "count": 8
+        }
+      ]
+    }
+  ]
+}

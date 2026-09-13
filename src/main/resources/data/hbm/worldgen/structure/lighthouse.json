@@ -1,0 +1,7 @@
+{
+  "type": "hbm:nbt_structure",
+  "biomes": "#hbm:ntm_ocean_or_beach",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "spawn": "lighthouse"
+}

@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:ingot_schrabidium_fuel" } ],
+  "result": { "item": "hbm:nugget_schrabidium_fuel", "count": 9 }
+}

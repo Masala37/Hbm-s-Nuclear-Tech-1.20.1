@@ -166,6 +166,10 @@ public class RadarScreenBlock extends BaseEntityBlock {
         return isCore(state) ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.INVISIBLE;
     }
 
+    public boolean hasBlockEntity(BlockState state) {
+        return isCore(state);
+    }
+
     @Override
     public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return false;

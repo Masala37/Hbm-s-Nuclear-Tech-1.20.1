@@ -1,19 +1,27 @@
 package com.hbm.item;
 
+import com.hbm.lib.RefStrings;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 /**
- * Lightweight hazmat armor materials (yellow / red / grey).
+ * 1.7 {@code MainRegistry} aMatHaz / aMatHaz2 / aMatHaz3.
+ * Protection array is boots/legs/chest/helmet (1.20 {@code EquipmentSlot.getIndex()}).
  */
 public enum HbmArmorMaterials implements ArmorMaterial {
-    HAZMAT("hazmat", 12, new int[]{1, 2, 3, 1}, 8, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F),
-    HAZMAT_RED("hazmat_red", 18, new int[]{2, 3, 4, 1}, 10, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F),
-    HAZMAT_GREY("hazmat_grey", 24, new int[]{2, 4, 5, 2}, 12, SoundEvents.ARMOR_EQUIP_LEATHER, 0.5F, 0.0F);
+    HAZMAT("hazmat", 60, new int[]{1, 4, 5, 2}, 5, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, "hazmat_cloth"),
+    HAZMAT_RED("hazmat_red", 60, new int[]{1, 4, 5, 2}, 5, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, "hazmat_cloth_red"),
+    HAZMAT_GREY("hazmat_grey", 60, new int[]{1, 4, 5, 2}, 5, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, "hazmat_cloth_grey");
 
+    /** Vanilla 1.20 slot order: feet, legs, chest, head. */
     private static final int[] DURABILITY_PER_SLOT = {13, 15, 16, 11};
 
     private final String name;
@@ -23,9 +31,10 @@ public enum HbmArmorMaterials implements ArmorMaterial {
     private final SoundEvent equipSound;
     private final float toughness;
     private final float knockbackResistance;
+    private final Supplier<Ingredient> repair;
 
     HbmArmorMaterials(String name, int durabilityMultiplier, int[] protection, int enchantability,
-                      SoundEvent equipSound, float toughness, float knockbackResistance) {
+                      SoundEvent equipSound, float toughness, float knockbackResistance, String repairId) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protection = protection;
@@ -33,6 +42,12 @@ public enum HbmArmorMaterials implements ArmorMaterial {
         this.equipSound = equipSound;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
+        this.repair = () -> cloth(repairId);
+    }
+
+    private static Ingredient cloth(String path) {
+        Item found = ForgeRegistries.ITEMS.getValue(new ResourceLocation(RefStrings.MODID, path));
+        return found == null ? Ingredient.EMPTY : Ingredient.of(found);
     }
 
     @Override
@@ -57,7 +72,7 @@ public enum HbmArmorMaterials implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.EMPTY;
+        return repair.get();
     }
 
     @Override

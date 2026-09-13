@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": { "model": "hbm:block/meteor_battery" },
+    "axis=z": { "model": "hbm:block/meteor_battery", "x": 90 },
+    "axis=x": { "model": "hbm:block/meteor_battery", "x": 90, "y": 90 }
+  }
+}

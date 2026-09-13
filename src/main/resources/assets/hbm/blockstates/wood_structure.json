@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=roof": { "model": "hbm:block/wood_structure_roof" },
+    "variant=scaffold": { "model": "hbm:block/wood_structure_scaffold" },
+    "variant=ceiling": { "model": "hbm:block/wood_structure_ceiling" }
+  }
+}

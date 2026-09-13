@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,steel=false": { "model": "hbm:block/filing_cabinet" },
+    "facing=south,steel=false": { "model": "hbm:block/filing_cabinet", "y": 180 },
+    "facing=west,steel=false":  { "model": "hbm:block/filing_cabinet", "y": 270 },
+    "facing=east,steel=false":  { "model": "hbm:block/filing_cabinet", "y": 90 },
+    "facing=north,steel=true": { "model": "hbm:block/filing_cabinet_steel" },
+    "facing=south,steel=true": { "model": "hbm:block/filing_cabinet_steel", "y": 180 },
+    "facing=west,steel=true":  { "model": "hbm:block/filing_cabinet_steel", "y": 270 },
+    "facing=east,steel=true":  { "model": "hbm:block/filing_cabinet_steel", "y": 90 }
+  }
+}

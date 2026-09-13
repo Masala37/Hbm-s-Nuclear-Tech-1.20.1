@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###","###","###"],
+  "key": { "#": { "item": "hbm:nuclear_waste_tiny" } },
+  "result": { "item": "hbm:nuclear_waste" }
+}

@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "offset=0": { "model": "hbm:block/steel_grate_0" }
+,    "offset=1": { "model": "hbm:block/steel_grate_1" }
+,    "offset=2": { "model": "hbm:block/steel_grate_2" }
+,    "offset=3": { "model": "hbm:block/steel_grate_3" }
+,    "offset=4": { "model": "hbm:block/steel_grate_4" }
+,    "offset=5": { "model": "hbm:block/steel_grate_5" }
+,    "offset=6": { "model": "hbm:block/steel_grate_6" }
+,    "offset=7": { "model": "hbm:block/steel_grate_7" }
+,    "offset=8": { "model": "hbm:block/steel_grate_8" }
+,    "offset=9": { "model": "hbm:block/steel_grate_9" }
+  }
+}

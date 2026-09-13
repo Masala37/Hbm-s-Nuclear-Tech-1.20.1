@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_tantalium" },
+  "result": "hbm:ingot_tantalium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

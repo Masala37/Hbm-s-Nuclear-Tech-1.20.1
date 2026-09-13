@@ -1,0 +1,416 @@
+{
+  "recipes": [
+    {
+      "output": { "item": "hbm:motor", "count": 2 },
+      "duration": 100,
+      "consumption": 400,
+      "inputs": [
+        { "ore": "plateSteel", "count": 2 },
+        { "ore": "wireDenseMingrade", "count": 2 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:part_generic_lde", "count": 1 },
+      "duration": 200,
+      "consumption": 5000,
+      "inputs": [
+        { "ore": "plateAluminum", "count": 4 },
+        { "ore": "ingotFiberglass", "count": 4 },
+        { "ore": "ingotAnyHardPlastic", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:part_generic_lde", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "ore": "plateTitanium", "count": 2 },
+        { "ore": "ingotFiberglass", "count": 4 },
+        { "ore": "ingotAnyHardPlastic", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:neutron_reflector", "count": 2 },
+      "duration": 400,
+      "consumption": 50000,
+      "inputs": [
+        { "ore": "ingotTungstenCarbide", "count": 2 },
+        { "ore": "plateDuraSteel", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:wire_dense_copper", "count": 1 },
+      "duration": 100,
+      "consumption": 10000,
+      "inputs": [{ "ore": "wireFineCopper", "count": 8 }]
+    },
+    {
+      "output": { "item": "hbm:wire_dense_red_copper", "count": 1 },
+      "duration": 100,
+      "consumption": 10000,
+      "inputs": [{ "ore": "wireFineMingrade", "count": 8 }]
+    },
+    {
+      "output": { "item": "hbm:wire_dense_gold", "count": 1 },
+      "duration": 100,
+      "consumption": 10000,
+      "inputs": [{ "ore": "wireFineGold", "count": 8 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_iron", "count": 1 },
+      "duration": 100,
+      "consumption": 100,
+      "inputs": [{ "ore": "plateCastIron", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_steel", "count": 1 },
+      "duration": 100,
+      "consumption": 500,
+      "inputs": [{ "ore": "plateCastSteel", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_copper", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "inputs": [{ "ore": "plateCastCopper", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_titanium", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [{ "ore": "plateCastTitanium", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_zirconium", "count": 1 },
+      "duration": 600,
+      "consumption": 10000,
+      "inputs": [{ "ore": "plateCastZirconium", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_aluminium", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "inputs": [{ "ore": "plateCastAluminum", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_tcalloy", "count": 1 },
+      "duration": 1200,
+      "consumption": 1000000,
+      "fluid": { "fluid": "hbm:oxygen", "amount": 1000 },
+      "inputs": [{ "ore": "plateCastTcAlloy", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_cdalloy", "count": 1 },
+      "duration": 1200,
+      "consumption": 1000000,
+      "fluid": { "fluid": "hbm:oxygen", "amount": 1000 },
+      "inputs": [{ "ore": "plateCastCdAlloy", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_tungsten", "count": 1 },
+      "duration": 1200,
+      "consumption": 250000,
+      "fluid": { "fluid": "hbm:oxygen", "amount": 1000 },
+      "inputs": [{ "ore": "plateCastTungsten", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_combine_steel", "count": 1 },
+      "duration": 1200,
+      "consumption": 10000000,
+      "fluid": { "fluid": "hbm:reformgas", "amount": 1000 },
+      "inputs": [{ "ore": "plateCastCMBSteel", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:plate_welded_osmiridium", "count": 1 },
+      "duration": 6000,
+      "consumption": 50000000,
+      "fluid": { "fluid": "hbm:reformgas", "amount": 16000 },
+      "inputs": [{ "ore": "plateCastOsmiridium", "count": 2 }]
+    },
+    {
+      "output": { "item": "hbm:thruster_small", "count": 1 },
+      "duration": 60,
+      "consumption": 1000,
+      "inputs": [
+        { "ore": "plateSteel", "count": 4 },
+        { "ore": "wireFineAluminum", "count": 4 },
+        { "ore": "plateCopper", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:thruster_medium", "count": 1 },
+      "duration": 100,
+      "consumption": 2000,
+      "inputs": [
+        { "ore": "plateSteel", "count": 8 },
+        { "item": "hbm:motor", "count": 1 },
+        { "ore": "ingotGraphite", "count": 8 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:thruster_large", "count": 1 },
+      "duration": 200,
+      "consumption": 5000,
+      "inputs": [
+        { "ore": "ingotDuraSteel", "count": 10 },
+        { "item": "hbm:motor", "count": 1 },
+        { "ore": "ingotTungstenCarbide", "count": 12 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:fuel_tank_small", "count": 1 },
+      "duration": 60,
+      "consumption": 1000,
+      "inputs": [
+        { "ore": "plateAluminum", "count": 6 },
+        { "ore": "plateCopper", "count": 4 },
+        { "item": "hbm:steel_scaffold", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:fuel_tank_medium", "count": 1 },
+      "duration": 100,
+      "consumption": 2000,
+      "inputs": [
+        { "ore": "plateCastAluminum", "count": 4 },
+        { "ore": "plateTitanium", "count": 8 },
+        { "item": "hbm:steel_scaffold", "count": 12 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:fuel_tank_large", "count": 1 },
+      "duration": 200,
+      "consumption": 5000,
+      "inputs": [
+        { "ore": "plateWeldedAluminum", "count": 8 },
+        { "ore": "plateSaturnite", "count": 12 },
+        { "item": "hbm:steel_scaffold", "count": 16 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_anti_ballistic", "count": 1 },
+      "duration": 100,
+      "consumption": 5000,
+      "inputs": [
+        { "ore": "ingotAnyHighexplosive", "count": 3 },
+        { "item": "hbm:missile_assembly", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_generic", "count": 1 },
+      "duration": 100,
+      "consumption": 5000,
+      "inputs": [
+        { "item": "hbm:warhead_generic_small", "count": 1 },
+        { "item": "hbm:fuel_tank_small", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_incendiary", "count": 1 },
+      "duration": 100,
+      "consumption": 5000,
+      "inputs": [
+        { "item": "hbm:warhead_incendiary_small", "count": 1 },
+        { "item": "hbm:fuel_tank_small", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_cluster", "count": 1 },
+      "duration": 100,
+      "consumption": 5000,
+      "inputs": [
+        { "item": "hbm:warhead_cluster_small", "count": 1 },
+        { "item": "hbm:fuel_tank_small", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_buster", "count": 1 },
+      "duration": 100,
+      "consumption": 5000,
+      "inputs": [
+        { "item": "hbm:warhead_buster_small", "count": 1 },
+        { "item": "hbm:fuel_tank_small", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_decoy", "count": 1 },
+      "duration": 60,
+      "consumption": 2500,
+      "inputs": [
+        { "ore": "ingotSteel", "count": 1 },
+        { "item": "hbm:fuel_tank_small", "count": 1 },
+        { "item": "hbm:thruster_small", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_strong", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:warhead_generic_medium", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 1 },
+        { "item": "hbm:thruster_medium", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_incendiary_strong", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:warhead_incendiary_medium", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 1 },
+        { "item": "hbm:thruster_medium", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_cluster_strong", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:warhead_cluster_medium", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 1 },
+        { "item": "hbm:thruster_medium", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_buster_strong", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:warhead_buster_medium", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 1 },
+        { "item": "hbm:thruster_medium", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_emp_strong", "count": 1 },
+      "duration": 200,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:emp_bomb", "count": 3 },
+        { "item": "hbm:fuel_tank_medium", "count": 1 },
+        { "item": "hbm:thruster_medium", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_burst", "count": 1 },
+      "duration": 300,
+      "consumption": 25000,
+      "inputs": [
+        { "item": "hbm:warhead_generic_large", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 2 },
+        { "item": "hbm:thruster_medium", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_inferno", "count": 1 },
+      "duration": 300,
+      "consumption": 25000,
+      "inputs": [
+        { "item": "hbm:warhead_incendiary_large", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 2 },
+        { "item": "hbm:thruster_medium", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_rain", "count": 1 },
+      "duration": 300,
+      "consumption": 25000,
+      "inputs": [
+        { "item": "hbm:warhead_cluster_large", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 2 },
+        { "item": "hbm:thruster_medium", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_drill", "count": 1 },
+      "duration": 300,
+      "consumption": 25000,
+      "inputs": [
+        { "item": "hbm:warhead_buster_large", "count": 1 },
+        { "item": "hbm:fuel_tank_medium", "count": 2 },
+        { "item": "hbm:thruster_medium", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_nuclear", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [
+        { "item": "hbm:warhead_nuclear", "count": 1 },
+        { "item": "hbm:fuel_tank_large", "count": 1 },
+        { "item": "hbm:thruster_large", "count": 3 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_nuclear_cluster", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [
+        { "item": "hbm:warhead_mirv", "count": 1 },
+        { "item": "hbm:fuel_tank_large", "count": 1 },
+        { "item": "hbm:thruster_large", "count": 3 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:missile_volcano", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [
+        { "item": "hbm:warhead_volcano", "count": 1 },
+        { "item": "hbm:fuel_tank_large", "count": 1 },
+        { "item": "hbm:thruster_large", "count": 3 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:sat_mapper", "count": 1 },
+      "duration": 600,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:sat_base", "count": 1 },
+        { "item": "hbm:sat_head_mapper", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:sat_scanner", "count": 1 },
+      "duration": 600,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:sat_base", "count": 1 },
+        { "item": "hbm:sat_head_scanner", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:sat_radar", "count": 1 },
+      "duration": 600,
+      "consumption": 10000,
+      "inputs": [
+        { "item": "hbm:sat_base", "count": 1 },
+        { "item": "hbm:sat_head_radar", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:sat_laser", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [
+        { "item": "hbm:sat_base", "count": 1 },
+        { "item": "hbm:sat_head_laser", "count": 1 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:sat_resonator", "count": 1 },
+      "duration": 600,
+      "consumption": 50000,
+      "inputs": [
+        { "item": "hbm:sat_base", "count": 1 },
+        { "item": "hbm:sat_head_resonator", "count": 1 }
+      ]
+    }
+  ]
+}

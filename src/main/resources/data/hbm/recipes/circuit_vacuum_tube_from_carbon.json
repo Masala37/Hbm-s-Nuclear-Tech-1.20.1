@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "W",
+    "I"
+  ],
+  "key": {
+    "G": { "tag": "minecraft:glass_panes" },
+    "W": { "item": "hbm:wire_carbon" },
+    "I": { "item": "hbm:plate_polymer" }
+  },
+  "result": { "item": "hbm:circuit_vacuum_tube" }
+}

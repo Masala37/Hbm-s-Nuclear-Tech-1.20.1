@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###","###","###"],
+  "key": { "#": { "item": "hbm:fragment_coltan" } },
+  "result": { "item": "hbm:block_coltan" }
+}

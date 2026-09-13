@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IRI",
+    "IPI",
+    "IBI"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "R": { "item": "minecraft:furnace" },
+    "P": { "item": "minecraft:piston" },
+    "B": { "item": "minecraft:iron_block" }
+  },
+  "result": { "item": "hbm:machine_press" }
+}

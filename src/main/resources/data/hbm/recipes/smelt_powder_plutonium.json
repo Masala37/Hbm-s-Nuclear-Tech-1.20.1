@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_plutonium" },
+  "result": "hbm:ingot_plutonium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

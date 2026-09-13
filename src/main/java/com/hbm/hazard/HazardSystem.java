@@ -41,6 +41,10 @@ public final class HazardSystem {
         if (stack == null || stack.isEmpty()) {
             return Collections.emptyList();
         }
+        List<HazardEntry> extra = HazardRegistry.extraFromStack(stack);
+        if (extra != null) {
+            return extra;
+        }
         HazardData data = itemMap.get(stack.getItem());
         if (data == null) {
             return Collections.emptyList();
@@ -51,7 +55,7 @@ public final class HazardSystem {
     public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
         for (HazardEntry entry : getHazardsFromStack(stack)) {
             if (entry.getType() == hazard) {
-                return entry.getBaseLevel();
+                return entry.evaluatedLevel(stack, null);
             }
         }
         return 0.0F;
@@ -95,7 +99,7 @@ public final class HazardSystem {
             return;
         }
         for (HazardEntry hazard : getHazardsFromStack(stack)) {
-            hazard.getType().addHazardInformation(player, list, hazard.getBaseLevel(), stack);
+            hazard.getType().addHazardInformation(player, list, hazard.evaluatedLevel(stack, player), stack);
         }
     }
 }

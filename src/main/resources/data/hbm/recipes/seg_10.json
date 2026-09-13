@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "S",
+    "B"
+  ],
+  "key": {
+    "S": { "item": "hbm:steel_scaffold" },
+    "P": { "item": "hbm:plate_aluminium" },
+    "B": { "item": "hbm:steel_beam" }
+  },
+  "result": { "item": "hbm:seg_10" }
+}

@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
+
 /**
  * Hazard constants + registration subset (legacy {@code HazardRegistry}).
  * <p>
@@ -19,16 +21,30 @@ import net.minecraftforge.registries.ForgeRegistries;
 public final class HazardRegistry {
 
     public static final float u = 0.35F;
+    public static final float u238 = 0.25F;
+    public static final float pu238 = 10.0F;
+    public static final float ra226 = 7.5F;
+    public static final float sr90 = 15.0F;
+    public static final float co60 = 30.0F;
+    public static final float ac227 = 30.0F;
+    public static final float po210 = 75.0F;
+    public static final float pb209 = 10000.0F;
+    public static final float au198 = 500.0F;
+    public static final float am241 = 8.5F;
+    public static final float np237 = 2.5F;
     public static final float sa326 = 15.0F;
     public static final float wst = 15.0F;
     public static final float wstv = 7.5F;
     public static final float nugget = 0.1F;
     public static final float ingot = 1.0F;
     public static final float billet = 0.5F;
+    public static final float rtg = billet * 3;
     public static final float block = 10.0F;
 
     public static final HazardTypeBase RADIATION = new HazardTypeRadiation();
     public static final HazardTypeBase DIGAMMA = new HazardTypeDigamma();
+    public static final HazardTypeBase HOT = new com.hbm.hazard.type.HazardTypeHot();
+    public static final HazardTypeBase BLINDING = new com.hbm.hazard.type.HazardTypeBlinding();
 
     private HazardRegistry() {
     }
@@ -69,6 +85,46 @@ public final class HazardRegistry {
         HazardSystem.register(ModBlocks.SELLAFIELD_3.get(), makeData(RADIATION, 4.0F));
         HazardSystem.register(ModBlocks.SELLAFIELD_4.get(), makeData(RADIATION, 5.0F));
         HazardSystem.register(ModBlocks.SELLAFIELD_5.get(), makeData(RADIATION, 10.0F));
+
+        registerRtgPellet(ModItems.PELLET_RTG.get(), pu238 * rtg, 3.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_RADIUM.get(), ra226 * rtg, 0.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_WEAK.get(), (pu238 + (u238 * 2)) * billet, 0.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_STRONTIUM.get(), sr90 * rtg, 0.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_COBALT.get(), co60 * rtg, 0.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_ACTINIUM.get(), ac227 * rtg, 0.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_POLONIUM.get(), po210 * rtg, 3.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_LEAD.get(), pb209 * rtg, 7.0F, 50.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_GOLD.get(), au198 * rtg, 5.0F, 0.0F);
+        registerRtgPellet(ModItems.PELLET_RTG_AMERICIUM.get(), am241 * rtg, 0.0F, 0.0F);
+    }
+
+    /**
+     * Depleted neptunium pellets keep 1.7 radiation; other depleted types have none.
+     */
+    public static List<HazardEntry> extraFromStack(net.minecraft.world.item.ItemStack stack) {
+        if (!(stack.getItem() instanceof com.hbm.items.machine.ItemRTGPelletDepleted)) {
+            return null;
+        }
+        if (com.hbm.items.machine.ItemRTGPelletDepleted.getType(stack)
+                != com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial.NEPTUNIUM) {
+            return java.util.Collections.emptyList();
+        }
+        java.util.List<HazardEntry> list = new java.util.ArrayList<>();
+        list.add(new HazardEntry(RADIATION, np237 * rtg));
+        return list;
+    }
+
+    private static void registerRtgPellet(Item pellet, float base, float hot, float blinding) {
+        HazardData data = new HazardData();
+        data.addEntry(new HazardEntry(RADIATION, base)
+                .addMod(new com.hbm.hazard.modifier.HazardModifierRTGRadiation(0.0F)));
+        if (hot > 0.0F) {
+            data.addEntry(HOT, hot);
+        }
+        if (blinding > 0.0F) {
+            data.addEntry(BLINDING, blinding);
+        }
+        HazardSystem.register(pellet, data);
     }
 
     private static void registerBulk(String path, HazardTypeBase type, float level) {

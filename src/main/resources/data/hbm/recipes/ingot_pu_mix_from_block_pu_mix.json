@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_pu_mix" } ],
+  "result": { "item": "hbm:ingot_pu_mix", "count": 9 }
+}

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "type=bottom,variant=0": { "model": "hbm:block/brick_slab_0_slab" }
+,    "type=top,variant=0": { "model": "hbm:block/brick_slab_0_top" }
+,    "type=double,variant=0": { "model": "hbm:block/brick_slab_0" }
+,    "type=bottom,variant=1": { "model": "hbm:block/brick_slab_1_slab" }
+,    "type=top,variant=1": { "model": "hbm:block/brick_slab_1_top" }
+,    "type=double,variant=1": { "model": "hbm:block/brick_slab_1" }
+,    "type=bottom,variant=2": { "model": "hbm:block/brick_slab_2_slab" }
+,    "type=top,variant=2": { "model": "hbm:block/brick_slab_2_top" }
+,    "type=double,variant=2": { "model": "hbm:block/brick_slab_2" }
+,    "type=bottom,variant=3": { "model": "hbm:block/brick_slab_3_slab" }
+,    "type=top,variant=3": { "model": "hbm:block/brick_slab_3_top" }
+,    "type=double,variant=3": { "model": "hbm:block/brick_slab_3" }
+,    "type=bottom,variant=4": { "model": "hbm:block/brick_slab_4_slab" }
+,    "type=top,variant=4": { "model": "hbm:block/brick_slab_4_top" }
+,    "type=double,variant=4": { "model": "hbm:block/brick_slab_4" }
+,    "type=bottom,variant=5": { "model": "hbm:block/brick_slab_5_slab" }
+,    "type=top,variant=5": { "model": "hbm:block/brick_slab_5_top" }
+,    "type=double,variant=5": { "model": "hbm:block/brick_slab_5" }
+,    "type=bottom,variant=6": { "model": "hbm:block/brick_slab_6_slab" }
+,    "type=top,variant=6": { "model": "hbm:block/brick_slab_6_top" }
+,    "type=double,variant=6": { "model": "hbm:block/brick_slab_6" }
+,    "type=bottom,variant=7": { "model": "hbm:block/brick_slab_7_slab" }
+,    "type=top,variant=7": { "model": "hbm:block/brick_slab_7_top" }
+,    "type=double,variant=7": { "model": "hbm:block/brick_slab_7" }
+  }
+}

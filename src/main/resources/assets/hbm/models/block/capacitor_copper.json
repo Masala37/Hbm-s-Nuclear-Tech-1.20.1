@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "hbm:block/capacitor_copper_top",
+    "bottom": "hbm:block/capacitor_copper_bottom",
+    "side": "hbm:block/capacitor_copper_side"
+  }
+}

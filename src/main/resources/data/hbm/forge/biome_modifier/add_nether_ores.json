@@ -1,0 +1,16 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "hbm:ore_nether_uranium",
+    "hbm:ore_nether_tungsten",
+    "hbm:ore_nether_sulfur",
+    "hbm:ore_nether_fire",
+    "hbm:ore_nether_coal",
+    "hbm:ore_nether_cobalt",
+    "hbm:nether_smoldering",
+    "hbm:depth_nether_neodymium_floor",
+    "hbm:depth_nether_neodymium_ceiling"
+  ],
+  "step": "underground_ores"
+}

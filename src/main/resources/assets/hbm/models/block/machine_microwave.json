@@ -1,1 +1,8 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/machine_microwave" } }
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/microwave.obj",
+  "textures": { "particle": "hbm:block/machine_microwave" }
+}

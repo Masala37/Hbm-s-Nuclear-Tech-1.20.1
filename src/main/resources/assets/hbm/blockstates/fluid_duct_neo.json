@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=0": { "model": "hbm:block/fluid_duct_neo" },
+    "variant=1": { "model": "hbm:block/fluid_duct_neo_silver" },
+    "variant=2": { "model": "hbm:block/fluid_duct_neo_colored" }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:ingot_polonium" } ],
+  "result": { "item": "hbm:nugget_polonium", "count": 9 }
+}

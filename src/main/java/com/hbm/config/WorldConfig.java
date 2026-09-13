@@ -7,6 +7,13 @@ import net.minecraftforge.common.ForgeConfigSpec;
  */
 public final class WorldConfig {
     public static ForgeConfigSpec.IntValue dudStructure;
+    public static ForgeConfigSpec.IntValue broadcaster;
+    public static ForgeConfigSpec.IntValue oilSpawn;
+    public static ForgeConfigSpec.IntValue gasbubbleSpawn;
+    public static ForgeConfigSpec.IntValue explosivebubbleSpawn;
+    public static ForgeConfigSpec.BooleanValue enableHematite;
+    public static ForgeConfigSpec.BooleanValue enableMalachite;
+    public static ForgeConfigSpec.BooleanValue enableBauxite;
 
     public static ForgeConfigSpec.BooleanValue enableCraterBiomes;
     public static ForgeConfigSpec.DoubleValue craterBiomeRad;
@@ -23,6 +30,34 @@ public final class WorldConfig {
         dudStructure = builder
                 .comment("Spawn a crashed-bomb dud on average every nTH chunk (0 = disabled)")
                 .defineInRange("dudStructure", 500, 0, 100000);
+
+        broadcaster = builder
+                .comment("Spawn a corrupted broadcaster on average every nTH chunk (0 = disabled)")
+                .defineInRange("broadcaster", 5000, 0, 100000);
+
+        oilSpawn = builder
+                .comment("Spawns an oil bubble every nTH chunk (0 = disabled). Deserts roll 3× as often.")
+                .defineInRange("oilSpawn", 100, 0, 100000);
+
+        gasbubbleSpawn = builder
+                .comment("Spawns a flammable gas bubble every nTH chunk (0 = disabled)")
+                .defineInRange("gasbubbleSpawn", 12, 0, 100000);
+
+        explosivebubbleSpawn = builder
+                .comment("Spawns an explosive gas bubble every nTH chunk (0 = disabled)")
+                .defineInRange("explosivebubbleSpawn", 0, 0, 100000);
+
+        enableHematite = builder
+                .comment("Toggles hematite deposits")
+                .define("enableHematite", true);
+
+        enableMalachite = builder
+                .comment("Toggles malachite deposits")
+                .define("enableMalachite", true);
+
+        enableBauxite = builder
+                .comment("Toggles bauxite deposits")
+                .define("enableBauxite", true);
 
         builder.pop();
 

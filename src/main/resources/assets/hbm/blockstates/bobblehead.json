@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/bobblehead" },
+    "facing=south": { "model": "hbm:block/bobblehead", "y": 180 },
+    "facing=west":  { "model": "hbm:block/bobblehead", "y": 270 },
+    "facing=east":  { "model": "hbm:block/bobblehead", "y": 90 }
+  }
+}

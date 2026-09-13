@@ -13,6 +13,8 @@ public final class RadiationConfig {
     public static ForgeConfigSpec.IntValue sellafieldTickInterval;
     public static ForgeConfigSpec.IntValue sellafieldDecayChanceHigh;
     public static ForgeConfigSpec.IntValue sellafieldDecayChanceZero;
+    public static ForgeConfigSpec.BooleanValue disableHot;
+    public static ForgeConfigSpec.BooleanValue disableBlinding;
 
     private RadiationConfig() {
     }
@@ -42,6 +44,13 @@ public final class RadiationConfig {
         sellafieldDecayChanceZero = builder
                 .comment("1/N chance for Sellafield 0 to become gravel/sand")
                 .defineInRange("sellafieldDecayChanceZero", 60, 2, 500);
+
+        disableHot = builder
+                .comment("Disable pyrophoric / hot item effects")
+                .define("disableHot", false);
+        disableBlinding = builder
+                .comment("Disable blinding item effects")
+                .define("disableBlinding", false);
 
         builder.pop();
     }

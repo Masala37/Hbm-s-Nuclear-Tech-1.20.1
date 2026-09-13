@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_trinitite" } ],
+  "result": { "item": "hbm:trinitite", "count": 9 }
+}

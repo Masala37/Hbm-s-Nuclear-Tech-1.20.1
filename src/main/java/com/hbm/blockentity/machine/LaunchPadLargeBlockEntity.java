@@ -3,8 +3,8 @@ package com.hbm.blockentity.machine;
 import com.hbm.blocks.machine.LaunchPadLargeBlock;
 import com.hbm.energy.EnergyNetworkHelper;
 import com.hbm.energy.ItemEnergyHelper;
-import com.hbm.entity.missile.MissileSystemRules;
 import com.hbm.handler.LaunchPadFormFactor;
+import com.hbm.handler.LaunchPadLoadingCycle;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -54,19 +54,6 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBlockEntity {
     }
 
     @Override
-    public boolean canLaunch() {
-        syncTargetFromDesignator();
-        return MissileSystemRules.canLaunch(
-                isMissileValid(),
-                hasFuel(),
-                getEnergy().getEnergyStored(),
-                0,
-                needsDesignator(),
-                hasTarget())
-                && isReadyForLaunch();
-    }
-
-    @Override
     public AABB getRenderBoundingBox() {
         return new AABB(
                 worldPosition.getX() - 10.0D, worldPosition.getY(), worldPosition.getZ() - 10.0D,
@@ -76,7 +63,28 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBlockEntity {
     @Override
     protected void onLaunched() {
         erected = false;
+        readyToLoad = false;
+        scheduleErect = false;
         delay = 20;
+    }
+
+    @Override
+    protected void onMissileChanged() {
+        super.onMissileChanged();
+        applyLoadingState(loadingState().missileChanged());
+    }
+
+    private LaunchPadLoadingCycle.State loadingState() {
+        return new LaunchPadLoadingCycle.State(lift, erector, delay, erected, readyToLoad, scheduleErect);
+    }
+
+    private void applyLoadingState(LaunchPadLoadingCycle.State next) {
+        lift = next.lift();
+        erector = next.erector();
+        delay = next.delay();
+        erected = next.erected();
+        readyToLoad = next.readyToLoad();
+        scheduleErect = next.scheduleErect();
     }
 
     @Override
@@ -106,84 +114,19 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBlockEntity {
         be.prevLift = be.lift;
         be.prevErector = be.erector;
 
-        float erectorSpeed = 1.5F;
-        float liftSpeed = 0.025F;
         ItemStack missile = be.getItems().getStackInSlot(SLOT_MISSILE);
-
-        if (be.isMissileValid()) {
+        boolean missileValid = be.isMissileValid();
+        boolean slow = false;
+        if (missileValid) {
             LaunchPadFormFactor form = LaunchPadFormFactor.of(missile);
             be.formFactor = form.ordinal();
-            if (form.slowErector()) {
-                erectorSpeed /= 2.0F;
-                liftSpeed /= 2.0F;
-            }
-            if (be.erector == 90.0F && be.lift == 1.0F) {
-                be.readyToLoad = true;
-            }
-        } else {
-            be.readyToLoad = false;
-            be.erected = false;
-            be.delay = 20;
-            be.formFactor = -1;
+            slow = form.slowErector();
         }
-
-        if (be.getEnergy().getEnergyStored() >= LAUNCH_COST) {
-            if (be.delay > 0) {
-                be.delay--;
-                if (be.delay < 10 && be.scheduleErect) {
-                    be.erected = true;
-                    be.scheduleErect = false;
-                }
-                if (missile.isEmpty() || !be.readyToLoad) {
-                    if (be.erector < 90.0F) {
-                        be.erector = Math.min(be.erector + erectorSpeed, 90.0F);
-                        if (be.erector == 90.0F) {
-                            be.delay = 20;
-                        }
-                    } else if (be.lift < 1.0F) {
-                        be.lift = Math.min(be.lift + liftSpeed, 1.0F);
-                        if (be.lift == 1.0F) {
-                            be.readyToLoad = true;
-                            be.delay = 20;
-                        }
-                    }
-                }
-            } else if (!be.erected && be.readyToLoad) {
-                be.state = STATE_LOADING;
-                if (be.erector != 0.0F) {
-                    be.erector = Math.max(be.erector - erectorSpeed, 0.0F);
-                    if (be.erector == 0.0F) {
-                        be.delay = 20;
-                    }
-                } else if (be.lift > 0.0F) {
-                    be.lift = Math.max(be.lift - liftSpeed, 0.0F);
-                    if (be.lift == 0.0F) {
-                        be.scheduleErect = true;
-                        be.delay = 20;
-                    }
-                }
-            } else {
-                if (be.erector < 90.0F) {
-                    be.erector = Math.min(be.erector + erectorSpeed, 90.0F);
-                    if (be.erector == 90.0F) {
-                        be.delay = 20;
-                    }
-                } else if (be.lift < 1.0F) {
-                    be.lift = Math.min(be.lift + liftSpeed, 1.0F);
-                    if (be.lift == 1.0F) {
-                        be.readyToLoad = true;
-                        be.delay = 20;
-                    }
-                }
-            }
-        }
-
-        if (!be.hasFuel() || !be.isMissileValid()) {
-            be.state = STATE_MISSING;
-        }
-        if (be.erected && be.canLaunch()) {
-            be.state = STATE_READY;
-        }
+        // Retain the previous form factor while the empty mechanism returns home.
+        be.applyLoadingState(LaunchPadLoadingCycle.tick(be.loadingState(), missileValid,
+                be.getEnergy().getEnergyStored() >= LAUNCH_COST, slow));
+        be.state = !missileValid || !be.hasFuel() ? STATE_MISSING
+                : be.isReadyForLaunch() ? STATE_READY : STATE_LOADING;
 
         boolean prevLiftMoving = be.liftMoving;
         boolean prevErectorMoving = be.erectorMoving;
@@ -218,6 +161,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBlockEntity {
         super.saveAdditional(tag);
         tag.putBoolean("erected", erected);
         tag.putBoolean("readyToLoad", readyToLoad);
+        tag.putBoolean("scheduleErect", scheduleErect);
         tag.putBoolean("liftMoving", liftMoving);
         tag.putBoolean("erectorMoving", erectorMoving);
         tag.putFloat("lift", lift);
@@ -236,7 +180,12 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBlockEntity {
         erectorMoving = tag.getBoolean("erectorMoving");
         syncLift = tag.contains("lift") ? tag.getFloat("lift") : lift;
         syncErector = tag.contains("erector") ? tag.getFloat("erector") : erector;
-        formFactor = tag.getInt("formFactor");
+        formFactor = tag.contains("formFactor") ? tag.getInt("formFactor") : -1;
+        scheduleErect = tag.contains("scheduleErect") ? tag.getBoolean("scheduleErect")
+                : readyToLoad && !erected && syncLift == 0.0F && syncErector == 0.0F;
+        if (scheduleErect && delay <= 0) {
+            delay = 10;
+        }
         if (level != null && level.isClientSide) {
             if (oldLift != syncLift || oldErector != syncErector) {
                 sync = 3;

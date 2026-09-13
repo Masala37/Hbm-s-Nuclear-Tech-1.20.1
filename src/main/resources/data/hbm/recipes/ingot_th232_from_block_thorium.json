@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_thorium" } ],
+  "result": { "item": "hbm:ingot_th232", "count": 9 }
+}

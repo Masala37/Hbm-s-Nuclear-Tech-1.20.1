@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###","###","###"],
+  "key": { "#": { "item": "hbm:ingot_uranium_fuel" } },
+  "result": { "item": "hbm:block_uranium_fuel" }
+}

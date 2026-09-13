@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_jungle",
+  "features": "hbm:flower_tobacco",
+  "step": "vegetal_decoration"
+}

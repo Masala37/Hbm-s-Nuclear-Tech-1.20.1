@@ -1,0 +1,4 @@
+{
+  "parent": "hbm:block/template_steel_wall",
+  "textures": { "all": "hbm:block/steel_wall" }
+}

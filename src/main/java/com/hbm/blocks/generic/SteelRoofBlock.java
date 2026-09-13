@@ -10,9 +10,9 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/** Thin steel roof/floor plate. */
+/** Thin steel roof/floor plate. 1.7 {@code DecoBlock} steel_roof sits at the bottom of the cell. */
 public class SteelRoofBlock extends Block {
-    private static final VoxelShape SHAPE = Block.box(0, 14, 0, 16, 16, 16);
+    private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 1, 16);
 
     public SteelRoofBlock() {
         super(BlockBehaviour.Properties.of()

@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_sulfur" },
+  "result": { "item": "hbm:sulfur", "count": 6 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

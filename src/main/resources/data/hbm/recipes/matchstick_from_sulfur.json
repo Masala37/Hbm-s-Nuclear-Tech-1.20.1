@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["I","S"],
+  "key": {
+    "I": { "item": "hbm:sulfur" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "hbm:matchstick", "count": 16 }
+}

@@ -53,6 +53,7 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> DIESEL_OPERATE = get("block.diesel_operate");
     public static final RegistryObject<SoundEvent> CRATE_OPEN = get("block.crate_open");
     public static final RegistryObject<SoundEvent> CRATE_CLOSE = get("block.crate_close");
+    public static final RegistryObject<SoundEvent> CRATE_BREAK = get("block.crate_break");
 
     private ModSounds() {
     }
@@ -63,6 +64,10 @@ public final class ModSounds {
             throw new IllegalStateException("Missing sound event: " + path);
         }
         return event;
+    }
+
+    public static SoundEvent require(String path) {
+        return get(path).get();
     }
 
     public static void register(IEventBus modBus) {

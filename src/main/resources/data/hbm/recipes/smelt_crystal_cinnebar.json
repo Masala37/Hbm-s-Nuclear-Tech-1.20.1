@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_cinnebar" },
+  "result": { "item": "hbm:cinnebar", "count": 4 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

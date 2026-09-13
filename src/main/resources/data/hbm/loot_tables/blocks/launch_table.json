@@ -4,12 +4,7 @@
     "rolls": 1,
     "entries": [{ "type": "minecraft:item", "name": "hbm:launch_table" }],
     "conditions": [
-      { "condition": "minecraft:survives_explosion" },
-      {
-        "condition": "minecraft:block_state_property",
-        "block": "hbm:launch_table",
-        "properties": { "ox": "4", "oz": "4" }
-      }
+      { "condition": "minecraft:survives_explosion" }
     ]
   }]
 }

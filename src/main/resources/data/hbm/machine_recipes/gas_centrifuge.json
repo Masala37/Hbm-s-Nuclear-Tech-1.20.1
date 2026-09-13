@@ -1,0 +1,96 @@
+{
+  "source": "legacy-1.7.10 GasCentrifugeRecipes.register",
+  "conversions": [
+    { "fluid": "hbm:uf6", "pseudo": "NUF6" },
+    { "fluid": "hbm:puf6", "pseudo": "PF6" },
+    { "fluid": "hbm:watz", "pseudo": "MUD" }
+  ],
+  "types": [
+    {
+      "name": "NONE",
+      "consumed": 0,
+      "produced": 0,
+      "output": "NONE",
+      "highSpeed": false,
+      "items": []
+    },
+    {
+      "name": "HEUF6",
+      "consumed": 300,
+      "produced": 0,
+      "output": "NONE",
+      "highSpeed": true,
+      "items": [
+        { "item": "hbm:nugget_u238", "count": 2 },
+        { "item": "hbm:nugget_u235", "count": 1 },
+        { "item": "hbm:fluorite", "count": 1 }
+      ]
+    },
+    {
+      "name": "MEUF6",
+      "consumed": 200,
+      "produced": 100,
+      "output": "HEUF6",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:nugget_u238", "count": 1 }
+      ]
+    },
+    {
+      "name": "LEUF6",
+      "consumed": 300,
+      "produced": 200,
+      "output": "MEUF6",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:nugget_u238", "count": 1 },
+        { "item": "hbm:fluorite", "count": 1 }
+      ]
+    },
+    {
+      "name": "NUF6",
+      "consumed": 400,
+      "produced": 300,
+      "output": "LEUF6",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:nugget_u238", "count": 1 }
+      ]
+    },
+    {
+      "name": "PF6",
+      "consumed": 300,
+      "produced": 0,
+      "output": "NONE",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:nugget_pu238", "count": 1 },
+        { "item": "hbm:nugget_pu_mix", "count": 2 },
+        { "item": "hbm:fluorite", "count": 1 }
+      ]
+    },
+    {
+      "name": "MUD_HEAVY",
+      "consumed": 500,
+      "produced": 0,
+      "output": "NONE",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:powder_iron", "count": 1 },
+        { "item": "hbm:dust", "count": 1 },
+        { "item": "hbm:nuclear_waste_tiny", "count": 1 }
+      ]
+    },
+    {
+      "name": "MUD",
+      "consumed": 1000,
+      "produced": 500,
+      "output": "MUD_HEAVY",
+      "highSpeed": false,
+      "items": [
+        { "item": "hbm:powder_lead", "count": 1 },
+        { "item": "hbm:dust", "count": 1 }
+      ]
+    }
+  ]
+}

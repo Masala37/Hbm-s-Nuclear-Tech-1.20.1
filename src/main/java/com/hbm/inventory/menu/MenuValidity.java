@@ -11,6 +11,16 @@ public final class MenuValidity {
     private MenuValidity() {
     }
 
+    /** Server menus must remain bound to the same live machine, not just its former position. */
+    public static boolean boundToBlock(Player player, BlockEntity be) {
+        if (!closeEnough(player, be)) {
+            return false;
+        }
+        return player.level().isClientSide || (be != null && !be.isRemoved()
+                && be.getLevel() == player.level()
+                && player.level().getBlockEntity(be.getBlockPos()) == be);
+    }
+
     public static boolean closeEnough(Player player, BlockEntity be) {
         if (player == null) {
             return false;

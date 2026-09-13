@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "hbm:item/diesel_bucket"
-  }
+  "parent": "forge:item/bucket",
+  "loader": "forge:fluid_container",
+  "fluid": "hbm:diesel",
+  "flip_gas": true
 }

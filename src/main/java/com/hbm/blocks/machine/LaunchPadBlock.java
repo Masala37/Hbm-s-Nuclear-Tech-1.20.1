@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -38,7 +39,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -47,8 +47,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Missile launch pad — designator, missile, battery/fuel GUI, redstone / detonator launch.
@@ -151,7 +149,14 @@ public class LaunchPadBlock extends BaseEntityBlock implements IBomb {
     }
 
     public static void fillStructure(Level level, BlockPos core, Block padBlock) {
-        if (level.isClientSide || !(padBlock instanceof LaunchPadBlock)) {
+        fillStructure((LevelAccessor) level, core, padBlock);
+    }
+
+    public static void fillStructure(LevelAccessor level, BlockPos core, Block padBlock) {
+        if (level instanceof Level vanilla && vanilla.isClientSide) {
+            return;
+        }
+        if (!(padBlock instanceof LaunchPadBlock)) {
             return;
         }
         beginStructureEdit();
@@ -209,6 +214,10 @@ public class LaunchPadBlock extends BaseEntityBlock implements IBomb {
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return isCore(state) ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.INVISIBLE;
+    }
+
+    public boolean hasBlockEntity(BlockState state) {
+        return isCore(state) || LaunchPadOffsets.isCorner(state.getValue(OX), state.getValue(OZ));
     }
 
     @Override
@@ -366,14 +375,6 @@ public class LaunchPadBlock extends BaseEntityBlock implements IBomb {
             DummyablePlacement.endDismantle();
         }
         super.onRemove(state, level, pos, newState, isMoving);
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        if (!isCore(state)) {
-            return Collections.emptyList();
-        }
-        return super.getDrops(state, params);
     }
 
     @Override

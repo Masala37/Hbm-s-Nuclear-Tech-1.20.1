@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "I I",
+    "IRI"
+  ],
+  "key": {
+    "I": { "item": "hbm:plate_polymer" },
+    "R": { "item": "hbm:coil_copper" }
+  },
+  "result": { "item": "hbm:machine_battery" }
+}

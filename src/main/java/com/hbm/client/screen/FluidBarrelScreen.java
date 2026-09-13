@@ -2,11 +2,15 @@ package com.hbm.client.screen;
 
 import com.hbm.inventory.menu.FluidBarrelMenu;
 import com.hbm.lib.RefStrings;
+import com.hbm.network.FluidBarrelControlPacket;
+import com.hbm.network.ModMessages;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -18,8 +22,16 @@ public class FluidBarrelScreen extends AbstractContainerScreen<FluidBarrelMenu> 
 
     public FluidBarrelScreen(FluidBarrelMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
+        this.imageWidth = 176;
         this.imageHeight = 166;
         this.inventoryLabelY = this.imageHeight - 94;
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(this.font, this.title,
+                this.imageWidth / 2 - this.font.width(this.title) / 2, 6, 0x404040, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x404040, false);
     }
 
     @Override
@@ -27,6 +39,8 @@ public class FluidBarrelScreen extends AbstractContainerScreen<FluidBarrelMenu> 
         int x = this.leftPos;
         int y = this.topPos;
         graphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        int mode = this.menu.getMode();
+        graphics.blit(TEXTURE, x + 151, y + 34, 176, mode * 18, 18, 18);
 
         int capacity = this.menu.getFluidCapacity();
         int amount = this.menu.getFluidAmount();
@@ -81,5 +95,15 @@ public class FluidBarrelScreen extends AbstractContainerScreen<FluidBarrelMenu> 
             }
             graphics.renderTooltip(this.font, line, mouseX, mouseY);
         }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0 && isHovering(151, 35, 18, 18, (int) mouseX, (int) mouseY)) {
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            ModMessages.CHANNEL.sendToServer(new FluidBarrelControlPacket(this.menu.getBlockEntity().getBlockPos()));
+            return true;
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 }

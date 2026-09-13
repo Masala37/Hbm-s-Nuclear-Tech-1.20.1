@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_dura_steel" } ],
+  "result": { "item": "hbm:ingot_dura_steel", "count": 9 }
+}

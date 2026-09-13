@@ -1,0 +1,19 @@
+{
+  "loader": "forge:obj",
+  "render_type": "minecraft:cutout",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/difurnace_extension.obj",
+  "mtl_override": "hbm:models/obj/difurnace_extension.mtl",
+  "textures": {
+    "particle": "hbm:block/difurnace_extension",
+    "top": "hbm:block/difurnace_top_off_alt",
+    "#top": "hbm:block/difurnace_top_off_alt",
+    "bottom": "hbm:block/machine_furnace_brick_top",
+    "#bottom": "hbm:block/machine_furnace_brick_top",
+    "side": "hbm:block/difurnace_side_alt",
+    "#side": "hbm:block/difurnace_side_alt"
+  }
+}

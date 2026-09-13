@@ -1,4 +1,14 @@
 {
   "type": "minecraft:block",
-  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:conveyor" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:item", "name": "hbm:conveyor_wand" }
+      ],
+      "conditions": [
+        { "condition": "minecraft:survives_explosion" }
+      ]
+    }
+  ]
 }

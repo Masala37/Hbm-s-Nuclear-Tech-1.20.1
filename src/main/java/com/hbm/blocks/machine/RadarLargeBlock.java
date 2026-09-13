@@ -194,6 +194,10 @@ public class RadarLargeBlock extends BaseEntityBlock {
         return isCore(state) ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.INVISIBLE;
     }
 
+    public boolean hasBlockEntity(BlockState state) {
+        return isCore(state) || isEnergyPort(state);
+    }
+
     @Override
     public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return false;

@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,17 +71,40 @@ public final class ObjModelRenderer {
 
     public static void render(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
                               int packedLight, int packedOverlay) {
-        BakedModel model = get(modelId);
+        render(pose, buffers, get(modelId), null, packedLight, packedOverlay);
+    }
+
+    public static void render(PoseStack pose, MultiBufferSource buffers, @Nullable BakedModel model,
+                              @Nullable BlockState state,
+                              int packedLight, int packedOverlay) {
         if (model == null) {
             return;
         }
         var buffer = buffers.getBuffer(RenderType.entityCutoutNoCull(InventoryMenu.BLOCK_ATLAS));
         RandomSource random = RandomSource.create();
         random.setSeed(42L);
-        emit(pose, buffer, model.getQuads(null, null, random, ModelData.EMPTY, null), packedLight, packedOverlay);
+        emit(pose, buffer, model.getQuads(state, null, random, ModelData.EMPTY, null), packedLight, packedOverlay);
         for (Direction side : CULL_FACES) {
             random.setSeed(42L);
-            emit(pose, buffer, model.getQuads(null, side, random, ModelData.EMPTY, null), packedLight, packedOverlay);
+            emit(pose, buffer, model.getQuads(state, side, random, ModelData.EMPTY, null), packedLight, packedOverlay);
+        }
+    }
+
+    public static void renderColored(PoseStack pose, MultiBufferSource buffers, ResourceLocation modelId,
+                                     int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        BakedModel model = get(modelId);
+        if (model == null) {
+            return;
+        }
+        var buffer = buffers.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
+        RandomSource random = RandomSource.create();
+        random.setSeed(42L);
+        emitColored(pose, buffer, model.getQuads(null, null, random, ModelData.EMPTY, null),
+                packedLight, packedOverlay, red, green, blue, alpha);
+        for (Direction side : CULL_FACES) {
+            random.setSeed(42L);
+            emitColored(pose, buffer, model.getQuads(null, side, random, ModelData.EMPTY, null),
+                    packedLight, packedOverlay, red, green, blue, alpha);
         }
     }
 
@@ -90,6 +114,18 @@ public final class ObjModelRenderer {
             buffer.putBulkData(pose.last(), quad,
                     new float[] {1.0F, 1.0F, 1.0F, 1.0F},
                     1.0F, 1.0F, 1.0F,
+                    new int[] {packedLight, packedLight, packedLight, packedLight},
+                    packedOverlay, false);
+        }
+    }
+
+    private static void emitColored(PoseStack pose, VertexConsumer buffer, List<BakedQuad> quads,
+                                    int packedLight, int packedOverlay,
+                                    float red, float green, float blue, float alpha) {
+        for (BakedQuad quad : quads) {
+            buffer.putBulkData(pose.last(), quad,
+                    new float[] {alpha, alpha, alpha, alpha},
+                    red, green, blue,
                     new int[] {packedLight, packedLight, packedLight, packedLight},
                     packedOverlay, false);
         }

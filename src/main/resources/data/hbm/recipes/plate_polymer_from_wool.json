@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SWS"
+  ],
+  "key": {
+    "W": { "tag": "minecraft:wool" },
+    "S": { "item": "minecraft:string" }
+  },
+  "result": { "item": "hbm:plate_polymer", "count": 4 }
+}

@@ -69,6 +69,9 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
     private final ItemStackHandler items = new ItemStackHandler(8) {
         @Override
         protected void onContentsChanged(int slot) {
+            if (slot == SLOT_MISSILE && level != null && !level.isClientSide) {
+                updateTypes();
+            }
             setChanged();
             syncToClient();
         }
@@ -252,7 +255,7 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
 
     public boolean isMissileValid() {
         MissileStruct struct = getLoad();
-        if (struct == null || struct.fuselage == null) {
+        if (struct == null || !struct.isComplete()) {
             return false;
         }
         return struct.fuselage.top == requiredTop();
@@ -281,7 +284,8 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
         FuelType fuel = (FuelType) struct.fuselage.attributes[0];
         float need = (Float) struct.fuselage.attributes[1];
         return MissileSystemRules.fuelLamp(
-                MissileSystemRules.usesOxidizer(fuel.name()), oxidizerTank.getFluidAmount(), need);
+                MissileSystemRules.usesOxidizer(fuel.name()),
+                isOxidizerFluid(oxidizerTank.getFluid().getFluid()) ? oxidizerTank.getFluidAmount() : 0, need);
     }
 
     private int lampFor(boolean solidKind) {
@@ -295,7 +299,8 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
             return MissileSystemRules.fuelLamp(MissileSystemRules.usesSolidFuel(fuel.name()), solid, need);
         }
         return MissileSystemRules.fuelLamp(
-                MissileSystemRules.usesLiquidFuel(fuel.name()), fuelTank.getFluidAmount(), need);
+                MissileSystemRules.usesLiquidFuel(fuel.name()),
+                isFuelFluid(fuelTank.getFluid().getFluid()) ? fuelTank.getFluidAmount() : 0, need);
     }
 
     public boolean hasFuel() {
@@ -303,6 +308,9 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
     }
 
     public boolean canLaunch() {
+        if (level != null && !level.isClientSide) {
+            updateTypes();
+        }
         boolean power = MissileSystemRules.launcherPowerReady(energy.getEnergyStored(), ENERGY_CAPACITY);
         boolean missile = isMissileValid();
         boolean fuel = hasFuel();
@@ -314,11 +322,7 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
 
     @Override
     public boolean sendCommandPosition(int x, int y, int z) {
-        if (!canLaunch()) {
-            return false;
-        }
-        launchTo(x, z);
-        return true;
+        return launchTo(x, y, z);
     }
 
     @Override
@@ -331,6 +335,9 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
         if (level == null || level.isClientSide) {
             return IBomb.BombReturnCode.UNDEFINED;
         }
+        if (!canLaunch()) {
+            return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+        }
         ItemStack designator = items.getStackInSlot(SLOT_DESIGNATOR);
         BlockPos pad = worldPosition;
         if (!(designator.getItem() instanceof IDesignatorItem designatorItem)
@@ -338,23 +345,25 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
             return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
         }
         Vec3 target = designatorItem.getCoords(level, designator, pad.getX(), pad.getY(), pad.getZ());
-        launchTo((int) Math.floor(target.x), (int) Math.floor(target.z));
-        return IBomb.BombReturnCode.LAUNCHED;
+        return launchTo((int) Math.floor(target.x), (int) Math.floor(target.y), (int) Math.floor(target.z))
+                ? IBomb.BombReturnCode.LAUNCHED : IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
     }
 
     public void launchTo(int targetX, int targetZ) {
-        if (level == null || level.isClientSide) {
-            return;
+        launchTo(targetX, worldPosition.getY(), targetZ);
+    }
+
+    public boolean launchTo(int targetX, int targetY, int targetZ) {
+        if (level == null || level.isClientSide || !canLaunch()) {
+            return false;
         }
         ItemStack missileStack = items.getStackInSlot(SLOT_MISSILE);
         MissileStruct struct = ItemCustomMissile.getStruct(missileStack);
-        if (struct == null || struct.fuselage == null) {
-            return;
+        if (struct == null || !struct.isComplete()) {
+            return false;
         }
 
         BlockPos pos = worldPosition;
-        level.playSound(null, pos, ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 10.0F, 1.0F);
-
         int[] aim = ItemCustomMissile.applyInaccuracy(
                 missileStack, pos.getX(), pos.getZ(), targetX, targetZ, level.random);
         EntityMissileCustom missile = new EntityMissileCustom(
@@ -362,14 +371,18 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
                 pos.getX() + 0.5D,
                 pos.getY() + 2.5D,
                 pos.getZ() + 0.5D,
-                aim[0], pos.getY(), aim[1],
+                aim[0], targetY, aim[1],
                 struct);
-        level.addFreshEntity(missile);
+        if (!level.addFreshEntity(missile)) {
+            return false;
+        }
 
         subtractFuel();
         items.setStackInSlot(SLOT_MISSILE, ItemStack.EMPTY);
+        level.playSound(null, pos, ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 10.0F, 1.0F);
         setChanged();
         syncToClient();
+        return true;
     }
 
     private void subtractFuel() {
@@ -418,20 +431,30 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
     }
 
     private void setFuelType(Fluid fluid) {
+        boolean changed = fuelType != fluid;
         if (fuelType != fluid) {
             fuelType = fluid;
-            if (!fuelTank.getFluid().isEmpty() && fuelTank.getFluid().getFluid() != fluid) {
-                fuelTank.setFluid(FluidStack.EMPTY);
-            }
+        }
+        if (!fuelTank.isEmpty() && fuelTank.getFluid().getFluid() != fluid) {
+            fuelTank.setFluid(FluidStack.EMPTY);
+            changed = true;
+        }
+        if (changed) {
+            onChanged();
         }
     }
 
     private void setOxidizerType(Fluid fluid) {
+        boolean changed = oxidizerType != fluid;
         if (oxidizerType != fluid) {
             oxidizerType = fluid;
-            if (!oxidizerTank.getFluid().isEmpty() && oxidizerTank.getFluid().getFluid() != fluid) {
-                oxidizerTank.setFluid(FluidStack.EMPTY);
-            }
+        }
+        if (!oxidizerTank.isEmpty() && oxidizerTank.getFluid().getFluid() != fluid) {
+            oxidizerTank.setFluid(FluidStack.EMPTY);
+            changed = true;
+        }
+        if (changed) {
+            onChanged();
         }
     }
 
@@ -492,26 +515,7 @@ public abstract class CustomLauncherBlockEntity extends BlockEntity implements M
             InfiniteFluidBarrelItem.fillTank(tank, accepted);
             return;
         }
-        ItemStack single = in.copyWithCount(1);
-        var result = FluidUtil.tryEmptyContainer(single, tank, 1000, null, true);
-        if (!result.isSuccess()) {
-            return;
-        }
-        ItemStack remainder = result.getResult();
-        in.shrink(1);
-        items.setStackInSlot(inSlot, in.isEmpty() ? ItemStack.EMPTY : in);
-        if (!remainder.isEmpty()) {
-            ItemStack out = items.getStackInSlot(outSlot);
-            if (out.isEmpty()) {
-                items.setStackInSlot(outSlot, remainder);
-            } else if (ItemStack.isSameItemSameTags(out, remainder) && out.getCount() < out.getMaxStackSize()) {
-                out.grow(1);
-                items.setStackInSlot(outSlot, out);
-            } else if (level != null && !level.isClientSide) {
-                Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY() + 1.0D,
-                        worldPosition.getZ(), remainder);
-            }
-        }
+        LauncherFluidTransfer.emptyContainer(items, inSlot, outSlot, tank);
     }
 
     private void ingestSolidFuel() {

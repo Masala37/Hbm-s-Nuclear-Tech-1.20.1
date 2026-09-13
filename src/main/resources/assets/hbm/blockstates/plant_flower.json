@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "variant=foxglove": { "model": "hbm:block/plant_flower_foxglove" },
+    "variant=tobacco": { "model": "hbm:block/plant_flower_tobacco" },
+    "variant=nightshade": { "model": "hbm:block/plant_flower_nightshade" },
+    "variant=weed": { "model": "hbm:block/plant_flower_weed" },
+    "variant=cd0": { "model": "hbm:block/plant_flower_cd0" },
+    "variant=cd1": { "model": "hbm:block/plant_flower_cd1" }
+  }
+}

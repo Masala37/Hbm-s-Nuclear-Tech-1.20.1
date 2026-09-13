@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_magnetized_tungsten" } ],
+  "result": { "item": "hbm:ingot_magnetized_tungsten", "count": 9 }
+}

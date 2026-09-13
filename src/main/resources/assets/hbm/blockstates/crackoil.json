@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "level=0": { "model": "hbm:block/crackoil" },
+    "level=1": { "model": "hbm:block/crackoil" },
+    "level=2": { "model": "hbm:block/crackoil" },
+    "level=3": { "model": "hbm:block/crackoil" },
+    "level=4": { "model": "hbm:block/crackoil" },
+    "level=5": { "model": "hbm:block/crackoil" },
+    "level=6": { "model": "hbm:block/crackoil" },
+    "level=7": { "model": "hbm:block/crackoil" },
+    "level=8": { "model": "hbm:block/crackoil" },
+    "level=9": { "model": "hbm:block/crackoil" },
+    "level=10": { "model": "hbm:block/crackoil" },
+    "level=11": { "model": "hbm:block/crackoil" },
+    "level=12": { "model": "hbm:block/crackoil" },
+    "level=13": { "model": "hbm:block/crackoil" },
+    "level=14": { "model": "hbm:block/crackoil" },
+    "level=15": { "model": "hbm:block/crackoil" }
+  }
+}

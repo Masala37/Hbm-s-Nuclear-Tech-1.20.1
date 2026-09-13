@@ -6,6 +6,11 @@ import com.hbm.blocks.bomb.DudType;
 import com.hbm.blocks.bomb.VolcanoBlock;
 import com.hbm.blocks.bomb.VolcanoMode;
 import com.hbm.items.tool.BombCallerItem;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemBatteryPack;
+import com.hbm.items.machine.ItemCassette;
+import com.hbm.items.machine.ItemRTGPelletDepleted;
+import com.hbm.items.weapon.CustomMissilePresets;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.lib.RefStrings;
@@ -135,12 +140,39 @@ public final class ModCreativeTabs {
                 for (BombCallerItem.StrikeType type : BombCallerItem.StrikeType.values()) {
                     output.accept(BombCallerItem.stack(type));
                 }
+            } else if (item instanceof ItemRTGPelletDepleted) {
+                for (ItemRTGPelletDepleted.DepletedRTGMaterial mat : ItemRTGPelletDepleted.DepletedRTGMaterial.values()) {
+                    output.accept(ItemRTGPelletDepleted.stack(mat));
+                }
+            } else if (item instanceof ItemCassette) {
+                for (ItemCassette.TrackType type : ItemCassette.TrackType.values()) {
+                    if (type != ItemCassette.TrackType.NULL) {
+                        output.accept(ItemCassette.stack(type));
+                    }
+                }
+            } else if (item instanceof ItemBatteryPack) {
+                for (ItemBatteryPack.Pack pack : ItemBatteryPack.Pack.values()) {
+                    output.accept(ItemBatteryPack.stack(pack, false));
+                    output.accept(ItemBatteryPack.stack(pack, true));
+                }
+            } else if (item instanceof ItemBattery battery) {
+                if (battery.getChargeRate() > 0) {
+                    output.accept(ItemBattery.empty(item));
+                }
+                if (battery.getDischargeRate() > 0) {
+                    output.accept(ItemBattery.full(item));
+                }
             } else if (item instanceof ItemCustomMissile
                     || (item instanceof ItemCustomMissilePart part && part.isHiddenFromCreative())) {
+                continue;
+            } else if (item == ModItems.CONVEYOR.get()) {
                 continue;
             } else {
                 output.accept(item);
             }
+        }
+        if (kind == CreativeTabClassifier.Kind.MISSILE) {
+            CustomMissilePresets.appendTo(output);
         }
     }
 

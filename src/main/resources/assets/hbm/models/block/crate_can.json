@@ -1,1 +1,14 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/crate_can" } }
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": true,
+  "model": "hbm:models/obj/conservecrate.obj",
+  "mtl_override": "hbm:models/obj/conservecrate.mtl",
+  "textures": {
+    "particle": "hbm:block/crate_can",
+    "material": "hbm:block/crate_can",
+    "#material": "hbm:block/crate_can"
+  }
+}

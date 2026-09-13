@@ -1,6 +1,7 @@
 package com.hbm.network;
 
 import com.hbm.blockentity.machine.LaunchPadRustedBlockEntity;
+import com.hbm.inventory.menu.LaunchPadRustedMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,12 +32,11 @@ public final class LaunchPadRustedPacket {
             if (player == null || player.level() == null || !player.level().hasChunkAt(packet.pos)) {
                 return;
             }
-            if (player.distanceToSqr(packet.pos.getX() + 0.5D, packet.pos.getY() + 0.5D, packet.pos.getZ() + 0.5D)
-                    > 64.0D * 64.0D) {
+            if (!(player.containerMenu instanceof LaunchPadRustedMenu menu) || !menu.stillValid(player)) {
                 return;
             }
             BlockEntity be = player.level().getBlockEntity(packet.pos);
-            if (be instanceof LaunchPadRustedBlockEntity pad) {
+            if (be instanceof LaunchPadRustedBlockEntity pad && menu.getBlockEntity() == pad && !pad.isRemoved()) {
                 pad.tryRelease();
             }
         });

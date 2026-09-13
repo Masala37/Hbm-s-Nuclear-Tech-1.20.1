@@ -1,5 +1,8 @@
 package com.hbm.port;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.hbm.handler.LaunchPadFormFactor;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,6 +15,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class LauncherPortAssetsTest {
     private static final Path ASSETS = Path.of("src/main/resources/assets/hbm");
@@ -22,6 +27,25 @@ class LauncherPortAssetsTest {
     void launcherAndDesignatorAssetsExist() throws IOException {
         String[] files = {
                 "models/obj/compact_launcher.obj",
+                "models/obj/launch_pad_erector.obj",
+                "models/obj/launch_pad_silo.obj",
+                "models/obj/launch_pad_silo.mtl",
+                "models/block/launch_pad_silo.json",
+                "models/block/launch_pad_silo_rusted.json",
+                "models/item/launch_pad.json",
+                "models/item/launch_pad_large.json",
+                "models/item/launch_pad_rusted.json",
+                "textures/models/launchpad/pad.png",
+                "textures/models/launchpad/silo.png",
+                "textures/models/launchpad/silo_rusted.png",
+                "textures/block/launchpad/silo.png",
+                "textures/block/launchpad/silo_rusted.png",
+                "textures/gui/weapon/gui_launch_pad_large.png",
+                "textures/gui/weapon/gui_launch_pad_rusted.png",
+                "sounds/block/door/wgh_start.ogg",
+                "sounds/block/door/wgh_stop.ogg",
+                "sounds/block/door/garage_move.ogg",
+                "sounds/block/door/garage_stop.ogg",
                 "textures/models/compact_launcher.png",
                 "textures/block/compact_launcher.png",
                 "textures/block/launch_table.png",
@@ -69,6 +93,47 @@ class LauncherPortAssetsTest {
         assertTrue(missing.isEmpty(), "Missing launcher/designator assets: " + missing);
         assertHasVertices(ASSETS.resolve("models/obj/compact_launcher.obj"));
         assertHasVertices(ASSETS.resolve("models/obj/launch_table/launch_table_base.obj"));
+        assertHasVertices(ASSETS.resolve("models/obj/launch_pad_erector.obj"));
+        assertHasVertices(ASSETS.resolve("models/obj/launch_pad_silo.obj"));
+    }
+
+    @Test
+    void eachErectorFormHasAllMovingMeshPartsAndTexture() throws IOException {
+        String obj = Files.readString(ASSETS.resolve("models/obj/launch_pad_erector.obj"));
+        for (LaunchPadFormFactor form : LaunchPadFormFactor.values()) {
+            for (String part : List.of(form.padPart, form.erectorPart, form.pivotPart, form.ropePart)) {
+                assertTrue(obj.lines().anyMatch(line -> line.equals("o " + part) || line.equals("g " + part)),
+                        "Missing erector mesh part " + part);
+            }
+            assertTrue(Files.isRegularFile(ASSETS.resolve("textures/models/launchpad/" + form.texture + ".png")));
+        }
+    }
+
+    @Test
+    void allMultiblockCellsHaveModelsAndSurvivalDrops() throws IOException {
+        for (String block : List.of("compact_launcher", "launch_table", "launch_pad", "launch_pad_large", "launch_pad_rusted")) {
+            int width = block.equals("launch_table") || block.equals("launch_pad_large") ? 9 : 3;
+            JsonObject variants = JsonParser.parseString(Files.readString(ASSETS.resolve("blockstates/" + block + ".json")))
+                    .getAsJsonObject().getAsJsonObject("variants");
+            assertEquals(width * width, variants.size(), block);
+            for (int x = 0; x < width; x++) {
+                for (int z = 0; z < width; z++) {
+                    assertTrue(variants.has("ox=" + x + ",oz=" + z), block + " missing cell " + x + "," + z);
+                }
+            }
+            String loot = Files.readString(DATA.resolve("hbm/loot_tables/blocks/" + block + ".json"));
+            var pools = JsonParser.parseString(loot).getAsJsonObject().getAsJsonArray("pools");
+            if (block.equals("launch_pad_rusted")) {
+                assertEquals(0, pools.size(), "Old launch pads intentionally do not drop a block item");
+            } else {
+                assertEquals(1, pools.size());
+                JsonObject pool = pools.get(0).getAsJsonObject();
+                assertEquals(1, pool.get("rolls").getAsInt());
+                assertEquals("hbm:" + block, pool.getAsJsonArray("entries").get(0).getAsJsonObject().get("name").getAsString());
+                assertFalse(loot.contains("block_state_property"), "Harvesting an outer cell must not lose " + block);
+                assertTrue(loot.contains("survives_explosion"));
+            }
+        }
     }
 
     @Test

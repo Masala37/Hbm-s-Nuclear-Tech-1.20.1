@@ -135,19 +135,6 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     /**
-     * 1.7.10 {@code ItemRenderBase} INVENTORY: pixel space (slot top-left, +Y down), then
-     * {@code translate(8,10)} → X-30 → Y45 → {@code scale(-1)}.
-     */
-    private static void applyItemRenderBaseInventory(PoseStack pose) {
-        pose.translate(0.0F, 1.0F, 0.5F);
-        pose.scale(1.0F / 16.0F, -1.0F / 16.0F, 1.0F / 16.0F);
-        pose.translate(8.0F, 10.0F, 0.0F);
-        pose.mulPose(Axis.XP.rotationDegrees(-30.0F));
-        pose.mulPose(Axis.YP.rotationDegrees(45.0F));
-        pose.scale(-1.0F, -1.0F, -1.0F);
-    }
-
-    /**
      * Legacy {@code ItemRenderBase} inventory: translate(8,10) → X-30 → Y45 → scale(-1,-1,-1),
      * then pad {@code translate(0,-1); scale(3)}.
      */
@@ -207,7 +194,7 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static void applyRadarDishTransforms(ItemDisplayContext context, PoseStack pose) {
         switch (context) {
             case GUI -> {
-                applyItemRenderBaseInventory(pose);
+                ItemRenderBaseInventory.applyInventory(pose);
                 pose.translate(0.0F, -4.0F, 0.0F);
                 pose.scale(5.0F, 5.0F, 5.0F);
             }
@@ -223,7 +210,7 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static void applyRadarLargeTransforms(ItemDisplayContext context, PoseStack pose) {
         switch (context) {
             case GUI -> {
-                applyItemRenderBaseInventory(pose);
+                ItemRenderBaseInventory.applyInventory(pose);
                 pose.translate(0.0F, -5.0F, 0.0F);
                 pose.scale(3.0F, 3.0F, 3.0F);
             }
@@ -239,7 +226,7 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static void applyRadarScreenTransforms(ItemDisplayContext context, PoseStack pose) {
         switch (context) {
             case GUI -> {
-                applyItemRenderBaseInventory(pose);
+                ItemRenderBaseInventory.applyInventory(pose);
                 pose.translate(0.0F, -3.0F, 0.0F);
                 pose.scale(5.5F, 5.5F, 5.5F);
             }
@@ -281,7 +268,7 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static void applyCompactLauncherTransforms(ItemDisplayContext context, PoseStack pose) {
         switch (context) {
             case GUI -> {
-                applyItemRenderBaseInventory(pose);
+                ItemRenderBaseInventory.applyInventory(pose);
                 pose.translate(0.0F, -4.0F, 0.0F);
                 pose.scale(3.5F, 3.5F, 3.5F);
             }
@@ -297,7 +284,7 @@ public class MissileItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static void applyLaunchTableTransforms(ItemDisplayContext context, PoseStack pose) {
         switch (context) {
             case GUI -> {
-                applyItemRenderBaseInventory(pose);
+                ItemRenderBaseInventory.applyInventory(pose);
                 pose.translate(0.0F, -2.0F, 0.0F);
                 pose.scale(2.5F, 2.5F, 2.5F);
             }

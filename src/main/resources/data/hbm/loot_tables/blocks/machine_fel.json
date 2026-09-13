@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [{
+    "rolls": 1,
+    "entries": [{ "type": "minecraft:item", "name": "hbm:machine_fel" }],
+    "conditions": [
+      { "condition": "minecraft:survives_explosion" },
+      { "condition": "minecraft:any_of", "terms": [
+          { "condition": "minecraft:block_state_property", "block": "hbm:machine_fel", "properties": { "meta": "12" } },
+          { "condition": "minecraft:block_state_property", "block": "hbm:machine_fel", "properties": { "meta": "13" } },
+          { "condition": "minecraft:block_state_property", "block": "hbm:machine_fel", "properties": { "meta": "14" } },
+          { "condition": "minecraft:block_state_property", "block": "hbm:machine_fel", "properties": { "meta": "15" } }
+      ]}
+    ]
+  }]
+}

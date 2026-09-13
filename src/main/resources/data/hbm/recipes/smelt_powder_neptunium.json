@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_neptunium" },
+  "result": "hbm:ingot_neptunium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

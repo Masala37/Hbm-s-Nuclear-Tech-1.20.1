@@ -3,8 +3,47 @@
   "pools": [
     {
       "rolls": 1,
-      "entries": [ { "type": "minecraft:item", "name": "hbm:ore_nether_fire" } ],
-      "conditions": [ { "condition": "minecraft:survives_explosion" } ]
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "hbm:ore_nether_fire",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      { "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "hbm:ingot_phosphorus",
+              "conditions": [
+                { "condition": "minecraft:random_chance", "chance": 0.1 }
+              ],
+              "functions": [
+                { "function": "minecraft:apply_bonus", "enchantment": "minecraft:fortune", "formula": "minecraft:ore_drops" },
+                { "function": "minecraft:explosion_decay" }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "hbm:powder_fire",
+              "functions": [
+                { "function": "minecraft:apply_bonus", "enchantment": "minecraft:fortune", "formula": "minecraft:ore_drops" },
+                { "function": "minecraft:explosion_decay" }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

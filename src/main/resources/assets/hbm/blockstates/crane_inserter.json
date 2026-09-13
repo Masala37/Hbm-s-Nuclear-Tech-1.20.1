@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/crane_inserter" },
+    "facing=south": { "model": "hbm:block/crane_inserter", "y": 180 },
+    "facing=west": { "model": "hbm:block/crane_inserter", "y": 270 },
+    "facing=east": { "model": "hbm:block/crane_inserter", "y": 90 },
+    "facing=up": { "model": "hbm:block/crane_inserter_up" },
+    "facing=down": { "model": "hbm:block/crane_inserter_down" }
+  }
+}

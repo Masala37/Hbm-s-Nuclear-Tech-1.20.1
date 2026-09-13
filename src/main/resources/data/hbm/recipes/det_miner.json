@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "ITI",
+    "ITI"
+  ],
+  "key": {
+    "T": { "item": "hbm:ball_dynamite" },
+    "F": { "item": "minecraft:flint" },
+    "I": { "item": "hbm:plate_iron" }
+  },
+  "result": { "item": "hbm:det_miner", "count": 4 }
+}

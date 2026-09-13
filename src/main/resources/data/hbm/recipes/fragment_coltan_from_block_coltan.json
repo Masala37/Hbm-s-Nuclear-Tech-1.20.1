@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_coltan" } ],
+  "result": { "item": "hbm:fragment_coltan", "count": 9 }
+}

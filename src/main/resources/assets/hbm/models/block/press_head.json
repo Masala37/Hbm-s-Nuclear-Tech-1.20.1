@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/press_head.obj",
+  "textures": {
+    "particle": "hbm:models/press_head",
+    "material": "hbm:models/press_head",
+    "#material": "hbm:models/press_head"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "particle": "hbm:block/machine_shredder_front_alt",
+    "bottom": "hbm:block/machine_shredder_bottom_alt",
+    "top": "hbm:block/machine_shredder_top_alt",
+    "front": "hbm:block/machine_shredder_front_alt",
+    "side": "hbm:block/machine_shredder_side_alt"
+  }
+}

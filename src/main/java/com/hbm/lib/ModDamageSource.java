@@ -14,4 +14,8 @@ public final class ModDamageSource {
     public static DamageSource blackhole(Level level) {
         return ModDamageTypes.source(level, ModDamageTypes.BLACKHOLE);
     }
+
+    public static DamageSource broadcast(Level level) {
+        return ModDamageTypes.source(level, ModDamageTypes.BROADCAST);
+    }
 }

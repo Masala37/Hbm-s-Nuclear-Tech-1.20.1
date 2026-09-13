@@ -1,0 +1,14 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/silo_hatch_large.obj",
+  "mtl_override": "hbm:models/obj/silo_hatch_large.mtl",
+  "textures": {
+    "particle": "hbm:models/doors/silo_hatch_large",
+    "material": "hbm:models/doors/silo_hatch_large",
+    "#material": "hbm:models/doors/silo_hatch_large"
+  }
+}

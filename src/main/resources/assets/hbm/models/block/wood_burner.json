@@ -1,0 +1,14 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/wood_burner.obj",
+  "mtl_override": "hbm:models/obj/wood_burner.mtl",
+  "textures": {
+    "particle": "hbm:models/machines/wood_burner",
+    "material": "hbm:models/machines/wood_burner",
+    "#material": "hbm:models/machines/wood_burner"
+  }
+}

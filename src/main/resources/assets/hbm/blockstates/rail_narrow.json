@@ -1,1 +1,8 @@
-{ "variants": { "": { "model": "hbm:block/rail_narrow" } } }
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/rail_narrow" },
+    "facing=south": { "model": "hbm:block/rail_narrow", "y": 180 },
+    "facing=west":  { "model": "hbm:block/rail_narrow", "y": 270 },
+    "facing=east":  { "model": "hbm:block/rail_narrow", "y": 90 }
+  }
+}

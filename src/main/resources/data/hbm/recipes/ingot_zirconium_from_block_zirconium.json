@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_zirconium" } ],
+  "result": { "item": "hbm:ingot_zirconium", "count": 9 }
+}

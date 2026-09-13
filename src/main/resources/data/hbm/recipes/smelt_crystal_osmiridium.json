@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:crystal_osmiridium" },
+  "result": "hbm:ingot_osmiridium",
+  "experience": 2.0,
+  "cookingtime": 200
+}

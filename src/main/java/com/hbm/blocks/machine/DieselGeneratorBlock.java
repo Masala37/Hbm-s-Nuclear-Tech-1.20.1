@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
+import com.hbm.blockentity.machine.MachineDrops;
 import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -39,6 +40,7 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
                 .strength(5.0F, 10.0F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL)
+                .noOcclusion()
                 .lightLevel(state -> state.getValue(LIT) ? 10 : 0));
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
@@ -58,7 +60,7 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Nullable
@@ -105,5 +107,16 @@ public class DieselGeneratorBlock extends BaseEntityBlock {
 
         HbmMenuHelper.open(sp, be);
         return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof DieselGeneratorBlockEntity generator) {
+                MachineDrops.drop(level, pos, generator.getItems());
+            }
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 }

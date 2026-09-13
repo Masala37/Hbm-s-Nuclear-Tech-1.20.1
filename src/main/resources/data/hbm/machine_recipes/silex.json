@@ -1,0 +1,185 @@
+{
+  "source": "legacy-1.7.10 SILEXRecipes.register",
+  "translations": [
+    { "fromFluid": "hbm:uf6", "to": { "item": "hbm:ingot_uranium" } },
+    { "fromFluid": "hbm:puf6", "to": { "item": "hbm:ingot_plutonium" } },
+    { "fromOre": "dustUranium", "toOre": "ingotUranium" },
+    { "fromOre": "dustPlutonium", "toOre": "ingotPlutonium" },
+    { "from": { "item": "hbm:powder_australium" }, "to": { "item": "hbm:ingot_australium" } },
+    { "from": { "item": "hbm:powder_lapis" }, "to": { "item": "minecraft:lapis_lazuli" } }
+  ],
+  "conversionFluids": [ "hbm:uf6", "hbm:puf6", "hbm:death" ],
+  "recipes": [
+    {
+      "input": { "ore": "ingotUranium" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_u235", "weight": 1 },
+        { "item": "hbm:nugget_u238", "weight": 11 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:ingot_pu_mix" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_pu239", "weight": 6 },
+        { "item": "hbm:nugget_pu240", "weight": 3 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:ingot_am_mix" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_am241", "weight": 3 },
+        { "item": "hbm:nugget_am242", "weight": 6 }
+      ]
+    },
+    {
+      "input": { "ore": "ingotPlutonium" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_pu238", "weight": 3 },
+        { "item": "hbm:nugget_pu239", "weight": 4 },
+        { "item": "hbm:nugget_pu240", "weight": 2 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:ingot_schraranium" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_schrabidium", "weight": 4 },
+        { "item": "hbm:nugget_uranium", "weight": 3 },
+        { "item": "hbm:nugget_neptunium", "weight": 2 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:ingot_australium" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:nugget_australium_lesser", "weight": 5 },
+        { "item": "hbm:nugget_australium_greater", "weight": 1 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:crystal_schraranium" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "UV",
+      "outputs": [
+        { "item": "hbm:nugget_schrabidium", "weight": 5 },
+        { "item": "hbm:nugget_uranium", "weight": 2 },
+        { "item": "hbm:nugget_neptunium", "weight": 2 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:ore_tikite" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "UV",
+      "outputs": [
+        { "item": "hbm:powder_plutonium", "weight": 2 },
+        { "item": "hbm:powder_cobalt", "weight": 3 },
+        { "item": "hbm:powder_niobium", "weight": 3 },
+        { "item": "hbm:powder_nitan_mix", "weight": 2 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:crystal_trixite" },
+      "fluidProduced": 1200,
+      "fluidConsumed": 100,
+      "laser": "UV",
+      "outputs": [
+        { "item": "hbm:powder_plutonium", "weight": 2 },
+        { "item": "hbm:powder_cobalt", "weight": 3 },
+        { "item": "hbm:powder_niobium", "weight": 3 },
+        { "item": "hbm:powder_nitan_mix", "weight": 1 },
+        { "item": "hbm:powder_spark_mix", "weight": 1 }
+      ]
+    },
+    {
+      "input": { "item": "minecraft:lapis_lazuli" },
+      "fluidProduced": 100,
+      "fluidConsumed": 100,
+      "laser": "IR",
+      "outputs": [
+        { "item": "hbm:sulfur", "weight": 4 },
+        { "item": "hbm:powder_aluminium", "weight": 3 },
+        { "item": "hbm:powder_cobalt", "weight": 3 }
+      ]
+    },
+    {
+      "input": { "fluid": "hbm:death" },
+      "fluidProduced": 1000,
+      "fluidConsumed": 1000,
+      "laser": "GAMMA",
+      "outputs": [
+        { "item": "hbm:powder_impure_osmiridium", "weight": 1 }
+      ]
+    },
+    {
+      "input": { "fluid": "hbm:vitriol" },
+      "fluidProduced": 1000,
+      "fluidConsumed": 300,
+      "laser": "IR",
+      "outputs": [
+        { "item": "hbm:powder_bromine", "weight": 5 },
+        { "item": "hbm:powder_iodine", "weight": 5 },
+        { "item": "hbm:powder_iron", "weight": 5 },
+        { "item": "hbm:sulfur", "weight": 15 }
+      ]
+    },
+    {
+      "input": { "fluid": "hbm:redmud" },
+      "fluidProduced": 300,
+      "fluidConsumed": 50,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:powder_aluminium", "weight": 10 },
+        { "item": "hbm:powder_neodymium_tiny", "count": 3, "weight": 5 },
+        { "item": "hbm:powder_boron_tiny", "count": 3, "weight": 5 },
+        { "item": "hbm:nugget_zirconium", "weight": 5 },
+        { "item": "hbm:powder_iron", "weight": 20 },
+        { "item": "hbm:powder_titanium", "weight": 15 },
+        { "item": "hbm:powder_sodium", "weight": 10 }
+      ]
+    },
+    {
+      "input": { "item": "hbm:fallout" },
+      "fluidProduced": 900,
+      "fluidConsumed": 100,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "hbm:dust_tiny", "weight": 90 },
+        { "item": "hbm:nugget_co60", "weight": 2 },
+        { "item": "hbm:powder_sr90_tiny", "weight": 3 },
+        { "item": "hbm:powder_i131_tiny", "weight": 1 },
+        { "item": "hbm:powder_cs137_tiny", "weight": 3 },
+        { "item": "hbm:nugget_au198", "weight": 1 }
+      ]
+    },
+    {
+      "input": { "item": "minecraft:gravel" },
+      "fluidProduced": 1000,
+      "fluidConsumed": 250,
+      "laser": "VISIBLE",
+      "outputs": [
+        { "item": "minecraft:flint", "weight": 80 },
+        { "item": "hbm:powder_boron", "weight": 5 },
+        { "item": "hbm:powder_lithium", "weight": 10 },
+        { "item": "hbm:fluorite", "weight": 5 }
+      ]
+    }
+  ]
+}

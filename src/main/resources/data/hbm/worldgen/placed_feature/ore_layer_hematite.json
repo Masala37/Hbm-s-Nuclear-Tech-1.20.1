@@ -1,0 +1,6 @@
+{
+  "feature": "hbm:ore_layer_hematite",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

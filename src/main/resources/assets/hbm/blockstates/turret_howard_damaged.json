@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/turret_howard_damaged" },
+    "facing=south": { "model": "hbm:block/turret_howard_damaged", "y": 180 },
+    "facing=west":  { "model": "hbm:block/turret_howard_damaged", "y": 270 },
+    "facing=east":  { "model": "hbm:block/turret_howard_damaged", "y": 90 }
+  }
+}

@@ -1,22 +1,24 @@
 package com.hbm.inventory.menu;
 
 import com.hbm.blockentity.machine.DieselGeneratorBlockEntity;
+import com.hbm.energy.ItemEnergyHelper;
+import com.hbm.registry.ModItems;
 import com.hbm.registry.ModMenus;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class DieselGeneratorMenu extends AbstractContainerMenu {
     private final DieselGeneratorBlockEntity be;
     private final ContainerData data;
-    private final ContainerLevelAccess access;
 
     public DieselGeneratorMenu(int id, Inventory inv, DieselGeneratorBlockEntity be) {
         this(id, inv, be, createData(be));
@@ -31,8 +33,26 @@ public class DieselGeneratorMenu extends AbstractContainerMenu {
         super(ModMenus.DIESEL_GENERATOR.get(), id);
         this.be = be;
         this.data = data;
-        this.access = ContainerLevelAccess.create(inv.player.level(), be.getBlockPos());
-
+        this.addSlot(new SlotItemHandler(be.getItems(), DieselGeneratorBlockEntity.SLOT_FUEL_IN, 44, 17));
+        this.addSlot(new SlotItemHandler(be.getItems(), DieselGeneratorBlockEntity.SLOT_FUEL_OUT, 44, 53) {
+            @Override
+            public boolean mayPlace(@NotNull ItemStack stack) {
+                return false;
+            }
+        });
+        this.addSlot(new SlotItemHandler(be.getItems(), DieselGeneratorBlockEntity.SLOT_BATTERY, 116, 53) {
+            @Override
+            public boolean mayPlace(@NotNull ItemStack stack) {
+                return ItemEnergyHelper.isEnergyItem(stack);
+            }
+        });
+        this.addSlot(new SlotItemHandler(be.getItems(), DieselGeneratorBlockEntity.SLOT_ID_IN, 8, 17));
+        this.addSlot(new SlotItemHandler(be.getItems(), DieselGeneratorBlockEntity.SLOT_ID_OUT, 8, 53) {
+            @Override
+            public boolean mayPlace(@NotNull ItemStack stack) {
+                return false;
+            }
+        });
         addPlayerInventory(inv, 84, 142);
         addDataSlots(this.data);
     }
@@ -99,7 +119,7 @@ public class DieselGeneratorMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return MenuValidity.closeEnough(player, be);
+        return MenuValidity.boundToBlock(player, be);
     }
 
     @Override
@@ -109,11 +129,23 @@ public class DieselGeneratorMenu extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack stack = slot.getItem();
             result = stack.copy();
-            if (index < 27) {
-                if (!this.moveItemStackTo(stack, 27, 36, true)) {
+            if (index <= 4) {
+                if (!this.moveItemStackTo(stack, 5, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(stack, 0, 27, false)) {
+            } else if (ItemEnergyHelper.isEnergyItem(stack)) {
+                if (!this.moveItemStackTo(stack, 2, 3, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (stack.is(ModItems.FLUID_IDENTIFIER.get())) {
+                if (!this.moveItemStackTo(stack, 3, 4, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (FluidUtil.getFluidHandler(stack).isPresent()) {
+                if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else {
                 return ItemStack.EMPTY;
             }
 

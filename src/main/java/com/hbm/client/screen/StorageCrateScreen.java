@@ -1,6 +1,7 @@
 package com.hbm.client.screen;
 
 import com.hbm.inventory.menu.StorageCrateMenu;
+import com.hbm.lib.RefStrings;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -8,30 +9,38 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 /**
- * Vanilla generic chest look for storage crates.
+ * 1.7 {@code GUICrateIron} / {@code GUICrateSteel}.
  */
 public class StorageCrateScreen extends AbstractContainerScreen<StorageCrateMenu> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
+    private static final ResourceLocation IRON =
+            new ResourceLocation(RefStrings.MODID, "textures/gui/storage/gui_crate_iron.png");
+    private static final ResourceLocation STEEL =
+            new ResourceLocation(RefStrings.MODID, "textures/gui/storage/gui_crate_steel.png");
 
     public StorageCrateScreen(StorageCrateMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
-        this.imageHeight = 114 + menu.getRows() * 18;
+        this.imageWidth = 176;
+        this.imageHeight = this.menu.getRows() <= 4 ? 186 : 222;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(this.font, this.title,
+                this.imageWidth / 2 - this.font.width(this.title) / 2, 6, 0x404040, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x404040, false);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-        int rows = menu.getRows();
-        graphics.blit(TEXTURE, x, y, 0, 0, imageWidth, rows * 18 + 17);
-        graphics.blit(TEXTURE, x, y + rows * 18 + 17, 0, 126, imageWidth, 96);
+        graphics.blit(this.menu.getRows() <= 4 ? IRON : STEEL,
+                this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics);
+        this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, partialTick);
-        renderTooltip(graphics, mouseX, mouseY);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 }

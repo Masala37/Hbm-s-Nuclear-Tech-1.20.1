@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -42,8 +41,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 9×9 custom-missile launch table (1.7.10 {@code LaunchTable}).
@@ -148,6 +145,29 @@ public class LaunchTableBlock extends BaseEntityBlock implements IBomb {
     }
 
     public static void fillStructure(Level level, BlockPos core, Block table) {
+        fillStructure(level, core, table, false);
+    }
+
+    /**
+     * 1.7.10 {@code TileEntityMultiblock.buildTable}: force-replace the 9×9
+     * {@code struct_launcher} pad and air the scaffold tower.
+     */
+    public static void formFromStruct(Level level, BlockPos core, Direction towerFacing, Block table) {
+        fillStructure(level, core, table, true);
+        LaunchTableBlockEntity entity = coreEntity(level, core, level.getBlockState(core));
+        if (entity != null && towerFacing != null) {
+            entity.setFacing(towerFacing);
+        }
+        if (towerFacing != null && towerFacing.getAxis().isHorizontal()) {
+            BlockPos towerBase = core.relative(towerFacing, 3);
+            for (int y = 1; y < 12; y++) {
+                level.removeBlock(towerBase.above(y), false);
+            }
+        }
+        checkPower(level, core);
+    }
+
+    private static void fillStructure(Level level, BlockPos core, Block table, boolean replaceSolid) {
         if (level.isClientSide || !(table instanceof LaunchTableBlock)) {
             return;
         }
@@ -160,7 +180,7 @@ public class LaunchTableBlock extends BaseEntityBlock implements IBomb {
                             .setValue(OX, GRID.pack(dx))
                             .setValue(OZ, GRID.pack(dz));
                     BlockState at = level.getBlockState(cell);
-                    if (!at.equals(want) && (at.is(table) || at.canBeReplaced())) {
+                    if (!at.equals(want) && (replaceSolid || at.is(table) || at.canBeReplaced())) {
                         level.setBlock(cell, want, 3);
                     }
                 }
@@ -362,14 +382,6 @@ public class LaunchTableBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        if (!isCore(state)) {
-            return Collections.emptyList();
-        }
-        return super.getDrops(state, params);
-    }
-
-    @Override
     public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
         return new ItemStack(this);
     }
@@ -385,8 +397,7 @@ public class LaunchTableBlock extends BaseEntityBlock implements IBomb {
         }
         LaunchTableBlockEntity table = coreEntity(level, pos, state);
         if (table != null && table.canLaunch()) {
-            table.launchFromDesignator();
-            return BombReturnCode.LAUNCHED;
+            return table.launchFromDesignator();
         }
         return BombReturnCode.ERROR_MISSING_COMPONENT;
     }

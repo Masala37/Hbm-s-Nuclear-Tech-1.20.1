@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["  I"," I ","S  "],
+  "key": {
+    "S": [ { "item": "hbm:ingot_polymer" }, { "item": "hbm:ingot_bakelite" } ],
+    "I": { "item": "hbm:ingot_desh" }
+  },
+  "result": { "item": "hbm:screwdriver_desh" }
+}

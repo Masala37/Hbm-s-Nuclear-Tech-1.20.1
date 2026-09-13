@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "type": "forge:nbt", "item": "hbm:pellet_rtg_depleted", "nbt": "{type:\"MERCURY\"}" }
+  ],
+  "result": { "item": "hbm:nugget_mercury", "count": 2 }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "hbm:nbt_structure",
+  "biomes": "#minecraft:is_ocean",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "spawn": "oil_rig"
+}

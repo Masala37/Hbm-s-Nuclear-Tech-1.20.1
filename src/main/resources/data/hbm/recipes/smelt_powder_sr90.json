@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_sr90" },
+  "result": "hbm:ingot_sr90",
+  "experience": 1.0,
+  "cookingtime": 200
+}

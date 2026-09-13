@@ -63,6 +63,12 @@ public class LaunchPadRustedBlockEntity extends BlockEntity implements MenuProvi
         return missileLoaded;
     }
 
+    public void setMissileLoaded(boolean loaded) {
+        this.missileLoaded = loaded;
+        setChanged();
+        syncToClient();
+    }
+
     public Direction getFacing() {
         return facing == null ? Direction.NORTH : facing;
     }
@@ -74,6 +80,9 @@ public class LaunchPadRustedBlockEntity extends BlockEntity implements MenuProvi
     }
 
     public void tryRelease() {
+        if (level == null || level.isClientSide) {
+            return;
+        }
         if (missileLoaded && items.getStackInSlot(SLOT_OUTPUT).isEmpty()) {
             missileLoaded = false;
             items.setStackInSlot(SLOT_OUTPUT, new ItemStack(ModItems.MISSILE_DOOMSDAY_RUSTED.get()));
@@ -101,23 +110,29 @@ public class LaunchPadRustedBlockEntity extends BlockEntity implements MenuProvi
         int targetX = (int) Math.floor(coords.x);
         int targetY = (int) Math.floor(coords.y);
         int targetZ = (int) Math.floor(coords.z);
-        level.playSound(null, pad.getX() + 0.5D, pad.getY(), pad.getZ() + 0.5D,
-                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
-        level.addFreshEntity(new EntityMissileDoomsdayRusted(
+        if (!level.addFreshEntity(new EntityMissileDoomsdayRusted(
                 level, pad.getX() + 0.5D, pad.getY() + 1.0D, pad.getZ() + 0.5D,
-                targetX, targetY, targetZ));
+                targetX, targetY, targetZ))) {
+            return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+        }
         missileLoaded = false;
         items.setStackInSlot(SLOT_CODE, ItemStack.EMPTY);
+        level.playSound(null, pad.getX() + 0.5D, pad.getY(), pad.getZ() + 0.5D,
+                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
         setChanged();
         syncToClient();
         return IBomb.BombReturnCode.LAUNCHED;
     }
 
     public void checkRedstone(boolean powered) {
-        if (powered && !wasPowered) {
+        boolean risingEdge = powered && !wasPowered;
+        if (powered != wasPowered) {
+            wasPowered = powered;
+            setChanged();
+        }
+        if (risingEdge) {
             launch();
         }
-        wasPowered = powered;
     }
 
     public void dropContents() {

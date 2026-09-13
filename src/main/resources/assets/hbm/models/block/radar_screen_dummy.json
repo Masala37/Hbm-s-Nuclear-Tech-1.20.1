@@ -1,4 +1,4 @@
 {
-  "textures": { "particle": "hbm:block/machine_radar" },
-  "elements": []
+  "parent": "minecraft:builtin/entity",
+  "textures": { "particle": "hbm:block/machine_radar" }
 }

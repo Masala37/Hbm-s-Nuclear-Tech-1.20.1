@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:powder_lithium" } ],
+  "result": { "item": "hbm:powder_lithium_tiny", "count": 9 }
+}

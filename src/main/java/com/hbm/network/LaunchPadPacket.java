@@ -1,6 +1,7 @@
 package com.hbm.network;
 
 import com.hbm.blockentity.machine.LaunchPadBlockEntity;
+import com.hbm.inventory.menu.LaunchPadMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -35,12 +36,11 @@ public final class LaunchPadPacket {
             if (player == null || player.level() == null || !player.level().hasChunkAt(packet.pos)) {
                 return;
             }
-            if (player.distanceToSqr(packet.pos.getX() + 0.5D, packet.pos.getY() + 0.5D, packet.pos.getZ() + 0.5D)
-                    > 64.0D * 64.0D) {
+            if (!(player.containerMenu instanceof LaunchPadMenu menu) || !menu.stillValid(player)) {
                 return;
             }
             BlockEntity be = player.level().getBlockEntity(packet.pos);
-            if (be instanceof LaunchPadBlockEntity pad) {
+            if (be instanceof LaunchPadBlockEntity pad && menu.getBlockEntity() == pad && !pad.isRemoved()) {
                 if (pad.launch()) {
                     player.displayClientMessage(Component.literal("Missile launched"), true);
                 } else {

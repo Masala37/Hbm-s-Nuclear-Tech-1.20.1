@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_schraranium" },
+  "result": { "item": "hbm:nugget_schrabidium", "count": 2 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

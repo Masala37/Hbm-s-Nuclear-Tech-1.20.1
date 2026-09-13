@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_redstone" },
+  "result": { "item": "minecraft:redstone", "count": 6 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

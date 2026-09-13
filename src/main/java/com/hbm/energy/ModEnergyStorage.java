@@ -36,6 +36,20 @@ public class ModEnergyStorage extends EnergyStorage {
         onChanged.run();
     }
 
+    public void setMaxTransfer(int transfer) {
+        this.maxReceive = Math.max(0, transfer);
+        this.maxExtract = Math.max(0, transfer);
+    }
+
+    /** 1.7 soldering grows the buffer to {@code consumption * 20}. */
+    public void setCapacity(int capacity) {
+        this.capacity = Math.max(1, capacity);
+        this.maxReceive = this.capacity;
+        if (this.energy > this.capacity) {
+            this.energy = this.capacity;
+        }
+    }
+
     /** Consume stored energy for machine work, ignoring maxExtract limits. */
     public int consume(int amount) {
         int used = Math.min(this.energy, Math.max(0, amount));

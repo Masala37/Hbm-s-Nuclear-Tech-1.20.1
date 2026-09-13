@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_thorium" },
+  "result": { "item": "hbm:ingot_th232", "count": 2 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

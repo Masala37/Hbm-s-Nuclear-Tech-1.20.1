@@ -1,0 +1,2206 @@
+{
+    "source":  "legacy-1.7.10 PUREXRecipes.registerDefaults",
+    "recipes":  [
+                    {
+                        "name":  "purex.uzh",
+                        "duration":  600,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:billet_uranium_fuel",
+                                              "count":  1
+                                          },
+                                          {
+                                              "ore":  "billetZirconium",
+                                              "count":  3
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  1000
+                                           },
+                                           {
+                                               "fluid":  "hbm:hydrogen",
+                                               "amount":  4000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:billet_uzh",
+                                               "count":  4
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.flashgold",
+                        "duration":  600,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "ore":  "billetGold198",
+                                              "count":  1
+                                          },
+                                          {
+                                              "item":  "hbm:pellet_charged",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:amat",
+                                               "amount":  1000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:billet_balefire_gold",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.flashlead",
+                        "duration":  600,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "ore":  "billetLead209",
+                                              "count":  1
+                                          },
+                                          {
+                                              "item":  "hbm:billet_balefire_gold",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:amat",
+                                               "amount":  1000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:billet_flashlead",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pilepu",
+                        "duration":  40,
+                        "power":  100,
+                        "autoSwitchGroup":  "autoswitch.pile",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pile_rod_plutonium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:sulfuric_acid",
+                                               "amount":  100
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:billet_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:billet_uranium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:plate_iron",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pilepu239",
+                        "duration":  40,
+                        "power":  100,
+                        "autoSwitchGroup":  "autoswitch.pile",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pile_rod_pu239",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:sulfuric_acid",
+                                               "amount":  100
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:billet_pu239",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:billet_pu_mix",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:billet_uranium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:plate_iron",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxnu",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_natural_uranium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxmeu",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_uranium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_plutonium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxthmeu",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_thorium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_th232",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_u233",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxmox",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_mox",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxmep",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plutonium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxheu233",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_u233",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u235",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_neptunium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxheu235",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_u235",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_neptunium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxles",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_schrabidium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_beryllium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.zirnoxzfbmox",
+                        "duration":  100,
+                        "power":  1000,
+                        "autoSwitchGroup":  "autoswitch.zirnox",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_zfb_mox",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_zirconium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.platemox",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_mox",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:powder_sr90_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:powder_cs137_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  4
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.platepu238be",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_pu238be",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_beryllium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_coal_tiny",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.platepu239",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_pu239",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu240",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_cs137_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  5
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.platera226be",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_ra226be",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_beryllium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_polonium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:powder_coal_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.platesa326",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_sa326",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_neodymium_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_tantalium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.plateu233",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_u233",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u235",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_i131_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_sr90_tiny",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.plateu235",
+                        "duration":  100,
+                        "power":  1500,
+                        "autoSwitchGroup":  "autoswitch.plate",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plate_u235",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_neptunium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrmeu",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEU"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_plutonium",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrheu233",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEU233"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u235",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  5
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrheu235",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEU235"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_neptunium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  5
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrmen",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEN"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhen237",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEN237"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  5
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrmox",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MOX"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u238",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu240",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrmep",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEP"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  3
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhep239",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEP239"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu240",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  5
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhep241",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEP241"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_zirconium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrmea",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEA"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_zirconium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhea242",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HEA242"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_zirconium",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhes326",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HES326"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrhes327",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "HES327"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_australium",
+                                               "count":  4
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  6
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrbfbam",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "BFB_AM_MIX"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_am_mix",
+                                               "count":  9
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_bismuth",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.pwrbfpu241",
+                        "duration":  100,
+                        "power":  2500,
+                        "autoSwitchGroup":  "autoswitch.pwr",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "BFB_PU241"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu241",
+                                               "count":  9
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu_mix",
+                                               "count":  2
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_bismuth",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.thoriumsalt",
+                        "duration":  20,
+                        "power":  10000,
+                        "inputItem":  [
+                                          {
+                                              "ore":  "nuggetThorium232",
+                                              "count":  2
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:thorium_salt_depleted",
+                                               "amount":  16000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_u233",
+                                               "count":  1,
+                                               "chance":  0.5
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  1,
+                                               "chance":  0.25
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:thorium_salt",
+                                                "amount":  16000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzschrab",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "SCHRABIDIUM"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  15
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzhes",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "HES"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  17
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzmes",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "MES"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_tantalium",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzles",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "LES"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_solinium",
+                                               "count":  9
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_tantalium",
+                                               "count":  9
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzhen",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "HEN"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzmeu",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "MEU"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu239",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_bismuth",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzmep",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "MEP"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_pu241",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_bismuth",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzlead",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "LEAD"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_lead",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_bismuth",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzboron",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "BORON"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:powder_coal_tiny",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_co60",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watzdu",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "DU"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_polonium",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_pu238",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watznaqadah",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "NQD"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "ore":  "nuggetNaquadria",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.watznaqadria",
+                        "duration":  60,
+                        "power":  10000,
+                        "autoSwitchGroup":  "autoswitch.watz",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:watz_pellet_depleted",
+                                              "count":  1,
+                                              "meta":  "NQR"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  500
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_co60",
+                                               "count":  12
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_euphemium",
+                                               "count":  6
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste",
+                                               "count":  2
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:watz",
+                                                "amount":  1000
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.icf",
+                        "duration":  300,
+                        "power":  10000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:icf_pellet_depleted",
+                                              "count":  1
+                                          }
+                                      ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:icf_pellet_empty",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:pellet_charged",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:powder_iron",
+                                               "count":  1
+                                           }
+                                       ],
+                        "outputFluid":  [
+                                            {
+                                                "fluid":  "hbm:helium4",
+                                                "amount":  1250
+                                            }
+                                        ]
+                    },
+                    {
+                        "name":  "purex.vitliquid",
+                        "duration":  100,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:sand_mix",
+                                              "count":  1,
+                                              "meta":  "LEAD"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:wastefluid",
+                                               "amount":  1000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nuclear_waste_vitrified",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.vitgaseous",
+                        "duration":  100,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:sand_mix",
+                                              "count":  1,
+                                              "meta":  "LEAD"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:wastegas",
+                                               "amount":  1000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nuclear_waste_vitrified",
+                                               "count":  1
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.vitsolid",
+                        "duration":  300,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:sand_mix",
+                                              "count":  1,
+                                              "meta":  "LEAD"
+                                          },
+                                          {
+                                              "item":  "hbm:nuclear_waste",
+                                              "count":  4
+                                          }
+                                      ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nuclear_waste_vitrified",
+                                               "count":  4
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.schraranium",
+                        "duration":  200,
+                        "power":  1000,
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:ingot_schraranium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:kerosene",
+                                               "amount":  2000
+                                           },
+                                           {
+                                               "fluid":  "hbm:nitric_acid",
+                                               "amount":  1000
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:nugget_schrabidium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_uranium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_neptunium",
+                                               "count":  2
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.schrabzirnox",
+                        "duration":  200,
+                        "power":  50000,
+                        "autoSwitchGroup":  "autoswitch.schrab",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:waste_plutonium",
+                                              "count":  1
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:solvent",
+                                               "amount":  4000
+                                           },
+                                           {
+                                               "fluid":  "hbm:schrabidic",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:powder_schrabidium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  4
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.schrabpwr",
+                        "duration":  200,
+                        "power":  50000,
+                        "autoSwitchGroup":  "autoswitch.schrab",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEP"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:solvent",
+                                               "amount":  4000
+                                           },
+                                           {
+                                               "fluid":  "hbm:schrabidic",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:powder_schrabidium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  4
+                                           }
+                                       ]
+                    },
+                    {
+                        "name":  "purex.schrabmen",
+                        "duration":  200,
+                        "power":  50000,
+                        "autoSwitchGroup":  "autoswitch.schrab",
+                        "inputItem":  [
+                                          {
+                                              "item":  "hbm:pwr_fuel_depleted",
+                                              "count":  1,
+                                              "meta":  "MEN"
+                                          }
+                                      ],
+                        "inputFluid":  [
+                                           {
+                                               "fluid":  "hbm:solvent",
+                                               "amount":  4000
+                                           },
+                                           {
+                                               "fluid":  "hbm:schrabidic",
+                                               "amount":  250
+                                           }
+                                       ],
+                        "outputItem":  [
+                                           {
+                                               "item":  "hbm:powder_schrabidium",
+                                               "count":  1
+                                           },
+                                           {
+                                               "item":  "hbm:nugget_technetium",
+                                               "count":  3
+                                           },
+                                           {
+                                               "item":  "hbm:nuclear_waste_tiny",
+                                               "count":  4
+                                           }
+                                       ]
+                    }
+                ]
+}

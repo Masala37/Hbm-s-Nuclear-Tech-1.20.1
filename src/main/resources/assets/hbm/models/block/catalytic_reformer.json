@@ -1,0 +1,14 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/catalytic_reformer.obj",
+  "mtl_override": "hbm:models/obj/catalytic_reformer.mtl",
+  "textures": {
+    "particle": "hbm:models/machines/catalytic_reformer",
+    "material": "hbm:models/machines/catalytic_reformer",
+    "#material": "hbm:models/machines/catalytic_reformer"
+  }
+}

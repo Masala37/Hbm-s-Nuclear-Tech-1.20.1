@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PRP"
+  ],
+  "key": {
+    "P": { "item": "hbm:plate_steel" },
+    "R": { "item": "hbm:ingot_red_copper" }
+  },
+  "result": { "item": "hbm:machine_battery" }
+}

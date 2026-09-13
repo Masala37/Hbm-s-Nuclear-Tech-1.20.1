@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:potato" },
+    { "item": "hbm:wire_aluminium" },
+    { "item": "hbm:wire_copper" }
+  ],
+  "result": { "item": "hbm:battery_potato", "nbt": "{charge:1000L}" }
+}

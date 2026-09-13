@@ -1,1 +1,14 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/red_pylon_large" } }
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/network/pylon_large.obj",
+  "mtl_override": "hbm:models/obj/network/pylon_large.mtl",
+  "textures": {
+    "particle": "hbm:models/network/pylon_large",
+    "material": "hbm:models/network/pylon_large",
+    "#material": "hbm:models/network/pylon_large"
+  }
+}

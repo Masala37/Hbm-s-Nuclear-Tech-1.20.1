@@ -106,8 +106,9 @@ public final class CreativeTabClassifier {
         }
 
         if (starts(id, "bottle_", "can_", "canned_", "flask_", "cap_", "kit_", "armor_", "hazmat",
-                "helmet", "boots", "legs", "mask_", "tool_", "geiger_counter", "dosimeter",
+                "helmet", "boots", "legs", "mask_", "tool_", "geiger_counter", "oil_detector", "dosimeter",
                 "pill_", "med_", "radaway", "iv_pouch", "defuser", "wrench", "screwdriver", "hand_drill",
+                "crowbar",
                 "battery_potato", "battery_spark")
                 || id.endsWith("_helmet") || id.endsWith("_boots") || id.endsWith("_legs")
                 || id.endsWith("_plate") || id.endsWith("_axe") || id.endsWith("_pickaxe")
@@ -134,12 +135,14 @@ public final class CreativeTabClassifier {
             return Kind.CONTROL;
         }
 
-        if (starts(id, "machine_", "rbmk_", "pwr_", "crate_", "cable_", "red_cable", "red_wire",
+        if (starts(id, "machine_", "heater_", "rbmk_", "pwr_", "crate_", "cable_", "red_cable", "red_wire",
+                "red_pylon", "red_connector", "substation",
                 "combustion_", "diesel_", "electric_", "anvil_", "hadron_", "cyclotron", "foundry_",
                 "conveyor", "crane_", "boxduct", "fluid_duct", "fluid_valve", "fluid_switch",
                 "fluid_counter", "condenser", "reactor_", "zirnox_", "watz_", "icf_", "dfc_", "fusion_",
                 "boiler", "turbine", "pump_", "compressor", "centrifuge", "assembler", "chemplant",
                 "crystallizer", "shredder", "press_", "soldering", "arc_", "geiger", "broadcaster",
+                "fence_metal",
                 "radiobox", "sat_dock", "structure_")) {
             return Kind.MACHINE;
         }
@@ -177,13 +180,29 @@ public final class CreativeTabClassifier {
     private static Map<String, Kind> buildOverrides() {
         Map<String, Kind> map = new HashMap<>();
         put(map, Kind.MACHINE,
-                "electric_furnace", "diesel_generator", "combustion_generator", "machine_battery",
+                "electric_furnace", "diesel_generator", "combustion_generator", "machine_wood_burner",
+                "machine_centrifuge", "machine_gascent", "machine_fel", "machine_silex", "machine_soldering_station", "machine_mixer", "machine_arc_welder", "machine_purex",
+                "machine_well", "machine_pumpjack", "machine_refinery", "machine_fraction_tower", "fraction_spacer",
+                "machine_catalytic_cracker", "machine_hydrotreater", "machine_catalytic_reformer",
+                "machine_vacuum_distill",
+                "hotoil_bucket", "naphtha_bucket", "gas_bucket",
+                "bitumen_bucket", "smear_bucket", "heatingoil_bucket", "crackoil_bucket",
+                "oil_ds_bucket", "crackoil_ds_bucket", "sourgas_bucket", "reformate_bucket",
+                "heavyoil_vacuum_bucket", "lightoil_vacuum_bucket", "heatingoil_vacuum_bucket",
+                "reformgas_bucket",
+                "catalytic_converter",
+                "machine_battery",
                 "machine_battery_infinite", "battery_creative",
-                "ethanol_bucket", "peroxide_bucket",
+                "ethanol_bucket", "woodoil_bucket", "peroxide_bucket",
                 "kerosene_bucket", "oxygen_bucket", "kerosene_reform_bucket",
                 "hydrogen_bucket", "xenon_bucket", "balefire_bucket",
-                "fluid_barrel", "red_cable", "red_cable_classic", "red_wire_coated", "cable_switch",
-                "cable_detector", "cable_diode", "crate_iron", "crate_steel", "deco_rbmk",
+                "uf6_bucket", "puf6_bucket", "watz_bucket", "death_bucket", "vitriol_bucket", "redmud_bucket",
+                "fluid_barrel", "red_cable", "red_cable_classic", "red_wire_coated", "red_connector",
+                "red_pylon", "red_pylon_medium_wood", "red_pylon_medium_wood_transformer",
+                "red_pylon_medium_steel", "red_pylon_medium_steel_transformer", "red_pylon_large", "substation",
+                "cable_switch",
+                "cable_detector", "cable_diode", "fluid_duct_neo", "fluid_valve", "fluid_switch",
+                "fluid_counter_valve", "crate_iron", "crate_steel", "deco_rbmk",
                 "deco_rbmk_smooth", "pwr_controller",
                 "barrel_antimatter");
         put(map, Kind.NUKE,
@@ -212,13 +231,16 @@ public final class CreativeTabClassifier {
                 "gadget_wireing",
                 "demon_core_closed_still",
                 "missile_custom",
+                "deco_loot",
                 "mp_fuselage_10_long_kerosene_dash",
                 "mp_fuselage_15_kerosene_pip");
         // kits that look nuke-named but are gear packs / consumables
         put(map, Kind.CONSUMABLE,
                 "nuke_starter_kit", "nuke_advanced_kit", "nuke_electric_kit", "nuke_commercially_kit",
                 "bomb_caller", "bomb_waffle");
-        put(map, Kind.CONTROL, "mold_base", "pwr_fuel_hot");
+        put(map, Kind.CONTROL, "mold_base", "pwr_fuel_hot", "battery_pack", "battery_potato", "battery_potatos",
+                "laser_crystal_co2", "laser_crystal_bismuth", "laser_crystal_cmb",
+                "laser_crystal_dnt", "laser_crystal_digamma");
         put(map, Kind.MISSILE, "sat_base");
         return Collections.unmodifiableMap(map);
     }

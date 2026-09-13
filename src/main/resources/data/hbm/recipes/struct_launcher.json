@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "SDS",
+    "CCC"
+  ],
+  "key": {
+    "D": { "item": "hbm:pipe_steel" },
+    "S": { "item": "hbm:steel_scaffold" },
+    "P": { "item": "hbm:plate_steel" },
+    "C": { "tag": "hbm:any_concrete" }
+  },
+  "result": { "item": "hbm:struct_launcher", "count": 8 }
+}

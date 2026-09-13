@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R ",
+    "ICI",
+    " T "
+  ],
+  "key": {
+    "R": { "item": "hbm:wire_red_copper" },
+    "I": { "item": "hbm:plate_steel" },
+    "C": { "item": "hbm:coil_copper" },
+    "T": { "item": "hbm:coil_copper_torus" }
+  },
+  "result": { "item": "hbm:motor", "count": 2 }
+}

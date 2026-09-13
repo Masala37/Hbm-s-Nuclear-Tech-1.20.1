@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,12 +21,16 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * One-way FE node: receive from every side except output, push only toward FACING.
+ * 1.7 throughput is {@code 10^level} HE; level is 1–11.
  */
 public class CableDiodeBlockEntity extends BlockEntity {
     public static final int CAPACITY = 32_000;
-    public static final int TRANSFER = 5_000;
+    public static final int MIN_LEVEL = 1;
+    public static final int MAX_LEVEL = 11;
 
-    private final ModEnergyStorage energy = new ModEnergyStorage(CAPACITY, TRANSFER, TRANSFER, this::onChanged);
+    private int throughputLevel = MIN_LEVEL;
+    private final ModEnergyStorage energy = new ModEnergyStorage(CAPACITY, transferRate(MIN_LEVEL),
+            transferRate(MIN_LEVEL), this::onChanged);
     private final IEnergyStorage receiveOnly = new IEnergyStorage() {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
@@ -99,6 +104,53 @@ public class CableDiodeBlockEntity extends BlockEntity {
         return energy;
     }
 
+    public int getThroughputLevel() {
+        return throughputLevel;
+    }
+
+    public int transferRate() {
+        return transferRate(throughputLevel);
+    }
+
+    public static int transferRate(int level) {
+        int clamped = Math.max(MIN_LEVEL, Math.min(MAX_LEVEL, level));
+        double value = Math.pow(10, clamped);
+        return (int) Math.min(Integer.MAX_VALUE, value);
+    }
+
+    public boolean raiseThroughput() {
+        if (throughputLevel >= MAX_LEVEL) {
+            return true;
+        }
+        throughputLevel++;
+        applyTransfer();
+        sync();
+        return true;
+    }
+
+    public boolean lowerThroughput() {
+        if (throughputLevel <= MIN_LEVEL) {
+            return true;
+        }
+        throughputLevel--;
+        applyTransfer();
+        sync();
+        return true;
+    }
+
+    private void applyTransfer() {
+        energy.setMaxTransfer(transferRate());
+        setChanged();
+    }
+
+    private void sync() {
+        setChanged();
+        if (level != null && !level.isClientSide) {
+            BlockState state = getBlockState();
+            level.sendBlockUpdated(worldPosition, state, state, Block.UPDATE_CLIENTS);
+        }
+    }
+
     private void onChanged() {
         setChanged();
     }
@@ -109,20 +161,26 @@ public class CableDiodeBlockEntity extends BlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, CableDiodeBlockEntity be) {
         Direction out = state.getValue(CableDiodeBlock.FACING);
-        EnergyNetworkHelper.pullFromNeighborsExcept(level, pos, be.energy, TRANSFER, out);
-        EnergyNetworkHelper.pushToNeighbor(level, pos, be.energy, TRANSFER, out);
+        int rate = be.transferRate();
+        EnergyNetworkHelper.pullFromNeighborsExcept(level, pos, be.energy, rate, out);
+        EnergyNetworkHelper.pushToNeighbor(level, pos, be.energy, rate, out);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         energy.write(tag);
+        tag.putInt("diodeLevel", throughputLevel);
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         energy.read(tag);
+        if (tag.contains("diodeLevel")) {
+            throughputLevel = Math.max(MIN_LEVEL, Math.min(MAX_LEVEL, tag.getInt("diodeLevel")));
+        }
+        applyTransfer();
     }
 
     @Override

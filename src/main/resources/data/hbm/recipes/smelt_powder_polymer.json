@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_polymer" },
+  "result": "hbm:ingot_polymer",
+  "experience": 1.0,
+  "cookingtime": 200
+}

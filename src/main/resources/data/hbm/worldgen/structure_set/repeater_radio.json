@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "hbm:repeater_radio",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "hbm:ntm_grid",
+    "salt": 996996996,
+    "locate_offset": [8, 0, 8],
+    "frequency": 1.0
+  }
+}

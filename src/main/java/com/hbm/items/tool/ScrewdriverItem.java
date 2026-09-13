@@ -5,8 +5,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
+import api.hbm.block.IToolable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -74,5 +77,30 @@ public class ScrewdriverItem extends Item {
             }
         }
         return InteractionResultHolder.sidedSuccess(tool, level.isClientSide());
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        return IToolable.tryUseOn(context);
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return false;
+    }
+
+    @Override
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
+        if (getMaxDamage() <= 0) {
+            return stack.copy();
+        }
+        ItemStack copy = stack.copy();
+        copy.setDamageValue(copy.getDamageValue() + 1);
+        return copy.getDamageValue() >= copy.getMaxDamage() ? ItemStack.EMPTY : copy;
     }
 }

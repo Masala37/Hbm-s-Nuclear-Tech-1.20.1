@@ -13,9 +13,11 @@ public final class ModConfig {
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         GeneralConfig.build(builder);
+        MachineConfig.build(builder);
         RBMKConfig.build(builder);
         BombConfig.build(builder);
         WorldConfig.build(builder);
+        StructureConfig.build(builder);
         RadiationConfig.build(builder);
         COMMON_SPEC = builder.build();
     }

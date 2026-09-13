@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_semtex" } ],
+  "result": { "item": "hbm:ingot_semtex", "count": 9 }
+}

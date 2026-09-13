@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_u233" } ],
+  "result": { "item": "hbm:ingot_u233", "count": 9 }
+}

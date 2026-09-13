@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "CPC",
+    " I "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "C": { "item": "hbm:ingot_copper" },
+    "P": { "item": "hbm:plate_iron" }
+  },
+  "result": { "item": "hbm:piston_pneumatic", "count": 4 }
+}

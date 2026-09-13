@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#",
+    "#"
+  ],
+  "key": {
+    "X": { "item": "hbm:ingot_titanium" },
+    "#": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "hbm:titanium_shovel" }
+}

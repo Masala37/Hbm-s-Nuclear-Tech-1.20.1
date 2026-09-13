@@ -1,0 +1,6 @@
+{
+  "feature": "hbm:ore_layer_malachite",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

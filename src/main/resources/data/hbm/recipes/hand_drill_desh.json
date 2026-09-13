@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [" D","S "," S"],
+  "key": {
+    "D": { "item": "hbm:ingot_desh" },
+    "S": [ { "item": "hbm:ingot_polymer" }, { "item": "hbm:ingot_bakelite" } ]
+  },
+  "result": { "item": "hbm:hand_drill_desh" }
+}

@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.machine.MachineBatteryBlockEntity;
+import com.hbm.blockentity.machine.MachineDrops;
 import com.hbm.inventory.menu.HbmMenuHelper;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -83,5 +84,30 @@ public class MachineBatteryBlock extends BaseEntityBlock {
         }
         HbmMenuHelper.open(sp, be);
         return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof MachineBatteryBlockEntity battery) {
+            return battery.getComparatorPower();
+        }
+        return 0;
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof MachineBatteryBlockEntity battery) {
+                MachineDrops.drop(level, pos, battery.getItems());
+            }
+            super.onRemove(state, level, pos, newState, isMoving);
+        }
     }
 }

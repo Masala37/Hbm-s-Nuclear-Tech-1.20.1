@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_schraranium" } ],
+  "result": { "item": "hbm:ingot_schraranium", "count": 9 }
+}

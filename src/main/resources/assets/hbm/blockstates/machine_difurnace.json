@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "covered=false,facing=north,lit=false": { "model": "hbm:block/machine_difurnace" },
+    "covered=false,facing=south,lit=false": { "model": "hbm:block/machine_difurnace", "y": 180 },
+    "covered=false,facing=west,lit=false": { "model": "hbm:block/machine_difurnace", "y": 270 },
+    "covered=false,facing=east,lit=false": { "model": "hbm:block/machine_difurnace", "y": 90 },
+    "covered=false,facing=north,lit=true": { "model": "hbm:block/machine_difurnace_on" },
+    "covered=false,facing=south,lit=true": { "model": "hbm:block/machine_difurnace_on", "y": 180 },
+    "covered=false,facing=west,lit=true": { "model": "hbm:block/machine_difurnace_on", "y": 270 },
+    "covered=false,facing=east,lit=true": { "model": "hbm:block/machine_difurnace_on", "y": 90 },
+    "covered=true,facing=north,lit=false": { "model": "hbm:block/machine_difurnace_covered" },
+    "covered=true,facing=south,lit=false": { "model": "hbm:block/machine_difurnace_covered", "y": 180 },
+    "covered=true,facing=west,lit=false": { "model": "hbm:block/machine_difurnace_covered", "y": 270 },
+    "covered=true,facing=east,lit=false": { "model": "hbm:block/machine_difurnace_covered", "y": 90 },
+    "covered=true,facing=north,lit=true": { "model": "hbm:block/machine_difurnace_covered_on" },
+    "covered=true,facing=south,lit=true": { "model": "hbm:block/machine_difurnace_covered_on", "y": 180 },
+    "covered=true,facing=west,lit=true": { "model": "hbm:block/machine_difurnace_covered_on", "y": 270 },
+    "covered=true,facing=east,lit=true": { "model": "hbm:block/machine_difurnace_covered_on", "y": 90 }
+  }
+}

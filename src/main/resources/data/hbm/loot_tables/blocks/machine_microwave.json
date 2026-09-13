@@ -1,4 +1,10 @@
 {
   "type": "minecraft:block",
-  "pools": [{ "rolls": 1, "entries": [{ "type": "minecraft:item", "name": "hbm:machine_microwave" }], "conditions": [{ "condition": "minecraft:survives_explosion" }] }]
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [ { "type": "minecraft:item", "name": "hbm:machine_microwave" } ],
+      "conditions": [ { "condition": "minecraft:survives_explosion" } ]
+    }
+  ]
 }

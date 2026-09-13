@@ -1,0 +1,1515 @@
+{
+  "source": "legacy-1.7.10 ShredderRecipes.registerDefaults",
+  "recipes": [
+    {
+      "input": {
+        "item": "hbm:scrap",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:dust",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:dust",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:dust",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:dust_tiny",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:dust_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:glowstone",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:glowstone_dust",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:quartz_block",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_quartz",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:quartz_stairs",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_quartz",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:quartz",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_quartz",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:nether_quartz_ore",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_quartz",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_nether_fire",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_fire",
+        "count": 6
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:packed_ice",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_ice",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_light",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:concrete",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:concrete_smooth",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_concrete",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_concrete_mossy",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_concrete_cracked",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_concrete_broken",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:brick_obsidian",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:gravel_obsidian",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:obsidian",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:gravel_obsidian",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:stone",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_oil_empty",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:cobblestone",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:stone_bricks",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:gravel",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sand",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:bricks",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:brick_stairs",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:flower_pot",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:brick",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:sandstone",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sand",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:sandstone_stairs",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sand",
+        "count": 6
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:clay",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:terracotta",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:clay_ball",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:stone_gneiss",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_lithium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_neodymium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_neodymium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_cobalt",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_cobalt_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_niobium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_niobium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_cerium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_cerium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_lanthanium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_lanthanium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_actinium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_actinium_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_boron",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_boron_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:fragment_meteorite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:block_meteor",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 10
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:enchanted_book",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_magic",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_polished",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_brick",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_brick_mossy",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_brick_cracked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_brick_chiseled",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:meteor_pillar",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_rare",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_desh_mix",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:diamond_ore",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:gravel_diamond",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_sellafield_diamond",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:gravel_diamond",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:boxcar",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 32
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ingot_schrabidate",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_schrabidate",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:block_schrabidate",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_schrabidate",
+        "count": 9
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coal_infernal",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_coal",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:fermented_spider_eye",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_poison",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:poisonous_potato",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_poison",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_tektite_osmiridium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_tektite",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:dirt",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:dust",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:sugar_cane",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sugar",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:apple",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sugar",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:carrot",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:sugar",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:can_empty",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_aluminium",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "minecraft:sand",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:dust",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:block_slag",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_cement",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ingot_schraranium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:nugget_schrabidium",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_coal",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_coal",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_iron",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_iron",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_gold",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_gold",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_redstone",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:redstone",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_lapis",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_lapis",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_diamond",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_diamond",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_uranium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_uranium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_plutonium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_plutonium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_thorium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_thorium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_titanium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_titanium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_sulfur",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:sulfur",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_niter",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:niter",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_copper",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_copper",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_tungsten",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_tungsten",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_aluminium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_aluminium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_fluorite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:fluorite",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_beryllium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_beryllium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_lead",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_lead",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_schraranium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:nugget_schrabidium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_schrabidium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_schrabidium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_rare",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_desh_mix",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_phosphorus",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_fire",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_trixite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_plutonium",
+        "count": 6
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_lithium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_lithium",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_starmetal",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_dura_steel",
+        "count": 6
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crystal_cobalt",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_cobalt",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_poles",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_roof",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 9
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_wall",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 9
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_corner",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 18
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_beam",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_copper",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_red_copper",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_copper_torus",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_red_copper",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_gold",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_gold",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_gold_torus",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_gold",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_tungsten",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_tungsten",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:coil_magnetized_tungsten",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_magnetized_tungsten",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crate_iron",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_iron",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crate_steel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 8
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:crate_tungsten",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_tungsten",
+        "count": 36
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:chain",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:steel_grate",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:pipes_steel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 27
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:sellafield_slaked",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:gravel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:sellafield",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_nuclear",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:dirt_dead",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:dirt_oily",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:sand_dirty",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:sand_dirty_red",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:stone_cracked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:stone_porous",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_oil",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_green",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_green_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_red",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_marked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim_green",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim_green_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim_red",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_rim_marked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad_green",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad_green_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad_red",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_quad_marked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed_green",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed_green_rusted",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed_red",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:deco_pipe_framed_marked",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_concrete",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_nuclear",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_shrapnel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 5
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_exchanger",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_element",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:scrap_nuclear",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_metal",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_steel_tiny",
+        "count": 3
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:debris_graphite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_coal",
+        "count": 1
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:stone_resource_limestone",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_limestone",
+        "count": 4
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:ore_aluminium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:chunk_ore_cryolite",
+        "count": 2
+      }
+    },
+    {
+      "input": {
+        "item": "hbm:chunk_ore_rare",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:powder_desh_mix",
+        "count": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "source": "legacy-1.7.10 BlastFurnaceRecipes.registerDefaults",
+  "recipes": [
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotIron",
+            "count": 1
+          },
+          {
+            "ore": "plateIron",
+            "count": 1
+          },
+          {
+            "ore": "gemIron",
+            "count": 1
+          },
+          {
+            "ore": "dustIron",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotCoal",
+            "count": 1
+          },
+          {
+            "ore": "plateCoal",
+            "count": 1
+          },
+          {
+            "ore": "gemCoal",
+            "count": 1
+          },
+          {
+            "ore": "dustCoal",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:ingot_steel",
+        "count": 1
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotIron",
+            "count": 1
+          },
+          {
+            "ore": "plateIron",
+            "count": 1
+          },
+          {
+            "ore": "gemIron",
+            "count": 1
+          },
+          {
+            "ore": "dustIron",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "plateAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "gemAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "dustAnyCoke",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:ingot_steel",
+        "count": 1
+      }
+    },
+    {
+      "inputA": {
+        "ore": "oreIron",
+        "count": 1
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotCoal",
+            "count": 1
+          },
+          {
+            "ore": "plateCoal",
+            "count": 1
+          },
+          {
+            "ore": "gemCoal",
+            "count": 1
+          },
+          {
+            "ore": "dustCoal",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:ingot_steel",
+        "count": 2
+      }
+    },
+    {
+      "inputA": {
+        "ore": "oreIron",
+        "count": 1
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "plateAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "gemAnyCoke",
+            "count": 1
+          },
+          {
+            "ore": "dustAnyCoke",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:ingot_steel",
+        "count": 3
+      }
+    },
+    {
+      "inputA": {
+        "ore": "oreIron",
+        "count": 1
+      },
+      "inputB": {
+        "item": "hbm:powder_flux",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_steel",
+        "count": 3
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotCopper",
+            "count": 1
+          },
+          {
+            "ore": "plateCopper",
+            "count": 1
+          },
+          {
+            "ore": "gemCopper",
+            "count": 1
+          },
+          {
+            "ore": "dustCopper",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotRedstone",
+            "count": 1
+          },
+          {
+            "ore": "plateRedstone",
+            "count": 1
+          },
+          {
+            "ore": "gemRedstone",
+            "count": 1
+          },
+          {
+            "ore": "dustRedstone",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:ingot_red_copper",
+        "count": 2
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotTungsten",
+            "count": 1
+          },
+          {
+            "ore": "plateTungsten",
+            "count": 1
+          },
+          {
+            "ore": "gemTungsten",
+            "count": 1
+          },
+          {
+            "ore": "dustTungsten",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "ore": "nuggetSchrabidium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_magnetized_tungsten",
+        "count": 1
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotSteel",
+            "count": 1
+          },
+          {
+            "ore": "plateSteel",
+            "count": 1
+          },
+          {
+            "ore": "gemSteel",
+            "count": 1
+          },
+          {
+            "ore": "dustSteel",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "ore": "nuggetTechnetium99",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_tcalloy",
+        "count": 1
+      }
+    },
+    {
+      "inputA": {
+        "ore": "plateGold",
+        "count": 1
+      },
+      "inputB": {
+        "item": "hbm:plate_mixed",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_paa",
+        "count": 2
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotSaturnite",
+            "count": 1
+          },
+          {
+            "ore": "plateSaturnite",
+            "count": 1
+          },
+          {
+            "ore": "gemSaturnite",
+            "count": 1
+          },
+          {
+            "ore": "dustSaturnite",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "item": "hbm:ingot_meteorite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_starmetal",
+        "count": 2
+      }
+    },
+    {
+      "inputA": {
+        "anyOf": [
+          {
+            "ore": "ingotCobalt",
+            "count": 1
+          },
+          {
+            "ore": "plateCobalt",
+            "count": 1
+          },
+          {
+            "ore": "gemCobalt",
+            "count": 1
+          },
+          {
+            "ore": "dustCobalt",
+            "count": 1
+          }
+        ]
+      },
+      "inputB": {
+        "item": "hbm:powder_meteorite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_meteorite",
+        "count": 1
+      }
+    },
+    {
+      "inputA": {
+        "item": "hbm:meteorite_sword_hardened",
+        "count": 1
+      },
+      "inputB": {
+        "anyOf": [
+          {
+            "ore": "ingotCobalt",
+            "count": 1
+          },
+          {
+            "ore": "plateCobalt",
+            "count": 1
+          },
+          {
+            "ore": "gemCobalt",
+            "count": 1
+          },
+          {
+            "ore": "dustCobalt",
+            "count": 1
+          }
+        ]
+      },
+      "output": {
+        "item": "hbm:meteorite_sword_alloyed",
+        "count": 1
+      }
+    }
+  ]
+}

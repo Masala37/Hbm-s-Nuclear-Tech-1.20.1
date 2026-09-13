@@ -583,6 +583,7 @@ explosive_lenses	nuke
 fallout	block
 fan	machine
 fence_metal	machine
+fence_metal_post	machine
 filing_cabinet	block
 filter_coal	parts
 fins_big_steel	parts

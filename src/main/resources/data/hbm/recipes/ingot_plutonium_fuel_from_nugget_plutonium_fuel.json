@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###","###","###"],
+  "key": { "#": { "item": "hbm:nugget_plutonium_fuel" } },
+  "result": { "item": "hbm:ingot_plutonium_fuel" }
+}

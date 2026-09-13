@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:ingot_bismuth" } ],
+  "result": { "item": "hbm:nugget_bismuth", "count": 9 }
+}

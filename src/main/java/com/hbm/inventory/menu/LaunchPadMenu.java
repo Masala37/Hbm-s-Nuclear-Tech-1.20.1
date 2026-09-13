@@ -162,7 +162,7 @@ public class LaunchPadMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return MenuValidity.closeEnough(player, be);
+        return MenuValidity.boundToBlock(player, be);
     }
 
     @Override

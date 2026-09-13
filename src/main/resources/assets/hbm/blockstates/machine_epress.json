@@ -1,1 +1,20 @@
-{ "variants": { "": { "model": "hbm:block/machine_epress" } } }
+{
+  "variants": {
+    "meta=0": { "model": "hbm:block/epress_dummy" },
+    "meta=1": { "model": "hbm:block/epress_dummy" },
+    "meta=2": { "model": "hbm:block/epress_dummy" },
+    "meta=3": { "model": "hbm:block/epress_dummy" },
+    "meta=4": { "model": "hbm:block/epress_dummy" },
+    "meta=5": { "model": "hbm:block/epress_dummy" },
+    "meta=6": { "model": "hbm:block/epress_dummy" },
+    "meta=7": { "model": "hbm:block/epress_dummy" },
+    "meta=8": { "model": "hbm:block/epress_dummy" },
+    "meta=9": { "model": "hbm:block/epress_dummy" },
+    "meta=10": { "model": "hbm:block/epress_dummy" },
+    "meta=11": { "model": "hbm:block/epress_dummy" },
+    "meta=12": { "model": "hbm:block/epress_dummy" },
+    "meta=13": { "model": "hbm:block/epress_dummy" },
+    "meta=14": { "model": "hbm:block/epress_dummy" },
+    "meta=15": { "model": "hbm:block/epress_dummy" }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "feature": "hbm:ore_layer_bauxite",
+  "placement": [
+    { "type": "minecraft:biome" }
+  ]
+}

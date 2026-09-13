@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "variant=generic": { "model": "hbm:block/plant_dead_generic" }
+,    "variant=grass": { "model": "hbm:block/plant_dead_grass" }
+,    "variant=flower": { "model": "hbm:block/plant_dead_flower" }
+,    "variant=bigflower": { "model": "hbm:block/plant_dead_bigflower" }
+,    "variant=fern": { "model": "hbm:block/plant_dead_fern" }
+  }
+}

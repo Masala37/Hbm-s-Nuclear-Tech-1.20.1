@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "type": "forge:nbt", "item": "hbm:pellet_rtg_depleted", "nbt": "{type:\"BISMUTH\"}" }
+  ],
+  "result": { "item": "hbm:billet_bismuth", "count": 3 }
+}

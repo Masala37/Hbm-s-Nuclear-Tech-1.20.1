@@ -1,0 +1,14 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/boiler.obj",
+  "mtl_override": "hbm:models/obj/boiler.mtl",
+  "textures": {
+    "particle": "hbm:models/machines/boiler",
+    "material": "hbm:models/machines/boiler",
+    "#material": "hbm:models/machines/boiler"
+  }
+}

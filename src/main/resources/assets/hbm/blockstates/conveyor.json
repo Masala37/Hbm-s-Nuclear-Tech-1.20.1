@@ -1,1 +1,16 @@
-{ "variants": { "": { "model": "hbm:block/conveyor" } } }
+{
+  "variants": {
+    "facing=north,bend=0": { "model": "hbm:block/conveyor" },
+    "facing=east,bend=0": { "model": "hbm:block/conveyor", "y": 90 },
+    "facing=south,bend=0": { "model": "hbm:block/conveyor", "y": 180 },
+    "facing=west,bend=0": { "model": "hbm:block/conveyor", "y": 270 },
+    "facing=north,bend=1": { "model": "hbm:block/conveyor_left" },
+    "facing=east,bend=1": { "model": "hbm:block/conveyor_left", "y": 90 },
+    "facing=south,bend=1": { "model": "hbm:block/conveyor_left", "y": 180 },
+    "facing=west,bend=1": { "model": "hbm:block/conveyor_left", "y": 270 },
+    "facing=north,bend=2": { "model": "hbm:block/conveyor_right" },
+    "facing=east,bend=2": { "model": "hbm:block/conveyor_right", "y": 90 },
+    "facing=south,bend=2": { "model": "hbm:block/conveyor_right", "y": 180 },
+    "facing=west,bend=2": { "model": "hbm:block/conveyor_right", "y": 270 }
+  }
+}

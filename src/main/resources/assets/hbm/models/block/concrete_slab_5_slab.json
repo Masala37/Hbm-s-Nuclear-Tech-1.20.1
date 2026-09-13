@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": { "bottom": "hbm:block/asphalt", "top": "hbm:block/asphalt", "side": "hbm:block/asphalt" }
+}

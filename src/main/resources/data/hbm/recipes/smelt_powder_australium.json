@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_australium" },
+  "result": "hbm:ingot_australium",
+  "experience": 5.0,
+  "cookingtime": 200
+}

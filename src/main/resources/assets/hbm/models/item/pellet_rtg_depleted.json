@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "hbm:item/pellet_rtg_depleted.bismuth" },
+  "overrides": [
+    { "predicate": { "hbm:mat": 5 }, "model": "hbm:item/pellet_rtg_depleted_nickel" },
+    { "predicate": { "hbm:mat": 4 }, "model": "hbm:item/pellet_rtg_depleted_zirconium" },
+    { "predicate": { "hbm:mat": 3 }, "model": "hbm:item/pellet_rtg_depleted_lead" },
+    { "predicate": { "hbm:mat": 2 }, "model": "hbm:item/pellet_rtg_depleted_neptunium" },
+    { "predicate": { "hbm:mat": 1 }, "model": "hbm:item/pellet_rtg_depleted_mercury" },
+    { "predicate": { "hbm:mat": 0 }, "model": "hbm:item/pellet_rtg_depleted_bismuth" }
+  ]
+}

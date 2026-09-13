@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_plutonium" },
+  "result": { "item": "hbm:ingot_plutonium", "count": 2 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

@@ -50,13 +50,39 @@ public final class ModFluids {
             "hotsteam", 0xFFE0C8C8, 500);
     public static final FluidEntry ULTRAHOTSTEAM = registerGas(
             "ultrahotsteam", 0xFFFFB0B0, 1000);
+    public static final FluidEntry SPENTSTEAM = registerGas(
+            "spentsteam", 0xFF445772, 373);
 
     public static final FluidEntry OIL = registerLiquid(
             "oil", 0xFF020202, 900, 3000, 300, true);
+    public static final FluidEntry CRACKOIL = registerLiquid(
+            "crackoil", 0xFF020202, 900, 3000, 300, true);
+    public static final FluidEntry OIL_DS = registerLiquid(
+            "oil_ds", 0xFF121212, 900, 3000, 300, true);
+    public static final FluidEntry CRACKOIL_DS = registerLiquid(
+            "crackoil_ds", 0xFF2A1C11, 900, 3000, 300, true);
+    public static final FluidEntry HOTOIL = registerLiquid(
+            "hotoil", 0xFF300900, 800, 2500, 350, false);
     public static final FluidEntry HEAVYOIL = registerLiquid(
             "heavyoil", 0xFF141312, 950, 4000, 300, true);
+    public static final FluidEntry HEAVYOIL_VACUUM = registerLiquid(
+            "heavyoil_vacuum", 0xFF131214, 950, 4000, 300, false);
+    public static final FluidEntry NAPHTHA = registerLiquid(
+            "naphtha", 0xFF595744, 800, 1500, 300, false);
+    public static final FluidEntry REFORMATE = registerLiquid(
+            "reformate", 0xFF835472, 800, 1500, 300, false);
     public static final FluidEntry LIGHTOIL = registerLiquid(
             "lightoil", 0xFF8C7451, 800, 1200, 300, true);
+    public static final FluidEntry LIGHTOIL_VACUUM = registerLiquid(
+            "lightoil_vacuum", 0xFF8C8851, 800, 1200, 300, false);
+    public static final FluidEntry BITUMEN = registerLiquid(
+            "bitumen", 0xFF1F2426, 1100, 8000, 300, false);
+    public static final FluidEntry SMEAR = registerLiquid(
+            "smear", 0xFF190F01, 900, 4000, 300, false);
+    public static final FluidEntry HEATINGOIL = registerLiquid(
+            "heatingoil", 0xFF211806, 850, 2500, 300, false);
+    public static final FluidEntry HEATINGOIL_VACUUM = registerLiquid(
+            "heatingoil_vacuum", 0xFF211D06, 850, 2500, 300, false);
     public static final FluidEntry DIESEL = registerLiquid(
             "diesel", 0xFFF2EED5, 850, 1000, 300, true);
     public static final FluidEntry GASOLINE = registerLiquid(
@@ -65,6 +91,8 @@ public final class ModFluids {
             "lubricant", 0xFF606060, 900, 2000, 300, true);
     public static final FluidEntry ETHANOL = registerLiquid(
             "ethanol", 0xFFE8F0FF, 789, 1200, 300, false);
+    public static final FluidEntry WOODOIL = registerLiquid(
+            "woodoil", 0xFF847D54, 900, 3000, 300, false);
     public static final FluidEntry PEROXIDE = registerLiquid(
             "peroxide", 0xFFE8FFE8, 1450, 1200, 300, false);
     public static final FluidEntry KEROSENE = registerLiquid(
@@ -87,6 +115,24 @@ public final class ModFluids {
             "solvent", 0xFFE4E3EF, 800, 900, 300, true);
     public static final FluidEntry PETROLEUM = registerGas(
             "petroleum", 0xFF7CB7C9, 300);
+    public static final FluidEntry GAS = registerGas(
+            "gas", 0xFFFFFEED, 300);
+    public static final FluidEntry SOURGAS = registerGas(
+            "sourgas", 0xFFC9BE0D, 300);
+    public static final FluidEntry REFORMGAS = registerGas(
+            "reformgas", 0xFF6362AE, 300);
+    public static final FluidEntry UF6 = registerLiquid(
+            "uf6", 0xFFD1CEBE, 5, 200, 300, false);
+    public static final FluidEntry PUF6 = registerLiquid(
+            "puf6", 0xFF4C4C4C, 5, 200, 300, false);
+    public static final FluidEntry DEATH = registerLiquid(
+            "death", 0xFF717A88, 1200, 3000, 300, false);
+    public static final FluidEntry VITRIOL = registerLiquid(
+            "vitriol", 0xFF6E5222, 1400, 4000, 300, false);
+    public static final FluidEntry REDMUD = registerLiquid(
+            "redmud", 0xFFD85638, 1400, 4000, 300, false);
+    public static final FluidEntry WATZ = registerLiquid(
+            "watz", 0xFF86653E, 1200, 4000, 300, false);
 
     /** Volcano magma — block registered in {@link ModBlocks} as {@code volcanic_lava_block}. */
     public static final FluidEntry VOLCANIC_LAVA = registerLinkedLava(

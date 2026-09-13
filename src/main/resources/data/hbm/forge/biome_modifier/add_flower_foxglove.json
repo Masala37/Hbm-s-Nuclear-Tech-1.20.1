@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#hbm:ntm_flower_forest",
+  "features": "hbm:flower_foxglove",
+  "step": "vegetal_decoration"
+}

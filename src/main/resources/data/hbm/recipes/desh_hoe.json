@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["XX"," #"," #"],
+  "key": {
+    "X": { "item": "hbm:ingot_desh" },
+    "#": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "hbm:desh_hoe" }
+}

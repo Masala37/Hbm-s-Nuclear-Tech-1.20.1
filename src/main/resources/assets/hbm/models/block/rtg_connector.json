@@ -1,0 +1,13 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/rtg_connector.obj",
+  "textures": {
+    "particle": "hbm:models/machines/rtg",
+    "material": "hbm:models/machines/rtg",
+    "#material": "hbm:models/machines/rtg"
+  }
+}

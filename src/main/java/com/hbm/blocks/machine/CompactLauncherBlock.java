@@ -31,7 +31,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -40,8 +39,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 3×3 compact custom-missile launcher (1.7.10 {@code CompactLauncher}).
@@ -131,6 +128,19 @@ public class CompactLauncherBlock extends BaseEntityBlock implements IBomb {
     }
 
     public static void fillStructure(Level level, BlockPos core, Block launcher) {
+        fillStructure(level, core, launcher, false);
+    }
+
+    /**
+     * 1.7.10 {@code TileEntityMultiblock.buildCompact}: force-replace the 3×3
+     * {@code struct_launcher} frame with a compact launcher.
+     */
+    public static void formFromStruct(Level level, BlockPos core, Block launcher) {
+        fillStructure(level, core, launcher, true);
+        checkPower(level, core);
+    }
+
+    private static void fillStructure(Level level, BlockPos core, Block launcher, boolean replaceSolid) {
         if (level.isClientSide || !(launcher instanceof CompactLauncherBlock)) {
             return;
         }
@@ -143,7 +153,7 @@ public class CompactLauncherBlock extends BaseEntityBlock implements IBomb {
                             .setValue(OX, GRID.pack(dx))
                             .setValue(OZ, GRID.pack(dz));
                     BlockState at = level.getBlockState(cell);
-                    if (!at.equals(want) && (at.is(launcher) || at.canBeReplaced())) {
+                    if (!at.equals(want) && (replaceSolid || at.is(launcher) || at.canBeReplaced())) {
                         level.setBlock(cell, want, 3);
                     }
                 }
@@ -189,6 +199,10 @@ public class CompactLauncherBlock extends BaseEntityBlock implements IBomb {
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return isCore(state) ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.INVISIBLE;
+    }
+
+    public boolean hasBlockEntity(BlockState state) {
+        return isCore(state) || isPort(state);
     }
 
     @Override
@@ -338,14 +352,6 @@ public class CompactLauncherBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        if (!isCore(state)) {
-            return Collections.emptyList();
-        }
-        return super.getDrops(state, params);
-    }
-
-    @Override
     public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
         return new ItemStack(this);
     }
@@ -361,8 +367,7 @@ public class CompactLauncherBlock extends BaseEntityBlock implements IBomb {
         }
         CompactLauncherBlockEntity launcher = coreEntity(level, pos, state);
         if (launcher != null && launcher.canLaunch()) {
-            launcher.launchFromDesignator();
-            return BombReturnCode.LAUNCHED;
+            return launcher.launchFromDesignator();
         }
         return BombReturnCode.ERROR_MISSING_COMPONENT;
     }

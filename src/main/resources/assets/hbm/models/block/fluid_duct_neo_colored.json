@@ -1,0 +1,7 @@
+{
+  "parent": "hbm:block/fluid_duct_neo",
+  "textures": {
+    "all": "hbm:block/pipe_colored_overlay",
+    "particle": "hbm:block/pipe_colored_overlay"
+  }
+}

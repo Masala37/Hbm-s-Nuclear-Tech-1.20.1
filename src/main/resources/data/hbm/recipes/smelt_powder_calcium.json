@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_calcium" },
+  "result": "hbm:ingot_calcium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

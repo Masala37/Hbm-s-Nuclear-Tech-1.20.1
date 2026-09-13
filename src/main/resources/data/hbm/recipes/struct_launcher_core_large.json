@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SIS",
+    "ICI",
+    "BEB"
+  ],
+  "key": {
+    "C": { "item": "hbm:circuit_advanced" },
+    "E": { "type": "forge:nbt", "item": "hbm:battery_pack", "nbt": "{type:\"BATTERY_LEAD\"}" },
+    "S": { "item": "hbm:circuit_advanced" },
+    "B": { "item": "hbm:struct_launcher" },
+    "I": { "item": "minecraft:iron_bars" }
+  },
+  "result": { "item": "hbm:struct_launcher_core_large" }
+}

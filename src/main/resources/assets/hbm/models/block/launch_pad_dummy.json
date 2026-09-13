@@ -1,4 +1,4 @@
 {
-  "textures": { "particle": "hbm:block/launch_pad" },
-  "elements": []
+  "parent": "minecraft:builtin/entity",
+  "textures": { "particle": "hbm:block/launch_pad" }
 }

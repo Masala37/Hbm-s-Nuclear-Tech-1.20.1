@@ -1,1 +1,3 @@
-{"parent":"hbm:block/dud_balefire"}
+{
+  "parent": "hbm:item/missile_bewlr"
+}

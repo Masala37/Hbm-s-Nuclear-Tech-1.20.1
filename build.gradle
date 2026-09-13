@@ -2,7 +2,6 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 version = mod_version
@@ -54,10 +53,13 @@ repositories {
     mavenCentral()
     maven { url = 'https://maven.minecraftforge.net/' }
     maven { url = 'https://maven.parchmentmc.org' }
+    maven { url = 'https://maven.blamejared.com/' }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
 }
 
@@ -83,6 +85,17 @@ tasks.named('processResources', ProcessResources).configure {
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
+    }
+
+    // 1.20 ResourceLocation paths cannot contain uppercase. CamelCase leftovers
+    // from 1.7 still live in the source tree; packing them only spams
+    // "Invalid path in pack" and can crash if Java constructs those paths.
+    exclude { element ->
+        if (element.directory) {
+            return false
+        }
+        def normalized = element.path.replace('\\', '/')
+        return normalized.startsWith('assets/hbm/') && (normalized =~ /[A-Z]/)
     }
 }
 

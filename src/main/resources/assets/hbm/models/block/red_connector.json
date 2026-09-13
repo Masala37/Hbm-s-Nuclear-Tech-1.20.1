@@ -1,1 +1,14 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/red_connector" } }
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "detect_cullable_faces": false,
+  "shade_quads": false,
+  "model": "hbm:models/obj/network/connector.obj",
+  "mtl_override": "hbm:models/obj/network/connector.mtl",
+  "textures": {
+    "particle": "hbm:models/network/connector",
+    "material": "hbm:models/network/connector",
+    "#material": "hbm:models/network/connector"
+  }
+}

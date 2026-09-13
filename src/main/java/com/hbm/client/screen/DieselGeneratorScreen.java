@@ -21,8 +21,16 @@ public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGenerat
 
     public DieselGeneratorScreen(DieselGeneratorMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
+        this.imageWidth = 176;
         this.imageHeight = 166;
         this.inventoryLabelY = this.imageHeight - 94;
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(this.font, this.title,
+                this.imageWidth / 2 - this.font.width(this.title) / 2, 6, 0x404040, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x404040, false);
     }
 
     @Override
@@ -50,6 +58,9 @@ public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGenerat
             } else if (h > 0) {
                 graphics.fill(x + 80, y + 69 - h, x + 80 + 16, y + 69, 0xFFC4A000);
             }
+        }
+        if (this.menu.getBlockEntity().hasFuelForRender()) {
+            graphics.blit(TEXTURE, x + 115, y + 34, 208, 0, 18, 18);
         }
     }
 

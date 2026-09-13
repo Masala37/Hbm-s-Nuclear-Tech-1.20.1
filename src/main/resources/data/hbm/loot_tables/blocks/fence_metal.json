@@ -4,7 +4,26 @@
     {
       "rolls": 1,
       "entries": [
-        { "type": "minecraft:item", "name": "hbm:fence_metal" }
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "hbm:fence_metal_post",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "hbm:fence_metal",
+                  "properties": { "post": "true" }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "hbm:fence_metal"
+            }
+          ]
+        }
       ],
       "conditions": [
         { "condition": "minecraft:survives_explosion" }

@@ -1,0 +1,280 @@
+{
+  "source": "legacy-1.7.10 PressRecipes.registerDefaults",
+  "recipes": [
+    {
+      "stamp": "FLAT",
+      "input": {
+        "ore": "dustNetherQuartz",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:quartz",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "ore": "dustLapis",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:lapis_lazuli",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "ore": "dustDiamond",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:diamond",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "ore": "dustEmerald",
+        "count": 1
+      },
+      "output": {
+        "item": "minecraft:emerald",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "item": "hbm:biomass",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:biomass_compressed",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "ore": "gemAnyCoke",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:ingot_graphite",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "FLAT",
+      "input": {
+        "item": "hbm:meteorite_sword_reforged",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:meteorite_sword_hardened",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotIron",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_iron",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotGold",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_gold",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotTitanium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_titanium",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotAluminum",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_aluminium",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotSteel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_steel",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotLead",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_lead",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotCopper",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_copper",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotSchrabidium",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_schrabidium",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotCMBSteel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_combine_steel",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotGunMetal",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_gunmetal",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotWeaponSteel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_weaponsteel",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotSaturnite",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_saturnite",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "PLATE",
+      "input": {
+        "ore": "ingotDuraSteel",
+        "count": 1
+      },
+      "output": {
+        "item": "hbm:plate_dura_steel",
+        "count": 1
+      }
+    },
+    {
+      "stamp": "CIRCUIT",
+      "input": { "ore": "billetSilicon", "count": 1 },
+      "output": { "item": "hbm:circuit_silicon", "count": 1 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotGold", "count": 1 },
+      "output": { "item": "hbm:wire_gold", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotCopper", "count": 1 },
+      "output": { "item": "hbm:wire_copper", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotTungsten", "count": 1 },
+      "output": { "item": "hbm:wire_tungsten", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotAluminum", "count": 1 },
+      "output": { "item": "hbm:wire_aluminium", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotLead", "count": 1 },
+      "output": { "item": "hbm:wire_lead", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotCarbon", "count": 1 },
+      "output": { "item": "hbm:wire_carbon", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotSteel", "count": 1 },
+      "output": { "item": "hbm:wire_steel", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotMingrade", "count": 1 },
+      "output": { "item": "hbm:wire_red_copper", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotSchrabidium", "count": 1 },
+      "output": { "item": "hbm:wire_schrabidium", "count": 8 }
+    },
+    {
+      "stamp": "WIRE",
+      "input": { "ore": "ingotMagnetizedTungsten", "count": 1 },
+      "output": { "item": "hbm:wire_magnetized_tungsten", "count": 8 }
+    }
+  ]
+}

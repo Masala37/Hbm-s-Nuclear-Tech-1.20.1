@@ -1,1 +1,8 @@
-{ "variants": { "": { "model": "hbm:block/machine_fluidtank" } } }
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/machine_fluidtank" },
+    "facing=south": { "model": "hbm:block/machine_fluidtank", "y": 180 },
+    "facing=west":  { "model": "hbm:block/machine_fluidtank", "y": 270 },
+    "facing=east":  { "model": "hbm:block/machine_fluidtank", "y": 90 }
+  }
+}

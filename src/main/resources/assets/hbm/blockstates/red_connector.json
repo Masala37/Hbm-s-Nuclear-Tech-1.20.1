@@ -1,1 +1,10 @@
-{ "variants": { "": { "model": "hbm:block/red_connector" } } }
+{
+  "variants": {
+    "facing=down": { "model": "hbm:block/connector_dummy" },
+    "facing=up": { "model": "hbm:block/connector_dummy" },
+    "facing=north": { "model": "hbm:block/connector_dummy" },
+    "facing=south": { "model": "hbm:block/connector_dummy" },
+    "facing=west": { "model": "hbm:block/connector_dummy" },
+    "facing=east": { "model": "hbm:block/connector_dummy" }
+  }
+}

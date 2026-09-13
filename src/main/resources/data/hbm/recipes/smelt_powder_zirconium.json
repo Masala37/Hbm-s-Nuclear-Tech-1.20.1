@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_zirconium" },
+  "result": "hbm:ingot_zirconium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

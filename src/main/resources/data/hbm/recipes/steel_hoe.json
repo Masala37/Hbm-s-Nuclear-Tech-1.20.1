@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    " #",
+    " #"
+  ],
+  "key": {
+    "X": { "item": "hbm:ingot_steel" },
+    "#": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "hbm:steel_hoe" }
+}

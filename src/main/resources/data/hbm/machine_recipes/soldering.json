@@ -1,0 +1,399 @@
+{
+  "source": "legacy-1.7.10 SolderingRecipes.registerDefaults (enableLBSMSimpleCrafting false, enable528 false)",
+  "recipes": [
+    {
+      "output": { "item": "hbm:circuit_analog", "count": 1 },
+      "duration": 100,
+      "consumption": 100,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 3 },
+        { "item": "hbm:circuit_capacitor", "count": 2 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 4 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_basic", "count": 1 },
+      "duration": 200,
+      "consumption": 250,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 4 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 4 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_advanced", "count": 1 },
+      "duration": 300,
+      "consumption": 1000,
+      "fluid": { "fluid": "hbm:sulfuric_acid", "amount": 1000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 8 },
+        { "ore": "ingotRubber", "count": 2 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 8 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_capacitor_board", "count": 1 },
+      "duration": 200,
+      "consumption": 300,
+      "fluid": { "fluid": "hbm:peroxide", "amount": 250 },
+      "toppings": [
+        { "item": "hbm:circuit_capacitor_tantalium", "count": 3 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 1 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 3 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_bismoid", "count": 1 },
+      "duration": 400,
+      "consumption": 10000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 1000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip_bismoid", "count": 4 },
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 24 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 12 },
+        { "ore": "ingotAnyHardPlastic", "count": 2 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 12 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_quantum", "count": 1 },
+      "duration": 400,
+      "consumption": 100000,
+      "fluid": { "fluid": "hbm:helium4", "amount": 1000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip_quantum", "count": 4 },
+        { "item": "hbm:circuit_chip_bismoid", "count": 16 },
+        { "item": "hbm:circuit_atomic_clock", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_pcb", "count": 16 },
+        { "ore": "ingotAnyHardPlastic", "count": 4 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 16 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_controller", "count": 1 },
+      "duration": 400,
+      "consumption": 15000,
+      "fluid": { "fluid": "hbm:perfluoromethyl", "amount": 1000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 32 },
+        { "item": "hbm:circuit_capacitor", "count": 32 },
+        { "item": "hbm:circuit_capacitor_tantalium", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_controller_chassis", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 16 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_controller_advanced", "count": 1 },
+      "duration": 600,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:perfluoromethyl", "amount": 4000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip_bismoid", "count": 16 },
+        { "item": "hbm:circuit_capacitor_tantalium", "count": 48 },
+        { "item": "hbm:circuit_atomic_clock", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_controller_chassis", "count": 1 },
+        { "ore": "ingotAnyHardPlastic", "count": 4 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 24 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:circuit_controller_quantum", "count": 1 },
+      "duration": 600,
+      "consumption": 250000,
+      "fluid": { "fluid": "hbm:perfluoromethyl_cold", "amount": 6000 },
+      "toppings": [
+        { "item": "hbm:circuit_chip_quantum", "count": 16 },
+        { "item": "hbm:circuit_chip_bismoid", "count": 48 },
+        { "item": "hbm:circuit_atomic_clock", "count": 8 }
+      ],
+      "pcb": [
+        { "item": "hbm:circuit_controller_advanced", "count": 2 },
+        { "item": "hbm:upgrade_speed_3", "count": 1 }
+      ],
+      "solder": [
+        { "ore": "wireFineLead", "count": 32 }
+      ]
+    },
+    {
+      "output": { "item": "hbm:upgrade_speed_1", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustMingrade", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_effect_1", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustEmerald", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_power_1", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustGold", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_fortune_1", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustNb", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_afterburn_1", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_vacuum_tube", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 1 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustW", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_radius", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustGlowstone", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_health", "count": 1 },
+      "duration": 200,
+      "consumption": 1000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 4 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_template", "count": 1 },
+        { "ore": "dustLi", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_speed_2", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 8 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_speed_1", "count": 1 },
+        { "ore": "ingotAnyPlastic", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_speed_3", "count": 1 },
+      "duration": 400,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 500 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_speed_2", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_effect_2", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 8 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_effect_1", "count": 1 },
+        { "ore": "ingotAnyPlastic", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_effect_3", "count": 1 },
+      "duration": 400,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 500 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_effect_2", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_power_2", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 8 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_power_1", "count": 1 },
+        { "ore": "ingotAnyPlastic", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_power_3", "count": 1 },
+      "duration": 400,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 500 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_power_2", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_fortune_2", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 8 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_fortune_1", "count": 1 },
+        { "ore": "ingotAnyPlastic", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_fortune_3", "count": 1 },
+      "duration": 400,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 500 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_fortune_2", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_afterburn_2", "count": 1 },
+      "duration": 300,
+      "consumption": 10000,
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 8 },
+        { "item": "hbm:circuit_capacitor", "count": 4 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_afterburn_1", "count": 1 },
+        { "ore": "ingotAnyPlastic", "count": 4 }
+      ],
+      "solder": []
+    },
+    {
+      "output": { "item": "hbm:upgrade_afterburn_3", "count": 1 },
+      "duration": 400,
+      "consumption": 25000,
+      "fluid": { "fluid": "hbm:solvent", "amount": 500 },
+      "toppings": [
+        { "item": "hbm:circuit_chip", "count": 16 },
+        { "item": "hbm:circuit_capacitor", "count": 16 }
+      ],
+      "pcb": [
+        { "item": "hbm:upgrade_afterburn_2", "count": 1 },
+        { "ore": "ingotRubber", "count": 4 }
+      ],
+      "solder": []
+    }
+  ]
+}

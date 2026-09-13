@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:nitra" } ],
+  "result": { "item": "hbm:nitra_small", "count": 4 }
+}

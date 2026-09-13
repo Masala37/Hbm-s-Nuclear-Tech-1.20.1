@@ -30,8 +30,24 @@ import com.hbm.blocks.bomb.NukeTsarBlock;
 import com.hbm.blocks.bomb.VolcanoBlock;
 import com.hbm.blocks.bomb.VolcanicLavaBlock;
 import com.hbm.blocks.generic.BarbedWireBlock;
+import com.hbm.blocks.generic.ChainlinkFenceBlock;
+import com.hbm.blocks.generic.ColoredConcreteBlock;
+import com.hbm.blocks.generic.ConcreteExtBlock;
+import com.hbm.blocks.generic.DeadPlantBlock;
+import com.hbm.blocks.generic.PlantFlowerBlock;
+import com.hbm.blocks.generic.SiloHatchBlock;
 import com.hbm.blocks.generic.DecoObjBlock;
+import com.hbm.blocks.generic.DecoPipeBlock;
 import com.hbm.blocks.generic.DecorativeBarrelBlock;
+import com.hbm.blocks.generic.FileCabinetBlock;
+import com.hbm.blocks.generic.LightstoneBlock;
+import com.hbm.blocks.generic.NtmDoorBlock;
+import com.hbm.blocks.generic.SafeBlock;
+import com.hbm.blocks.generic.SteelGrateBlock;
+import com.hbm.blocks.generic.SteelTrapDoorBlock;
+import com.hbm.blocks.generic.StructureMultiSlabBlock;
+import com.hbm.blocks.generic.ThinLayerBlock;
+import com.hbm.blocks.generic.WoodStructureBlock;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.blocks.generic.OreVolcanoBlock;
 import com.hbm.blocks.generic.SellafieldBedrockBlock;
@@ -46,6 +62,12 @@ import com.hbm.blocks.generic.SteelWallBlock;
 import com.hbm.blocks.generic.WasteEarthBlock;
 import com.hbm.blocks.generic.WasteLogBlock;
 import com.hbm.blocks.generic.WasteMyceliumBlock;
+import com.hbm.blocks.generic.DecoLootBlock;
+import com.hbm.blocks.generic.LootCrateBlock;
+import com.hbm.blocks.generic.MeteorMoltenBlock;
+import com.hbm.blocks.generic.MeteorSpawnerBlock;
+import com.hbm.blocks.generic.MeteorTreasureBlock;
+import com.hbm.blocks.generic.StructureWandBlock;
 import com.hbm.blocks.gas.MonoxideGasBlock;
 import com.hbm.blocks.gas.RadonGasBlock;
 import com.hbm.blocks.machine.CableDetectorBlock;
@@ -64,19 +86,73 @@ import com.hbm.blocks.machine.MissileAssemblyBlock;
 import com.hbm.blocks.machine.RadarLargeBlock;
 import com.hbm.blocks.machine.RadarNTBlock;
 import com.hbm.blocks.machine.RadarScreenBlock;
+import com.hbm.blocks.machine.StructLauncherCoreBlock;
+import com.hbm.blocks.machine.StructPartBlock;
+import com.hbm.blocks.machine.GeigerCounterBlock;
+import com.hbm.blocks.machine.HeaterFireboxBlock;
+import com.hbm.blocks.machine.MachineChemicalPlantBlock;
+import com.hbm.blocks.machine.MachineAssemblyMachineBlock;
+import com.hbm.blocks.machine.MachineBlastFurnaceBlock;
+import com.hbm.blocks.machine.MachineCondenserBlock;
+import com.hbm.blocks.machine.MachineDiFurnaceBlock;
+import com.hbm.blocks.machine.MachineDiFurnaceExtensionBlock;
+import com.hbm.blocks.machine.MachineDiFurnaceRtgBlock;
+import com.hbm.blocks.machine.MachineEPressBlock;
+import com.hbm.blocks.machine.MachineHeatBoilerBlock;
+import com.hbm.blocks.machine.MachineWoodBurnerBlock;
+import com.hbm.blocks.machine.MachineOilWellBlock;
+import com.hbm.blocks.machine.MachinePumpjackBlock;
+import com.hbm.blocks.machine.MachineRefineryBlock;
+import com.hbm.blocks.machine.MachineFractionTowerBlock;
+import com.hbm.blocks.machine.FractionSpacerBlock;
+import com.hbm.blocks.machine.MachineCatalyticCrackerBlock;
+import com.hbm.blocks.machine.MachineCatalyticReformerBlock;
+import com.hbm.blocks.machine.MachineHydrotreaterBlock;
+import com.hbm.blocks.machine.MachineVacuumDistillBlock;
+import com.hbm.blocks.machine.OilPipeBlock;
+import com.hbm.blocks.machine.MachineCentrifugeBlock;
+import com.hbm.blocks.machine.MachineGasCentBlock;
+import com.hbm.blocks.machine.MachineFelBlock;
+import com.hbm.blocks.machine.MachineSilexBlock;
+import com.hbm.blocks.machine.MachineCrystallizerBlock;
+import com.hbm.blocks.machine.MachineMixerBlock;
+import com.hbm.blocks.machine.MachineArcWelderBlock;
+import com.hbm.blocks.machine.MachinePurexBlock;
+import com.hbm.blocks.machine.MachineSolderingStationBlock;
+import com.hbm.blocks.machine.MachinePressBlock;
+import com.hbm.blocks.machine.MachineRtgBlock;
+import com.hbm.blocks.machine.MachineShredderBlock;
+import com.hbm.blocks.machine.MachineTurbineBlock;
+import com.hbm.blocks.machine.NtmAnvilBlock;
 import com.hbm.blocks.machine.InfiniteBatteryBlock;
 import com.hbm.blocks.machine.MachineBatteryBlock;
+import com.hbm.blocks.machine.MachineSirenBlock;
+import com.hbm.blocks.machine.PinkCloudBroadcasterBlock;
+import com.hbm.blocks.machine.RadioRecBlock;
 import com.hbm.blocks.machine.RedCableBlock;
 import com.hbm.blocks.machine.StorageCrateBlock;
+import com.hbm.blocks.network.ConveyorBlock;
+import com.hbm.blocks.network.CraneExtractorBlock;
+import com.hbm.blocks.network.CraneInserterBlock;
+import com.hbm.blocks.network.FluidCounterValveBlock;
+import com.hbm.blocks.network.FluidDuctStandardBlock;
+import com.hbm.blocks.network.FluidSwitchBlock;
+import com.hbm.blocks.network.FluidValveBlock;
+import com.hbm.blocks.network.PylonDummyableBlock;
+import com.hbm.blocks.network.RedConnectorBlock;
+import com.hbm.blocks.network.RedPylonBlock;
+import com.hbm.blockentity.network.PylonKind;
 import com.hbm.blocks.rbmk.RBMKDecoBlock;
 import com.hbm.blocks.rbmk.RBMKPassiveBlock;
 import com.hbm.lib.RefStrings;
 import com.hbm.rbmk.RBMKColumnType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -108,6 +184,10 @@ public final class ModBlocks {
     public static final RegistryObject<Block> ORE_OIL = registerOre("ore_oil");
     public static final RegistryObject<Block> ORE_OIL_EMPTY = registerOre("ore_oil_empty");
     public static final RegistryObject<Block> ORE_BEDROCK_OIL = registerOre("ore_bedrock_oil");
+    public static final RegistryObject<Block> STONE_RESOURCE_HEMATITE = registerResourceStone("stone_resource_hematite");
+    public static final RegistryObject<Block> STONE_RESOURCE_MALACHITE = registerResourceStone("stone_resource_malachite");
+    public static final RegistryObject<Block> STONE_RESOURCE_BAUXITE = registerResourceStone("stone_resource_bauxite");
+    public static final RegistryObject<Block> STONE_RESOURCE_LIMESTONE = registerResourceStone("stone_resource_limestone");
     public static final RegistryObject<Block> ORE_VOLCANO = BLOCKS.register("ore_volcano", OreVolcanoBlock::new);
     public static final RegistryObject<Block> VOLCANO_CORE = BLOCKS.register("volcano_core", () -> new VolcanoBlock(false));
     public static final RegistryObject<Block> VOLCANO_RAD_CORE = BLOCKS.register("volcano_rad_core", () -> new VolcanoBlock(true));
@@ -191,6 +271,7 @@ public final class ModBlocks {
 
     public static final RegistryObject<Block> REINFORCED_BRICK = registerBuildingBlock("reinforced_brick");
     public static final RegistryObject<Block> CONCRETE = registerBuildingBlock("concrete");
+    public static final RegistryObject<Block> CONCRETE_SMOOTH = registerBuildingBlock("concrete_smooth");
     public static final RegistryObject<Block> CONCRETE_ASBESTOS = registerBuildingBlock("concrete_asbestos");
     public static final RegistryObject<Block> CONCRETE_SUPER = registerBuildingBlock("concrete_super");
     public static final RegistryObject<Block> ASPHALT = registerBuildingBlock("asphalt");
@@ -210,13 +291,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> REINFORCED_GLASS = registerGlassBlock("reinforced_glass");
     public static final RegistryObject<Block> BARBED_WIRE = BLOCKS.register("barbed_wire", BarbedWireBlock::new);
     public static final RegistryObject<Block> SPIKES = BLOCKS.register("spikes", SpikesBlock::new);
-    public static final RegistryObject<Block> FENCE_METAL = BLOCKS.register("fence_metal",
-            () -> new FenceBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.METAL)
-                    .strength(5.0F, 10.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.METAL)
-                    .noOcclusion()));
+    public static final RegistryObject<Block> FENCE_METAL = BLOCKS.register("fence_metal", ChainlinkFenceBlock::new);
     public static final RegistryObject<Block> BARREL_TAINT = BLOCKS.register("barrel_taint", ExplosiveBarrelBlock::taint);
     public static final RegistryObject<Block> BRICK_CONCRETE_BROKEN = registerBuildingBlock("brick_concrete_broken");
     public static final RegistryObject<Block> BRICK_JUNGLE = registerBuildingBlock("brick_jungle");
@@ -321,9 +396,9 @@ public final class ModBlocks {
     public static final RegistryObject<Block> CHARGE_C4 = BLOCKS.register("charge_c4", ChargeBlock::c4);
     public static final RegistryObject<Block> CHARGE_DYNAMITE = BLOCKS.register("charge_dynamite", ChargeBlock::dynamite);
     public static final RegistryObject<Block> CHARGE_SEMTEX = BLOCKS.register("charge_semtex", ChargeBlock::semtex);
-    public static final RegistryObject<Block> CLUSTER_COPPER = registerBuildingBlock("cluster_copper");
-    public static final RegistryObject<Block> CLUSTER_IRON = registerBuildingBlock("cluster_iron");
-    public static final RegistryObject<Block> CLUSTER_TITANIUM = registerBuildingBlock("cluster_titanium");
+    public static final RegistryObject<Block> CLUSTER_COPPER = registerCluster("cluster_copper");
+    public static final RegistryObject<Block> CLUSTER_IRON = registerCluster("cluster_iron");
+    public static final RegistryObject<Block> CLUSTER_TITANIUM = registerCluster("cluster_titanium");
     public static final RegistryObject<Block> CLUSTER_DEPTH_IRON = registerBuildingBlock("cluster_depth_iron");
     public static final RegistryObject<Block> CLUSTER_DEPTH_TITANIUM = registerBuildingBlock("cluster_depth_titanium");
     public static final RegistryObject<Block> CLUSTER_DEPTH_TUNGSTEN = registerBuildingBlock("cluster_depth_tungsten");
@@ -348,7 +423,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> BLOCK_GRAPHITE_DRILLED = registerBuildingBlock("block_graphite_drilled");
     public static final RegistryObject<Block> ABSORBER_PINK = registerBuildingBlock("absorber_pink");
     public static final RegistryObject<Block> CHARGE_MINER = BLOCKS.register("charge_miner", ChargeBlock::miner);
-    public static final RegistryObject<Block> CLUSTER_ALUMINIUM = registerBuildingBlock("cluster_aluminium");
+    public static final RegistryObject<Block> CLUSTER_ALUMINIUM = registerCluster("cluster_aluminium");
     public static final RegistryObject<Block> CRT_BLINKING = BLOCKS.register("crt_blinking", DecoObjBlock::smallAppliance);
     public static final RegistryObject<Block> DIGAMMA_MATTER = registerBuildingBlock("digamma_matter");
     public static final RegistryObject<Block> ELECTRICAL_SCRAP = registerBuildingBlock("electrical_scrap");
@@ -402,9 +477,9 @@ public final class ModBlocks {
     public static final RegistryObject<Block> FLOOD_LAMP_OFF = BLOCKS.register("flood_lamp_off",
             () -> DecoObjBlock.lamp(Block.box(2, 0, 2, 14, 10, 14), 0));
     public static final RegistryObject<Block> FLUORESCENT_LAMP = BLOCKS.register("fluorescent_lamp",
-            () -> DecoObjBlock.lamp(Block.box(0, 12, 4, 16, 16, 12), 12));
+            () -> DecoObjBlock.lamp(Block.box(4, 0, 0, 12, 10, 16), 12));
     public static final RegistryObject<Block> FLUORESCENT_LAMP_OFF = BLOCKS.register("fluorescent_lamp_off",
-            () -> DecoObjBlock.lamp(Block.box(0, 12, 4, 16, 16, 12), 0));
+            () -> DecoObjBlock.lamp(Block.box(4, 0, 0, 12, 10, 16), 0));
     public static final RegistryObject<Block> REINFORCED_LAMP_ON = registerBuildingBlock("reinforced_lamp_on");
     public static final RegistryObject<Block> FIELD_DISTURBER = registerBuildingBlock("field_disturber");
     public static final RegistryObject<Block> FLAME_WAR = BLOCKS.register("flame_war", SpecialtyBombBlock::flameWar);
@@ -494,7 +569,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> CONCRETE_REBAR = registerBuildingBlock("concrete_rebar");
     public static final RegistryObject<Block> CONCRETE_TILE = registerBuildingBlock("concrete_tile");
     public static final RegistryObject<Block> CONCRETE_SUPER_BROKEN = registerBuildingBlock("concrete_super_broken");
-    public static final RegistryObject<Block> BLOCK_METEOR_MOLTEN = registerBuildingBlock("block_meteor_molten");
+    public static final RegistryObject<Block> BLOCK_METEOR_MOLTEN = BLOCKS.register("block_meteor_molten", MeteorMoltenBlock::new);
     public static final RegistryObject<Block> BLOCK_WASTE = BLOCKS.register("block_waste",
             () -> new HazardBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GREEN)
@@ -540,7 +615,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> BLOCK_RUST = registerBuildingBlock("block_rust");
     public static final RegistryObject<Block> BLOCK_TAR = registerBuildingBlock("block_tar");
     public static final RegistryObject<Block> BLOCK_PLASTIC_BASE = registerBuildingBlock("block_plastic_base");
-    public static final RegistryObject<Block> BLOCK_METEOR_TREASURE = registerBuildingBlock("block_meteor_treasure");
+    public static final RegistryObject<Block> BLOCK_METEOR_TREASURE = BLOCKS.register("block_meteor_treasure", MeteorTreasureBlock::new);
     public static final RegistryObject<Block> BARREL_IRON = BLOCKS.register("barrel_iron", DecorativeBarrelBlock::new);
     public static final RegistryObject<Block> BARREL_STEEL = BLOCKS.register("barrel_steel", DecorativeBarrelBlock::new);
     public static final RegistryObject<Block> BARREL_PLASTIC = BLOCKS.register("barrel_plastic", DecorativeBarrelBlock::new);
@@ -672,7 +747,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> ORE_GNEISS_GAS = registerOre("ore_gneiss_gas");
     public static final RegistryObject<Block> ORE_OIL_SAND = registerOre("ore_oil_sand");
     public static final RegistryObject<Block> ORE_OIL_SAND_ALT = registerOre("ore_oil_sand_alt");
-    public static final RegistryObject<Block> DECO_COMPUTER = BLOCKS.register("deco_computer", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> DECO_COMPUTER = BLOCKS.register("deco_computer", DecoObjBlock::decoModel);
     public static final RegistryObject<Block> DECO_SATELLITE_RECEIVER = BLOCKS.register("deco_satellite_receiver", DecoObjBlock::smallAppliance);
     public static final RegistryObject<Block> DECO_TAPE_RECORDER = BLOCKS.register("deco_tape_recorder", DecoObjBlock::smallAppliance);
 
@@ -691,17 +766,117 @@ public final class ModBlocks {
             BLOCKS.register("machine_battery_infinite", InfiniteBatteryBlock::new);
     public static final RegistryObject<Block> COMBUSTION_GENERATOR = BLOCKS.register("combustion_generator", CombustionGeneratorBlock::new);
     public static final RegistryObject<Block> DIESEL_GENERATOR = BLOCKS.register("diesel_generator", DieselGeneratorBlock::new);
+    public static final RegistryObject<Block> ANVIL_IRON = BLOCKS.register("anvil_iron", () -> new NtmAnvilBlock(1));
+    public static final RegistryObject<Block> ANVIL_LEAD = BLOCKS.register("anvil_lead", () -> new NtmAnvilBlock(1));
+    public static final RegistryObject<Block> ANVIL_STEEL = BLOCKS.register("anvil_steel", () -> new NtmAnvilBlock(2));
+    public static final RegistryObject<Block> ANVIL_DESH = BLOCKS.register("anvil_desh", () -> new NtmAnvilBlock(3));
+    public static final RegistryObject<Block> ANVIL_FERROURANIUM = BLOCKS.register("anvil_ferrouranium", () -> new NtmAnvilBlock(4));
+    public static final RegistryObject<Block> ANVIL_SATURNITE = BLOCKS.register("anvil_saturnite", () -> new NtmAnvilBlock(5));
+    public static final RegistryObject<Block> ANVIL_BISMUTH_BRONZE = BLOCKS.register("anvil_bismuth_bronze", () -> new NtmAnvilBlock(5));
+    public static final RegistryObject<Block> ANVIL_ARSENIC_BRONZE = BLOCKS.register("anvil_arsenic_bronze", () -> new NtmAnvilBlock(5));
+    public static final RegistryObject<Block> ANVIL_SCHRABIDATE = BLOCKS.register("anvil_schrabidate", () -> new NtmAnvilBlock(6));
+    public static final RegistryObject<Block> ANVIL_DNT = BLOCKS.register("anvil_dnt", () -> new NtmAnvilBlock(7));
+    public static final RegistryObject<Block> ANVIL_OSMIRIDIUM = BLOCKS.register("anvil_osmiridium", () -> new NtmAnvilBlock(8));
+    public static final RegistryObject<Block> ANVIL_MURKY = BLOCKS.register("anvil_murky", () -> new NtmAnvilBlock(1_916_169));
+    public static final RegistryObject<Block> MACHINE_PRESS = BLOCKS.register("machine_press", MachinePressBlock::new);
+    public static final RegistryObject<Block> MACHINE_EPRESS = BLOCKS.register("machine_epress", MachineEPressBlock::new);
+    public static final RegistryObject<Block> MACHINE_SHREDDER = BLOCKS.register("machine_shredder", MachineShredderBlock::new);
+    public static final RegistryObject<Block> MACHINE_CENTRIFUGE = BLOCKS.register("machine_centrifuge", MachineCentrifugeBlock::new);
+    public static final RegistryObject<Block> MACHINE_GASCENT = BLOCKS.register("machine_gascent", MachineGasCentBlock::new);
+    public static final RegistryObject<Block> MACHINE_FEL = BLOCKS.register("machine_fel", MachineFelBlock::new);
+    public static final RegistryObject<Block> MACHINE_SILEX = BLOCKS.register("machine_silex", MachineSilexBlock::new);
+    public static final RegistryObject<Block> MACHINE_CRYSTALLIZER = BLOCKS.register("machine_crystallizer", MachineCrystallizerBlock::new);
+    public static final RegistryObject<Block> MACHINE_MIXER = BLOCKS.register("machine_mixer", MachineMixerBlock::new);
+    public static final RegistryObject<Block> MACHINE_ARC_WELDER = BLOCKS.register("machine_arc_welder", MachineArcWelderBlock::new);
+    public static final RegistryObject<Block> MACHINE_PUREX = BLOCKS.register("machine_purex", MachinePurexBlock::new);
+    public static final RegistryObject<Block> MACHINE_SOLDERING_STATION = BLOCKS.register("machine_soldering_station", MachineSolderingStationBlock::new);
+    public static final RegistryObject<Block> MACHINE_RTG = BLOCKS.register("machine_rtg", MachineRtgBlock::new);
+    public static final RegistryObject<Block> MACHINE_DIFURNACE = BLOCKS.register("machine_difurnace", MachineDiFurnaceBlock::new);
+    public static final RegistryObject<Block> MACHINE_DIFURNACE_EXTENSION =
+            BLOCKS.register("machine_difurnace_extension", MachineDiFurnaceExtensionBlock::new);
+    public static final RegistryObject<Block> MACHINE_DIFURNACE_RTG_OFF =
+            BLOCKS.register("machine_difurnace_rtg_off", MachineDiFurnaceRtgBlock::new);
+    public static final RegistryObject<Block> MACHINE_BLAST_FURNACE = BLOCKS.register("machine_blast_furnace", MachineBlastFurnaceBlock::new);
+    public static final RegistryObject<Block> MACHINE_ASSEMBLY_MACHINE = BLOCKS.register("machine_assembly_machine", MachineAssemblyMachineBlock::new);
+    public static final RegistryObject<Block> MACHINE_CHEMICAL_PLANT = BLOCKS.register("machine_chemical_plant", MachineChemicalPlantBlock::new);
+    public static final RegistryObject<Block> HEATER_FIREBOX = BLOCKS.register("heater_firebox", HeaterFireboxBlock::new);
+    public static final RegistryObject<Block> MACHINE_BOILER = BLOCKS.register("machine_boiler", MachineHeatBoilerBlock::new);
+    public static final RegistryObject<Block> MACHINE_TURBINE = BLOCKS.register("machine_turbine", MachineTurbineBlock::new);
+    public static final RegistryObject<Block> MACHINE_CONDENSER = BLOCKS.register("machine_condenser", MachineCondenserBlock::new);
+    public static final RegistryObject<Block> MACHINE_WOOD_BURNER = BLOCKS.register("machine_wood_burner", MachineWoodBurnerBlock::new);
+    public static final RegistryObject<Block> MACHINE_WELL = BLOCKS.register("machine_well", MachineOilWellBlock::new);
+    public static final RegistryObject<Block> MACHINE_PUMPJACK = BLOCKS.register("machine_pumpjack", MachinePumpjackBlock::new);
+    public static final RegistryObject<Block> MACHINE_REFINERY = BLOCKS.register("machine_refinery", MachineRefineryBlock::new);
+    public static final RegistryObject<Block> MACHINE_FRACTION_TOWER =
+            BLOCKS.register("machine_fraction_tower", MachineFractionTowerBlock::new);
+    public static final RegistryObject<Block> FRACTION_SPACER = BLOCKS.register("fraction_spacer", FractionSpacerBlock::new);
+    public static final RegistryObject<Block> MACHINE_CATALYTIC_CRACKER =
+            BLOCKS.register("machine_catalytic_cracker", MachineCatalyticCrackerBlock::new);
+    public static final RegistryObject<Block> MACHINE_HYDROTREATER =
+            BLOCKS.register("machine_hydrotreater", MachineHydrotreaterBlock::new);
+    public static final RegistryObject<Block> MACHINE_CATALYTIC_REFORMER =
+            BLOCKS.register("machine_catalytic_reformer", MachineCatalyticReformerBlock::new);
+    public static final RegistryObject<Block> MACHINE_VACUUM_DISTILL =
+            BLOCKS.register("machine_vacuum_distill", MachineVacuumDistillBlock::new);
+    public static final RegistryObject<Block> OIL_PIPE = BLOCKS.register("oil_pipe", OilPipeBlock::new);
     public static final RegistryObject<Block> ELECTRIC_FURNACE = BLOCKS.register("electric_furnace", ElectricFurnaceBlock::new);
+    public static final RegistryObject<Block> MACHINE_SIREN = BLOCKS.register("machine_siren", MachineSirenBlock::new);
+    public static final RegistryObject<Block> GEIGER = BLOCKS.register("geiger", GeigerCounterBlock::new);
+    public static final RegistryObject<Block> BROADCASTER_PC = BLOCKS.register("broadcaster_pc", PinkCloudBroadcasterBlock::new);
     public static final RegistryObject<Block> RED_CABLE = BLOCKS.register("red_cable", RedCableBlock::new);
     public static final RegistryObject<Block> RED_CABLE_CLASSIC = BLOCKS.register("red_cable_classic", RedCableBlock::new);
     public static final RegistryObject<Block> RED_WIRE_COATED = BLOCKS.register("red_wire_coated", RedCableBlock::new);
+    public static final RegistryObject<Block> RED_CONNECTOR = BLOCKS.register("red_connector", RedConnectorBlock::new);
+    public static final RegistryObject<Block> RED_PYLON = BLOCKS.register("red_pylon", RedPylonBlock::new);
+    public static final RegistryObject<Block> RED_PYLON_MEDIUM_WOOD =
+            BLOCKS.register("red_pylon_medium_wood", () -> new PylonDummyableBlock(PylonKind.MEDIUM_WOOD));
+    public static final RegistryObject<Block> RED_PYLON_MEDIUM_WOOD_TRANSFORMER =
+            BLOCKS.register("red_pylon_medium_wood_transformer",
+                    () -> new PylonDummyableBlock(PylonKind.MEDIUM_WOOD_TRANSFORMER));
+    public static final RegistryObject<Block> RED_PYLON_MEDIUM_STEEL =
+            BLOCKS.register("red_pylon_medium_steel", () -> new PylonDummyableBlock(PylonKind.MEDIUM_STEEL));
+    public static final RegistryObject<Block> RED_PYLON_MEDIUM_STEEL_TRANSFORMER =
+            BLOCKS.register("red_pylon_medium_steel_transformer",
+                    () -> new PylonDummyableBlock(PylonKind.MEDIUM_STEEL_TRANSFORMER));
+    public static final RegistryObject<Block> RED_PYLON_LARGE =
+            BLOCKS.register("red_pylon_large", () -> new PylonDummyableBlock(PylonKind.LARGE));
+    public static final RegistryObject<Block> SUBSTATION =
+            BLOCKS.register("substation", () -> new PylonDummyableBlock(PylonKind.SUBSTATION));
     public static final RegistryObject<Block> CABLE_SWITCH = BLOCKS.register("cable_switch", CableSwitchBlock::new);
     public static final RegistryObject<Block> CABLE_DETECTOR = BLOCKS.register("cable_detector", CableDetectorBlock::new);
     public static final RegistryObject<Block> CABLE_DIODE = BLOCKS.register("cable_diode", CableDiodeBlock::new);
+    public static final RegistryObject<Block> FLUID_DUCT_NEO =
+            BLOCKS.register("fluid_duct_neo", FluidDuctStandardBlock::new);
+    public static final RegistryObject<Block> FLUID_VALVE =
+            BLOCKS.register("fluid_valve", FluidValveBlock::new);
+    public static final RegistryObject<Block> FLUID_SWITCH =
+            BLOCKS.register("fluid_switch", FluidSwitchBlock::new);
+    public static final RegistryObject<Block> FLUID_COUNTER_VALVE =
+            BLOCKS.register("fluid_counter_valve", FluidCounterValveBlock::new);
+    public static final RegistryObject<Block> CONVEYOR = BLOCKS.register("conveyor", ConveyorBlock::new);
+    public static final RegistryObject<Block> CRANE_INSERTER = BLOCKS.register("crane_inserter", CraneInserterBlock::new);
+    public static final RegistryObject<Block> CRANE_EXTRACTOR =
+            BLOCKS.register("crane_extractor", CraneExtractorBlock::new);
     public static final RegistryObject<Block> CRATE_IRON = BLOCKS.register("crate_iron",
             () -> new StorageCrateBlock(36, "container.hbm.crate_iron"));
     public static final RegistryObject<Block> CRATE_STEEL = BLOCKS.register("crate_steel",
             () -> new StorageCrateBlock(54, "container.hbm.crate_steel"));
+    public static final RegistryObject<Block> FILING_CABINET = BLOCKS.register("filing_cabinet", FileCabinetBlock::new);
+    public static final RegistryObject<Block> SAFE = BLOCKS.register("safe", SafeBlock::new);
+    public static final RegistryObject<Block> CRATE = BLOCKS.register("crate", LootCrateBlock::supply);
+    public static final RegistryObject<Block> CRATE_WEAPON = BLOCKS.register("crate_weapon", LootCrateBlock::weapon);
+    public static final RegistryObject<Block> CRATE_LEAD = BLOCKS.register("crate_lead", LootCrateBlock::lead);
+    public static final RegistryObject<Block> CRATE_METAL = BLOCKS.register("crate_metal", LootCrateBlock::metal);
+    public static final RegistryObject<Block> CRATE_RED = BLOCKS.register("crate_red", LootCrateBlock::red);
+    public static final RegistryObject<Block> CRATE_AMMO = BLOCKS.register("crate_ammo", LootCrateBlock::ammo);
+    public static final RegistryObject<Block> CRATE_CAN = BLOCKS.register("crate_can", LootCrateBlock::can);
+    public static final RegistryObject<Block> CRATE_SUPPLY = BLOCKS.register("crate_supply", LootCrateBlock::supply);
+    public static final RegistryObject<Block> DECO_LOOT = BLOCKS.register("deco_loot", DecoLootBlock::new);
+    public static final RegistryObject<Block> METEOR_SPAWNER = BLOCKS.register("meteor_spawner", MeteorSpawnerBlock::new);
+    public static final RegistryObject<Block> WAND_JIGSAW = BLOCKS.register("wand_jigsaw", StructureWandBlock::new);
+    public static final RegistryObject<Block> WAND_LOOT = BLOCKS.register("wand_loot", StructureWandBlock::new);
+    public static final RegistryObject<Block> WAND_LOGIC = BLOCKS.register("wand_logic", StructureWandBlock::new);
+    public static final RegistryObject<Block> WAND_TANDEM = BLOCKS.register("wand_tandem", StructureWandBlock::new);
 
     public static final RegistryObject<Block> DYNAMITE = BLOCKS.register("dynamite", () -> new BombBlock(8.0F));
     public static final RegistryObject<Block> TNT = BLOCKS.register("tnt", () -> new BombBlock(10.0F));
@@ -721,6 +896,14 @@ public final class ModBlocks {
             BLOCKS.register("compact_launcher", CompactLauncherBlock::new);
     public static final RegistryObject<Block> LAUNCH_TABLE =
             BLOCKS.register("launch_table", LaunchTableBlock::new);
+    public static final RegistryObject<Block> STRUCT_LAUNCHER =
+            BLOCKS.register("struct_launcher", StructPartBlock::new);
+    public static final RegistryObject<Block> STRUCT_SCAFFOLD =
+            BLOCKS.register("struct_scaffold", StructPartBlock::new);
+    public static final RegistryObject<Block> STRUCT_LAUNCHER_CORE =
+            BLOCKS.register("struct_launcher_core", () -> new StructLauncherCoreBlock(StructLauncherCoreBlock.Kind.COMPACT));
+    public static final RegistryObject<Block> STRUCT_LAUNCHER_CORE_LARGE =
+            BLOCKS.register("struct_launcher_core_large", () -> new StructLauncherCoreBlock(StructLauncherCoreBlock.Kind.LARGE));
     public static final RegistryObject<Block> MACHINE_MISSILE_ASSEMBLY =
             BLOCKS.register("machine_missile_assembly", MissileAssemblyBlock::new);
     public static final RegistryObject<Block> MACHINE_RADAR = BLOCKS.register("machine_radar", RadarNTBlock::new);
@@ -768,6 +951,85 @@ public final class ModBlocks {
     public static final RegistryObject<Block> RBMK_MODERATOR = BLOCKS.register("rbmk_moderator",
             () -> new RBMKPassiveBlock(RBMKColumnType.MODERATOR));
 
+    public static final RegistryObject<Block> STEEL_GRATE = BLOCKS.register("steel_grate", () -> new SteelGrateBlock(false));
+    public static final RegistryObject<Block> STEEL_GRATE_WIDE = BLOCKS.register("steel_grate_wide", () -> new SteelGrateBlock(true));
+    public static final RegistryObject<Block> STEEL_CORNER = BLOCKS.register("steel_corner", SteelWallBlock::new);
+    public static final RegistryObject<Block> STEEL_POLES = BLOCKS.register("steel_poles", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> POLE_TOP = BLOCKS.register("pole_top", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> DECO_PIPE = decoPipe("deco_pipe", 0);
+    public static final RegistryObject<Block> DECO_PIPE_RUSTED = decoPipe("deco_pipe_rusted", 0);
+    public static final RegistryObject<Block> DECO_PIPE_RED = decoPipe("deco_pipe_red", 0);
+    public static final RegistryObject<Block> DECO_PIPE_MARKED = decoPipe("deco_pipe_marked", 0);
+    public static final RegistryObject<Block> DECO_PIPE_RIM_GREEN = decoPipe("deco_pipe_rim_green", 1);
+    public static final RegistryObject<Block> DECO_PIPE_RIM_MARKED = decoPipe("deco_pipe_rim_marked", 1);
+    public static final RegistryObject<Block> DECO_PIPE_RIM_RUSTED = decoPipe("deco_pipe_rim_rusted", 1);
+    public static final RegistryObject<Block> DECO_PIPE_RIM_GREEN_RUSTED = decoPipe("deco_pipe_rim_green_rusted", 1);
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED = decoPipe("deco_pipe_framed", 3);
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_RUSTED = decoPipe("deco_pipe_framed_rusted", 3);
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_RED = decoPipe("deco_pipe_framed_red", 3);
+    public static final RegistryObject<Block> DECO_PIPE_FRAMED_GREEN_RUSTED = decoPipe("deco_pipe_framed_green_rusted", 3);
+    public static final RegistryObject<Block> DECO_PIPE_QUAD = decoPipe("deco_pipe_quad", 2);
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_RUSTED = decoPipe("deco_pipe_quad_rusted", 2);
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_RED = decoPipe("deco_pipe_quad_red", 2);
+    public static final RegistryObject<Block> DECO_PIPE_QUAD_MARKED = decoPipe("deco_pipe_quad_marked", 2);
+    public static final RegistryObject<Block> CONCRETE_COLORED = BLOCKS.register("concrete_colored", ColoredConcreteBlock::new);
+    public static final RegistryObject<Block> CONCRETE_COLORED_EXT = BLOCKS.register("concrete_colored_ext", ConcreteExtBlock::new);
+    public static final RegistryObject<Block> CONCRETE_PILLAR = BLOCKS.register("concrete_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE).strength(15.0F, 180.0F)
+                    .requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final RegistryObject<Block> CONCRETE_SLAB = BLOCKS.register("concrete_slab", StructureMultiSlabBlock::new);
+    public static final RegistryObject<Block> CONCRETE_BRICK_SLAB = BLOCKS.register("concrete_brick_slab", StructureMultiSlabBlock::new);
+    public static final RegistryObject<Block> BRICK_SLAB = BLOCKS.register("brick_slab", StructureMultiSlabBlock::new);
+    public static final RegistryObject<Block> CONCRETE_STAIRS = registerStairs("concrete_stairs", CONCRETE);
+    public static final RegistryObject<Block> CONCRETE_SMOOTH_STAIRS = registerStairs("concrete_smooth_stairs", CONCRETE_SMOOTH);
+    public static final RegistryObject<Block> CONCRETE_ASBESTOS_STAIRS = registerStairs("concrete_asbestos_stairs", CONCRETE_ASBESTOS);
+    public static final RegistryObject<Block> BRICK_CONCRETE_STAIRS = registerStairs("brick_concrete_stairs", BRICK_CONCRETE);
+    public static final RegistryObject<Block> BRICK_CONCRETE_MOSSY_STAIRS = registerStairs("brick_concrete_mossy_stairs", BRICK_CONCRETE_MOSSY);
+    public static final RegistryObject<Block> BRICK_CONCRETE_CRACKED_STAIRS = registerStairs("brick_concrete_cracked_stairs", BRICK_CONCRETE_CRACKED);
+    public static final RegistryObject<Block> BRICK_CONCRETE_BROKEN_STAIRS = registerStairs("brick_concrete_broken_stairs", BRICK_CONCRETE_BROKEN);
+    public static final RegistryObject<Block> BRICK_LIGHT_STAIRS = registerStairs("brick_light_stairs", BRICK_LIGHT);
+    public static final RegistryObject<Block> BRICK_COMPOUND_STAIRS = registerStairs("brick_compound_stairs", BRICK_COMPOUND);
+    public static final RegistryObject<Block> BRICK_OBSIDIAN_STAIRS = registerStairs("brick_obsidian_stairs", BRICK_OBSIDIAN);
+    public static final RegistryObject<Block> REINFORCED_BRICK_STAIRS = registerStairs("reinforced_brick_stairs", REINFORCED_BRICK);
+    public static final RegistryObject<Block> REINFORCED_STONE_STAIRS = registerStairs("reinforced_stone_stairs", REINFORCED_STONE);
+    public static final RegistryObject<Block> LIGHTSTONE = BLOCKS.register("lightstone", LightstoneBlock::new);
+    public static final RegistryObject<Block> LIGHTSTONE_BRICKS_STAIRS = registerStairs("lightstone_bricks_stairs", LIGHTSTONE);
+    public static final RegistryObject<Block> DOOR_METAL = BLOCKS.register("door_metal", () -> new NtmDoorBlock(5.0F, 5.0F));
+    public static final RegistryObject<Block> DOOR_OFFICE = BLOCKS.register("door_office", () -> new NtmDoorBlock(10.0F, 10.0F));
+    public static final RegistryObject<Block> DOOR_BUNKER = BLOCKS.register("door_bunker", () -> new NtmDoorBlock(10.0F, 100.0F));
+    public static final RegistryObject<Block> SILO_HATCH = BLOCKS.register("silo_hatch", () -> new SiloHatchBlock(false));
+    public static final RegistryObject<Block> SILO_HATCH_LARGE = BLOCKS.register("silo_hatch_large", () -> new SiloHatchBlock(true));
+    public static final RegistryObject<Block> TRAPDOOR_STEEL = BLOCKS.register("trapdoor_steel", SteelTrapDoorBlock::new);
+    public static final RegistryObject<Block> PLANT_DEAD = BLOCKS.register("plant_dead", DeadPlantBlock::new);
+    public static final RegistryObject<Block> PLANT_FLOWER = BLOCKS.register("plant_flower", PlantFlowerBlock::new);
+    public static final RegistryObject<Block> LEAVES_LAYER = BLOCKS.register("leaves_layer",
+            () -> new ThinLayerBlock(MapColor.COLOR_GREEN, SoundType.GRASS));
+    public static final RegistryObject<Block> NTM_DIRT = registerBuildingBlock("ntm_dirt");
+    public static final RegistryObject<Block> WOOD_STRUCTURE = BLOCKS.register("wood_structure", WoodStructureBlock::new);
+    public static final RegistryObject<Block> METEOR_BATTERY = BLOCKS.register("meteor_battery",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE).strength(15.0F, 360.0F)
+                    .requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final RegistryObject<Block> CHARGER = BLOCKS.register("charger", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> CAPACITOR_COPPER = BLOCKS.register("capacitor_copper",
+            () -> new DecoObjBlock(Block.box(0, 0, 0, 16, 16, 16), MapColor.METAL, 5.0F, 10.0F, SoundType.METAL, 0));
+    public static final RegistryObject<Block> TESLA = BLOCKS.register("tesla", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> RADIOREC = BLOCKS.register("radiorec", RadioRecBlock::new);
+    public static final RegistryObject<Block> HEV_BATTERY = BLOCKS.register("hev_battery", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_FUNNEL = BLOCKS.register("machine_funnel", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_MICROWAVE = BLOCKS.register("machine_microwave", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_CONTROLLER = BLOCKS.register("machine_controller", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_FLUIDTANK = BLOCKS.register("machine_fluidtank", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_WEAPON_TABLE = BLOCKS.register("machine_weapon_table", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> MACHINE_ROTARY_FURNACE = BLOCKS.register("machine_rotary_furnace", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> RAIL_NARROW = BLOCKS.register("rail_narrow",
+            () -> DecoObjBlock.floorFixture(Block.box(0, 0, 0, 16, 2, 16)));
+    public static final RegistryObject<Block> BOBBLEHEAD = BLOCKS.register("bobblehead", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> SKELETON_HOLDER = BLOCKS.register("skeleton_holder", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> TURRET_HOWARD_DAMAGED = BLOCKS.register("turret_howard_damaged", DecoObjBlock::smallAppliance);
+    public static final RegistryObject<Block> TURRET_SENTRY_DAMAGED = BLOCKS.register("turret_sentry_damaged", DecoObjBlock::smallAppliance);
+
     private ModBlocks() {
     }
 
@@ -779,11 +1041,40 @@ public final class ModBlocks {
                 .noOcclusion());
     }
 
+    private static RegistryObject<Block> decoPipe(String id, int type) {
+        return BLOCKS.register(id, () -> new DecoPipeBlock(type));
+    }
+
+    private static RegistryObject<Block> registerStairs(String name, RegistryObject<Block> parent) {
+        return BLOCKS.register(name, () -> new StairBlock(parent.get().defaultBlockState(),
+                BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.STONE)
+                        .strength(15.0F, 100.0F)
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.STONE)));
+    }
+
     private static RegistryObject<Block> registerOre(String name) {
         return BLOCKS.register(name, () -> new OutgasOreBlock(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.STONE)
                 .strength(5.0F, 10.0F)
                 .requiresCorrectToolForDrops()));
+    }
+
+    private static RegistryObject<Block> registerResourceStone(String name) {
+        return BLOCKS.register(name, () -> new Block(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.STONE)
+                .strength(5.0F, 10.0F)
+                .requiresCorrectToolForDrops()
+                .sound(SoundType.STONE)));
+    }
+
+    private static RegistryObject<Block> registerCluster(String name) {
+        return BLOCKS.register(name, () -> new Block(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.STONE)
+                .strength(5.0F, 15.0F)
+                .requiresCorrectToolForDrops()
+                .sound(SoundType.STONE)));
     }
 
     private static RegistryObject<Block> registerMetalBlock(String name, boolean beaconBase) {

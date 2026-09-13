@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CPC",
+    "CBC"
+  ],
+  "key": {
+    "C": { "item": "minecraft:stone_bricks" },
+    "P": { "item": "hbm:piston_pneumatic" },
+    "B": { "item": "hbm:conveyor_wand" }
+  },
+  "result": { "item": "hbm:crane_extractor", "count": 1 }
+}

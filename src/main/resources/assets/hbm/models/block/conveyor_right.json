@@ -1,0 +1,7 @@
+{
+  "parent": "hbm:block/conveyor",
+  "textures": {
+    "particle": "hbm:block/conveyor_curve_right",
+    "top": "hbm:block/conveyor_curve_right"
+  }
+}

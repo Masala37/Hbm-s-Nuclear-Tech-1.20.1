@@ -14,6 +14,8 @@ import net.minecraft.world.level.Level;
 public final class ModDamageTypes {
     public static final ResourceKey<DamageType> BLACKHOLE =
             ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(RefStrings.MODID, "blackhole"));
+    public static final ResourceKey<DamageType> BROADCAST =
+            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(RefStrings.MODID, "broadcast"));
 
     private ModDamageTypes() {
     }

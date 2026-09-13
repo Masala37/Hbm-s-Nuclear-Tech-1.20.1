@@ -4,12 +4,7 @@
     "rolls": 1,
     "entries": [{ "type": "minecraft:item", "name": "hbm:launch_pad_large" }],
     "conditions": [
-      { "condition": "minecraft:survives_explosion" },
-      {
-        "condition": "minecraft:block_state_property",
-        "block": "hbm:launch_pad_large",
-        "properties": { "ox": "4", "oz": "4" }
-      }
+      { "condition": "minecraft:survives_explosion" }
     ]
   }]
 }

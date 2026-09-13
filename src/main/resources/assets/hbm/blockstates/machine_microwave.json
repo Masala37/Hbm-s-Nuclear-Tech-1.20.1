@@ -1,1 +1,8 @@
-{ "variants": { "": { "model": "hbm:block/machine_microwave" } } }
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/machine_microwave" },
+    "facing=south": { "model": "hbm:block/machine_microwave", "y": 180 },
+    "facing=west":  { "model": "hbm:block/machine_microwave", "y": 270 },
+    "facing=east":  { "model": "hbm:block/machine_microwave", "y": 90 }
+  }
+}

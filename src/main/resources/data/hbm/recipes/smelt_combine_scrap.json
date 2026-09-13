@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:combine_scrap" },
+  "result": "hbm:ingot_combine_steel",
+  "experience": 1.0,
+  "cookingtime": 200
+}

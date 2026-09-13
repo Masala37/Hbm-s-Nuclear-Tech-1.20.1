@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": { "item": "hbm:powder_ra226" },
+  "result": "hbm:ingot_ra226",
+  "experience": 1.0,
+  "cookingtime": 200
+}

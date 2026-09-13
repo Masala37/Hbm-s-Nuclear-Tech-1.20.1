@@ -7,6 +7,7 @@ package com.hbm.blocks.machine;
 public final class DummyablePlacement {
     private static final ThreadLocal<Integer> DEPTH = ThreadLocal.withInitial(() -> 0);
     private static final ThreadLocal<Boolean> DISMANTLING = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Integer> SAFE_REM = ThreadLocal.withInitial(() -> 0);
 
     private DummyablePlacement() {
     }
@@ -38,5 +39,24 @@ public final class DummyablePlacement {
 
     public static boolean dismantling() {
         return DISMANTLING.get();
+    }
+
+    /** 1.7.10 {@code BlockDummyable.safeRem} while drilling out a dummy cell. */
+    public static void beginSafeRem() {
+        SAFE_REM.set(SAFE_REM.get() + 1);
+    }
+
+    public static void endSafeRem() {
+        int depth = SAFE_REM.get() - 1;
+        SAFE_REM.set(Math.max(0, depth));
+    }
+
+    public static boolean editing() {
+        return SAFE_REM.get() > 0;
+    }
+
+    /** 1.7.10 {@code BlockDummyable.safeRem} — skip orphan checks while editing. */
+    public static boolean safeRem() {
+        return placing() || dismantling() || editing();
     }
 }

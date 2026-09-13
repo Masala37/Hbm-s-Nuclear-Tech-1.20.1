@@ -20,6 +20,8 @@ public final class ModRegistries {
         ModMenus.register(modBus);
         ModSounds.register(modBus);
         ModFeatures.register(modBus);
+        ModRecipeSerializers.register(modBus);
+        ModStructures.register(modBus);
         ModMobEffects.register(modBus);
     }
 }

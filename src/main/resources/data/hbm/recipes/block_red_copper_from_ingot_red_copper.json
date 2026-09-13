@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["###","###","###"],
+  "key": { "#": { "item": "hbm:ingot_red_copper" } },
+  "result": { "item": "hbm:block_red_copper" }
+}

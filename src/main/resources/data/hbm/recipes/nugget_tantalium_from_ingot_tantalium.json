@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:ingot_tantalium" } ],
+  "result": { "item": "hbm:nugget_tantalium", "count": 9 }
+}

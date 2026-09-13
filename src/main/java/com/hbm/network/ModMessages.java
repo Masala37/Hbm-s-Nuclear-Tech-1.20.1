@@ -10,7 +10,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
  * Thin networking scaffold. Legacy threaded custom codecs are not ported yet.
  */
 public final class ModMessages {
-    private static final String PROTOCOL = "5";
+    private static final String PROTOCOL = "7";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(RefStrings.MODID, "main"),
@@ -136,6 +136,78 @@ public final class ModMessages {
                 .encoder(ItemDesignatorPacket::encode)
                 .decoder(ItemDesignatorPacket::decode)
                 .consumerMainThread(ItemDesignatorPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(AnvilCraftPacket.class, nextId++)
+                .encoder(AnvilCraftPacket::encode)
+                .decoder(AnvilCraftPacket::decode)
+                .consumerMainThread(AnvilCraftPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(SirenPacket.class, nextId++)
+                .encoder(SirenPacket::encode)
+                .decoder(SirenPacket::decode)
+                .consumerMainThread(SirenPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(MachineBatteryPacket.class, nextId++)
+                .encoder(MachineBatteryPacket::encode)
+                .decoder(MachineBatteryPacket::decode)
+                .consumerMainThread(MachineBatteryPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(AssemblyRecipePacket.class, nextId++)
+                .encoder(AssemblyRecipePacket::encode)
+                .decoder(AssemblyRecipePacket::decode)
+                .consumerMainThread(AssemblyRecipePacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(CraneControlPacket.class, nextId++)
+                .encoder(CraneControlPacket::encode)
+                .decoder(CraneControlPacket::decode)
+                .consumerMainThread(CraneControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(WoodBurnerControlPacket.class, nextId++)
+                .encoder(WoodBurnerControlPacket::encode)
+                .decoder(WoodBurnerControlPacket::decode)
+                .consumerMainThread(WoodBurnerControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(SolderingControlPacket.class, nextId++)
+                .encoder(SolderingControlPacket::encode)
+                .decoder(SolderingControlPacket::decode)
+                .consumerMainThread(SolderingControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(MixerControlPacket.class, nextId++)
+                .encoder(MixerControlPacket::encode)
+                .decoder(MixerControlPacket::decode)
+                .consumerMainThread(MixerControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(FelControlPacket.class, nextId++)
+                .encoder(FelControlPacket::encode)
+                .decoder(FelControlPacket::decode)
+                .consumerMainThread(FelControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(SilexControlPacket.class, nextId++)
+                .encoder(SilexControlPacket::encode)
+                .decoder(SilexControlPacket::decode)
+                .consumerMainThread(SilexControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(FluidBarrelControlPacket.class, nextId++)
+                .encoder(FluidBarrelControlPacket::encode)
+                .decoder(FluidBarrelControlPacket::decode)
+                .consumerMainThread(FluidBarrelControlPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(RadioRecControlPacket.class, nextId++)
+                .encoder(RadioRecControlPacket::encode)
+                .decoder(RadioRecControlPacket::decode)
+                .consumerMainThread(RadioRecControlPacket::handle)
                 .add();
 
         HbmNuclearTechMod.LOGGER.info("Registered HBM network channel hbm:main (protocol {})", PROTOCOL);

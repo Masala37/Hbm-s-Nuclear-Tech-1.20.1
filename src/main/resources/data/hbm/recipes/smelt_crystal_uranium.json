@@ -1,0 +1,7 @@
+{
+  "type": "hbm:smelting",
+  "ingredient": { "item": "hbm:crystal_uranium" },
+  "result": { "item": "hbm:ingot_uranium", "count": 2 },
+  "experience": 2.0,
+  "cookingtime": 200
+}

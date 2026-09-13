@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:concrete",
+    "hbm:concrete_smooth",
+    "hbm:concrete_asbestos",
+    "hbm:ducrete"
+  ]
+}

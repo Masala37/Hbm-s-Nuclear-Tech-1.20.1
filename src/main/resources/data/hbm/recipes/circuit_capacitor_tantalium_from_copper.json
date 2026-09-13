@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I",
+    "N",
+    "W"
+  ],
+  "key": {
+    "I": { "item": "hbm:plate_polymer" },
+    "N": { "item": "hbm:nugget_tantalium" },
+    "W": { "item": "hbm:wire_copper" }
+  },
+  "result": { "item": "hbm:circuit_capacitor_tantalium" }
+}

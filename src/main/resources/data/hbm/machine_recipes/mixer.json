@@ -1,0 +1,28 @@
+{
+  "recipes": [
+    {
+      "output": { "fluid": "hbm:coolant", "amount": 2000 },
+      "duration": 50,
+      "input1": { "fluid": "hbm:water", "amount": 1800 },
+      "solid": { "ore": "dustSaltpeter", "count": 1 }
+    },
+    {
+      "output": { "fluid": "hbm:sulfuric_acid", "amount": 500 },
+      "duration": 50,
+      "input1": { "fluid": "hbm:peroxide", "amount": 800 },
+      "solid": { "ore": "dustSulfur", "count": 1 }
+    },
+    {
+      "output": { "fluid": "hbm:nitric_acid", "amount": 1000 },
+      "duration": 50,
+      "input1": { "fluid": "hbm:sulfuric_acid", "amount": 500 },
+      "solid": { "ore": "dustSaltpeter", "count": 1 }
+    },
+    {
+      "output": { "fluid": "hbm:kerosene_reform", "amount": 1000 },
+      "duration": 50,
+      "input1": { "fluid": "hbm:kerosene", "amount": 900 },
+      "input2": { "fluid": "hbm:reformate", "amount": 100 }
+    }
+  ]
+}

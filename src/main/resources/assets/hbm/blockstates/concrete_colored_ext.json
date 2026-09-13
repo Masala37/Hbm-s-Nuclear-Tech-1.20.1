@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "variant=0": { "model": "hbm:block/concrete_colored_ext_0" }
+,    "variant=1": { "model": "hbm:block/concrete_colored_ext_1" }
+,    "variant=2": { "model": "hbm:block/concrete_colored_ext_2" }
+,    "variant=3": { "model": "hbm:block/concrete_colored_ext_3" }
+,    "variant=4": { "model": "hbm:block/concrete_colored_ext_4" }
+,    "variant=5": { "model": "hbm:block/concrete_colored_ext_5" }
+,    "variant=6": { "model": "hbm:block/concrete_colored_ext_6" }
+,    "variant=7": { "model": "hbm:block/concrete_colored_ext_7" }
+  }
+}

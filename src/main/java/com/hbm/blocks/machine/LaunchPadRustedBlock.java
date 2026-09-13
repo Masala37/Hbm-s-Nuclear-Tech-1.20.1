@@ -34,6 +34,11 @@ public class LaunchPadRustedBlock extends LaunchPadBlock {
         return isCore(state) ? new LaunchPadRustedBlockEntity(pos, state) : null;
     }
 
+    @Override
+    public boolean hasBlockEntity(BlockState state) {
+        return isCore(state);
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {

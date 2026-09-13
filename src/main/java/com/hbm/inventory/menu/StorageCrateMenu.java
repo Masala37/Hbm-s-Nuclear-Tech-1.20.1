@@ -12,7 +12,7 @@ import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Generic crate inventory (36 or 54 slots) using the vanilla chest GUI layout.
+ * 1.7 {@code ContainerCrateIron} (4×9) / {@code ContainerCrateSteel} (6×9).
  */
 public class StorageCrateMenu extends AbstractContainerMenu {
     private final StorageCrateBlockEntity be;
@@ -23,7 +23,11 @@ public class StorageCrateMenu extends AbstractContainerMenu {
         this.be = be;
         this.rows = be.getItems().getSlots() / 9;
         addCrateSlots();
-        addPlayerInventory(inv, 18 + rows * 18, 18 + rows * 18 + 58);
+        if (this.rows <= 4) {
+            addPlayerInventory(inv, 104, 162);
+        } else {
+            addPlayerInventory(inv, 140, 198);
+        }
         be.startOpen(inv.player);
     }
 

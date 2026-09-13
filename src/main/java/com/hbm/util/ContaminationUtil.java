@@ -159,25 +159,32 @@ public final class ContaminationUtil {
 
     public static void printGeigerData(Player player) {
         Level level = player.level();
-        double eRad = Math.floor(HbmLivingProps.getRadiation(player) * 10.0D) / 10.0D;
-        double rads = Math.floor(ChunkRadiationManager.INSTANCE.getRadiation(
+        double eRad = ((int) (HbmLivingProps.getRadiation(player) * 10.0D)) / 10.0D;
+        double rads = ((int) (ChunkRadiationManager.INSTANCE.getRadiation(
                 level,
                 (int) Math.floor(player.getX()),
                 (int) Math.floor(player.getY()),
-                (int) Math.floor(player.getZ())) * 10.0D) / 10.0D;
-        double env = Math.floor(HbmLivingProps.getRadBuf(player) * 10.0D) / 10.0D;
-        double res = Math.floor((10000.0D - calculateRadiationMod(player) * 10000.0D)) / 100.0D;
-        double resKoeff = Math.floor(HazmatRegistry.getResistance(player) * 100.0D) / 100.0D;
+                (int) Math.floor(player.getZ())) * 10.0D)) / 10.0D;
+        double env = ((int) (HbmLivingProps.getRadBuf(player) * 10.0D)) / 10.0D;
+        double res = ((int) ((10000.0D - calculateRadiationMod(player) * 10000.0D))) / 100.0D;
+        double resKoeff = ((int) (HazmatRegistry.getResistance(player) * 100.0D)) / 100.0D;
 
-        player.sendSystemMessage(Component.literal("===== ☢ Geiger ☢ =====").withStyle(ChatFormatting.GOLD));
-        player.sendSystemMessage(Component.literal("Chunk radiation: " + prefixFromRad(rads) + rads + " RAD/s")
+        player.sendSystemMessage(Component.literal("===== ☢ ")
+                .append(Component.translatable("geiger.title"))
+                .append(Component.literal(" ☢ =====")).withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(Component.translatable("geiger.chunkRad")
+                .append(Component.literal(" " + prefixFromRad(rads) + rads + " RAD/s"))
                 .withStyle(ChatFormatting.YELLOW));
-        player.sendSystemMessage(Component.literal("Environment: " + prefixFromRad(env) + env + " RAD/s")
+        player.sendSystemMessage(Component.translatable("geiger.envRad")
+                .append(Component.literal(" " + prefixFromRad(env) + env + " RAD/s"))
                 .withStyle(ChatFormatting.YELLOW));
-        player.sendSystemMessage(Component.literal("Player dose: " + playerRadPrefix(eRad) + eRad + " RAD")
+        player.sendSystemMessage(Component.translatable("geiger.playerRad")
+                .append(Component.literal(" " + playerRadPrefix(eRad) + eRad + " RAD"))
                 .withStyle(ChatFormatting.YELLOW));
-        player.sendSystemMessage(Component.literal("Resistance: " + (resKoeff > 0 ? ChatFormatting.GREEN : ChatFormatting.WHITE)
-                + res + "% (" + resKoeff + ")").withStyle(ChatFormatting.YELLOW));
+        player.sendSystemMessage(Component.translatable("geiger.playerRes")
+                .append(Component.literal(" " + (resKoeff > 0 ? ChatFormatting.GREEN : ChatFormatting.WHITE)
+                        + res + "% (" + resKoeff + ")"))
+                .withStyle(ChatFormatting.YELLOW));
     }
 
     public static void printDiagnosticData(Player player) {

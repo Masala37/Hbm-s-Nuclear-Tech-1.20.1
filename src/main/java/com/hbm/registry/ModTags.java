@@ -78,10 +78,15 @@ public final class ModTags {
         public static final TagKey<Item> INGOTS_LEAD = mod("ingots/lead");
         public static final TagKey<Item> INGOTS_BERYLLIUM = mod("ingots/beryllium");
         public static final TagKey<Item> INGOTS_STEEL = mod("ingots/steel");
+        public static final TagKey<Item> INGOTS_COPPER = mod("ingots/copper");
         public static final TagKey<Item> INGOTS_COBALT = mod("ingots/cobalt");
         public static final TagKey<Item> INGOTS_GRAPHITE = mod("ingots/graphite");
         public static final TagKey<Item> INGOTS_DESH = mod("ingots/desh");
         public static final TagKey<Item> INGOTS_LITHIUM = mod("ingots/lithium");
+        public static final TagKey<Item> INGOTS_COMBINE_STEEL = mod("ingots/combine_steel");
+        public static final TagKey<Item> INGOTS_SCHRABIDIUM = mod("ingots/schrabidium");
+        public static final TagKey<Item> INGOTS_STARMETAL = mod("ingots/starmetal");
+        public static final TagKey<Item> INGOTS_BISMUTH = mod("ingots/bismuth");
 
         public static final TagKey<Item> RBMK_COLUMNS = mod("rbmk_columns");
         public static final TagKey<Item> RBMK_CASING = mod("rbmk_casing");

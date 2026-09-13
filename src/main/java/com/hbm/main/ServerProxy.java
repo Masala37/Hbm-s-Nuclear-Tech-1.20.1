@@ -17,9 +17,11 @@ public class ServerProxy {
 
     protected void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(ModMessages::register);
+        event.enqueueWork(com.hbm.inventory.recipes.MachineRecipeBootstrap::load);
         event.enqueueWork(FalloutConfigJSON::initialize);
         event.enqueueWork(HazardRegistry::registerItems);
         event.enqueueWork(com.hbm.entity.missile.MissileLaunchRegistry::bootstrap);
+        event.enqueueWork(com.hbm.world.gen.NTMStructures::bootstrap);
     }
 
     /** Client-only: takeoff + engine loop. */
@@ -65,6 +67,21 @@ public class ServerProxy {
                                 net.minecraft.sounds.SoundEvent sound, float volume) {
     }
 
+    /** Client-only: chemical plant processing loop. */
+    public void tickChemplant(Level level, BlockPos pos, boolean processing) {
+    }
+
+    /** Client-only: pink-cloud broadcaster loop. */
+    public void tickBroadcaster(Level level, BlockPos pos) {
+    }
+
+    /** Client-only: silo hatch move loop / stop. */
+    public void tickSiloHatch(Level level, BlockPos pos, byte state, float volume) {
+    }
+
     public void openDesignatorScreen(Player player) {
+    }
+
+    public void openRadioRecScreen(BlockPos pos) {
     }
 }

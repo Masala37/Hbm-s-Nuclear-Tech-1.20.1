@@ -1,1 +1,8 @@
-{ "parent": "minecraft:block/cube_all", "textures": { "all": "hbm:block/machine_siren" } }
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "hbm:block/block_steel",
+    "bottom": "hbm:block/block_steel",
+    "side": "hbm:block/machine_siren"
+  }
+}

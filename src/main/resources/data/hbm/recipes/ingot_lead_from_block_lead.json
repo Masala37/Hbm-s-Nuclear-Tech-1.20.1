@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_lead" } ],
+  "result": { "item": "hbm:ingot_lead", "count": 9 }
+}

@@ -86,6 +86,11 @@ public class ClientProxy extends ServerProxy {
     }
 
     @Override
+    public void openRadioRecScreen(BlockPos pos) {
+        com.hbm.client.ClientRadioRecScreens.open(pos);
+    }
+
+    @Override
     public void tickLaunchPadLarge(Level level, BlockPos pos, Object pad) {
         if (pad instanceof com.hbm.blockentity.machine.LaunchPadLargeBlockEntity large) {
             com.hbm.client.sound.ClientLaunchPadSounds.tickLarge(level, pos, large);
@@ -97,6 +102,21 @@ public class ClientProxy extends ServerProxy {
                                 net.minecraft.world.level.block.state.properties.BooleanProperty lit,
                                 net.minecraft.sounds.SoundEvent sound, float volume) {
         com.hbm.client.sound.ClientMachineSounds.keep(pos, block, lit, sound, volume);
+    }
+
+    @Override
+    public void tickBroadcaster(Level level, BlockPos pos) {
+        com.hbm.client.sound.ClientBroadcasterSounds.keep(pos);
+    }
+
+    @Override
+    public void tickSiloHatch(Level level, BlockPos pos, byte state, float volume) {
+        com.hbm.client.sound.ClientSiloHatchSounds.keep(pos, state, volume);
+    }
+
+    @Override
+    public void tickChemplant(Level level, BlockPos pos, boolean processing) {
+        com.hbm.client.sound.ClientChemplantSounds.keep(pos, processing);
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
@@ -159,6 +179,7 @@ public class ClientProxy extends ServerProxy {
                     ModBlocks.CRT_BROKEN.get(),
                     ModBlocks.CRT_BSOD.get(),
                     ModBlocks.CRT_BLINKING.get(),
+                    ModBlocks.MACHINE_MICROWAVE.get(),
                     ModBlocks.LAMP_DEMON.get(),
                     ModBlocks.CAGE_LAMP.get(),
                     ModBlocks.CAGE_LAMP_OFF.get(),
@@ -202,13 +223,52 @@ public class ClientProxy extends ServerProxy {
                     ModBlocks.RED_WIRE_COATED.get(),
                     ModBlocks.CABLE_SWITCH.get(),
                     ModBlocks.CABLE_DETECTOR.get(),
-                    ModBlocks.CABLE_DIODE.get()
+                    ModBlocks.CABLE_DIODE.get(),
+                    ModBlocks.GEIGER.get(),
+                    ModBlocks.MACHINE_DIFURNACE_EXTENSION.get(),
+                    ModBlocks.FILING_CABINET.get(),
+                    ModBlocks.STEEL_GRATE.get(),
+                    ModBlocks.STEEL_GRATE_WIDE.get(),
+                    ModBlocks.STEEL_CORNER.get(),
+                    ModBlocks.STEEL_POLES.get(),
+                    ModBlocks.POLE_TOP.get(),
+                    ModBlocks.DECO_PIPE.get(),
+                    ModBlocks.DECO_PIPE_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_RED.get(),
+                    ModBlocks.DECO_PIPE_MARKED.get(),
+                    ModBlocks.DECO_PIPE_RIM_GREEN.get(),
+                    ModBlocks.DECO_PIPE_RIM_MARKED.get(),
+                    ModBlocks.DECO_PIPE_RIM_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_RIM_GREEN_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_FRAMED.get(),
+                    ModBlocks.DECO_PIPE_FRAMED_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_FRAMED_RED.get(),
+                    ModBlocks.DECO_PIPE_FRAMED_GREEN_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_QUAD.get(),
+                    ModBlocks.DECO_PIPE_QUAD_RUSTED.get(),
+                    ModBlocks.DECO_PIPE_QUAD_RED.get(),
+                    ModBlocks.DECO_PIPE_QUAD_MARKED.get(),
+                    ModBlocks.DOOR_METAL.get(),
+                    ModBlocks.DOOR_OFFICE.get(),
+                    ModBlocks.DOOR_BUNKER.get(),
+                    ModBlocks.TRAPDOOR_STEEL.get(),
+                    ModBlocks.PLANT_DEAD.get(),
+                    ModBlocks.PLANT_FLOWER.get(),
+                    ModBlocks.LEAVES_LAYER.get(),
+                    ModBlocks.WOOD_STRUCTURE.get(),
+                    ModBlocks.CHARGER.get(),
+                    ModBlocks.TESLA.get(),
+                    ModBlocks.RAIL_NARROW.get(),
+                    ModBlocks.BOBBLEHEAD.get(),
+                    ModBlocks.SKELETON_HOLDER.get(),
+                    ModBlocks.TURRET_HOWARD_DAMAGED.get(),
+                    ModBlocks.TURRET_SENTRY_DAMAGED.get()
             );
 
             // Bulk deco OBJ / cross models (registered by id, not ModBlocks fields).
             for (RegistryObject<Block> entry : ModBulkContent.blocks()) {
                 String path = entry.getId().getPath();
-                if (path.startsWith("anvil_") || "geiger".equals(path)
+                if (path.startsWith("anvil_")
                         || "chain".equals(path) || "chain_end".equals(path)) {
                     ItemBlockRenderTypes.setRenderLayer(entry.get(), RenderType.cutout());
                 }

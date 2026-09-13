@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "I I",
+    "IPI"
+  ],
+  "key": {
+    "I": { "item": "hbm:plate_steel" },
+    "P": { "item": "hbm:ingot_steel" }
+  },
+  "result": { "item": "hbm:barrel_steel" }
+}

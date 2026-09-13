@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "hbm:blackhole"
+    "hbm:blackhole",
+    "hbm:broadcast"
   ]
 }

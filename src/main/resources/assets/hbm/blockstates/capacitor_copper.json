@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbm:block/capacitor_copper" },
+    "facing=south": { "model": "hbm:block/capacitor_copper", "y": 180 },
+    "facing=west":  { "model": "hbm:block/capacitor_copper", "y": 270 },
+    "facing=east":  { "model": "hbm:block/capacitor_copper", "y": 90 }
+  }
+}

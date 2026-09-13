@@ -1,0 +1,22 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "all": "hbm:block/wood_barrier", "particle": "hbm:block/wood_barrier" },
+  "elements": [
+    {
+      "from": [0, 0, 0], "to": [2, 2, 16],
+      "faces": { "north": { "texture": "#all" }, "south": { "texture": "#all" }, "west": { "texture": "#all" }, "east": { "texture": "#all" }, "up": { "texture": "#all" }, "down": { "texture": "#all" } }
+    },
+    {
+      "from": [14, 0, 0], "to": [16, 2, 16],
+      "faces": { "north": { "texture": "#all" }, "south": { "texture": "#all" }, "west": { "texture": "#all" }, "east": { "texture": "#all" }, "up": { "texture": "#all" }, "down": { "texture": "#all" } }
+    },
+    {
+      "from": [0, 2, 1], "to": [16, 3, 7],
+      "faces": { "north": { "texture": "#all" }, "south": { "texture": "#all" }, "west": { "texture": "#all" }, "east": { "texture": "#all" }, "up": { "texture": "#all" }, "down": { "texture": "#all" } }
+    },
+    {
+      "from": [0, 2, 9], "to": [16, 3, 15],
+      "faces": { "north": { "texture": "#all" }, "south": { "texture": "#all" }, "west": { "texture": "#all" }, "east": { "texture": "#all" }, "up": { "texture": "#all" }, "down": { "texture": "#all" } }
+    }
+  ]
+}

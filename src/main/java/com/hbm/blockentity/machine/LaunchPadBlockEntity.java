@@ -21,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -46,6 +47,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,6 +77,9 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     private final ItemStackHandler items = new ItemStackHandler(7) {
         @Override
         protected void onContentsChanged(int slot) {
+            if (slot == SLOT_MISSILE && level != null && !level.isClientSide) {
+                onMissileChanged();
+            }
             if (slot == SLOT_DESIGNATOR) {
                 syncTargetFromDesignator();
             }
@@ -102,6 +107,9 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
 
     private final ModEnergyStorage energy = new ModEnergyStorage(
             ENERGY_CAPACITY, ENERGY_TRANSFER, 0, this::onChanged);
+
+    private Fluid fuelType;
+    private Fluid oxidizerType;
 
     private final FluidTank fuelTank = new FluidTank(TANK_CAPACITY) {
         @Override
@@ -313,6 +321,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     }
 
     public boolean fillFromInfiniteBarrel() {
+        updateFuelTypes();
         boolean fuel = com.hbm.items.machine.InfiniteFluidBarrelItem.fillTank(fuelTank, expectedFuelFluid());
         boolean ox = com.hbm.items.machine.InfiniteFluidBarrelItem.fillTank(oxidizerTank, expectedOxidizerFluid());
         return fuel || ox;
@@ -330,13 +339,13 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
 
     /**
      * Legacy {@code TileEntityLaunchPadBase.setFuel} — tank types follow the loaded missile.
-     * Empty / solid-fuel slots accept nothing (1.7 tanks stay {@code Fluids.NONE}).
+     * Empty / solid-fuel slots retain the last tank types, just like the original tanks.
      */
     @Nullable
     private Fluid expectedFuelFluid() {
         ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
         if (!(missile.getItem() instanceof MissileItem mi) || !mi.requiresFluidFuel()) {
-            return null;
+            return fuelType;
         }
         return switch (mi.getTier()) {
             case TIER1 -> ModFluids.ETHANOL.source.get();
@@ -350,7 +359,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     private Fluid expectedOxidizerFluid() {
         ItemStack missile = items.getStackInSlot(SLOT_MISSILE);
         if (!(missile.getItem() instanceof MissileItem mi) || !mi.requiresFluidFuel()) {
-            return null;
+            return oxidizerType;
         }
         return switch (mi.getTier()) {
             case TIER1, TIER2, STEALTH, ROBIN -> ModFluids.PEROXIDE.source.get();
@@ -361,6 +370,29 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
 
     public boolean isMissileValid() {
         return MissileLaunchRegistry.isLaunchable(items.getStackInSlot(SLOT_MISSILE));
+    }
+
+    protected void onMissileChanged() {
+        updateFuelTypes();
+    }
+
+    protected void updateFuelTypes() {
+        Fluid fuel = expectedFuelFluid();
+        Fluid oxidizer = expectedOxidizerFluid();
+        boolean changed = fuelType != fuel || oxidizerType != oxidizer;
+        fuelType = fuel;
+        oxidizerType = oxidizer;
+        if (!fuelTank.isEmpty() && fuelTank.getFluid().getFluid() != fuel) {
+            fuelTank.setFluid(FluidStack.EMPTY);
+            changed = true;
+        }
+        if (!oxidizerTank.isEmpty() && oxidizerTank.getFluid().getFluid() != oxidizer) {
+            oxidizerTank.setFluid(FluidStack.EMPTY);
+            changed = true;
+        }
+        if (changed) {
+            onChanged();
+        }
     }
 
     /**
@@ -429,17 +461,21 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     }
 
     public boolean radarCanLaunch() {
+        if (level != null && !level.isClientSide) {
+            updateFuelTypes();
+        }
         return isMissileValid() && hasFuel() && isReadyForLaunch();
     }
 
     @Override
     public boolean sendCommandPosition(int x, int y, int z) {
-        return launchTo(x, z, null);
+        return launchTo(x, y, z, null);
     }
 
     @Override
     public boolean sendCommandEntity(Entity target) {
-        return launchTo((int) Math.floor(target.getX()), (int) Math.floor(target.getZ()), target);
+        return launchTo((int) Math.floor(target.getX()), (int) Math.floor(target.getY()),
+                (int) Math.floor(target.getZ()), target);
     }
 
     /**
@@ -453,24 +489,25 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         if (!canLaunch()) {
             return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
         }
-        return spawnLaunch(targetX, targetZ, null) ? IBomb.BombReturnCode.LAUNCHED : IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+        return spawnLaunch(targetX, targetY, targetZ, null)
+                ? IBomb.BombReturnCode.LAUNCHED : IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
     }
 
     public boolean launch() {
         if (level == null || level.isClientSide || !canLaunch()) {
             return false;
         }
-        return spawnLaunch(targetX, targetZ, null);
+        return spawnLaunch(targetX, targetY, targetZ, null);
     }
 
-    private boolean launchTo(int targetX, int targetZ, Entity track) {
+    private boolean launchTo(int targetX, int targetY, int targetZ, Entity track) {
         if (level == null || level.isClientSide || !radarCanLaunch()) {
             return false;
         }
-        return spawnLaunch(targetX, targetZ, track);
+        return spawnLaunch(targetX, targetY, targetZ, track);
     }
 
-    private boolean spawnLaunch(int targetX, int targetZ, Entity track) {
+    private boolean spawnLaunch(int targetX, int targetY, int targetZ, Entity track) {
         ItemStack missileStack = items.getStackInSlot(SLOT_MISSILE).copy();
         boolean abm = MissileLaunchRegistry.isAntiBallistic(missileStack);
         var spawner = abm ? null : MissileLaunchRegistry.getSpawner(missileStack.getItem());
@@ -479,25 +516,16 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         }
 
         int fuelCost = getRequiredFuelAmount();
-        items.setStackInSlot(SLOT_MISSILE, ItemStack.EMPTY);
-        energy.consume(LAUNCH_COST);
-        if (fuelCost > 0) {
-            fuelTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
-            oxidizerTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
-        }
-        delay = COOLDOWN_TICKS;
-
         BlockPos pos = worldPosition;
-        level.playSound(null, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
-                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
         double y = pos.getY() + getLaunchOffset();
+        Entity launched;
         if (abm) {
             EntityMissileAntiBallistic abmEntity = new EntityMissileAntiBallistic(
                     level, pos.getX() + 0.5D, y, pos.getZ() + 0.5D);
             if (track != null) {
                 abmEntity.tracking = track;
             }
-            level.addFreshEntity(abmEntity);
+            launched = abmEntity;
         } else {
             EntityMissileBaseNT missile = spawner.spawn(
                     level,
@@ -505,8 +533,20 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
                     y,
                     pos.getZ() + 0.5D,
                     targetX, targetY, targetZ);
-            level.addFreshEntity(missile);
+            launched = missile;
         }
+        if (!level.addFreshEntity(launched)) {
+            return false;
+        }
+        energy.consume(LAUNCH_COST);
+        if (fuelCost > 0) {
+            fuelTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
+            oxidizerTank.drain(fuelCost, IFluidHandler.FluidAction.EXECUTE);
+        }
+        items.setStackInSlot(SLOT_MISSILE, ItemStack.EMPTY);
+        delay = COOLDOWN_TICKS;
+        level.playSound(null, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+                ModSounds.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
         onLaunched();
         setChanged();
         syncToClient();
@@ -517,10 +557,14 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     }
 
     public void checkRedstone(boolean powered) {
-        if (powered && !wasPowered) {
+        boolean risingEdge = powered && !wasPowered;
+        if (powered != wasPowered) {
+            wasPowered = powered;
+            setChanged();
+        }
+        if (risingEdge) {
             launchFromDesignator();
         }
-        wasPowered = powered;
     }
 
     public void dropContents() {
@@ -552,7 +596,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         if (needsDesignator() && !hasTarget) {
             return Component.literal("No target — designator required");
         }
-        if (delay > 0) {
+        if (!isReadyForLaunch()) {
             return Component.literal("Loading... (" + delay + ")");
         }
         return Component.literal("Ready → " + targetX + ", " + targetY + ", " + targetZ);
@@ -581,6 +625,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
     }
 
     protected void processFluidSlots() {
+        updateFuelTypes();
         transferFluidItem(SLOT_FUEL_IN, SLOT_FUEL_OUT, fuelTank);
         transferFluidItem(SLOT_OX_IN, SLOT_OX_OUT, oxidizerTank);
     }
@@ -597,26 +642,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
             return;
         }
 
-        ItemStack single = in.copyWithCount(1);
-        var result = FluidUtil.tryEmptyContainer(single, tank, 1000, null, true);
-        if (!result.isSuccess()) {
-            return;
-        }
-        ItemStack remainder = result.getResult();
-        in.shrink(1);
-        items.setStackInSlot(inSlot, in.isEmpty() ? ItemStack.EMPTY : in);
-        if (!remainder.isEmpty()) {
-            ItemStack out = items.getStackInSlot(outSlot);
-            if (out.isEmpty()) {
-                items.setStackInSlot(outSlot, remainder);
-            } else if (ItemStack.isSameItemSameTags(out, remainder) && out.getCount() < out.getMaxStackSize()) {
-                out.grow(1);
-                items.setStackInSlot(outSlot, out);
-            } else if (level != null && !level.isClientSide) {
-                Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY() + 1.0D,
-                        worldPosition.getZ(), remainder);
-            }
-        }
+        LauncherFluidTransfer.emptyContainer(items, inSlot, outSlot, tank);
     }
 
     /** 1.7.10 {@code TileEntityLaunchPad.getConPos} — cables one block outside the 3×3. */
@@ -651,6 +677,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
 
         if (be.delay > 0 && be.isMissileValid() && be.hasFuel()) {
             be.delay--;
+            be.setChanged();
         }
         int prev = be.state;
         be.updateState();
@@ -689,6 +716,12 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         energy.write(tag);
         tag.put("FuelTank", fuelTank.writeToNBT(new CompoundTag()));
         tag.put("OxTank", oxidizerTank.writeToNBT(new CompoundTag()));
+        if (fuelType != null) {
+            tag.putString("FuelType", ForgeRegistries.FLUIDS.getKey(fuelType).toString());
+        }
+        if (oxidizerType != null) {
+            tag.putString("OxType", ForgeRegistries.FLUIDS.getKey(oxidizerType).toString());
+        }
         tag.putBoolean("hasTarget", hasTarget);
         tag.putInt("targetX", targetX);
         tag.putInt("targetY", targetY);
@@ -712,6 +745,12 @@ public class LaunchPadBlockEntity extends BlockEntity implements MenuProvider, I
         if (tag.contains("OxTank")) {
             oxidizerTank.readFromNBT(tag.getCompound("OxTank"));
         }
+        fuelType = tag.contains("FuelType")
+                ? ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("FuelType")))
+                : fuelTank.isEmpty() ? null : fuelTank.getFluid().getFluid();
+        oxidizerType = tag.contains("OxType")
+                ? ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("OxType")))
+                : oxidizerTank.isEmpty() ? null : oxidizerTank.getFluid().getFluid();
         hasTarget = tag.getBoolean("hasTarget");
         targetX = tag.getInt("targetX");
         targetY = tag.getInt("targetY");

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "hbm:waste_earth"
+    "hbm:waste_earth",
+    "hbm:ntm_dirt",
+    "hbm:leaves_layer"
   ]
 }

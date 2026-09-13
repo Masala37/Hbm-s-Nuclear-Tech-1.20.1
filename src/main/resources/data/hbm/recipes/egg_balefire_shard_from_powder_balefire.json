@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["##","##"],
+  "key": { "#": { "item": "hbm:powder_balefire" } },
+  "result": { "item": "hbm:egg_balefire_shard" }
+}

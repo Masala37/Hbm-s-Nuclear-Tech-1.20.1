@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "hbm:block_steel" } ],
+  "result": { "item": "hbm:ingot_steel", "count": 9 }
+}

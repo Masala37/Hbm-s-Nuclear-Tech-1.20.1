@@ -1,6 +1,7 @@
 package com.hbm.network;
 
 import com.hbm.blockentity.machine.LaunchTableBlockEntity;
+import com.hbm.inventory.menu.LaunchTableMenu;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,8 +36,7 @@ public final class LaunchTablePadSizePacket {
             if (player == null || player.level() == null || !player.level().hasChunkAt(packet.pos)) {
                 return;
             }
-            if (player.distanceToSqr(packet.pos.getX() + 0.5D, packet.pos.getY() + 0.5D, packet.pos.getZ() + 0.5D)
-                    > 64.0D * 64.0D) {
+            if (!(player.containerMenu instanceof LaunchTableMenu menu) || !menu.stillValid(player)) {
                 return;
             }
             PartSize[] values = PartSize.values();
@@ -48,7 +48,7 @@ public final class LaunchTablePadSizePacket {
                 return;
             }
             BlockEntity be = player.level().getBlockEntity(packet.pos);
-            if (be instanceof LaunchTableBlockEntity table) {
+            if (be instanceof LaunchTableBlockEntity table && menu.getBlockEntity() == table && !table.isRemoved()) {
                 table.setPadSize(size);
             }
         });

@@ -70,7 +70,16 @@ class SoundsJsonTest {
                 "block.engine",
                 "block.diesel_operate",
                 "block.crate_open",
-                "block.crate_close"
+                "block.crate_close",
+                "alarm.hatch",
+                "alarm.regular_siren",
+                "alarm.air_raid",
+                "alarm.razortrain_horn",
+                "block.broadcast1",
+                "block.broadcast2",
+                "block.broadcast3",
+                "item.geiger1",
+                "item.geiger6"
         };
         Set<String> catalog = Set.of(SoundEventCatalog.PATHS);
         List<String> missing = new ArrayList<>();

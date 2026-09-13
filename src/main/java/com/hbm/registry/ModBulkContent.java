@@ -14,6 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Bulk catalog registrations (decorative cubes + remaining items) to avoid
@@ -44,9 +45,65 @@ public final class ModBulkContent {
         registerItems();
     }
 
+    private static final Set<String> SKIP_BLOCKS = Set.of(
+            "anvil_arsenic_bronze", "anvil_bismuth_bronze", "anvil_desh", "anvil_dnt",
+            "anvil_ferrouranium", "anvil_iron", "anvil_lead", "anvil_murky", "anvil_osmiridium",
+            "anvil_saturnite", "anvil_schrabidate", "anvil_steel",
+            "machine_press", "machine_epress", "machine_shredder", "machine_centrifuge", "machine_gascent", "machine_fel", "machine_silex", "machine_crystallizer", "machine_mixer", "machine_arc_welder", "machine_purex", "machine_soldering_station", "machine_difurnace", "machine_blast_furnace",
+            "machine_difurnace_extension", "machine_difurnace_rtg_off",
+            "machine_rtg", "machine_assembly_machine", "machine_chemical_plant",
+            "heater_firebox", "machine_boiler", "machine_turbine", "machine_condenser",
+            "machine_wood_burner", "machine_well", "machine_pumpjack", "machine_refinery", "machine_fraction_tower",
+            "fraction_spacer", "machine_catalytic_cracker", "machine_hydrotreater",
+            "machine_catalytic_reformer", "machine_vacuum_distill", "oil_pipe",
+            "red_connector", "red_pylon", "red_pylon_large", "substation",
+            "fluid_valve", "fluid_switch", "fluid_counter_valve",
+            "conveyor",
+            "crate", "crate_can", "crate_lead", "crate_metal", "crate_red", "crate_weapon",
+            "wand_jigsaw", "wand_loot", "wand_logic", "wand_tandem",
+            "struct_launcher", "struct_launcher_core", "struct_launcher_core_large", "struct_scaffold",
+            "door_bunker", "door_metal", "door_office", "trapdoor_steel",
+            "silo_hatch", "silo_hatch_large",
+            "tesla", "radiorec", "hev_battery", "machine_funnel", "machine_microwave",
+            "machine_controller", "machine_fluidtank", "rail_narrow",
+            "filing_cabinet", "safe", "steel_grate", "steel_grate_wide", "steel_corner",
+            "steel_poles", "pole_top", "charger", "capacitor_copper", "bobblehead", "skeleton_holder",
+            "plant_dead", "plant_flower", "leaves_layer", "ntm_dirt", "wood_structure", "meteor_battery",
+            "machine_weapon_table", "machine_rotary_furnace",
+            "turret_howard_damaged", "turret_sentry_damaged");
+    private static final Set<String> SKIP_ITEMS = Set.of(
+            "blades_steel", "blades_titanium", "blades_desh",
+            "pellet_rtg", "pellet_rtg_weak", "pellet_rtg_polonium", "pellet_rtg_gold",
+            "pellet_rtg_americium", "pellet_rtg_cobalt", "pellet_rtg_lead", "pellet_rtg_radium",
+            "pellet_rtg_strontium", "pellet_rtg_actinium", "pellet_rtg_depleted",
+            "wiring_red_copper",
+            "oil_detector",
+            "laser_crystal_co2", "laser_crystal_bismuth", "laser_crystal_cmb",
+            "laser_crystal_dnt", "laser_crystal_digamma",
+            "niter", "salpeter", "crowbar",
+            "steel_sword", "steel_pickaxe", "steel_axe", "steel_shovel", "steel_hoe",
+            "titanium_sword", "titanium_pickaxe", "titanium_axe", "titanium_shovel", "titanium_hoe",
+            "dwarven_pickaxe",
+            "cobalt_sword", "cobalt_pickaxe", "cobalt_axe", "cobalt_shovel", "cobalt_hoe",
+            "cobalt_decorated_sword", "cobalt_decorated_pickaxe", "cobalt_decorated_axe",
+            "cobalt_decorated_shovel", "cobalt_decorated_hoe",
+            "cmb_sword", "cmb_pickaxe", "cmb_axe", "cmb_shovel", "cmb_hoe",
+            "desh_sword", "desh_pickaxe", "desh_axe", "desh_shovel", "desh_hoe",
+            "starmetal_sword", "starmetal_pickaxe", "starmetal_axe", "starmetal_shovel", "starmetal_hoe",
+            "schrabidium_sword", "schrabidium_pickaxe", "schrabidium_axe", "schrabidium_shovel", "schrabidium_hoe",
+            "bismuth_pickaxe", "bismuth_axe", "volcanic_pickaxe", "volcanic_axe",
+            "chlorophyte_pickaxe", "chlorophyte_axe", "mese_pickaxe", "mese_axe",
+            "hand_drill", "hand_drill_desh", "matchstick", "wood_gavel", "bottle_opener",
+            "door_bunker", "door_metal", "door_office", "trapdoor_steel",
+            "silo_hatch", "silo_hatch_large",
+            "hazmat_kit", "hazmat_red_kit", "hazmat_grey_kit");
+
     private static void registerBlocks() {
         for (String rawId : BLOCK_IDS) {
             String id = sanitizeId(rawId);
+            if (SKIP_BLOCKS.contains(id)) {
+                continue;
+            }
             PortContentRegistry.markStub(id);
             RegistryObject<Block> block = ModBlocks.BLOCKS.register(id, () -> createBulkBlock(id));
             BLOCKS.add(block);
@@ -57,9 +114,6 @@ public final class ModBulkContent {
     private static Block createBulkBlock(String id) {
         if (id.startsWith("anvil_")) {
             return DecoObjBlock.anvil();
-        }
-        if ("geiger".equals(id)) {
-            return DecoObjBlock.smallAppliance();
         }
         if ("chain".equals(id) || "chain_end".equals(id)) {
             return new Block(BlockBehaviour.Properties.of()
@@ -82,6 +136,10 @@ public final class ModBulkContent {
     private static void registerItems() {
         for (String rawId : ITEM_IDS) {
             String id = sanitizeId(rawId);
+            // SKIP_BLOCKS already have BlockItems in ModItems (doors, machines, …).
+            if (SKIP_ITEMS.contains(id) || SKIP_BLOCKS.contains(id)) {
+                continue;
+            }
             PortContentRegistry.markStub(id);
             ITEMS.add(ModItems.ITEMS.register(id, () -> new Item(new Item.Properties())));
         }
@@ -132,7 +190,6 @@ public final class ModBulkContent {
             "boxduct_white_curve",
             "boxduct_white_end",
             "boxduct_white_straight",
-            "broadcaster_pc",
             "cable_gauge",
             "cable_neo",
             "chain",
@@ -190,7 +247,6 @@ public final class ModBulkContent {
             "foundry_tank_upper_outlet",
             "fusion_component",
             "fusion_hatch",
-            "geiger",
             "geysir_dirt",
             "geysir_nether",
             "geysir_stone",
@@ -249,7 +305,6 @@ public final class ModBulkContent {
             "machine_shredder_bottom_alt",
             "machine_shredder_front_alt",
             "machine_shredder_top_alt",
-            "machine_siren",
             "machine_solar_boiler",
             "machine_storage_drum",
             "machine_transformer_iron",
@@ -1125,7 +1180,8 @@ public final class ModBulkContent {
             "nuke_commercially_kit",
             "nuke_electric_kit",
             "nuke_starter_kit",
-            "oil_detector",
+            // oil_detector registered in ModItems
+
             "orange1",
             "orange2",
             "orange3",

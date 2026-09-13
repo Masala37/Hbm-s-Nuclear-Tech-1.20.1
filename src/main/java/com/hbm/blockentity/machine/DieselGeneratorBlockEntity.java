@@ -3,10 +3,13 @@ package com.hbm.blockentity.machine;
 import com.hbm.HbmNuclearTechMod;
 import com.hbm.blocks.machine.DieselGeneratorBlock;
 import com.hbm.energy.EnergyNetworkHelper;
+import com.hbm.energy.ItemEnergyHelper;
 import com.hbm.energy.ModEnergyStorage;
 import com.hbm.inventory.menu.DieselGeneratorMenu;
+import com.hbm.items.machine.InfiniteFluidBarrelItem;
 import com.hbm.registry.ModBlockEntities;
 import com.hbm.registry.ModFluids;
+import com.hbm.registry.ModItems;
 import com.hbm.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,6 +20,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,8 +31,11 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +44,12 @@ import org.jetbrains.annotations.Nullable;
  * Burns diesel / gasoline / light oil at 1 mB/t into FE; redstone disables output.
  */
 public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvider {
+    public static final int SLOT_FUEL_IN = 0;
+    public static final int SLOT_FUEL_OUT = 1;
+    public static final int SLOT_BATTERY = 2;
+    public static final int SLOT_ID_IN = 3;
+    public static final int SLOT_ID_OUT = 4;
+    public static final int SLOT_COUNT = 5;
     public static final int ENERGY_CAPACITY = 50_000;
     public static final int MAX_EXTRACT = 1_000;
     public static final int TANK_CAPACITY = 16_000;
@@ -53,14 +66,72 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
             return getFuelPower(stack.getFluid()) > 0;
         }
     };
+    private final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            onChanged();
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return switch (slot) {
+                case SLOT_FUEL_IN -> isFluidItem(stack);
+                case SLOT_BATTERY -> ItemEnergyHelper.isEnergyItem(stack);
+                case SLOT_ID_IN -> stack.is(ModItems.FLUID_IDENTIFIER.get());
+                default -> false;
+            };
+        }
+    };
+    private final IItemHandler automation = new IItemHandler() {
+        @Override
+        public int getSlots() {
+            return items.getSlots();
+        }
+
+        @Override
+        public @NotNull ItemStack getStackInSlot(int slot) {
+            return items.getStackInSlot(slot);
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            if (slot != SLOT_FUEL_IN && slot != SLOT_BATTERY) {
+                return stack;
+            }
+            return items.insertItem(slot, stack, simulate);
+        }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (slot != SLOT_FUEL_OUT && slot != SLOT_BATTERY) {
+                return ItemStack.EMPTY;
+            }
+            return items.extractItem(slot, amount, simulate);
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return items.getSlotLimit(slot);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return items.isItemValid(slot, stack);
+        }
+    };
 
     private final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energy);
     private final LazyOptional<IFluidHandler> fluidOptional = LazyOptional.of(() -> tank);
+    private final LazyOptional<IItemHandler> itemOptional = LazyOptional.of(() -> automation);
 
     private boolean running;
 
     public DieselGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DIESEL_GENERATOR.get(), pos, state);
+    }
+
+    public ItemStackHandler getItems() {
+        return items;
     }
 
     public ModEnergyStorage getEnergy() {
@@ -77,6 +148,10 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
 
     public boolean isRunning() {
         return running;
+    }
+
+    public boolean hasFuelForRender() {
+        return getFuelPower(tank.getFluid().getFluid()) > 0 && tank.getFluidAmount() > 0;
     }
 
     @Override
@@ -106,6 +181,16 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         return 0;
     }
 
+    static boolean isFluidItem(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        if (stack.getItem() instanceof InfiniteFluidBarrelItem) {
+            return true;
+        }
+        return FluidUtil.getFluidHandler(stack).isPresent();
+    }
+
     private void onChanged() {
         setChanged();
         if (level != null && !level.isClientSide) {
@@ -116,6 +201,13 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
     public static void serverTick(Level level, BlockPos pos, BlockState state, DieselGeneratorBlockEntity be) {
         boolean wasRunning = be.running;
         be.running = false;
+
+        if (be.items.getStackInSlot(SLOT_FUEL_IN).getItem() instanceof InfiniteFluidBarrelItem) {
+            InfiniteFluidBarrelItem.fillTank(be.tank, ModFluids.DIESEL.source.get());
+        } else {
+            LauncherFluidTransfer.emptyContainer(be.items, SLOT_FUEL_IN, SLOT_FUEL_OUT, be.tank);
+        }
+        ItemEnergyHelper.chargeItemFromBuffer(be.items.getStackInSlot(SLOT_BATTERY), be.energy);
 
         // Legacy: redstone signal shuts the engine down.
         if (!level.hasNeighborSignal(pos)) {
@@ -150,6 +242,7 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         super.saveAdditional(tag);
         energy.write(tag);
         tag.put("Tank", tank.writeToNBT(new CompoundTag()));
+        tag.put("Items", items.serializeNBT());
         tag.putBoolean("Running", running);
     }
 
@@ -159,6 +252,9 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         energy.read(tag);
         if (tag.contains("Tank")) {
             tank.readFromNBT(tag.getCompound("Tank"));
+        }
+        if (tag.contains("Items")) {
+            items.deserializeNBT(tag.getCompound("Items"));
         }
         running = tag.getBoolean("Running");
     }
@@ -179,6 +275,7 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         super.invalidateCaps();
         energyOptional.invalidate();
         fluidOptional.invalidate();
+        itemOptional.invalidate();
     }
 
     @NotNull
@@ -189,6 +286,9 @@ public class DieselGeneratorBlockEntity extends BlockEntity implements MenuProvi
         }
         if (cap == ForgeCapabilities.FLUID_HANDLER) {
             return fluidOptional.cast();
+        }
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return itemOptional.cast();
         }
         return super.getCapability(cap, side);
     }

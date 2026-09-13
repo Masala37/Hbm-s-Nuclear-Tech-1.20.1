@@ -2,7 +2,8 @@ package com.hbm.blockentity.machine;
 
 import com.hbm.blocks.machine.CableDetectorBlock;
 import com.hbm.blocks.machine.CableSwitchBlock;
-import com.hbm.energy.EnergyNetworkHelper;
+import com.hbm.energy.HeCableNet;
+import com.hbm.energy.IEnergyConductor;
 import com.hbm.energy.ModEnergyStorage;
 import com.hbm.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -21,14 +22,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Shared BE for cable switch / detector: relays FE only while {@code POWERED}.
+ * Shared BE for cable switch / detector: conducts HE only while {@code POWERED}.
  */
-public class CableSwitchBlockEntity extends BlockEntity {
+public class CableSwitchBlockEntity extends BlockEntity implements IEnergyConductor {
     public static final int CAPACITY = 32_000;
     public static final int TRANSFER = 5_000;
 
     private final ModEnergyStorage energy = new ModEnergyStorage(CAPACITY, TRANSFER, TRANSFER, this::onChanged);
     private LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energy);
+    private long lastEnergyNetTick = Long.MIN_VALUE;
 
     public CableSwitchBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CABLE_SWITCH.get(), pos, state);
@@ -36,6 +38,30 @@ public class CableSwitchBlockEntity extends BlockEntity {
 
     public ModEnergyStorage getEnergy() {
         return energy;
+    }
+
+    @Override
+    public boolean isEnergyConductor() {
+        return isConducting();
+    }
+
+    @Override
+    public long lastEnergyNetTick() {
+        return lastEnergyNetTick;
+    }
+
+    @Override
+    public void markEnergyNetTick(long gameTime) {
+        lastEnergyNetTick = gameTime;
+    }
+
+    @Override
+    public int drainConductorBuffer() {
+        int stored = energy.getEnergyStored();
+        if (stored > 0) {
+            energy.setEnergy(0);
+        }
+        return stored;
     }
 
     private void onChanged() {
@@ -64,8 +90,7 @@ public class CableSwitchBlockEntity extends BlockEntity {
         if (!be.isConducting()) {
             return;
         }
-        EnergyNetworkHelper.pullFromNeighbors(level, pos, be.energy, TRANSFER);
-        EnergyNetworkHelper.pushToNeighbors(level, pos, be.energy, TRANSFER);
+        HeCableNet.tick(level, pos);
     }
 
     @Override

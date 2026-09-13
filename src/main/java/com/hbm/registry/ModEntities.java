@@ -10,6 +10,7 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.item.EntityFireworks;
+import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityEMP;
@@ -163,6 +164,14 @@ public final class ModEntities {
                     .clientTrackingRange(128)
                     .updateInterval(1)
                     .build("fireworks"));
+
+    public static final RegistryObject<EntityType<EntityMovingItem>> MOVING_ITEM = ENTITIES.register(
+            "moving_item",
+            () -> EntityType.Builder.<EntityMovingItem>of(EntityMovingItem::new, MobCategory.MISC)
+                    .sized(0.375F, 0.375F)
+                    .clientTrackingRange(8)
+                    .updateInterval(1)
+                    .build("moving_item"));
 
     public static final RegistryObject<EntityType<EntityShrapnel>> SHRAPNEL = ENTITIES.register(
             "shrapnel",
